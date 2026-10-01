@@ -1,19 +1,8 @@
 import Image from "next/image";
 import { Btn } from "./Button";
 
-const WaveLines = () => (
-  <svg aria-hidden viewBox="0 0 1440 520" preserveAspectRatio="none" fill="none" stroke="#fff"
-    className="pointer-events-none absolute top-0 left-1/2 -z-10 h-full w-screen -translate-x-1/2 opacity-[0.07] [mask-image:linear-gradient(to_bottom,black_30%,transparent)]">
-    {Array.from({ length: 9 }, (_, i) => (
-      <path key={i} className="wave-line" strokeWidth="1" style={{ animationDuration: `${14 + i * 2}s`, animationDelay: `${-i * 2}s` }}
-        d={`M-200 ${110 + i * 46} C 100 ${50 + i * 46}, 300 ${190 + i * 46}, 620 ${110 + i * 46} S 1100 ${30 + i * 46}, 1640 ${130 + i * 46}`} />
-    ))}
-  </svg>
-);
-
 export const Hero = ({ pill, small, title, text, primary, secondary, globe }: { pill?: string; small?: string; title: React.ReactNode; text?: string; primary: string; secondary: string; globe?: boolean }) => (
   <section className={`wrap hero ${globe ? "g" : ""}`}>
-    <WaveLines />
     {pill && <span className="pill">{pill}</span>}
     {small && <p className="sm">{small}</p>}
     <h1 className="h1">{title}</h1>

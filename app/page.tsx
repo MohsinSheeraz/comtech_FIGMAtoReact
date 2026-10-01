@@ -8,6 +8,8 @@ import { CtaPanel } from "@/components/CtaPanel";
 import { CeoQuote } from "@/components/CeoQuote";
 import { ServiceCard, StatementCard } from "@/components/ServiceCard";
 import { services } from "@/lib/services";
+import { TestimonialCarousel } from "@/components/TestimonialCarousel";
+import { PartnerSlider } from "@/components/PartnerSlider";
 
 const why: [string, string][] = [
   ["One Partner, Not Five Vendors", "Networking, security, infrastructure, and software- under one accountable team, not stitched together across vendors who point fingers when something breaks."],
@@ -26,7 +28,6 @@ const ind: [string, string][] = [
   ["Education", "Reliable, campus-wide connectivity and IT support that keeps classrooms, labs, and administration running smoothly."],
   ["Retail & E-commerce", "Connected, secure infrastructure across multiple locations, so operations stay consistent."],
 ];
-const logos = ["Cisco", "Fortinet", "Kaspersky", "Sangfor", "Ubiquiti", "TP-Link", "HPE"];
 
 export default function Home() {
   return (<main>
@@ -62,15 +63,11 @@ export default function Home() {
 
     <CeoQuote title="A Message from Our CEO" />
 
-    <section id="partners" className="panel pan-b" style={{ borderRadius: "80px 80px 0 0" }}><div className="wrap">
-      <SecHead title="Backed by the Brands the World Trusts" />
-      <div className="logos">{logos.map((l) => <div className="card" key={l}>{l}</div>)}</div>
-      <div className="testi" style={{ marginTop: 100 }}>
-        <div><span className="bar" /><h2 className="h2">We Provide Real Results,<br />Real Partnerships</h2><div className="qm gt">“</div>
-          <p>“Comtech&apos;s Cisco ACI deployment gave our data center the speed and simplicity we needed. The centralized visibility and control have made a real difference in how confidently we can scale.&quot;</p><h4>Bank Islami<br />Unleashing the Power of Cisco ACI</h4></div>
-        <Image src="/images/Partnership_Section_Image.png" alt="" width={636} height={636} style={{ mixBlendMode: "hard-light", opacity: 0.57 }} />
-      </div>
-    </div></section>
+    <section id="partners" className="panel pan-b" style={{ borderRadius: "80px 80px 0 0" }}>
+      <div className="wrap"><SecHead title="Backed by the Brands the World Trusts" /></div>
+      <PartnerSlider />
+      <div className="wrap"><TestimonialCarousel /></div>
+    </section>
 
     <CtaPanel title="Ready to Strengthen Your IT Infrastructure?" text="Whether you need networking, cybersecurity, or infrastructure support: Comtech is ready to help. Serving businesses across Karachi, Islamabad, Lahore, Quetta, and everywhere in between." label="Connect with Us" />
   </main>);

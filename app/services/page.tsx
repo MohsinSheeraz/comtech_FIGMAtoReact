@@ -149,6 +149,7 @@ export default function Services() {
               </div>
             </div>
             <SecHead
+              className="mt-40"
               title="How We Work"
               sub="Every engagement, regardless of which service or combination of services is involved, follows the same four-stage process."
             />
@@ -223,7 +224,7 @@ export default function Services() {
           ))}
         </div>
       </section>
-      <section className="wrap sec why">
+      <section className="wrap sec why mt-20!">
         <div>
           <h2 className="h2">Here’s Why Comtech Is The Right Choice</h2>
           <div className="check">
@@ -242,7 +243,7 @@ export default function Services() {
           />
         </div>
       </section>
-      <section className="wrap sec faq">
+      <section className="wrap sec faq mt-10!">
         <div>
           <h2 className="h2">
             Frequently

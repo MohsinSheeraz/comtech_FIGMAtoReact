@@ -20,7 +20,11 @@ export const ServiceCard = ({ t, p, img, className }: Props) => (
 
 
 export const StatementCard = () => (
+<<<<<<< HEAD
   <article className="card svc fill flex flex-col gap-10 min-[1101px]:gap-52! justify-between  ">
+=======
+  <article className="card svc fill flex flex-col gap-52! justify-between  ">
+>>>>>>> 34d527bd28f8812301ed1999746354076be4e8ef
     <h2 className="h2">
       We work across four connected disciplines because modern IT infrastructure
       isn&apos;t four separate problems; it&apos;s one system.

@@ -1,14 +1,14 @@
 "use client";
 import { useState } from "react";
 
-export function Faq({ items }: { items: [string, string][] }) {
+export function Faq({ items, className }: { items: [string, string][]; className?: string }) {
   const [open, setOpen] = useState<number | null>(0);
   return (
-    <div className="flex flex-col gap-5">
+    <div className={`flex flex-col gap-5 ${className}`}>
       {items.map(([q, a], i) => {
         const o = open === i;
         return (
-          <div key={q} className="rounded-[30px] border border-[#242424] bg-[#080808] px-5 py-6 sm:px-10 sm:py-9">
+          <div key={q} className="gborder rounded-[30px] border border-[#242424] bg-[#080808] px-5 py-6 sm:px-10 sm:py-9">
             <button type="button" aria-expanded={o} onClick={() => setOpen(o ? null : i)}
               className="flex w-full cursor-pointer items-center justify-between gap-5 text-left text-[20px] leading-[28px] sm:text-[26px] sm:leading-[33px] font-medium tracking-[-0.04em] text-white">
               {q}

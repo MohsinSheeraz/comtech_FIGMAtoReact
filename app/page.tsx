@@ -190,8 +190,7 @@ export default function Home() {
       <section className="wrap sec why">
         <div>
           <h2 className="h2">
-            Why Businesses Choose Comtech as Their Enterprise IT Solutions
-            Provider
+            Why Businesses Choose Comtech as Their Enterprise IT Solutions Provider
           </h2>
           <Btn v="p" href="/contact">
             Get in touch

@@ -1118,7 +1118,21 @@ h1, h2, h3, p, a { overflow-wrap: break-word }
 
     .hero { padding-top: 36px; padding-bottom: 36px }
     .hero.g { min-height: 700px }
-    .hero .globe { top: 450px; width: 170vw }
+/* 1. Your existing baseline styles (applies to desktop) */
+.hero .globe { 
+  top: 450px; 
+  width: 170vw; 
+}
+
+/* 2. Undo/reset the styles specifically for mobile screens */
+@media (max-width: 640px) {
+  .hero .globe {
+    width: auto;
+    top: auto;
+  }
+}
+
+
     .hero .sm { font-size: 18px; line-height: 26px; margin: 18px 0 10px }
     .hero .pill { height: auto; min-height: 40px; padding: 6px 16px; font-size: 14px }
 

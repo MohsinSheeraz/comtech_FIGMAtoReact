@@ -62,7 +62,7 @@ export default function About() {
         <div className="grid gap-6 md:gap-10 md:grid-cols-2">
           {mv.map(([t, p]) => (
             <div className="card pad-outer" key={t}>
-              <div className="gborder card svc svc-dark">
+              <div className="gborder-new card svc svc-dark">
                 <h2 className="h2 h2-lg">{t}</h2>
                 <p>{p}</p>
               </div>
@@ -82,7 +82,7 @@ export default function About() {
           />
           <div className="g3 ">
             {services.map((c) => (
-              <ServiceCard className="gborder" key={c.t} {...c} />
+              <ServiceCard className="gborder-new" key={c.t} {...c} />
             ))}
             <StatementCard />
           </div>
@@ -94,7 +94,7 @@ export default function About() {
         <SecHead title="Awards & Recognition" />
         <div className="awards">
           {awards.map(([a, b]) => (
-            <div className="card gborder" key={b}>
+            <div className="card gborder-new" key={b}>
               <b>{a}</b>
               <p>{b}</p>
             </div>

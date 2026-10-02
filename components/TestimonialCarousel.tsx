@@ -23,7 +23,7 @@ export function TestimonialCarousel() {
         <div className="mt-12 min-[1101px]:mt-24 grid items-center gap-10 min-[1101px]:grid-cols-[1fr_minmax(0,636px)]">
             <div className="max-w-[640px]">
                 <h2 className="h2">We Provide Real Results,<br />Real Partnerships</h2>
-                <span className="bar mt-10" />
+                <span className="bar mt-10! mb-10!" />
                 <div aria-live="polite" className={`transition-opacity duration-200 ${show ? "opacity-100" : "opacity-0"}`}>
                     <p className="text-[18px] leading-[28px] sm:text-[24px] sm:leading-[37px] tracking-[-.06em]">{t.quote}</p>
                     <div className="mt-8 text-[18px] leading-[26px] sm:text-[24px] sm:leading-[32px] tracking-[-.04em]">{t.name}<br />{t.title}</div>
@@ -33,7 +33,7 @@ export function TestimonialCarousel() {
                     <button type="button" onClick={() => go(1)} aria-label="Next testimonial" className="grid size-[42px] cursor-pointer place-items-center rounded-[4px] bg-gradient-to-b from-[#5724d8] to-[#7950e2] text-black transition hover:brightness-125"><Arrow dir="r" /></button>
                 </div>
             </div>
-            <Image src="/images/Partnership_Section_Image.png" alt="" width={636} height={636} className="mx-auto brightness-125 saturate-150" />
+            <Image src="/images/Partnership_Section_Image.png" alt="" width={636} height={636} className="mx-auto" />
         </div>
     );
 }

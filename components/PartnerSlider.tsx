@@ -89,7 +89,7 @@ const logos: Logo[] = [
 ];
 
 const Card = ({ l }: { l: Logo }) => (
-  <div className="flex h-[84px] w-[170px] sm:h-[113px] sm:w-[240px] shrink-0 items-center justify-center rounded-[28px] sm:rounded-[40px] [&>*]:scale-[.72] sm:[&>*]:scale-100 border border-[#5b3bd1]/80 bg-gradient-to-b from-[#05010d] to-[#0b0722] transition-shadow duration-300 hover:shadow-[0_0_0_16px_rgba(0,0,0,.35),0_0_70px_24px_rgba(0,0,0,.9)] cursor-pointer gborder">
+  <div className="flex h-[84px] w-[170px] sm:h-[113px] sm:w-[240px] shrink-0 items-center justify-center rounded-[28px] sm:rounded-[40px] [&>*]:scale-[.72] sm:[&>*]:scale-100 border border-[#5b3bd1]/80 bg-gradient-to-b from-[#05010d] to-[#0b0722] transition-shadow duration-300 hover:shadow-[0_0_0_16px_rgba(0,0,0,.35),0_0_70px_24px_rgba(0,0,0,.9)] cursor-pointer gborder-new">
     {l.src ? (
       /* eslint-disable-next-line @next/next/no-img-element */ <img
         src={l.src}

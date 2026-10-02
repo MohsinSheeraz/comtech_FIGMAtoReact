@@ -122,7 +122,7 @@ export default function Services() {
             <div className="g2">
               {off.map(([t, p, b]) => (
                 <div className="card pad-outer" key={t}>
-                  <div className="card svc svc-dark gborder">
+                  <div className="card svc svc-dark gborder-new">
                     <h3 className="h3 h3-lg">{t}</h3>
                     <p>{p}</p>
                     <div>
@@ -132,7 +132,7 @@ export default function Services() {
                 </div>
               ))}
               <div className="card pad-outer" style={{ gridColumn: "1 / -1" }}>
-                <div className="card svc svc-dark gborder">
+                <div className="card svc svc-dark gborder-new">
                   <h3 className="h3 h3-lg">Custom Software Development</h3>
                   <p>
                     Custom enterprise application development, legacy system
@@ -157,7 +157,7 @@ export default function Services() {
               {steps.map(([n, t, p]) => (
                 <div
                   key={n}
-                  className="gborder rounded-[30px] border border-white/10 bg-[#080808]/80 p-8 transition-colors duration-300 hover:border-[#7950e2]"
+                  className="gborder-new rounded-[30px] border border-white/10 bg-[#080808]/80 p-8 transition-colors duration-300 hover:border-[#7950e2]"
                 >
                   <span className="grid size-12 place-items-center rounded-full bg-gradient-to-b from-[#5724d8] to-[#7950e2] text-lg font-bold">
                     {n}
@@ -218,7 +218,7 @@ export default function Services() {
             "Telecom",
             "Education",
           ].map((c) => (
-            <div className="chip gborder" key={c}>
+            <div className="chip gborder-new" key={c}>
               {c}
             </div>
           ))}
@@ -256,7 +256,7 @@ export default function Services() {
           </p>
           <Btn href="/contact">Connect With Us</Btn>
         </div>
-        <Faq  items={faq as [string, string][]} />
+        <Faq items={faq as [string, string][]} />
       </section>
       <CtaPanel
         title="Ready to Solve Your IT Challenge?"

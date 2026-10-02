@@ -1,19 +1,19 @@
 import Image from "next/image";
 import { Btn } from "./Button";
 
-type Props = { t: string; p: string; img: string; className?: string };
+type Props = { t: string; p: string; img: string; className?: string; number?: string; };
 
-export const ServiceCard = ({ t, p, img, className }: Props) => (
+export const ServiceCard = ({ t, p, img, className, number }: Props) => (
   <article className={className ? `card svc ${className}` : "card svc"}>
-    <span className="num">01</span>
+    <span className="num">{number}</span>
     <h3 className="h3">{t}</h3>
-    <p>{p}</p>{" "}
-    <div className="row">
+    <p className="text-[18px]! leading-[31px]! font-normal!" >{p}</p>{" "}
+    <div className="row mt-3!">
       <Btn v="o" href="/services">
         Explore our Services
       </Btn>
     </div>
-    <Image src={`/images/${img}.png`} alt={t} width={384} height={208} />
+    <Image src={`/images/${img}.png`} alt={t} width={384} height={208} className="mt-3!" />
   </article>
 );
 

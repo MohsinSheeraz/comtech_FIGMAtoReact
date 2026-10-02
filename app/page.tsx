@@ -87,7 +87,7 @@ export default function Home() {
         globe
       />
       <h2
-        className="h2 wrap h2-lead"
+        className="h2 wrap h2-lead text-[46px] font-medium! leading-[75px]"
       >
         A Decade of Building Pakistan&apos;s Digital Backbone
       </h2>
@@ -95,17 +95,14 @@ export default function Home() {
       <section className="wrap sec">
         <div className="split">
           <div className="card big">
-            <h2 className="h2">We’re Not Just an IT Vendor</h2>
-            <h2 className="h2 gt">We’re Your Infrastructure Partner!</h2>
+            <h2 className="h2 tracking-tighter!">We’re Not Just an IT Vendor</h2>
+            <h2 className="h2 -mt-2 gt tracking-tighter!">We’re Your Infrastructure Partner!</h2>
             <span className="bar" />
-            <p>
+            <p className="text-[18px]! leading-[31px]! tracking-tighter!">
               Every business today runs on its network, the invisible layer of
               switches, servers, firewalls, and connections that decide whether
               your operations move at the speed of your ambition, or grind to a
-              halt at the worst possible moment.
-            </p>
-            <p>
-              Comtech Associates has spent over a decade building that layer for
+              halt at the worst possible moment. <br /> Comtech Associates has spent over a decade building that layer for
               some of Pakistan&apos;s most demanding organizations. We are a
               full-spectrum IT solutions company specializing in enterprise
               networking, system integration, managed cybersecurity, IT
@@ -121,9 +118,9 @@ export default function Home() {
             </div>
           </div>
           <div className="side">
-            <div className="purple">
-              IT infrastructure isn&apos;t four separate problems; it&apos;s one
-              system.
+            <div className="purple pt-16! pb-16! pr-13! pl-13! flex justify-center items-center">
+              IT infrastructure isn&apos;t four separate problems;
+              it&apos;s one system.
             </div>
             <Image
               src="/images/Hand_shake_two.png"
@@ -136,17 +133,16 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="panel pan-a">
+      <section className="panel pan-a mb-40!">
         <div className="wrap">
           <SecHead
             title="What We Do"
-            sub="We work across four connected disciplines because modern IT infrastructure isn't four separate problems;
-             it's one system."
+            sub="We work across four connected disciplines because modern IT infrastructure isn't four separate problems it's one system."
             cta
           />
           <div className="g3">
             {services.map((c) => (
-              <ServiceCard className="gborder" key={c.t} {...c} />
+              <ServiceCard className="gborder-new bg-transparent!" key={c.t} {...c} />
             ))}
             <StatementCard />
           </div>
@@ -163,20 +159,20 @@ export default function Home() {
             width={1230}
             height={346}
           />
-          <div className="mv mb-10 min-[1101px]:mb-40">
+          <div className="mv mb-10">
             <div>
               <h2>Mission</h2>
-              <p>
+              <p className="mt-10">
                 We deliver reliable networking, security, and IT solutions by
                 integrating technical expertise, innovation, and exceptional
                 service to build lasting partnerships and enable sustainable
                 business growth.
               </p>
             </div>
-            <i className="gborder w-[0.5px]" />
+            <i className="gborder-new w-[0.5px]" />
             <div className="min-[1101px]:pl-10">
               <h2>Vision</h2>
-              <p>
+              <p className="mt-10">
                 To be a trusted leader in network and IT solutions, enabling
                 digital transformation through innovative, secure, and scalable
                 technologies that empower business growth and long-term
@@ -189,7 +185,7 @@ export default function Home() {
 
       <section className="wrap sec why">
         <div>
-          <h2 className="h2">
+          <h2 className="h2 text-[46px]! leading-[54px]! tracking-tighter!">
             Why Businesses Choose Comtech as Their Enterprise IT Solutions Provider
           </h2>
           <Btn v="p" href="/contact">
@@ -198,9 +194,9 @@ export default function Home() {
           <div className="stack">
             {why.map(([t, p], i) => (
               <div className="card " key={t}>
-                <div className={`in gborder ${i === 0 ? "gborder" : ""}`}>
-                  <h3 className="h3">{t}</h3>
-                  <p>{p}</p>
+                <div className={`in gborder-new ${i === 0 ? "gborder-new" : ""}`}>
+                  <h3 className="h3 text-[26px] leading-[75px] tracking-tighter">{t}</h3>
+                  <p className="text-[18px] leading-[31px] tracking-tighter" >{p}</p>
                   <Btn href="/contact">Connect with Us</Btn>
                 </div>
               </div>
@@ -217,16 +213,23 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="wrap sec">
+      <section className="wrap sec mt-40">
+
+        <SecHead className="cta-spaced"
+          title={<>
+            Trusted Across Pakistan's Most Regulated &<br />
+            Demanding Sectors
+          </>}
+
+          cta
+        />
+
+
         <div className="card ind">
-          <SecHead
-            title="Trusted Across Pakistan's Most Regulated & Demanding Sectors"
-            cta
-          />
           <div className="g3">
             {ind.map(([t, p], i) => (
               <div
-                className={`gborder card ${i === 0 ? "f" : i % 2 ? "v" : ""}`}
+                className={`gborder-new card ${i === 0 ? "f" : i % 2 ? "v" : ""}`}
                 key={t}
               >
                 <h3 className="h3">{t}</h3>
@@ -241,7 +244,7 @@ export default function Home() {
 
       <section
         id="partners"
-        className="panel pan-b"
+        className="panel pan-b-new mt-40!"
       >
         <div className="wrap">
           <SecHead title="Backed by the Brands the World Trusts" />

@@ -23,16 +23,16 @@ export const PageGlows = () => (
   >
     {/* gradient layer */}
     <div
-      className="absolute inset-0 opacity-35"
+      className="absolute inset-0 "
       style={{
         background:
           "radial-gradient(ellipse 760px 640px at 14% 23%, #193479 0%, rgba(25,52,121,.55) 45%, transparent 100%), radial-gradient(ellipse 560px 600px at 95% 33%, #231547 0%, rgba(35,21,71,.6) 50%, transparent 100%)",
       }}
     />
     {/* waves layer */}
-    <div className="absolute inset-0 opacity-35">
+    <div className="absolute inset-0 opacity-20">
       {[0, 1].map((n) => (
-        <Image key={n} src="/images/wavesImg.png" alt="" fill priority={n === 0} sizes="100vw" className="object-cover" />
+        <Image key={n} src="/images/wavesImg.png" alt="" fill priority={n === 0} sizes="75vw" className="object-contain" />
       ))}
     </div>
   </div>

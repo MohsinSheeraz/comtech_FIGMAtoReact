@@ -20,22 +20,13 @@ export function TestimonialCarousel() {
     };
     const t = items[i];
     return (
-<<<<<<< HEAD
         <div className="mt-12 min-[1101px]:mt-24 grid items-center gap-10 min-[1101px]:grid-cols-[1fr_minmax(0,636px)]">
-=======
-        <div className="mt-24 grid items-center gap-10 lg:grid-cols-[1fr_636px]">
->>>>>>> 34d527bd28f8812301ed1999746354076be4e8ef
             <div className="max-w-[640px]">
                 <h2 className="h2">We Provide Real Results,<br />Real Partnerships</h2>
                 <span className="bar mt-10" />
                 <div aria-live="polite" className={`transition-opacity duration-200 ${show ? "opacity-100" : "opacity-0"}`}>
-<<<<<<< HEAD
                     <p className="text-[18px] leading-[28px] sm:text-[24px] sm:leading-[37px] tracking-[-.06em]">{t.quote}</p>
                     <div className="mt-8 text-[18px] leading-[26px] sm:text-[24px] sm:leading-[32px] tracking-[-.04em]">{t.name}<br />{t.title}</div>
-=======
-                    <p className="text-[24px] leading-[37px] tracking-[-.06em]">{t.quote}</p>
-                    <div className="mt-8 text-[24px] leading-[32px] tracking-[-.04em]">{t.name}<br />{t.title}</div>
->>>>>>> 34d527bd28f8812301ed1999746354076be4e8ef
                 </div>
                 <div className="mt-6 flex justify-end gap-3">
                     <button type="button" onClick={() => go(-1)} aria-label="Previous testimonial" className="grid size-[42px] cursor-pointer place-items-center rounded-[4px] bg-[#1c1c1c] text-white/70 transition hover:bg-[#2a2a2a] hover:text-white"><Arrow dir="l" /></button>

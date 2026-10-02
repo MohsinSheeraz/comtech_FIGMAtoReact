@@ -87,12 +87,7 @@ export default function Home() {
         globe
       />
       <h2
-<<<<<<< HEAD
         className="h2 wrap h2-lead"
-=======
-        className="h2 wrap"
-        style={{ textAlign: "center", lineHeight: "75px", marginBottom: 40 }}
->>>>>>> 34d527bd28f8812301ed1999746354076be4e8ef
       >
         A Decade of Building Pakistan&apos;s Digital Backbone
       </h2>
@@ -156,31 +151,19 @@ export default function Home() {
             <StatementCard />
           </div>
           <SecHead
-<<<<<<< HEAD
             className="mt-16 min-[1101px]:mt-40"
-=======
-            className="mt-40"
->>>>>>> 34d527bd28f8812301ed1999746354076be4e8ef
             title="What Drives Us"
             sub="The purpose behind every network we build, every system we secure, and every partnership we keep. "
             cta
           />
           <Image
-<<<<<<< HEAD
             className="strip mb-10 min-[1101px]:mb-20"
-=======
-            className="strip mb-20"
->>>>>>> 34d527bd28f8812301ed1999746354076be4e8ef
             src="/images/Group_12.png"
             alt=""
             width={1230}
             height={346}
           />
-<<<<<<< HEAD
           <div className="mv mb-10 min-[1101px]:mb-40">
-=======
-          <div className="mv mb-40">
->>>>>>> 34d527bd28f8812301ed1999746354076be4e8ef
             <div>
               <h2>Mission</h2>
               <p>
@@ -191,11 +174,7 @@ export default function Home() {
               </p>
             </div>
             <i className="gborder w-[0.5px]" />
-<<<<<<< HEAD
             <div className="min-[1101px]:pl-10">
-=======
-            <div className="pl-10">
->>>>>>> 34d527bd28f8812301ed1999746354076be4e8ef
               <h2>Vision</h2>
               <p>
                 To be a trusted leader in network and IT solutions, enabling
@@ -264,10 +243,6 @@ export default function Home() {
       <section
         id="partners"
         className="panel pan-b"
-<<<<<<< HEAD
-=======
-        style={{ borderRadius: "80px 80px 0 0" }}
->>>>>>> 34d527bd28f8812301ed1999746354076be4e8ef
       >
         <div className="wrap">
           <SecHead title="Backed by the Brands the World Trusts" />

@@ -12,12 +12,9 @@
 }
 
 html {
-<<<<<<< HEAD
     background: var(--bg);
-    overflow-x: hidden
-=======
-    background: var(--bg)
->>>>>>> 34d527bd28f8812301ed1999746354076be4e8ef
+    overflow-x: hidden;
+    background: var(--bg);
 }
 
 body {
@@ -27,12 +24,9 @@ body {
     font-size: 18px;
     line-height: 31px;
     letter-spacing: -.06em;
-<<<<<<< HEAD
     overflow-x: clip;
-=======
     overflow-x: hidden;
->>>>>>> 34d527bd28f8812301ed1999746354076be4e8ef
-    position: relative
+    position: relative;
 }
 
 a {
@@ -258,17 +252,14 @@ img {
 
 .hero::after {
     content: "";
-<<<<<<< HEAD
     z-index: -1;
     pointer-events: none;
     position: absolute;
     left: 0;
     right: 0;
-=======
     position: absolute;
     left: -50vw;
     right: -50vw;
->>>>>>> 34d527bd28f8812301ed1999746354076be4e8ef
     bottom: 0;
     height: 126px;
     background: linear-gradient(180deg, rgba(7, 7, 7, 0), #040404 70%)
@@ -280,13 +271,10 @@ img {
 
 /* generic */
 .sec {
-<<<<<<< HEAD
     padding-top: 60px;
     padding-bottom: 60px;
-=======
     padding: 60px 0;
->>>>>>> 34d527bd28f8812301ed1999746354076be4e8ef
-    position: relative
+    position: relative;
 }
 
 .sechead {
@@ -1032,7 +1020,6 @@ hero .globe {
   -webkit-mask-composite: xor;
   mask-composite: exclude;  /* cuts out the middle, leaving only the ring */
   pointer-events: none;
-<<<<<<< HEAD
 }
 
 /* =====================================================================
@@ -1212,6 +1199,3 @@ main { overflow-x: clip }
     .hero .row { flex-direction: column; align-items: stretch }
     .hero .row .btn { width: 100% }
 }
-=======
-}
->>>>>>> 34d527bd28f8812301ed1999746354076be4e8ef

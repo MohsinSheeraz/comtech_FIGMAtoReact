@@ -89,11 +89,7 @@ const logos: Logo[] = [
 ];
 
 const Card = ({ l }: { l: Logo }) => (
-<<<<<<< HEAD
   <div className="flex h-[84px] w-[170px] sm:h-[113px] sm:w-[240px] shrink-0 items-center justify-center rounded-[28px] sm:rounded-[40px] [&>*]:scale-[.72] sm:[&>*]:scale-100 border border-[#5b3bd1]/80 bg-gradient-to-b from-[#05010d] to-[#0b0722] transition-shadow duration-300 hover:shadow-[0_0_0_16px_rgba(0,0,0,.35),0_0_70px_24px_rgba(0,0,0,.9)] cursor-pointer gborder">
-=======
-  <div className="flex h-[113px] w-[240px] shrink-0 items-center justify-center rounded-[40px] border border-[#5b3bd1]/80 bg-gradient-to-b from-[#05010d] to-[#0b0722] transition-shadow duration-300 hover:shadow-[0_0_0_16px_rgba(0,0,0,.35),0_0_70px_24px_rgba(0,0,0,.9)] cursor-pointer gborder">
->>>>>>> 34d527bd28f8812301ed1999746354076be4e8ef
     {l.src ? (
       /* eslint-disable-next-line @next/next/no-img-element */ <img
         src={l.src}
@@ -118,11 +114,7 @@ export function PartnerSlider() {
     </div>
   );
   return (
-<<<<<<< HEAD
     <div className="group/slider mt-8 sm:mt-14 overflow-hidden py-8 sm:py-14 [mask-image:linear-gradient(90deg,transparent,#000_5%,#000_95%,transparent)]">
-=======
-    <div className="group/slider mt-14 overflow-hidden py-14 [mask-image:linear-gradient(90deg,transparent,#000_5%,#000_95%,transparent)]">
->>>>>>> 34d527bd28f8812301ed1999746354076be4e8ef
       <style>{`@keyframes partner-marquee{to{transform:translateX(-50%)}}`}</style>
       <div className="flex w-max [animation:partner-marquee_40s_linear_infinite] group-hover/slider:[animation-play-state:paused] motion-reduce:animate-none">
         {list(false)}

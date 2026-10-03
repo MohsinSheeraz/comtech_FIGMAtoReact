@@ -3,8 +3,10 @@ import { Btn } from "@/components/Button";
 import { CtaPanel } from "@/components/CtaPanel";
 import { Faq } from "@/components/Faq";
 import { Hero } from "@/components/Hero";
-import { PageGlows, Glow, SectionGlow } from "@/components/Glow";
+import { PageGlows } from "@/components/Glow";
 import { SecHead } from "@/components/SecHead";
+import { HowWeWork } from "@/components/HowWeWork";
+import ComtechRightChoice_SectionImage from "@/public/images/Comtech_RightChoiceIMG.png";
 
 const off = [
   [
@@ -28,6 +30,7 @@ const off = [
     "Explore IT Services & Managed IT",
   ],
 ];
+
 const steps: [string, string, string][] = [
   [
     "01",
@@ -50,12 +53,14 @@ const steps: [string, string, string][] = [
     "Ongoing monitoring, support, and optimization once the initial engagement is complete.",
   ],
 ];
+
 const checks = [
   "One accountable partner across cybersecurity, networking, data center, and IT services, instead of four separate vendors who don't talk to each other.",
   "A Cisco Preferred Partner with certified engineers across Fortinet, Kaspersky, AWS, Azure, and DevOps disciplines, not a generalist reseller.",
   "Physical presence in four Pakistani cities, so deployment and support don't depend on a single remote team.",
   "Ten years and 250+ delivered projects, with a track record spanning every service Comtech offers, not just one.",
 ];
+
 const faq = [
   [
     "What services does Comtech Associates offer?",
@@ -75,131 +80,172 @@ const faq = [
   ],
 ];
 
+const industries = [
+  "Banking & Finance",
+  "Healthcare",
+  "Public Sector & Govern",
+  "Telecom",
+  "Education",
+];
+
+// Figma "blue hover" frame: dark -> indigo -> dark vertical gradient
+const frameBg =
+  "radial-gradient(60% 28% at 50% 52%, rgba(98,56,255,0.28) 0%, transparent 100%), linear-gradient(180deg, #050508 0%, #08071a 18%, #160a49 34%, #230f72 50%, #190b52 68%, #08061a 86%, #050508 100%)";
+
 export default function Services() {
   return (
     <main>
       <PageGlows />
       <Hero
+        className="p-40!"
         title="Your Go To Enterprise IT Solutions"
         text="Comtech Associates delivers four connected IT practices, cybersecurity, networking and infrastructure, data center and cloud, and managed IT, as one accountable partner across Karachi, Islamabad, Lahore, and Quetta, not four disconnected vendors."
         primary="Talk to an IT Consultant"
         secondary="Explore our Services"
       />
-      <section className="wrap sec about-who">
-        <div>
-          <span className="bar" />
-          <h2 className="h2">What Services Does Comtech Associates Provide?</h2>
-          <p className="lead">
-            Comtech Associates is an enterprise IT solutions company built
-            around four practices that work together rather than in isolation:
-            cybersecurity, networking and IT infrastructure, data center and
-            cloud solutions, and IT services and managed IT. Most businesses end
-            up coordinating separate vendors for each of these. Comtech delivers
-            all four as one accountable team, so a networking decision accounts
-            for the security layer, and a data center migration accounts for the
-            compliance requirements your sector already carries.
-          </p>
-        </div>
-        <Image
-          className="about-img"
-          src="/images/Partnership_Section_Image.png"
-          alt=""
-          width={568}
-          height={568}
-          style={{ mixBlendMode: "hard-light", opacity: 0.57 }}
-        />
-      </section>
+
       <div className="relative overflow-x-clip">
-        <SectionGlow />
-        <Glow className="top-[40%] -left-[220px] size-[710px]" />
-        <Glow className="top-[52%] -right-[220px] size-[710px]" />
-        <section className="wrap sec">
-          <div>
-            <SecHead
-              title="What We Have to Offer"
-              sub="Each service below has its own dedicated page with the full breakdown of sub-services, process, and technical detail. This is the short version."
+        {/* Gradient frame: About + What We Have to Offer + How We Work */}
+        <div
+          className="relative isolate mx-auto mt-16 w-[1764px] rounded-[40px]"
+          style={{ background: frameBg }}
+        >
+          {/* blue glows: left-middle + bottom-right, as in Figma */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute -left-[200px] bottom-[150px] -z-10 size-[620px] rounded-full blur-[90px] max-[1100px]:hidden"
+            style={{
+              background:
+                "radial-gradient(circle, rgba(30,64,255,0.5) 0%, transparent 70%)",
+            }}
+          />
+          <div
+            aria-hidden
+            className="pointer-events-none absolute -bottom-[210px] -right-[160px] -z-10 size-[520px] rounded-full blur-[90px] max-[1100px]:hidden"
+            style={{
+              background:
+                "radial-gradient(circle, rgba(43,85,214,0.6) 0%, transparent 70%)",
+            }}
+          />
+
+          <section className="wrap sec about-who">
+            <div>
+              <h2 className="h2 text-[46px] leading-[54px] tracking-tighter">
+                What Services Does <br /> Comtech Associates Provide?
+              </h2>
+              <span className="bar mt-8!" />
+              <p className="lead text-[24px] leading-[38px] tracking-tighter">
+                Comtech Associates is an enterprise IT solutions company built
+                around four practices that work together rather than in
+                isolation: cybersecurity, networking and IT infrastructure, data
+                center and cloud solutions, and IT services and managed IT. Most
+                businesses end up coordinating separate vendors for each of
+                these. Comtech delivers all four as one accountable team, so a
+                networking decision accounts for the security layer, and a data
+                center migration accounts for the compliance requirements your
+                sector already carries.
+              </p>
+            </div>
+            <Image
+              className="about-img"
+              src="/images/Partnership_Section_Image.png"
+              alt=""
+              width={568}
+              height={568}
+              style={{ mixBlendMode: "screen" }}
             />
-            <div className="g2">
-              {off.map(([t, p, b]) => (
-                <div className="card pad-outer" key={t}>
-                  <div className="card svc svc-dark gborder-new">
-                    <h3 className="h3 h3-lg">{t}</h3>
-                    <p>{p}</p>
+          </section>
+
+          <section className="wrap sec">
+            <div>
+              <SecHead
+                title="What We Have to Offer"
+                sub="Each service below has its own dedicated page with the full breakdown of sub-services, process, and technical detail. This is the short version."
+              />
+              <div className="g2">
+                {off.map(([t, p, b]) => (
+                  <div
+                    className="card pad-outer bg-[#080808]! flex h-full p-4!"
+                    key={t}
+                  >
+                    <div className="card svc svc-dark gborder-new bg-[#0f0826]! flex h-full w-full flex-col">
+                      <h3 className="h3 h3-lg text-[26px]! leading-[75px]! tracking-tighter!">
+                        {t}
+                      </h3>
+
+                      <p className="text-[18px]! leading-[31px]! font-normal! tracking-tighter!">
+                        {p}
+                      </p>
+
+                      <div className="mt-auto">
+                        <Btn href="/services">{b}</Btn>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+                <div
+                  className="card pad-outer bg-black/40!"
+                  style={{ gridColumn: "1 / -1" }}
+                >
+                  <div className="card svc svc-dark gborder-new bg-[#0f0826]!">
+                    <h3 className="h3 h3-lg">Custom Software Development</h3>
+                    <p>
+                      Custom enterprise application development, legacy system
+                      modernization, API integrations, and internal tools, built
+                      and supported by the same team that manages your
+                      infrastructure, not a vendor who disappears after launch.
+                    </p>
                     <div>
-                      <Btn href="/services">{b}</Btn>
+                      <Btn href="/services">
+                        Explore Custom Software Development
+                      </Btn>
                     </div>
                   </div>
                 </div>
-              ))}
-              <div className="card pad-outer" style={{ gridColumn: "1 / -1" }}>
-                <div className="card svc svc-dark gborder-new">
-                  <h3 className="h3 h3-lg">Custom Software Development</h3>
-                  <p>
-                    Custom enterprise application development, legacy system
-                    modernization, API integrations, and internal tools, built
-                    and supported by the same team that manages your
-                    infrastructure, not a vendor who disappears after launch.
-                  </p>
-                  <div>
-                    <Btn href="/services">
-                      Explore Custom Software Development
-                    </Btn>
-                  </div>
-                </div>
               </div>
+
+              <SecHead
+                className="mt-40"
+                title="How We Work"
+                sub="Every engagement, regardless of which service or combination of services is involved, follows the same four-stage process."
+              />
+              <HowWeWork steps={steps} />
             </div>
-            <SecHead
-              className="mt-40"
-              title="How We Work"
-              sub="Every engagement, regardless of which service or combination of services is involved, follows the same four-stage process."
-            />
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-              {steps.map(([n, t, p]) => (
-                <div
-                  key={n}
-                  className="gborder-new rounded-[30px] border border-white/10 bg-[#080808]/80 p-8 transition-colors duration-300 hover:border-[#7950e2]"
-                >
-                  <span className="grid size-12 place-items-center rounded-full bg-gradient-to-b from-[#5724d8] to-[#7950e2] text-lg font-bold">
-                    {n}
-                  </span>
-                  <h3 className="mt-5 text-[26px] leading-[38px] font-medium tracking-[-0.04em]">
-                    {t}
-                  </h3>
-                  <p className="mt-2 text-[18px] leading-[31px] text-white/80">
-                    {p}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-        <section className="wrap sec two">
-          <div>
-            <h2 className="h2">Built on Enterprise Grade Technology</h2>
-            <p>
-              Comtech&apos;s practice runs on 15 confirmed technology
-              partnerships, including Cisco, where Comtech holds Preferred
-              Partner status, alongside Fortinet, Kaspersky, Sangfor, Ubiquiti,
-              TP-Link, D-Link, HPE, H3C, Broadcom, and Dell. Which partners
-              apply depends on the service, each pillar page lists the specific
-              subset it&apos;s built on.
+          </section>
+        </div>
+
+        <section className="wrap sec two flex items-stretch">
+          <div className="flex flex-col">
+            <h2 className="h2 text-[46px]! leading-[55px]! tracking-tighter!">Built on Enterprise Grade Technology</h2>
+            <p className="text-[18px]! leading-[31px]! font-normal! tracking-tighter!">
+              Comtech&apos;s practice runs on 15 confirmed technology partnerships,
+              including Cisco, where Comtech holds Preferred Partner status, alongside
+              Fortinet, Kaspersky, Sangfor, Ubiquiti, TP-Link, D-Link, HPE, H3C,
+              Broadcom, and Dell. Which partners apply depends on the service, each
+              pillar page lists the specific subset it&apos;s built on.
             </p>
-            <Btn href="/#partners">See All Technology Partnerships</Btn>
+            <div className="mt-auto">
+              <Btn href="/#partners">See All Technology Partnerships</Btn>
+            </div>
           </div>
+
           <i />
-          <div>
-            <h2 className="h2">Compliance You Can Count On</h2>
-            <p>
+
+          <div className="flex flex-col ml-10">
+            <h2 className="h2 text-[46px]! leading-[55px]! tracking-tighter! ">Compliance You Can <br /> Count On</h2>
+            <p className="text-[18px]! leading-[31px]! font-normal! tracking-tighter!">
               Comtech&apos;s services are built around the compliance frameworks
-              Pakistani enterprises are actually held to, not a generic
-              international checklist: ISO 27001, PCI DSS, HIPAA, and GDPR where
-              relevant, plus Pakistan-specific requirements including the SBP
-              Cybersecurity Framewor
+              Pakistani enterprises are actually held to, not a generic international
+              checklist: ISO 27001, PCI DSS, HIPAA, and GDPR where relevant, plus
+              Pakistan-specific requirements including the SBP Cybersecurity Framework.
             </p>
-            <Btn href="/contact">Connect With Us</Btn>
+            <div className="mt-auto">
+              <Btn href="/contact">Connect With Us</Btn>
+            </div>
           </div>
         </section>
       </div>
+
       <section className="wrap sec">
         <SecHead
           title={
@@ -211,53 +257,52 @@ export default function Services() {
           }
         />
         <div className="chips">
-          {[
-            "Banking & Finance",
-            "Healthcare",
-            "Public Sector & Govern",
-            "Telecom",
-            "Education",
-          ].map((c) => (
+          {industries.map((c) => (
             <div className="chip gborder-new" key={c}>
               {c}
             </div>
           ))}
         </div>
       </section>
-      <section className="wrap sec why mt-20!">
-        <div>
-          <h2 className="h2">Here’s Why Comtech Is The Right Choice</h2>
-          <div className="check">
-            {checks.map((c) => (
-              <p key={c}>{c}</p>
-            ))}
+
+      <section className="wrap sec max-w-[1764px]! p-20! mt-20! testing">
+        <div className="why">
+          <div>
+            <h2 className="h2">Here’s Why Comtech Is The Right Choice</h2>
+            <div className="check">
+              {checks.map((c) => (
+                <p key={c}>{c}</p>
+              ))}
+            </div>
+            <Btn href="/contact">Connect With Us</Btn>
           </div>
-          <Btn href="/contact">Connect With Us</Btn>
+          <div className="card stick">
+            <Image
+              src={ComtechRightChoice_SectionImage}
+              alt=""
+              width={652}
+              height={641}
+            />
+          </div>
         </div>
-        <div className="card stick">
-          <Image
-            src="/images/Section_Business_Enterprise.png"
-            alt=""
-            width={652}
-            height={641}
-          />
+
+        <div className="faq mt-20!">
+          <div>
+            <h2 className="h2">
+              Frequently
+              <br />
+              Asked Questions
+            </h2>
+            <p style={{ margin: "20px 0 30px" }}>
+              Have questions? Our FAQ section has you covered with quick answers
+              to the most common inquiries.
+            </p>
+            <Btn href="/contact">Connect With Us</Btn>
+          </div>
+          <Faq items={faq as [string, string][]} />
         </div>
       </section>
-      <section className="wrap sec faq mt-10!">
-        <div>
-          <h2 className="h2">
-            Frequently
-            <br />
-            Asked Questions
-          </h2>
-          <p style={{ margin: "20px 0 30px" }}>
-            Have questions? Our FAQ section has you covered with quick answers
-            to the most common inquiries.
-          </p>
-          <Btn href="/contact">Connect With Us</Btn>
-        </div>
-        <Faq items={faq as [string, string][]} />
-      </section>
+
       <CtaPanel
         title="Ready to Solve Your IT Challenge?"
         text="Whether it's one service or all four, a conversation with Comtech's team is the place to start. Tell us what you're dealing with, a security gap, an unreliable network, a data center migration, or a staffing shortfall, and we'll walk you through how Comtech would approach it, with no obligation to move forward. Most conversations start with a short assessment of your current environment before anything gets proposed."

@@ -10,6 +10,7 @@ import { ServiceCard, StatementCard } from "@/components/ServiceCard";
 import { services } from "@/lib/services";
 import { TestimonialCarousel } from "@/components/TestimonialCarousel";
 import { PartnerSlider } from "@/components/PartnerSlider";
+import { TechnologySection } from "@/components/TechnologySection";
 
 const why: [string, string][] = [
   [
@@ -183,7 +184,26 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="wrap sec why">
+
+
+      <TechnologySection />
+
+
+
+
+
+
+
+
+      <section className="relative isolate wrap sec why">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -right-[25%] top-[0%] -z-10 h-[1100px] w-[1100px] rounded-full blur-[110px] max-[1100px]:hidden"
+          style={{
+            background:
+              "radial-gradient(circle at center, rgba(40,80,255,0.7) 0%, rgba(40,80,255,0.4) 30%, rgba(40,80,255,0.12) 55%, transparent 75%)",
+          }}
+        />
         <div>
           <h2 className="h2 text-[46px]! leading-[54px]! tracking-tighter!">
             Why Businesses Choose Comtech as Their Enterprise IT Solutions Provider

@@ -1096,7 +1096,7 @@ a {
 }
 
 .pad-outer {
-    padding: 18px;
+    padding: 12px;
     border-radius: 35px
 }
 
@@ -1702,4 +1702,8 @@ main {
 
 .cta-spaced .btn {
     margin-top: 24px;
+}
+
+.testing {
+    background: linear-gradient(179.11deg, rgba(4, 4, 4, 0) 10.61%, rgba(69, 22, 187, 0.36) 53.31%, rgba(4, 4, 4, 0) 99.23%);
 }

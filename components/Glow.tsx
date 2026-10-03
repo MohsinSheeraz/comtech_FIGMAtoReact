@@ -14,27 +14,34 @@ export const Glow = ({
   />
 );
 
-/* Hero background: custom blue (#193479) + purple (#231547) glows with the contour-line texture (wavesImg.png) on top.
-   wavesImg.png is a transparent PNG with very faint lines, so it is stacked twice to be visible on the dark background. */
-export const PageGlows = () => (
+/* Hero background glows.
+   variant="home"  -> purple right + blue left, with the contour-line texture (wavesImg.png) stacked twice on top.
+   variant="inner" -> same gradient mirrored (purple left + blue right), no waves image. Used on every page except Home. */
+const glowBg = {
+  home: "radial-gradient(ellipse 560px 600px at 95% 33%, #231547 0%, rgba(35,21,71,.6) 50%, transparent 100%), radial-gradient(ellipse 560px 540px at 14% 23%, #193479 0%, rgba(25,52,121,.55) 45%, transparent 100%)",
+  inner:
+    "radial-gradient(ellipse 560px 600px at 5% 10%, #231547 0%, rgba(35,21,71,.6) 50%, transparent 100%), radial-gradient(ellipse 560px 540px at 86% 23%, #193479 0%, rgba(25,52,121,.55) 45%, transparent 100%)",
+};
+
+export const PageGlows = ({
+  variant = "home",
+}: {
+  variant?: "home" | "inner";
+}) => (
   <div
     aria-hidden
     className="pointer-events-none absolute inset-x-0 top-0 z-0 h-screen overflow-hidden [mask-image:linear-gradient(to_bottom,black_62%,transparent)]"
   >
     {/* gradient layer */}
-    <div
-      className="absolute inset-0 "
-      style={{
-        background:
-          "radial-gradient(ellipse 760px 640px at 14% 23%, #193479 0%, rgba(25,52,121,.55) 45%, transparent 100%), radial-gradient(ellipse 560px 600px at 95% 33%, #231547 0%, rgba(35,21,71,.6) 50%, transparent 100%)",
-      }}
-    />
-    {/* waves layer */}
-    <div className="absolute inset-0 opacity-20">
-      {[0, 1].map((n) => (
-        <Image key={n} src="/images/wavesImg.png" alt="" fill priority={n === 0} sizes="75vw" className="object-contain" />
-      ))}
-    </div>
+    <div className="absolute inset-0" style={{ background: glowBg[variant] }} />
+    {/* waves layer (home only) */}
+    {variant === "home" && (
+      <div className="absolute inset-0 opacity-35">
+        {[0, 1].map((n) => (
+          <Image key={n} src="/images/wavesImg.png" alt="" fill priority={n === 0} sizes="75vw" className="object-contain" />
+        ))}
+      </div>
+    )}
   </div>
 );
 

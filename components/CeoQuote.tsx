@@ -68,7 +68,7 @@ export const CeoQuote = ({ title }: { title: string }) => (
           solution we delivered, came from the idea that technology should empower people.&quot;
         </q>
 
-        <span className="my-8 block h-[3px] w-[54px] rounded-full bg-[#5b2fd8]" />
+        <span className="my-10 block h-[3px] w-[54px] rounded-full bg-[#5b2fd8]" />
 
         <div className="text-[18px] text-white">Muhammad Farooq Zaheer</div>
         <div className="mt-1 text-[15px] text-white/40">CEO, Comtech Associates</div>

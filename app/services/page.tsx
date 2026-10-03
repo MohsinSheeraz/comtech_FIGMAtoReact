@@ -90,14 +90,14 @@ const industries = [
 
 // Figma "blue hover" frame: dark -> indigo -> dark vertical gradient
 const frameBg =
-  "radial-gradient(60% 28% at 50% 52%, rgba(98,56,255,0.28) 0%, transparent 100%), linear-gradient(180deg, #050508 0%, #08071a 18%, #160a49 34%, #230f72 50%, #190b52 68%, #08061a 86%, #050508 100%)";
+  "linear-gradient(180deg, #050508 0%, #08071a 18%, #160a49 34%, #230f72 50%, #190b52 68%, #08061a 86%, #050508 100%)";
 
 export default function Services() {
   return (
     <main>
-      <PageGlows />
+      <PageGlows variant="inner" />
       <Hero
-        className="p-40!"
+        className="p-40! mt-14!"
         title="Your Go To Enterprise IT Solutions"
         text="Comtech Associates delivers four connected IT practices, cybersecurity, networking and infrastructure, data center and cloud, and managed IT, as one accountable partner across Karachi, Islamabad, Lahore, and Quetta, not four disconnected vendors."
         primary="Talk to an IT Consultant"
@@ -113,7 +113,7 @@ export default function Services() {
           {/* blue glows: left-middle + bottom-right, as in Figma */}
           <div
             aria-hidden
-            className="pointer-events-none absolute -left-[200px] bottom-[150px] -z-10 size-[620px] rounded-full blur-[90px] max-[1100px]:hidden"
+            className="pointer-events-none absolute -left-[200px] -bottom-[30%] -z-10 size-[620px] rounded-full blur-[90px] max-[1100px]:hidden"
             style={{
               background:
                 "radial-gradient(circle, rgba(30,64,255,0.5) 0%, transparent 70%)",

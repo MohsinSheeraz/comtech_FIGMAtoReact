@@ -13,21 +13,25 @@ const off = [
     "Cybersecurity",
     "24/7 SOC monitoring, penetration testing, and compliance-aligned security for banks, telecoms, and enterprises across Pakistan. Covers managed security, VAPT, incident response, identity and access management, cloud security posture management, and compliance with frameworks like ISO 27001, PCI DSS, and the SBP Cybersecurity Framework.",
     "Explore Cybersecurity Services",
+    "/services",
   ],
   [
     "Networking & IT Infrastructure",
     "Network design, deployment, and 24/7 monitoring for banks, hospitals, and enterprises that cannot afford downtime. Covers LAN/WAN architecture, SD-WAN, structured cabling, wireless networking, and network monitoring, delivered by a Cisco Premier Partner with certified engineers on staff.",
     "Explore Networking & IT Infrastructure",
+    "/services/networking",
   ],
   [
     "Data Center & Cloud Solutions",
     "End-to-end data center architecture, migration, and hybrid cloud connectivity, built on Cisco and HPE infrastructure. Covers Tier II to IV aligned design, disaster recovery, 24/7 NOC operations, and multi-cloud connectivity across AWS, Azure, and GCP.",
     "Explore Data Center & Cloud Solutions",
+    "/services",
   ],
   [
     "IT Services & Managed IT",
     "IT staff augmentation, custom software development, asset lifecycle management, and after-sales support, delivered as one accountable partner instead of three separate vendors. Certified engineers across Cisco, AWS, Azure, and DevOps disciplines support your team directly.",
     "Explore IT Services & Managed IT",
+    "/services",
   ],
 ];
 
@@ -163,7 +167,7 @@ export default function Services() {
                 sub="Each service below has its own dedicated page with the full breakdown of sub-services, process, and technical detail. This is the short version."
               />
               <div className="g2">
-                {off.map(([t, p, b]) => (
+                {off.map(([t, p, b, href]) => (
                   <div
                     className="card pad-outer bg-[#080808]! flex h-full p-4!"
                     key={t}
@@ -178,7 +182,7 @@ export default function Services() {
                       </p>
 
                       <div className="mt-auto">
-                        <Btn href="/services">{b}</Btn>
+                        <Btn href={href}>{b}</Btn>
                       </div>
                     </div>
                   </div>

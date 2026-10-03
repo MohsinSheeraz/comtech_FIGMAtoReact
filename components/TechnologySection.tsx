@@ -31,7 +31,7 @@ const mask = {
 function TechCard({ t, s, w, tone }: Item & { tone: "side" | "center" }) {
     return (
         <div
-            className={`flex w-full flex-col items-center justify-center rounded-xl border bg-[#0a0a0c] px-4 py-4 text-center min-[1101px]:rounded-[0.95cqw] min-[1101px]:px-0 min-[1101px]:py-[1.55cqw] ${w} ${tone === "side" ? "border-[#4f36d8]/80" : "border-[#3a3fa8]/50"
+            className={`flex w-full flex-col items-center justify-center rounded-xl gborder-new bg-[#0a0a0c] px-4 py-4 text-center min-[1101px]:rounded-[0.95cqw] min-[1101px]:px-0 min-[1101px]:py-[1.55cqw] ${w} ${tone === "side" ? "gborder-new" : "gborder-new"
                 }`}
         >
             <h3 className="text-[18px] font-medium leading-tight tracking-normal text-white min-[1101px]:whitespace-nowrap min-[1101px]:text-[1.88cqw]">

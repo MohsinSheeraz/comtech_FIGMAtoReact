@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { Btn } from "./Button";
 
-const nav = [["Home", "/"], ["Services", "/services"], ["Partners", "/#partners"], ["About Us", "/about"], ["Contact Us", "/contact"], ["Resources", "/resources"]];
+const nav = [["Home", "/"], ["Services", "/services"], ["Partners", "/#partners"], ["About Us", "/about"], ["Contact Us", "/contact"], ["Resources", "/blog"]];
 
 export function Header() {
   const [open, setOpen] = useState(false);

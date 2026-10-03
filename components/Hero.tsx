@@ -17,7 +17,7 @@ export const Hero = (
       pill?: string;
       small?: string;
       title: React.ReactNode;
-      text?: string;
+      text?: React.ReactNode;
       primary: string;
       secondary: string;
       globe?: boolean;

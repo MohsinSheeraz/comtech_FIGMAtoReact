@@ -37,13 +37,11 @@ export default function About() {
       <Hero
         className="p-40! mt-14!"
         title="About Comtech Associates"
-        text={
-          <>
-            Comtech Associates has spent over a decade building the networking,
-            security, and infrastructure
-            <br />
-            that Pakistan&apos;s banks, hospitals, and enterprises run on.
-          </>
+        text={<>Comtech Associates has spent over a decade building the networking,
+          security, and infrastructure
+          <br />
+          that Pakistan&apos;s banks, hospitals, and enterprises run on.
+        </>
         }
         primary="Connect with Us"
         secondary="Explore our Services"

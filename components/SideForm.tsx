@@ -13,7 +13,7 @@ export function SideForm() {
       <input className={field} type="tel" name="phone" placeholder="Phone" aria-label="Phone" />
       <input className={field} type="email" name="email" placeholder="Email" aria-label="Email" />
       <textarea className={`${field} h-32 resize-none`} name="message" placeholder="Your message" aria-label="Your message" />
-      <button type="submit" className="btn p mt-6">
+      <button type="submit" className="cursor-pointer px-9! py-2! btn p mt-6 text-[16px]! font-medium!">
         Submit
       </button>
     </form>

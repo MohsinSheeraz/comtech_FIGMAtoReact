@@ -238,23 +238,7 @@ export default function Networking() {
             With Their Network
           </h2>
           <div className="mx-auto mt-14 grid grid-cols-1 items-stretch gap-10 min-[700px]:grid-cols-2 min-[1101px]:grid-cols-4 min-[1101px]:gap-0">
-            {trust.map(([t, p], i) => (
-              <div
-                key={t}
-                className={`flex h-full flex-col justify-center min-[1101px]:p-8 ${i
-                  ? "min-[1101px]:border-l-[3px] min-[1101px]:border-[#6b43e2] min-[1101px]:pl-9"
-                  : ""
-                  }`}
-              >
-                <h3 className="max-w-[260px] text-[28px] font-medium leading-[36px] tracking-tighter">
-                  {t}
-                </h3>
-
-                <p className="mt-4 text-[16px] leading-[26px] tracking-tighter">
-                  {p}
-                </p>
-              </div>
-            ))}
+            {trust.map(([t, p], i) => (<div key={i} className={`flex h-full flex-col justify-center min-[1101px]:p-8 ${i ? "min-[1101px]:border-l-[3px] min-[1101px]:border-[#6b43e2] min-[1101px]:pl-9" : ""}`} > <h3 className="max-w-[260px] text-[28px] font-medium leading-[36px] tracking-tighter"> {t} </h3> <p className="mt-4 text-[16px] leading-[26px] tracking-tighter"> {p} </p> </div>))}
           </div>
         </section>
       </div>

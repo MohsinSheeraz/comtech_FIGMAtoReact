@@ -7,6 +7,20 @@ import { CtaPanel } from "@/components/CtaPanel";
 import { PageGlows } from "@/components/Glow";
 import { SideForm } from "@/components/SideForm";
 import { getPost, posts } from "@/lib/posts";
+// import FacebookIcon from "@/public/images/icon_Facebook.png";
+// import XIcon from "@/public/images/icon_Twitter.png";
+// import YTIcon from "@/public/images/icon_YouTube.png";
+// import InstagramIcon from "@/public/images/icon_Insta.png";
+import { FaFacebook } from "react-icons/fa6";
+import { FaTwitter } from "react-icons/fa";
+import { SiYoutube } from "react-icons/si";
+import { RiInstagramFill } from "react-icons/ri";
+
+
+
+
+
+
 
 export function generateStaticParams() {
   return posts.map((p) => ({ slug: p.slug }));
@@ -70,29 +84,7 @@ const sections: { h: string; p: string[] }[] = [
 const H2 = "mt-8 text-[34px] font-medium leading-[44px] tracking-tighter";
 const P = "mt-4 text-[18px] leading-[31px] tracking-tighter";
 
-const icons: { label: string; node: React.ReactNode }[] = [
-  { label: "Facebook", node: <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" /> },
-  { label: "Twitter", node: <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z" /> },
-  {
-    label: "YouTube",
-    node: (
-      <>
-        <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z" />
-        <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" />
-      </>
-    ),
-  },
-  {
-    label: "Instagram",
-    node: (
-      <>
-        <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
-      </>
-    ),
-  },
-];
+const icons = [{ label: "Facebook", icon: FaFacebook, href: "#", }, { label: "X", icon: FaTwitter, href: "#", }, { label: "YouTube", icon: SiYoutube, href: "#", }, { label: "Instagram", icon: RiInstagramFill, href: "#", },];
 
 const frameBg =
   "linear-gradient(180deg, #040404 0%, rgba(69, 22, 187, 0.42) 38%, rgba(69, 22, 187, 0.55) 62%, #040404 100%)";
@@ -124,7 +116,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
       >
         <section className="wrap sec">
           <div className="grid items-start gap-6 min-[1101px]:grid-cols-[minmax(0,1fr)_380px]">
-            <article className="rounded-[30px] border border-white/10 bg-black/70 p-6 sm:p-10">
+            <article className="rounded-[30px] leadership-border  p-6 sm:p-10">
               <h1 className="text-[34px] font-medium leading-[44px] tracking-tighter sm:text-[46px] sm:leading-[56px]">
                 How 24/7 Infrastructure Support Reduces Downtime in a market.
               </h1>
@@ -153,7 +145,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
             <aside className="flex flex-col gap-5 min-[1101px]:sticky min-[1101px]:top-6">
               <SideForm />
 
-              <div className="rounded-[30px] border border-white/10 bg-[#080808] p-4">
+              <div className="rounded-[30px] leadership-border p-4">
                 <ul className="flex flex-col gap-4">
                   {recent.map((r) => (
                     <li key={r.slug}>
@@ -174,18 +166,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
               <div className="flex items-center justify-between px-1">
                 <span className="text-[15px] tracking-normal">Share this article</span>
                 <div className="flex gap-3">
-                  {icons.map((ic) => (
-                    <a
-                      key={ic.label}
-                      href="#"
-                      aria-label={`Share on ${ic.label}`}
-                      className="grid size-9 place-items-center rounded-full bg-white text-[#070707]"
-                    >
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-                        {ic.node}
-                      </svg>
-                    </a>
-                  ))}
+                  {icons.map((ic) => { const Icon = ic.icon; return (<a key={ic.label} href={ic.href} aria-label={`Share on ${ic.label}`} className="grid size-9 place-items-center rounded-full" > <Icon size={25} aria-hidden="true" /> </a>); })}
                 </div>
               </div>
             </aside>

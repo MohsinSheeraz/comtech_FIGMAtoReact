@@ -73,7 +73,7 @@ export default function Leadership() {
               kind === "text" ? (
                 <div
                   key={`${p.name}-t`}
-                  className={`gborder-new flex flex-col justify-center rounded-[40px] bg-gradient-to-b from-[#07050f] to-[#150b45] px-8 py-10 min-[1101px]:px-16 min-[1101px]:py-10 ${cls}`}
+                  className={`flex flex-col justify-center rounded-[40px] bg-gradient-to-b from-[#07050f] to-[#150b45] px-8 py-10 min-[1101px]:px-16 min-[1101px]:py-10 ${cls}`}
                 >
                   <h2 className="text-[34px] font-medium leading-[44px] tracking-tighter min-[1101px]:text-[46px] min-[1101px]:leading-[54px]">
                     {p.name}
@@ -87,7 +87,7 @@ export default function Leadership() {
               ) : (
                 <div
                   key={`${p.name}-i`}
-                  className={`relative min-h-[420px] overflow-hidden rounded-[40px] border border-white/10 bg-gradient-to-b from-[#07050f] to-[#150b45]/70 ${cls}`}
+                  className={`relative min-h-[420px] overflow-hidden rounded-[40px] ${cls}`}
                 >
                   <Image
                     src={p.img}

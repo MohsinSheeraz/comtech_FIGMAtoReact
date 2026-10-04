@@ -194,7 +194,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
       </div>
 
       <section className="wrap sec mt-10">
-        <div className="grid gap-x-[33px] gap-y-14 md:grid-cols-2 min-[1101px]:grid-cols-3">
+        <div className="grid grid-cols-1 gap-x-[33px] gap-y-14 min-[700px]:grid-cols-2 min-[1101px]:grid-cols-3">
           {related.map((p) => (
             <BlogCard key={p.slug} post={p} />
           ))}

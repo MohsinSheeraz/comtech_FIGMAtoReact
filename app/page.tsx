@@ -183,18 +183,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-
-
       <TechnologySection />
-
-
-
-
-
-
-
-
       <section className="relative isolate wrap sec why">
         <div
           aria-hidden

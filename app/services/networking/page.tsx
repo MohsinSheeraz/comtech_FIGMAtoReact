@@ -39,10 +39,22 @@ const steps: [string, string, string][] = [
 ];
 
 const trust = [
-  ["Certified Cisco Expertise", "A certified Cisco partner with engineers who hold active certifications, not a reseller offering third-party guesswork when something breaks."],
-  ["Four Cities, One Team", "Physical presence in four cities, so deployment and support don't depend on a single remote team stretched across the whole country."],
-  ["Security Built In From Day One", "Network design that accounts for the security and compliance layer from day one, not bolted on afterward once someone raises a concern."],
-  ["A Decade in Mission Critical Networks", "Ten years of infrastructure delivery across banking, telecom, and healthcare environments where downtime has a real, measurable cost attached to it."],
+  [
+    <>Certified Cisco <br /> Expertise</>,
+    "A certified Cisco partner with engineers who hold active certifications, not a reseller offering third-party guesswork when something breaks."
+  ],
+  [
+    <>Four Cities, <br /> One Team</>,
+    "Physical presence in four cities, so deployment and support don't depend on a single remote team stretched across the whole country."
+  ],
+  [
+    <>Security Built In <br /> From Day One</>,
+    "Network design that accounts for the security and compliance layer from day one, not bolted on afterward once someone raises a concern."
+  ],
+  [
+    <>Decade in Mission <br /> Critical Networks</>,
+    "Ten years of infrastructure delivery across banking, telecom, and healthcare environments where downtime has a real, measurable cost attached to it."
+  ],
 ];
 
 const faq: [string, string][] = [
@@ -61,9 +73,11 @@ const more = [
 ];
 
 const bandA =
-  "linear-gradient(180deg, #040404 0%, #130a3d 10%, #1e0d63 38%, #1a0b52 62%, #07040f 92%, #040404 100%)";
+  "linear-gradient(180deg, #040404 8.06%, rgba(69, 22, 187, 0.42) 43.03%, #040404 80.62%);";
+
 const bandB =
-  "linear-gradient(180deg, #040404 0%, rgba(69, 22, 187, 0.4) 50%, #040404 100%)";
+  // "linear-gradient(180deg, #040404 0%, rgba(69, 22, 187, 0.4) 50%, #040404 100%)";
+  "linear-gradient(179.11deg, rgba(4, 4, 4, 0) 10.61%, rgba(69, 22, 187, 0.36) 53.31%, rgba(4, 4, 4, 0) 99.23%);";
 
 const H2 = "text-[46px] font-medium leading-[54px] tracking-tighter";
 const P = "text-[18px] leading-[31px] tracking-tighter";
@@ -110,23 +124,23 @@ export default function Networking() {
       />
 
       {/* capabilities: outer cards peek in from the edges and sit higher, like Figma */}
-      <section className="sec relative">
+      <section className="sec relative p-10!">
         <div className="wrap">
           <SecHead
-            title="Everything Your Network Needs, End to End"
+            title={<>Everything Your Network Needs <br /> End to End</>}
             sub="We don't sell network components. We build and manage the network itself, as one connected system, so nothing gets left as someone else's problem."
           />
         </div>
-        <div className="mx-auto w-full max-w-[1764px] overflow-x-auto px-5 min-[1101px]:w-[94%] min-[1101px]:overflow-hidden min-[1101px]:px-0 [scrollbar-width:none]">
-          <div className="flex snap-x gap-5 min-[1101px]:-ml-[7%] min-[1101px]:w-[114%] min-[1101px]:gap-[2.6%] min-[1101px]:pb-16">
+        <div className="mx-auto w-full max-w-[1764px] px-5 min-[1101px]:w-[94%] min-[1101px]:px-0">
+          {/* mobile: swipeable row. desktop: 4 equal cards, outer two sit higher like Figma */}
+          <div className="flex snap-x gap-5 overflow-x-auto [scrollbar-width:none] min-[1101px]:grid min-[1101px]:grid-cols-4 min-[1101px]:items-start min-[1101px]:gap-[2.4%] min-[1101px]:overflow-visible">
             {capabilities.map(([t, p], i) => (
               <div
                 key={t}
-                className={`card pad-outer h-full min-w-[82%] snap-center bg-[#080808]! p-4! sm:min-w-[46%] min-[1101px]:min-w-0 min-[1101px]:flex-1 ${
-                  i === 0 || i === capabilities.length - 1 ? "min-[1101px]:-translate-y-[110px]" : ""
-                }`}
+                className={`card pad-outer min-w-[82%] snap-center bg-[#080808]! p-4!  min-[1101px]:min-w-0 ${i === 0 || i === capabilities.length - 1 ? "min-[1280px]:-translate-y-[42%]" : ""
+                  }`}
               >
-                <div className="card svc svc-dark gborder-new h-full bg-[#0f0826]!">
+                <div className="card svc svc-dark gborder-new h-full bg-[#0f0826]! p-8!">
                   <h3 className="h3 h3-lg text-[26px]! leading-[38px]! tracking-tighter!">{t}</h3>
                   <p className="text-[18px]! leading-[31px]! font-normal! tracking-tighter!">{p}</p>
                 </div>
@@ -217,20 +231,28 @@ export default function Networking() {
           </Feature>
         </section>
 
-        <section className="wrap sec mt-16">
+        <section className="wrap sec mt-40!">
           <h2 className={`${H2} mx-auto max-w-[760px] text-center`}>
             Why Businesses Trust Comtech
             <br />
             With Their Network
           </h2>
-          <div className="mt-14 grid gap-10 sm:grid-cols-2 min-[1101px]:grid-cols-4 min-[1101px]:gap-0">
+          <div className="mx-auto mt-14 grid grid-cols-1 items-stretch gap-10 min-[700px]:grid-cols-2 min-[1101px]:grid-cols-4 min-[1101px]:gap-0">
             {trust.map(([t, p], i) => (
               <div
                 key={t}
-                className={`${i ? "min-[1101px]:border-l-[3px] min-[1101px]:border-[#6b43e2] min-[1101px]:pl-8" : "min-[1101px]:pr-8"} min-[1101px]:pr-8`}
+                className={`flex h-full flex-col justify-center min-[1101px]:p-8 ${i
+                  ? "min-[1101px]:border-l-[3px] min-[1101px]:border-[#6b43e2] min-[1101px]:pl-9"
+                  : ""
+                  }`}
               >
-                <h3 className="max-w-[260px] text-[30px] font-medium leading-[38px] tracking-tighter">{t}</h3>
-                <p className={`${P} mt-4`}>{p}</p>
+                <h3 className="max-w-[260px] text-[28px] font-medium leading-[36px] tracking-tighter">
+                  {t}
+                </h3>
+
+                <p className="mt-4 text-[16px] leading-[26px] tracking-tighter">
+                  {p}
+                </p>
               </div>
             ))}
           </div>

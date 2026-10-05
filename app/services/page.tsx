@@ -229,7 +229,7 @@ export default function Services() {
               pillar page lists the specific subset it&apos;s built on.
             </p>
             <div className="mt-auto">
-              <Btn href="/#partners">See All Technology Partnerships</Btn>
+              <Btn href="/partners">See All Technology Partnerships</Btn>
             </div>
           </div>
 

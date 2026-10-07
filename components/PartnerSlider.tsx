@@ -1,9 +1,9 @@
 import { ReactNode } from "react";
 
 /* Drop real logo files in /public/logos and set `src` to replace a wordmark, e.g. { name: "Cisco", src: "/logos/cisco.png" } */
-type Logo = { name: string; src?: string; mark?: ReactNode };
+export type Logo = { name: string; src?: string; mark?: ReactNode };
 
-const logos: Logo[] = [
+export const logos: Logo[] = [
   {
     name: "Cisco",
     mark: (

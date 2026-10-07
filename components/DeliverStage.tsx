@@ -1,5 +1,6 @@
 import ScaledStage from "./ScaledStage";
 import { CardText, GlowCard } from "./PartnersUI";
+import { ScrollConnector } from "@/components/Scrollconnector";
 
 // "What We Deliver" desktop layout: 6 cards at their Figma positions, joined by dashed connectors.
 // Stage = Figma canvas (px, origin = top-left of card 1). It scales down on narrower screens.
@@ -16,23 +17,21 @@ const POS = [
   { x: 502, y: 762 },
 ];
 
-const PATHS = [
-  { d: "M 971 166 H 1048 Q 1090 166 1090 208 V 380", color: "#3A00CB" },
-  { d: "M 466 544 H 424 Q 382 544 382 586 V 762", color: "#6A3FE0" },
-  { d: "M 971 928 H 1089", color: "#6A3FE0" },
-];
-const DOTS = [
-  { x: 1076.7, y: 183.7 },
-  { x: 396.8, y: 552.5 },
-  { x: 1089.3, y: 928.5 },
+// Same paths, colours and dots as before. `at` = how far along its path the dot sits (0..1),
+// so the dot pops in right when the drawing line reaches it.
+const LINES = [
+  { d: "M 971 166 H 1048 Q 1090 166 1090 208 V 380", color: "#3A00CB", dot: { x: 1076.7, y: 183.7 }, at: 0.36 },
+  { d: "M 466 544 H 424 Q 382 544 382 586 V 762", color: "#6A3FE0", dot: { x: 396.8, y: 552.5 }, at: 0.25 },
+  { d: "M 971 928 H 1089", color: "#6A3FE0", dot: { x: 1089.3, y: 928.5 }, at: 1 },
 ];
 
 export function DeliverStage({ cards }: { cards: { id: number; title: string; text: string }[] }) {
   return (
     <ScaledStage width={STAGE_W} height={STAGE_H}>
+      {/* the connectors draw with scroll (and un-draw when you scroll back up) */}
       <svg className="absolute inset-0" width={STAGE_W} height={STAGE_H} fill="none" aria-hidden>
-        {PATHS.map((p) => (
-          <path key={p.d} d={p.d} stroke={p.color} strokeWidth="2.5" strokeDasharray="8 5" />
+        {LINES.map((l) => (
+          <ScrollConnector key={l.d} width={STAGE_W} height={STAGE_H} {...l} />
         ))}
       </svg>
 
@@ -40,17 +39,6 @@ export function DeliverStage({ cards }: { cards: { id: number; title: string; te
         <GlowCard key={c.id} className="absolute" style={{ left: POS[i].x, top: POS[i].y, width: CARD_W, height: CARD_H }}>
           <CardText title={c.title} text={c.text} />
         </GlowCard>
-      ))}
-
-      {DOTS.map((d, i) => (
-        <span
-          key={i}
-          aria-hidden
-          className="absolute flex h-12 w-12 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full"
-          style={{ left: d.x, top: d.y, background: "rgba(124,88,230,0.45)" }}
-        >
-          <span className="h-[26px] w-[26px] rounded-full bg-[#7C58E6]" />
-        </span>
       ))}
     </ScaledStage>
   );

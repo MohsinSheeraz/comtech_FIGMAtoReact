@@ -1,3 +1,5 @@
+import { ScrollConnector } from "@/components/Scrollconnector";
+
 type Step = [string, string, string];
 
 // Card centre (% of stage) + tilt, measured from Figma
@@ -16,32 +18,36 @@ const nodes: [number, number][] = [
     [276.5, 302],
 ];
 
+// Same line as before, as a path, plus how far along it each node sits (0..1) so a node lights up
+// exactly when the drawing line reaches it.
+const pathD = nodes.map(([x, y], i) => `${i ? "L" : "M"}${x} ${y}`).join(" ");
+const segLen = nodes.slice(1).map(([x, y], i) => Math.hypot(x - nodes[i][0], y - nodes[i][1]));
+const total = segLen.reduce((a, b) => a + b, 0);
+const nodeDots = nodes.map(([x, y], i) => ({ x, y, at: segLen.slice(0, i).reduce((a, b) => a + b, 0) / total }));
+
 export function HowWeWork({ steps }: { steps: Step[] }) {
     return (
         // Stage: every size inside is in cqw, so the whole zigzag scales as one piece.
         // Change max-w-[1000px] to make it bigger or smaller.
         <div className="@container relative mx-auto mt-10 w-full max-w-[1000px] min-[1101px]:aspect-[500/410]">
-            {/* dotted path + nodes, drawn in code (desktop only), above the cards like Figma */}
+            {/* dotted path + nodes, drawn in code (desktop only), above the cards like Figma. Draws with scroll. */}
             <svg
                 aria-hidden
                 viewBox="0 0 500 410"
                 className="pointer-events-none absolute inset-0 z-20 hidden size-full min-[1101px]:block"
             >
-                <polyline
-                    points={nodes.map(([x, y]) => `${x},${y}`).join(" ")}
-                    fill="none"
-                    stroke="#7a52f0"
-                    strokeWidth="1.3"
-                    strokeDasharray="5 4"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
+                <ScrollConnector
+                    d={pathD}
+                    color="#7a52f0"
+                    width={500}
+                    height={410}
+                    stroke={1.3}
+                    dash="5 4"
+                    linecap="round"
+                    linejoin="round"
+                    dots={nodeDots}
+                    dotStyle={{ outer: 9, inner: 5, outerFill: "#3a2388", innerFill: "#7a52f0" }}
                 />
-                {nodes.map(([x, y]) => (
-                    <g key={`${x}-${y}`}>
-                        <circle cx={x} cy={y} r="9" fill="#3a2388" />
-                        <circle cx={x} cy={y} r="5" fill="#7a52f0" />
-                    </g>
-                ))}
             </svg>
 
             <div className="grid gap-6 sm:grid-cols-2 min-[1101px]:contents">

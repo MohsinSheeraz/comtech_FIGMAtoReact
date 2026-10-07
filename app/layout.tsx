@@ -7,11 +7,12 @@ import "./globals.css";
 import "./viewport-scale.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { SmoothScroll } from "@/components/SmoothScroll";
 
 export const metadata: Metadata = { title: "Comtech Associates", description: "Enterprise IT solutions: networking, cybersecurity, data centers and managed IT across Pakistan." };
 
 export const viewport: Viewport = { width: "device-width", initialScale: 1, themeColor: "#040404" };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  return (<html lang="en"><body><Header />{children}<Footer /></body></html>);
+  return (<html lang="en"><body><SmoothScroll /><Header />{children}<Footer /></body></html>);
 }

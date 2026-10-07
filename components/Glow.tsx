@@ -14,34 +14,27 @@ export const Glow = ({
   />
 );
 
-/* Hero background glows.
-   variant="home"  -> purple right + blue left, with the contour-line texture (wavesImg.png) stacked twice on top.
-   variant="inner" -> same gradient mirrored (purple left + blue right), no waves image. Used on every page except Home. */
-const glowBg = {
-  home: "radial-gradient(ellipse 560px 600px at 95% 33%, #231547 0%, rgba(35,21,71,.6) 50%, transparent 100%), radial-gradient(ellipse 560px 540px at 14% 23%, #193479 0%, rgba(25,52,121,.55) 45%, transparent 100%)",
-  inner:
-    "radial-gradient(ellipse 560px 600px at 5% 10%, #231547 0%, rgba(35,21,71,.6) 50%, transparent 100%), radial-gradient(ellipse 560px 540px at 86% 23%, #193479 0%, rgba(25,52,121,.55) 45%, transparent 100%)",
-};
+/* Hero background glows: ONE gradient for every page (the Home design):
+   blue glow on the left, purple on the right, with the contour-line texture (wavesImg.png) on top.
+   `variant` is still accepted so existing pages keep working, but "inner" now renders the same
+   look as "home". */
+const glowBg =
+  "radial-gradient(ellipse 560px 600px at 95% 33%, #231547 0%, rgba(35,21,71,.6) 50%, transparent 100%), radial-gradient(ellipse 560px 540px at 14% 23%, #193479 0%, rgba(25,52,121,.55) 45%, transparent 100%)";
 
-export const PageGlows = ({
-  variant = "home",
-}: {
-  variant?: "home" | "inner";
-}) => (
+export const PageGlows = (_props: { variant?: "home" | "inner" }) => (
   <div
     aria-hidden
-    className="pointer-events-none absolute inset-x-0 top-0 z-0 h-screen overflow-hidden [mask-image:linear-gradient(to_bottom,black_62%,transparent)]"
+    // h = 100vh, divided by --z so it still spans the full screen height when the page is scaled (see viewport-scale.css)
+    className="pointer-events-none absolute inset-x-0 top-0 z-0 h-[calc(100vh/var(--z,1))] overflow-hidden [mask-image:linear-gradient(to_bottom,black_62%,transparent)]"
   >
     {/* gradient layer */}
-    <div className="absolute inset-0" style={{ background: glowBg[variant] }} />
-    {/* waves layer (home only) */}
-    {variant === "home" && (
-      <div className="absolute inset-0 opacity-35">
-        {[0, 1].map((n) => (
-          <Image key={n} src="/images/wavesImg.png" alt="" fill priority={n === 0} sizes="75vw" className="object-contain" />
-        ))}
-      </div>
-    )}
+    <div className="absolute inset-0" style={{ background: glowBg }} />
+    {/* waves layer */}
+    <div className="absolute inset-0 opacity-35">
+      {[0, 1].map((n) => (
+        <Image key={n} src="/images/wavesImg.png" alt="" fill priority={n === 0} sizes="75vw" className="object-contain" />
+      ))}
+    </div>
   </div>
 );
 

@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Btn } from "./Button";
 
@@ -7,11 +8,14 @@ const nav = [["Home", "/"], ["Services", "/services"], ["Partners", "/partners"]
 
 export function Header() {
   const [open, setOpen] = useState(false);
+  const path = usePathname() ?? "/";
+  // Highlight the section you are in (e.g. /services/networking keeps "Services" bold).
+  const isActive = (href: string) => (href === "/" ? path === "/" : path === href || path.startsWith(href + "/"));
   const close = () => setOpen(false);
   return (
     <header className="wrap hdr">
       <Link href="/" className="logo" onClick={close}>Comtech Associates</Link>
-      <nav>{nav.map(([l, h], i) => <Link key={l} href={h} style={{ fontWeight: i ? 400 : 700 }}>{l}</Link>)}</nav>
+      <nav>{nav.map(([l, h]) => <Link key={l} href={h} aria-current={isActive(h) ? "page" : undefined} style={{ fontWeight: isActive(h) ? 700 : 400 }}>{l}</Link>)}</nav>
       <div className="hdr-cta"><Btn v="p" href="/contact">Get in touch</Btn></div>
       <button type="button" className="burger" aria-label={open ? "Close menu" : "Open menu"} aria-expanded={open} aria-controls="mobile-menu" onClick={() => setOpen((v) => !v)}>
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden>

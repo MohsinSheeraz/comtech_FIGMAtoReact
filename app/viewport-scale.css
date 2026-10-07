@@ -1,0 +1,45 @@
+/* =====================================================================
+   LAPTOP FIT: viewport scaling
+   ---------------------------------------------------------------------
+   The site is composed on a 1920px-wide canvas (Figma). On a laptop the
+   browser viewport is much narrower (1280-1536 CSS px is typical, e.g. a
+   1080p screen at 125-150% Windows scaling) while every size on the page is a
+   fixed px value, so the same design looks "zoomed in": giant headline,
+   globe cut off, no breathing room.
+
+   Fix: on desktop-width screens below 1920px we scale the whole page down
+   a little, so the composition matches what you see on a big monitor.
+   Scaling is gentle (never below 0.78) so text stays comfortably readable.
+
+   - 1920px and wider  -> untouched (scale 1)
+   - 1101px-1919px     -> stepped scale below
+   - 1100px and below  -> untouched (the existing tablet/phone layouts)
+
+   TUNING: change the --z numbers below. Higher = bigger page, lower = more
+   breathing room. Everything else keeps working automatically.
+   ===================================================================== */
+
+:root { --z: 1; }
+
+@media (min-width: 1101px) and (max-width: 1919px) {
+  html { zoom: var(--z); }
+
+  /* viewport units are scaled by zoom too; undo that so full-bleed pieces still reach the screen edges */
+  .hero::after {
+    left: calc(-50vw / var(--z));
+    right: calc(-50vw / var(--z));
+  }
+}
+
+@media (min-width: 1101px) and (max-width: 1199px) { :root { --z: 0.72; } }
+@media (min-width: 1200px) and (max-width: 1279px) { :root { --z: 0.76; } }
+@media (min-width: 1280px) and (max-width: 1343px) { :root { --z: 0.78; } }
+@media (min-width: 1344px) and (max-width: 1407px) { :root { --z: 0.80; } }
+@media (min-width: 1408px) and (max-width: 1471px) { :root { --z: 0.83; } }
+@media (min-width: 1472px) and (max-width: 1535px) { :root { --z: 0.85; } }
+@media (min-width: 1536px) and (max-width: 1599px) { :root { --z: 0.87; } }
+@media (min-width: 1600px) and (max-width: 1663px) { :root { --z: 0.89; } }
+@media (min-width: 1664px) and (max-width: 1727px) { :root { --z: 0.91; } }
+@media (min-width: 1728px) and (max-width: 1791px) { :root { --z: 0.93; } }
+@media (min-width: 1792px) and (max-width: 1855px) { :root { --z: 0.95; } }
+@media (min-width: 1856px) and (max-width: 1919px) { :root { --z: 0.97; } }

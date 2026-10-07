@@ -4,6 +4,7 @@ import "@fontsource/dm-sans/500.css";
 import "@fontsource/dm-sans/700.css";
 import "@fontsource/dm-sans/500-italic.css";
 import "./globals.css";
+import "./viewport-scale.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 

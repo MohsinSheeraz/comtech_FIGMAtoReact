@@ -88,23 +88,15 @@ export const logos: Logo[] = [
   },
 ];
 
-/* Hover effect: purple light pulsing outward from the core of the card, for as long as the pointer is on it.
-   (Replaces the old dark "sphere" shadow.) Pulse layers are clipped to the card shape by their own
-   wrapper, so the gradient border (gborder-new) is not affected. */
+/* Hover effect: violet halo on the card + glassy rings (translucent band with a bright rim) that keep
+   expanding outward from the card's border while the pointer is on it. Nothing inside the card.
+   All layers are separate spans, so the gradient border (gborder-new) is untouched. */
 const Card = ({ l }: { l: Logo }) => (
-  <div className="group/card flex h-[84px] w-[170px] sm:h-[113px] sm:w-[240px] shrink-0 items-center justify-center rounded-[28px] sm:rounded-[40px] border border-[#5b3bd1]/80 bg-gradient-to-b from-[#05010d] to-[#0b0722] cursor-pointer gborder-new">
-    <span aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden rounded-[inherit]">
-      {/* soft core that breathes */}
-      <i className="absolute left-1/2 top-1/2 size-[84px] rounded-full opacity-0 transition-opacity duration-300 [transform:translate(-50%,-50%)] bg-[radial-gradient(circle,rgba(150,110,255,.65)_0%,rgba(124,88,230,.3)_45%,transparent_72%)] group-hover/card:opacity-100 group-hover/card:[animation:core-breathe_1.8s_ease-in-out_infinite] motion-reduce:group-hover/card:[animation:none]" />
-      {/* three staggered waves growing from the core */}
-      {[0, -0.8, -1.6].map((d) => (
-        <i
-          key={d}
-          className="absolute left-1/2 top-1/2 size-[300px] rounded-full opacity-0 [transform:translate(-50%,-50%)_scale(.15)] bg-[radial-gradient(circle,rgba(124,88,230,.55)_0%,rgba(124,88,230,.28)_35%,rgba(124,88,230,0)_70%)] group-hover/card:[animation:core-pulse_2.4s_ease-out_infinite] motion-reduce:group-hover/card:[animation:none]"
-          style={{ animationDelay: `${d}s` }}
-        />
-      ))}
-    </span>
+  <div className="partner-card group/card relative flex h-[84px] w-[170px] sm:h-[113px] sm:w-[240px] shrink-0 items-center justify-center rounded-[28px] sm:rounded-[40px] border border-[#5b3bd1]/80 bg-gradient-to-b from-[#05010d] to-[#0b0722] cursor-pointer gborder-new">
+    <span aria-hidden className="partner-halo" />
+    <span aria-hidden className="partner-wave" />
+    <span aria-hidden className="partner-wave partner-wave-2" />
+    <span aria-hidden className="partner-wave partner-wave-3" />
     <span className="relative z-10 flex items-center justify-center [&>*]:scale-[.72] sm:[&>*]:scale-100">
       {l.src ? (
         /* eslint-disable-next-line @next/next/no-img-element */ <img
@@ -133,8 +125,33 @@ export function PartnerSlider() {
   return (
     <div className="group/slider mt-8 sm:mt-14 overflow-hidden py-8 sm:py-14 [mask-image:linear-gradient(90deg,transparent,#000_5%,#000_95%,transparent)]">
       <style>{`@keyframes partner-marquee{to{transform:translateX(-50%)}}
-@keyframes core-pulse{0%{opacity:.95;transform:translate(-50%,-50%) scale(.15)}100%{opacity:0;transform:translate(-50%,-50%) scale(1)}}
-@keyframes core-breathe{0%,100%{transform:translate(-50%,-50%) scale(.9)}50%{transform:translate(-50%,-50%) scale(1.15)}}`}</style>
+@keyframes edge-wave{
+  0%{opacity:1;box-shadow:0 0 0 0 rgba(124,88,230,.30),0 0 0 1px rgba(190,165,255,.8),0 0 18px 2px rgba(121,80,226,.5)}
+  100%{opacity:0;box-shadow:0 0 0 26px rgba(124,88,230,0),0 0 0 27px rgba(190,165,255,0),0 0 28px 8px rgba(121,80,226,0)}
+}
+
+.partner-card:hover{z-index:20}
+.partner-halo,.partner-wave{position:absolute;inset:-1px;border-radius:inherit;pointer-events:none;opacity:0}
+
+/* steady glow: outer violet halo + inner edge light + thin bright rim */
+.partner-halo{
+  transition:opacity .35s ease;
+  box-shadow:
+    0 0 34px 4px rgba(121,80,226,.42),
+    0 0 70px 14px rgba(87,36,216,.22),
+    inset 0 0 26px 3px rgba(150,110,255,.32),
+    inset 0 0 0 1px rgba(190,165,255,.55);
+}
+.partner-card:hover .partner-halo{opacity:1}
+
+/* glassy rings radiating from the border, staggered so one is always on its way out */
+.partner-card:hover .partner-wave{animation:edge-wave 2.4s ease-out infinite}
+.partner-card:hover .partner-wave-2{animation-delay:.8s}
+.partner-card:hover .partner-wave-3{animation-delay:1.6s}
+
+@media (prefers-reduced-motion:reduce){
+  .partner-card:hover .partner-wave{animation:none;opacity:0}
+}`}</style>
       <div className="flex w-max [animation:partner-marquee_40s_linear_infinite] group-hover/slider:[animation-play-state:paused] motion-reduce:animate-none">
         {list(false)}
         {list(true)}

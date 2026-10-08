@@ -10,6 +10,8 @@ import { ServiceCard, StatementCard } from "@/components/ServiceCard";
 import { services } from "@/lib/services";
 import { TestimonialCarousel } from "@/components/TestimonialCarousel";
 import { PartnerSlider } from "@/components/PartnerSlider";
+import { PinnedStory } from "@/components/Pinnedstory";
+import { Reveal } from "@/components/Reveal";
 import { TechnologySection } from "@/components/TechnologySection";
 
 const why: [string, string][] = [
@@ -184,43 +186,47 @@ export default function Home() {
         </div>
       </section>
       <TechnologySection />
-      <section className="relative isolate wrap sec why">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute -right-[25%] top-[0%] -z-10 h-[1100px] w-[1100px] rounded-full blur-[110px] max-[1100px]:hidden"
-          style={{
-            background:
-              "radial-gradient(circle at center, rgba(40,80,255,0.7) 0%, rgba(40,80,255,0.4) 30%, rgba(40,80,255,0.12) 55%, transparent 75%)",
-          }}
-        />
-        <div>
-          <h2 className="h2 text-[46px]! leading-[54px]! tracking-tighter!">
-            Why Businesses Choose Comtech as Their Enterprise IT Solutions Provider
-          </h2>
-          <Btn v="p" href="/contact">
-            Get in touch
-          </Btn>
-          <div className="stack">
-            {why.map(([t, p], i) => (
-              <div className="card " key={t}>
-                <div className={`in gborder-new ${i === 0 ? "gborder-new" : ""}`}>
-                  <h3 className="h3 text-[26px] leading-[75px] tracking-tighter">{t}</h3>
-                  <p className="text-[18px] leading-[31px] tracking-tighter" >{p}</p>
-                  <Btn href="/contact">Connect with Us</Btn>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-        <div className="card stick">
-          <Image
-            src="/images/Section_Business_Enterprise.png"
-            alt=""
-            width={652}
-            height={641}
+      <PinnedStory
+        glow={
+          <div
+            aria-hidden
+            className="pointer-events-none absolute -right-[25%] top-[0%] -z-10 h-[1100px] w-[1100px] rounded-full blur-[110px] max-[1100px]:hidden"
+            style={{
+              background:
+                "radial-gradient(circle at center, rgba(40,80,255,0.7) 0%, rgba(40,80,255,0.4) 30%, rgba(40,80,255,0.12) 55%, transparent 75%)",
+            }}
           />
-        </div>
-      </section>
+        }
+        head={
+          <>
+            <Reveal as="h2" className="h2 text-[46px]! leading-[54px]! tracking-tighter!">
+              Why Businesses Choose Comtech as Their Enterprise IT Solutions Provider
+            </Reveal>
+            <Btn v="p" href="/contact">
+              Get in touch
+            </Btn>
+          </>
+        }
+        cards={why.map(([t, p], i) => (
+          <div className="card " key={t}>
+            <div className={`in gborder-new ${i === 0 ? "gborder-new" : ""}`}>
+              <h3 className="h3 text-[26px] leading-[75px] tracking-tighter">{t}</h3>
+              <p className="text-[18px] leading-[31px] tracking-tighter">{p}</p>
+              <Btn href="/contact">Connect with Us</Btn>
+            </div>
+          </div>
+        ))}
+        media={
+          <Reveal as="div" className="card stick" delay={0.15}>
+            <Image
+              src="/images/Section_Business_Enterprise.png"
+              alt=""
+              width={652}
+              height={641}
+            />
+          </Reveal>
+        }
+      />
 
       <section className="wrap sec mt-40">
 

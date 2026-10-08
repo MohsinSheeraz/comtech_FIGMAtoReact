@@ -30,7 +30,7 @@ export const PageGlows = (_props: { variant?: "home" | "inner" }) => (
     {/* gradient layer */}
     <div className="absolute inset-0" style={{ background: glowBg }} />
     {/* waves layer */}
-    <div className="absolute inset-0 opacity-35">
+    <div className="absolute inset-0 opacity-50">
       {[0, 1].map((n) => (
         <Image key={n} src="/images/wavesImg.png" alt="" fill priority={n === 0} sizes="75vw" className="object-contain" />
       ))}

@@ -18,8 +18,11 @@ export function BlogCard({ post }: { post: Post }) {
           className="h-auto w-full"
         />
       </Link>
-      <p className="mt-10 text-[14px] leading-[20px] tracking-normal">
+      {/* <p className="mt-10 text-[14px] leading-[20px] tracking-normal">
         Posted by: {post.author} &nbsp;|&nbsp; Date: {post.date}
+      </p> */}
+      <p className="mt-10 text-[14px] leading-[20px] tracking-normal">
+        Date: {post.date}
       </p>
       <h3 className="mt-8 text-[26px] font-medium leading-[34px] tracking-tighter">
         {post.title}

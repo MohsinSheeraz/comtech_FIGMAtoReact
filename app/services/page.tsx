@@ -94,7 +94,7 @@ const industries = [
 
 // Figma "blue hover" frame: dark -> indigo -> dark vertical gradient
 const frameBg =
-  "linear-gradient(180deg, #050508 0%, #08071a 18%, #160a49 34%, #230f72 50%, #190b52 68%, #08061a 86%, #050508 100%)";
+  "linear-gradient(180deg, transparent 0%, #08071a 18%, #160a49 34%, #230f72 50%, #190b52 68%, #08061a 86%, #050508 100%)";
 
 export default function Services() {
   return (

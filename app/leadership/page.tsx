@@ -73,7 +73,7 @@ export default function Leadership() {
               kind === "text" ? (
                 <div
                   key={`${p.name}-t`}
-                  className={`flex flex-col justify-center rounded-[40px] bg-gradient-to-b from-[#07050f] to-[#150b45] px-8 py-10 min-[1101px]:px-16 min-[1101px]:py-10 ${cls}`}
+                  className={`flex flex-col justify-center rounded-[40px] bg-gradient-to-r from-[#07050f] to-transparent px-8 py-10 min-[1101px]:px-16 min-[1101px]:py-10 ${cls}`}
                 >
                   <h2 className="text-[34px] font-medium leading-[44px] tracking-tighter min-[1101px]:text-[46px] min-[1101px]:leading-[54px]">
                     {p.name}

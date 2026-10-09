@@ -6,11 +6,11 @@ type Item = (typeof products.items)[number];
 function ProductCard({ item }: { item: Item }) {
   return (
     <article className="rounded-[28px] p-px" style={{ background: BORDER_GRADIENT }}>
-      <div className="h-full rounded-[27px] bg-[#040404] px-[24px] pb-[24px] pt-[32px] lg:px-[38px] lg:pb-[38px] lg:pt-[46px]">
-        <h3 className="text-[26px] font-normal leading-[31px] text-white">{item.title}</h3>
-        <p className="mt-4 min-h-[93px] text-[18px] leading-[31px] text-white">{item.text}</p>
+      <div className="h-full rounded-[27px] bg-surface px-[24px] pb-[24px] pt-[32px] lg:px-[38px] lg:pb-[38px] lg:pt-[46px]">
+        <h3 className="text-[26px] font-normal leading-[31px] text-fg">{item.title}</h3>
+        <p className="mt-4 min-h-[93px] text-[18px] leading-[31px] text-fg">{item.text}</p>
         {/* image box: images are shown at natural size (1:1 with Figma), centred, never clipped */}
-        <div className="relative mt-[29px] h-[206px] rounded-[30px] border border-[#1c1c1c] bg-[#040404]">
+        <div className="relative mt-[29px] h-[206px] rounded-[30px] border border-card3 bg-surface">
           <img
             src={item.image}
             alt={item.alt}

@@ -31,13 +31,13 @@ const mask = {
 function TechCard({ t, s, w, tone }: Item & { tone: "side" | "center" }) {
     return (
         <div
-            className={`flex w-full flex-col items-center justify-center rounded-xl gborder-new bg-[#0a0a0c] px-4 py-4 text-center min-[1101px]:rounded-[0.95cqw] min-[1101px]:px-0 min-[1101px]:py-[1.55cqw] ${w} ${tone === "side" ? "gborder-new" : "gborder-new"
+            className={`flex w-full flex-col items-center justify-center rounded-xl gborder-new bg-[var(--card)] px-4 py-4 text-center min-[1101px]:rounded-[0.95cqw] min-[1101px]:px-0 min-[1101px]:py-[1.55cqw] ${w} ${tone === "side" ? "gborder-new" : "gborder-new"
                 }`}
         >
-            <h3 className="text-[18px] font-medium leading-tight tracking-normal text-white min-[1101px]:whitespace-nowrap min-[1101px]:text-[1.88cqw]">
+            <h3 className="text-[18px] font-medium leading-tight tracking-normal text-fg min-[1101px]:whitespace-nowrap min-[1101px]:text-[1.88cqw]">
                 {t}
             </h3>
-            <p className="mt-1 text-[13px] leading-snug tracking-normal text-white/80 min-[1101px]:mt-[0.4cqw] min-[1101px]:whitespace-nowrap min-[1101px]:text-[1.22cqw]">
+            <p className="mt-1 text-[13px] leading-snug tracking-normal text-fg/80 min-[1101px]:mt-[0.4cqw] min-[1101px]:whitespace-nowrap min-[1101px]:text-[1.22cqw]">
                 {s}
             </p>
         </div>
@@ -48,10 +48,10 @@ export function TechnologySection() {
     return (
         <section className="wrap sec relative py-20 min-[1101px]:py-28">
             <div className="relative z-20 mx-auto max-w-[760px] text-center">
-                <h2 className="text-[32px] font-medium leading-[40px] tracking-tight text-white min-[1101px]:text-[42px] min-[1101px]:leading-[52px]">
+                <h2 className="text-[32px] font-medium leading-[40px] tracking-tight text-fg min-[1101px]:text-[42px] min-[1101px]:leading-[52px]">
                     End-to-End Cisco Technology Solutions
                 </h2>
-                <p className="mx-auto mt-5 max-w-[680px] text-[15px] leading-[25px] tracking-normal text-white/85 min-[1101px]:text-[16px] min-[1101px]:leading-[26px]">
+                <p className="mx-auto mt-5 max-w-[680px] text-[15px] leading-[25px] tracking-normal text-fg/85 min-[1101px]:text-[16px] min-[1101px]:leading-[26px]">
                     From networking and cybersecurity to collaboration, cloud, data
                     center, and managed services, we deliver integrated Cisco solutions
                     that help organizations build secure, connected, and future-ready IT

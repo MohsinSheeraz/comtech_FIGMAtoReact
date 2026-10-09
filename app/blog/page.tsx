@@ -9,7 +9,7 @@ import { PER_PAGE, posts } from "@/lib/posts";
 export const metadata: Metadata = { title: "News & Insights | Comtech Associates" };
 
 const frameBg =
-  "linear-gradient(180deg, #040404 8.06%, rgba(69, 22, 187, 0.42) 43.03%, #040404 80.62%)";
+  "linear-gradient(180deg, var(--bg) 8.06%, rgba(69, 22, 187, 0.42) 43.03%, var(--bg) 80.62%)";
 
 
 export default async function Blog({ searchParams }: { searchParams: Promise<{ page?: string }> }) {

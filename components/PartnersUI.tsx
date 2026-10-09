@@ -4,7 +4,7 @@ import type { CSSProperties, ReactNode } from "react";
 type Props = { className?: string; children?: ReactNode };
 
 // Same vertical border gradient used by every card on the Partners page (grey top -> violet bottom).
-export const BORDER_GRADIENT = "linear-gradient(180deg,#242424 0%,#7950E1 100%)";
+export const BORDER_GRADIENT = "linear-gradient(180deg,var(--line) 0%,#7950E1 100%)";
 
 export function Container({ className = "", children }: Props) {
   return <div className={`mx-auto w-full max-w-[1440px] px-5 md:px-8 xl:px-0 ${className}`}>{children}</div>;
@@ -16,7 +16,7 @@ export function Underline({ className = "" }: { className?: string }) {
 
 export function SectionHeading({ children, className = "" }: Props) {
   return (
-    <h2 className={`text-center text-[40px] font-normal leading-[1.15] text-white md:text-[52px] lg:text-[64px] lg:leading-[75px] ${className}`}>
+    <h2 className={`text-center text-[40px] font-normal leading-[1.15] text-fg md:text-[52px] lg:text-[64px] lg:leading-[75px] ${className}`}>
       {children}
     </h2>
   );
@@ -25,7 +25,7 @@ export function SectionHeading({ children, className = "" }: Props) {
 // Intro paragraph under section headings. Plain string, or { a, b } for two lines on desktop.
 export function SectionIntro({ intro, className = "" }: { intro: string | { a: string; b: string }; className?: string }) {
   return (
-    <p className={`mx-auto max-w-[1120px] text-center text-[16px] leading-7 text-white lg:text-[18px] lg:leading-[32px] ${className}`}>
+    <p className={`mx-auto max-w-[1120px] text-center text-[16px] leading-7 text-fg lg:text-[18px] lg:leading-[32px] ${className}`}>
       {typeof intro === "string" ? (
         intro
       ) : (
@@ -41,9 +41,9 @@ export function SectionIntro({ intro, className = "" }: { intro: string | { a: s
 // Black frame -> gradient hairline border -> dark card ("What We Deliver" and "Comtech + Cisco").
 export function GlowCard({ className = "", style, children }: { className?: string; style?: CSSProperties; children: ReactNode }) {
   return (
-    <div className={`rounded-[32px] border border-[#212121] bg-[#080808] p-[10px] ${className}`} style={style}>
+    <div className={`rounded-[32px] border border-line bg-card p-[10px] ${className}`} style={style}>
       <div className="h-full rounded-[24px] p-px" style={{ background: BORDER_GRADIENT }}>
-        <div className="relative h-full rounded-[23px] px-[32px] pb-[41px] pt-[54px]" style={{ background: "linear-gradient(180deg,#100725 0%,#0D0A15 100%)" }}>
+        <div className="relative h-full rounded-[23px] px-[32px] pb-[41px] pt-[54px]" style={{ background: "linear-gradient(180deg,var(--card2) 0%,var(--card4) 100%)" }}>
           {children}
         </div>
       </div>
@@ -54,9 +54,9 @@ export function GlowCard({ className = "", style, children }: { className?: stri
 export function CardText({ title, text }: { title: string; text: string }) {
   return (
     <>
-      <h3 className="text-[26px] font-normal leading-[31px] text-white">{title}</h3>
+      <h3 className="text-[26px] font-normal leading-[31px] text-fg">{title}</h3>
       <Underline className="mt-[20px]" />
-      <p className="mt-[21px] text-[18px] leading-[31px] text-white">{text}</p>
+      <p className="mt-[21px] text-[18px] leading-[31px] text-fg">{text}</p>
     </>
   );
 }
@@ -74,8 +74,8 @@ export function PurplePanel({ variant, children }: { variant: "top" | "bottom"; 
       ].join(" ")}
       style={{
         background: top
-          ? "linear-gradient(180deg, #040404 8.06%, rgba(69, 22, 187, 0.42) 43.03%, #040404 80.62%)"
-          : "linear-gradient(179.11deg, rgba(4, 4, 4, 0) 10.61%, rgba(69, 22, 187, 0.36) 53.31%, rgba(4, 4, 4, 0) 99.23%)",
+          ? "linear-gradient(180deg, var(--bg) 8.06%, rgba(69, 22, 187, 0.42) 43.03%, var(--bg) 80.62%)"
+          : "linear-gradient(179.11deg, rgb(var(--bg-rgb) / 0) 10.61%, rgba(69, 22, 187, 0.36) 53.31%, rgb(var(--bg-rgb) / 0) 99.23%)",
       }}
     >
       {children}
@@ -85,7 +85,7 @@ export function PurplePanel({ variant, children }: { variant: "top" | "bottom"; 
 
 export function PrimaryButton({ href, children }: { href: string; children: ReactNode }) {
   return (
-    <Link href={href} className="inline-flex h-[46px] min-w-[209px] items-center justify-center rounded-lg bg-white px-6 font-normal text-black! transition">
+    <Link href={href} className="inline-flex h-[46px] min-w-[209px] items-center justify-center rounded-lg bg-inv px-6 font-normal text-inv-fg! transition">
       {children}
     </Link>
   );

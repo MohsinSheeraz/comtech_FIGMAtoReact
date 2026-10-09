@@ -94,7 +94,7 @@ const industries = [
 
 // Figma "blue hover" frame: dark -> indigo -> dark vertical gradient
 const frameBg =
-  "linear-gradient(180deg, transparent 0%, #08071a 18%, #160a49 34%, #230f72 50%, #190b52 68%, #08061a 86%, #050508 100%)";
+  "var(--svc-band)";
 
 export default function Services() {
   return (
@@ -169,10 +169,10 @@ export default function Services() {
               <div className="g2">
                 {off.map(([t, p, b, href]) => (
                   <div
-                    className="card pad-outer bg-[#080808]! flex h-full p-4!"
+                    className="card pad-outer bg-card! flex h-full p-4!"
                     key={t}
                   >
-                    <div className="card svc svc-dark gborder-new bg-[#0f0826]! flex h-full w-full flex-col">
+                    <div className="card svc svc-dark gborder-new bg-card2! flex h-full w-full flex-col">
                       <h3 className="h3 h3-lg text-[26px]! leading-[75px]! tracking-tighter!">
                         {t}
                       </h3>
@@ -188,10 +188,10 @@ export default function Services() {
                   </div>
                 ))}
                 <div
-                  className="card pad-outer bg-black/40!"
+                  className="card pad-outer bg-surface/40!"
                   style={{ gridColumn: "1 / -1" }}
                 >
-                  <div className="card svc svc-dark gborder-new bg-[#0f0826]!">
+                  <div className="card svc svc-dark gborder-new bg-card2!">
                     <h3 className="h3 h3-lg">Custom Software Development</h3>
                     <p>
                       Custom enterprise application development, legacy system

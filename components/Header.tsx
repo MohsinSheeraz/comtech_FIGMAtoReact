@@ -3,6 +3,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useRef, useState } from "react";
 import { Btn } from "./Button";
+import { ThemeToggle } from "./ThemeToggle";
 
 type NavChild = { label: string; href: string };
 type NavItem = { label: string; href: string; children?: NavChild[] };
@@ -106,14 +107,14 @@ export function Header() {
                 className={`absolute left-1/2 top-full z-50 -translate-x-1/2 pt-4 transition-[opacity,transform,visibility] duration-200 ease-out ${isOpen ? "visible translate-y-0 opacity-100" : "invisible translate-y-1 opacity-0"
                   }`}
               >
-                <div className="min-w-[260px] rounded-2xl border border-white/10 bg-[#0a0a0a]/95 p-2 shadow-[0_24px_60px_rgba(0,0,0,.6)] backdrop-blur-xl">
+                <div className="min-w-[260px] rounded-2xl border border-fg/10 bg-card/95 p-2 shadow-[0_24px_60px_rgba(0,0,0,.6)] backdrop-blur-xl">
                   {it.children.map((c) => (
                     <Link
                       key={c.label}
                       href={c.href}
                       onClick={close}
                       aria-current={isActive(c.href) ? "page" : undefined}
-                      className="block whitespace-nowrap rounded-xl px-4 py-3 text-[15px] transition-colors hover:bg-white/10 focus-visible:bg-white/10"
+                      className="block whitespace-nowrap rounded-xl px-4 py-3 text-[15px] transition-colors hover:bg-fg/10 focus-visible:bg-fg/10"
                       style={{ fontWeight: isActive(c.href) ? 700 : 400 }}
                     >
                       {c.label}
@@ -126,7 +127,7 @@ export function Header() {
         })}
       </nav>
 
-      <div className="hdr-cta"><Btn v="p" href="/contact">Get in touch</Btn></div>
+      <div className="hdr-cta flex items-center gap-3"><ThemeToggle /><Btn v="p" href="/contact">Get in touch</Btn></div>
 
       <button type="button" className="burger" aria-label={open ? "Close menu" : "Open menu"} aria-expanded={open} aria-controls="mobile-menu" onClick={() => setOpen((v) => !v)}>
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden>
@@ -164,7 +165,7 @@ export function Header() {
               <Link key={it.label} href={it.href} onClick={close}>{it.label}</Link>
             )
           )}
-          <div className="mnav-cta"><Btn v="p" href="/contact">Get in touch</Btn></div>
+          <div className="mnav-cta flex items-center gap-3"><ThemeToggle /><Btn v="p" href="/contact">Get in touch</Btn></div>
         </div>
       )}
     </header>

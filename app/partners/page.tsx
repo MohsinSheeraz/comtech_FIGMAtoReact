@@ -62,7 +62,7 @@ export default function Partners() {
           className="rounded-[48px] pointer-events-none absolute inset-x-0 inset-y-0 -z-10 lg:inset-x-[5%]"
           style={{
             background:
-              " linear-gradient(180deg, transparent 8.06%, rgba(69, 22, 187, 0.42) 43.03%, #040404 80.62%)",
+              " linear-gradient(180deg, transparent 8.06%, rgba(69, 22, 187, 0.42) 43.03%, var(--bg) 80.62%)",
           }}
         />
 
@@ -70,24 +70,24 @@ export default function Partners() {
         <section className="pb-10 pt-16 lg:pb-0 lg:pt-[240px]">
           <div className="wrap flex flex-col gap-10 lg:flex-row lg:items-center lg:justify-between lg:gap-12">
             <div className="lg:w-[700px]">
-              <h2 className="text-[34px] font-normal leading-[1.15] tracking-tighter text-white lg:text-[48px] lg:leading-[56px]">
+              <h2 className="text-[34px] font-normal leading-[1.15] tracking-tighter text-fg lg:text-[48px] lg:leading-[56px]">
                 {why.heading}
               </h2>
               <Underline className="mt-6 h-1! w-[86px]! lg:mt-[30px]" />
-              <p className="mt-8 text-[18px] leading-[30px] tracking-tighter text-white lg:mt-[34px] lg:text-[24px] lg:leading-[38px]">
+              <p className="mt-8 text-[18px] leading-[30px] tracking-tighter text-fg lg:mt-[34px] lg:text-[24px] lg:leading-[38px]">
                 {why.heading}
                 <br />
                 {why.text}
               </p>
             </div>
 
-            <div className="w-full rounded-[40px] border border-[#262626] bg-[#080808] p-5 lg:h-[393px] lg:w-[640px] lg:shrink-0">
+            <div className="w-full rounded-[40px] border border-line bg-card p-5 lg:h-[393px] lg:w-[640px] lg:shrink-0">
               <Image
                 src="/images/Partners_Credentials.jpg"
                 alt={why.alt}
                 width={600}
                 height={346}
-                className="block h-full w-full rounded-[28px] border border-white/30 object-cover"
+                className="block h-full w-full rounded-[28px] border border-fg/30 object-cover"
               />
             </div>
           </div>

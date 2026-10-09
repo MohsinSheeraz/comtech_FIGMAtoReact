@@ -5,7 +5,7 @@ export default function TrustedPartnership() {
   return (
     <section className="relative pb-16 pt-20 lg:pb-0 lg:pt-[118px]">
       <Container>
-        <h2 className="text-center text-[40px] font-normal leading-[1.15] text-white md:text-[52px] lg:text-[64px] lg:leading-[75px]">
+        <h2 className="text-center text-[40px] font-normal leading-[1.15] text-fg md:text-[52px] lg:text-[64px] lg:leading-[75px]">
           {partnership.titleTop}
           <br />
           <span

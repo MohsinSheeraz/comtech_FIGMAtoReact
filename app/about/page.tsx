@@ -28,7 +28,7 @@ const awards: [string, string][] = [
 
 // Gradient frame behind Who We Are -> Mission/Vision -> What We Do
 const frameBg =
-  "linear-gradient(180deg, #040404 8.06%, rgba(69, 22, 187, 0.42) 43.03%, #040404 80.62%)";
+  "linear-gradient(180deg, var(--bg) 8.06%, rgba(69, 22, 187, 0.42) 43.03%, var(--bg) 80.62%)";
 
 export default function About() {
   return (

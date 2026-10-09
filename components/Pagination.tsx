@@ -12,7 +12,7 @@ function pageList(current: number, total: number): (number | "…")[] {
 }
 
 const box =
-  "grid size-[30px] place-items-center rounded-[6px] bg-white text-[14px] font-medium leading-none tracking-normal text-[#070707]";
+  "grid size-[30px] place-items-center rounded-[6px] bg-inv text-[14px] font-medium leading-none tracking-normal text-inv-fg";
 
 export function Pagination({ current, total, base = "/blog" }: { current: number; total: number; base?: string }) {
   const href = (n: number) => (n === 1 ? base : `${base}?page=${n}`);

@@ -87,7 +87,7 @@ const P = "mt-4 text-[18px] leading-[31px] tracking-tighter";
 const icons = [{ label: "Facebook", icon: FaFacebook, href: "#", }, { label: "X", icon: FaTwitter, href: "#", }, { label: "YouTube", icon: SiYoutube, href: "#", }, { label: "Instagram", icon: RiInstagramFill, href: "#", },];
 
 const frameBg =
-  "linear-gradient(180deg, #040404 0%, rgba(69, 22, 187, 0.42) 38%, rgba(69, 22, 187, 0.55) 62%, #040404 100%)";
+  "linear-gradient(180deg, var(--bg) 0%, rgba(69, 22, 187, 0.42) 38%, rgba(69, 22, 187, 0.55) 62%, var(--bg) 100%)";
 
 export default async function BlogPost({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -105,7 +105,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
         <div className="gborder-new relative aspect-[1400/390] overflow-hidden rounded-[40px]">
           <Image src={post.image} alt="" fill priority sizes="1400px" className="object-cover" />
         </div>
-        <span className="mt-10 inline-flex h-[44px] items-center rounded-full border border-white/20 px-6 text-[16px] tracking-normal">
+        <span className="mt-10 inline-flex h-[44px] items-center rounded-full border border-fg/20 px-6 text-[16px] tracking-normal">
           {post.category}
         </span>
       </section>
@@ -155,7 +155,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
                           <span className="block text-[15px] leading-[20px] tracking-normal">
                             From the land of smiles to the kingdom of wonder
                           </span>
-                          <span className="mt-1 block text-[11px] text-white/60 tracking-normal">05 days ago</span>
+                          <span className="mt-1 block text-[11px] text-fg/60 tracking-normal">05 days ago</span>
                         </span>
                       </Link>
                     </li>

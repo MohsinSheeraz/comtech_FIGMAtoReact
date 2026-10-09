@@ -59,19 +59,19 @@ export const CeoQuote = ({ title }: { title: string }) => (
     <div className="relative mx-auto flex max-w-[1400px] flex-col items-center gap-10  py-16 md:min-h-[625px] md:flex-row md:items-center md:justify-between md:py-0 md:pl-[150px] md:pr-[127px]">
       {/* LEFT: text column */}
       <div className="">
-        <h2 className="text-[46px] font-medium leading-[54px] tracking-tight text-white">
+        <h2 className="text-[46px] font-medium leading-[54px] tracking-tight text-fg">
           {title}
         </h2>
 
-        <q className="mt-5 block text-[36px] italic leading-[39px] tracking-tighter text-white [quotes:none]">
+        <q className="mt-5 block text-[36px] italic leading-[39px] tracking-tighter text-fg [quotes:none]">
           &quot;We didn&apos;t start big; we started with belief. Every connection we built, every
           solution we delivered, came from the idea that technology should empower people.&quot;
         </q>
 
         <span className="my-10 block h-[3px] w-[54px] rounded-full bg-[#5b2fd8]" />
 
-        <div className="text-[18px] text-white">Muhammad Farooq Zaheer</div>
-        <div className="mt-1 text-[15px] text-white/40">CEO, Comtech Associates</div>
+        <div className="text-[18px] text-fg">Muhammad Farooq Zaheer</div>
+        <div className="mt-1 text-[15px] text-fg/40">CEO, Comtech Associates</div>
       </div>
 
       {/* RIGHT: quote mark sits behind the photo, offset up-left like in Figma */}

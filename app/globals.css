@@ -1,10 +1,93 @@
 @import "tailwindcss";
 
-:root {
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+:root,
+:root[data-theme="dark"] {
+    color-scheme: dark;
     --bg: #040404;
+    --bg-rgb: 4 4 4;
     --card: #080808;
+    --card2: #0f0826;
+    --card3: #1c1c1c;
+    --card4: #0d0a15;
     --line: #242424;
+    --line2: #2e2e2e;
+    --line3: #1a2142;
+    --fg: #fff;
+    --fg-rgb: 255 255 255;
+    --soft: #cfcfe6;
+    --inv: #fff;
+    --inv-fg: #070707;
+    --pan-top: #220e55;
+    --svc-band: linear-gradient(180deg, transparent 0%, #08071a 18%, #160a49 34%, #230f72 50%, #190b52 68%, #08061a 86%, #050508 100%);
+    --glow-a: #231547;
+    --glow-b: #193479;
+    --cta-a: #1F0C51;
+    --cta-b: #0D0525;
     --g: linear-gradient(180deg, #5724d8, #7950e2)
+}
+
+:root[data-theme="light"] {
+    color-scheme: light;
+    --bg: #f6f5fb;
+    --bg-rgb: 246 245 251;
+    --card: #ffffff;
+    --card2: #ece7fb;
+    --card3: #e4e2ee;
+    --card4: #f1eef9;
+    --line: #dcd9ea;
+    --line2: #cfcbe0;
+    --line3: #cdd3ee;
+    --fg: #0d0b18;
+    --fg-rgb: 13 11 24;
+    --soft: #4a4668;
+    --inv: #0d0b18;
+    --inv-fg: #fff;
+    --pan-top: #d8cbff;
+    --svc-band: linear-gradient(180deg, transparent 0%, #efeaff 18%, #e2d8ff 34%, #d4c6fb 50%, #e2d8ff 68%, #efeaff 86%, #f6f5fb 100%);
+    --glow-a: #e2d8ff;
+    --glow-b: #d3defa;
+    --cta-a: #e2d8ff;
+    --cta-b: #f1eef9;
+    --g: linear-gradient(180deg, #5724d8, #7950e2)
+}
+
+@theme inline {
+    --color-fg: var(--fg);
+    --color-surface: var(--bg);
+    --color-card: var(--card);
+    --color-card2: var(--card2);
+    --color-card3: var(--card3);
+    --color-card4: var(--card4);
+    --color-line: var(--line);
+    --color-line2: var(--line2);
+    --color-line3: var(--line3);
+    --color-inv: var(--inv);
+    --color-inv-fg: var(--inv-fg);
+}
+
+.theme-toggle {
+    width: 46px;
+    height: 46px;
+    border-radius: 10px;
+    border: 1px solid var(--line);
+    background: transparent;
+    color: var(--fg);
+    display: inline-grid;
+    place-items: center;
+    cursor: pointer;
+    transition: border-color .3s ease, background .3s ease
+}
+
+.theme-toggle:hover {
+    border-color: #7950e2;
+    background: rgb(var(--fg-rgb) / .06)
+}
+
+html,
+body {
+    transition: background-color .3s ease, color .3s ease
 }
 
 * {
@@ -19,7 +102,7 @@ html {
 
 body {
     background: var(--bg);
-    color: #fff;
+    color: var(--fg);
     font-family: "DM Sans", sans-serif;
     font-size: 18px;
     line-height: 31px;
@@ -89,18 +172,18 @@ img {
     align-items: center;
     font-size: 16px;
     letter-spacing: -.04em;
-    border: 1px solid rgba(255, 255, 255, .1);
+    border: 1px solid rgb(var(--fg-rgb) / .1);
     white-space: nowrap
 }
 
 .btn.w {
-    background: #fff;
-    color: #070707
+    background: var(--inv);
+    color: var(--inv-fg)
 }
 
 .btn.o {
     border-color: var(--line);
-    color: #fff
+    color: var(--fg)
 }
 
 .btn {
@@ -112,7 +195,8 @@ img {
 
 .btn.p {
     background: var(--g);
-    font-weight: 700
+    font-weight: 700;
+    color: #fff
 }
 
 .btn.p::before {
@@ -151,12 +235,13 @@ img {
     height: 6px;
     border-radius: 80px;
     background: var(--g);
-    margin: 0 0 33px
+    margin: 0 0 33px;
+    color: #fff
 }
 
 .card {
     background: var(--card);
-    border: 1px solid rgba(255, 255, 255, .1);
+    border: 1px solid rgb(var(--fg-rgb) / .1);
     border-radius: 30px
 }
 
@@ -169,7 +254,8 @@ img {
     place-items: center;
     font-size: 26px;
     font-weight: 500;
-    letter-spacing: -.04em
+    letter-spacing: -.04em;
+    color: #fff
 }
 
 /* header */
@@ -178,7 +264,7 @@ img {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-bottom: 1px solid rgba(255, 255, 255, .1);
+    border-bottom: 1px solid rgb(var(--fg-rgb) / .1);
     z-index: 5
 }
 
@@ -225,8 +311,9 @@ img {
     background: var(--g);
     font-weight: 700;
     font-size: 16px;
-    border: 1px solid rgba(255, 255, 255, .1);
-    letter-spacing: -.04em
+    border: 1px solid rgb(var(--fg-rgb) / .1);
+    letter-spacing: -.04em;
+    color: #fff
 }
 
 .hero .sm {
@@ -262,7 +349,7 @@ img {
     right: -50vw;
     bottom: 0;
     height: 126px;
-    background: linear-gradient(180deg, rgba(7, 7, 7, 0), #040404 70%)
+    background: linear-gradient(180deg, rgba(7, 7, 7, 0), var(--bg) 70%)
 }
 
 .hero .row {
@@ -312,11 +399,11 @@ img {
 }
 
 .pan-b {
-    background: linear-gradient(180deg, rgba(183, 67, 255, 0) 0%, rgba(69, 22, 187, .62) 42%, #040404 64%)
+    background: linear-gradient(180deg, rgba(183, 67, 255, 0) 0%, rgba(69, 22, 187, .62) 42%, var(--bg) 64%)
 }
 
 .pan-b-new {
-    background: linear-gradient(180deg, rgba(69, 22, 187, .62) 0%, 42%, #040404 64%)
+    background: linear-gradient(180deg, rgba(69, 22, 187, .62) 0%, 42%, var(--bg) 64%)
 }
 
 .stats {
@@ -388,7 +475,8 @@ img {
     line-height: 54px;
     font-weight: 500;
     letter-spacing: -.06em;
-    border: 1px solid rgba(255, 255, 255, .1)
+    border: 1px solid rgb(var(--fg-rgb) / .1);
+    color: #fff
 }
 
 .g3 {
@@ -423,7 +511,8 @@ img {
 
 .svc.fill {
     background: var(--g);
-    justify-content: center
+    justify-content: center;
+    color: #fff
 }
 
 .svc.fill .h2 {
@@ -447,7 +536,8 @@ img {
 }
 
 .mv i {
-    background: var(--g)
+    background: var(--g);
+    color: #fff
 }
 
 .strip {
@@ -479,7 +569,7 @@ img {
 }
 
 .why .in {
-    background: linear-gradient(180deg, #100826, #0d0a15);
+    background: linear-gradient(180deg, var(--card2), var(--card4));
     border: 1px solid var(--line);
     border-radius: 30px;
     padding: 30px 62px;
@@ -526,7 +616,7 @@ img {
 }
 
 .ind .card.f {
-    background: linear-gradient(180deg, #100826, #0d0a15)
+    background: linear-gradient(180deg, var(--card2), var(--card4))
 }
 
 .ind .card.v {
@@ -584,8 +674,8 @@ img {
     place-items: center;
     font-size: 22px;
     font-weight: 700;
-    color: #cfcfe6;
-    background: linear-gradient(180deg, #030109, #0e0623);
+    color: var(--soft);
+    background: linear-gradient(180deg, var(--card4), var(--card2));
     border-color: var(--line)
 }
 
@@ -630,7 +720,7 @@ img {
 
 /* .ctapanel {
     margin: 60px auto;
-    border: 1px solid #2e2e2e;
+    border: 1px solid var(--line2);
     border-radius: 80px;
     text-align: center;
     padding: 76px 200px 80px;
@@ -638,7 +728,7 @@ img {
     flex-direction: column;
     align-items: center;
     gap: 20px;
-    background: linear-gradient(180deg, #040404 0%, rgba(69, 22, 187, .62) 60%, rgba(69, 22, 187, .62) 100%);
+    background: linear-gradient(180deg, var(--bg) 0%, rgba(69, 22, 187, .62) 60%, rgba(69, 22, 187, .62) 100%);
     box-shadow: inset 0 -10px 20px #000
 } */
 
@@ -651,7 +741,7 @@ img {
     overflow: hidden;
     /* clips the beams to the rounded corners */
     margin: 60px auto;
-    /* border: 1px solid #2e2e2e; */
+    /* border: 1px solid var(--line2); */
     border-radius: 80px;
     text-align: center;
     padding: 76px 200px 80px;
@@ -659,7 +749,7 @@ img {
     flex-direction: column;
     align-items: center;
     gap: 20px;
-    background: linear-gradient(180deg, #040404 0%, #0a0620 50%, #170a45 100%);
+    background: linear-gradient(180deg, var(--bg) 0%, #0a0620 50%, #170a45 100%);
 }
 
 /* faint dot grid, strongest at the bottom */
@@ -669,7 +759,7 @@ img {
     inset: 0;
     z-index: -1;
     pointer-events: none;
-    background-image: radial-gradient(rgba(255, 255, 255, .22) 1px, transparent 1.4px);
+    background-image: radial-gradient(rgb(var(--fg-rgb) / .22) 1px, transparent 1.4px);
     background-size: 20px 20px;
     -webkit-mask-image: radial-gradient(ellipse 70% 80% at 50% 100%, #000, transparent 75%);
     mask-image: radial-gradient(ellipse 70% 80% at 50% 100%, #000, transparent 75%);
@@ -785,7 +875,8 @@ img {
 }
 
 .two i {
-    background: var(--g)
+    background: var(--g);
+    color: #fff
 }
 
 .two p {
@@ -933,7 +1024,7 @@ img {
     grid-template-columns: 400px 1fr;
     gap: 0;
     padding-bottom: 50px;
-    border-bottom: 1px solid rgba(255, 255, 255, .1);
+    border-bottom: 1px solid rgb(var(--fg-rgb) / .1);
     line-height: 38px;
     letter-spacing: -.04em
 }
@@ -956,7 +1047,7 @@ img {
     grid-template-columns: repeat(4, 1fr);
     gap: 40px;
     padding: 40px 0;
-    border-bottom: 1px solid rgba(255, 255, 255, .1)
+    border-bottom: 1px solid rgb(var(--fg-rgb) / .1)
 }
 
 .foot-cols a {
@@ -979,7 +1070,8 @@ img {
     height: 3px;
     border-radius: 80px;
     background: var(--g);
-    margin-top: 2px
+    margin-top: 2px;
+    color: #fff
 }
 
 .foot-bot {
@@ -1124,7 +1216,7 @@ hero .globe {
     border-radius: inherit;
 
     background: linear-gradient(180deg,
-            #242424 0%,
+            var(--line) 0%,
             #7950E2 100%);
 
     -webkit-mask:
@@ -1206,7 +1298,7 @@ a {
 }
 
 .svc-dark {
-    background: linear-gradient(180deg, #100826, #0d0a15);
+    background: linear-gradient(180deg, var(--card2), var(--card4));
     padding: 26px 64px 30px
 }
 
@@ -1238,7 +1330,7 @@ a {
     border-radius: 10px;
     border: 1px solid var(--line);
     background: transparent;
-    color: #fff;
+    color: var(--fg);
     cursor: pointer
 }
 
@@ -1252,8 +1344,8 @@ a {
     flex-direction: column;
     padding: 10px;
     border-radius: 20px;
-    background: #0b0b0b;
-    border: 1px solid rgba(255, 255, 255, .12);
+    background: var(--card);
+    border: 1px solid rgb(var(--fg-rgb) / .12);
     box-shadow: 0 20px 60px rgba(0, 0, 0, .7)
 }
 
@@ -1265,7 +1357,7 @@ a {
 }
 
 .mnav a:not(.btn):active {
-    background: rgba(255, 255, 255, .08)
+    background: rgb(var(--fg-rgb) / .08)
 }
 
 .mnav-cta {
@@ -1810,9 +1902,9 @@ main {
 }
 
 .testing {
-    background: linear-gradient(179.11deg, rgba(4, 4, 4, 0) 10.61%, rgba(69, 22, 187, 0.36) 53.31%, rgba(4, 4, 4, 0) 99.23%);
+    background: linear-gradient(179.11deg, rgb(var(--bg-rgb) / 0) 10.61%, rgba(69, 22, 187, 0.36) 53.31%, rgb(var(--bg-rgb) / 0) 99.23%);
 }
 
 .leadership-border {
-    border: 1px solid rgba(255, 255, 255, 0.1)
+    border: 1px solid rgb(var(--fg-rgb) / 0.1)
 }

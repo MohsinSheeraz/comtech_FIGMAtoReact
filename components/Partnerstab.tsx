@@ -32,14 +32,14 @@ const tabs: Tab[] = [
 
 function PartnerCard({ p }: { p: Partner }) {
     return (
-        <article className="rounded-[32px] border border-[#212121] bg-[#080808] p-[10px]">
+        <article className="rounded-[32px] border border-line bg-card p-[10px]">
             <div className="h-full rounded-[24px] p-px" style={{ background: BORDER_GRADIENT }}>
                 <div
                     className="relative flex h-full flex-col rounded-[23px] px-[28px] pb-[32px] pt-[84px] lg:px-[32px]"
-                    style={{ background: "linear-gradient(180deg,#100725 0%,#0D0A15 100%)" }}
+                    style={{ background: "linear-gradient(180deg,var(--card2) 0%,var(--card4) 100%)" }}
                 >
                     {/* logo circle sits on the top border of the card */}
-                    <span className="absolute left-[23px] top-0 flex size-[88px] -translate-y-1/2 items-center justify-center rounded-full border border-[#3a2a7a] bg-[#0c0a1f]">
+                    <span className="absolute left-[23px] top-0 flex size-[88px] -translate-y-1/2 items-center justify-center rounded-full border border-[#3a2a7a] bg-[var(--card2)]">
                         <Image
                             src={p.logo}
                             alt={`${p.name} logo`}
@@ -49,13 +49,13 @@ function PartnerCard({ p }: { p: Partner }) {
                         />
                     </span>
 
-                    <h3 className="text-[26px] font-normal leading-[31px] text-white">{p.name}</h3>
+                    <h3 className="text-[26px] font-normal leading-[31px] text-fg">{p.name}</h3>
                     <Underline className="mt-[20px]" />
-                    <p className="mt-[21px] flex-1 text-[18px] leading-[31px] text-white">{p.text}</p>
+                    <p className="mt-[21px] flex-1 text-[18px] leading-[31px] text-fg">{p.text}</p>
 
                     <Link
                         href={`/partners/${p.slug}`}
-                        className="mt-[28px] inline-flex h-[43px] items-center self-start rounded-[10px] border border-[#242424] bg-[#0b0b0b] px-6 text-[16px] text-white transition-colors hover:border-[#7950E2]"
+                        className="mt-[28px] inline-flex h-[43px] items-center self-start rounded-[10px] border border-line bg-[var(--card)] px-6 text-[16px] text-fg transition-colors hover:border-[#7950E2]"
                     >
                         Read More
                     </Link>
@@ -72,7 +72,7 @@ export function PartnersTabs() {
     return (
         <div>
             {/* tab row sits on a hairline, like the Figma */}
-            <div className="mt-10 border-b border-white/25 pb-4 lg:mt-[54px] lg:pb-0">
+            <div className="mt-10 border-b border-fg/25 pb-4 lg:mt-[54px] lg:pb-0">
                 <div role="tablist" aria-label="Partner categories" className="flex flex-wrap justify-center gap-3">
                     {tabs.map((t) => {
                         const on = t.id === active;
@@ -85,9 +85,9 @@ export function PartnersTabs() {
                                 aria-selected={on}
                                 aria-controls={`panel-${t.id}`}
                                 onClick={() => setActive(t.id)}
-                                className={`h-[46px] cursor-pointer rounded-t-[8px] rounded-b-none border border-b-0 border-white/25  px-5 text-[16px] tracking-tight transition-colors ${on
+                                className={`h-[46px] cursor-pointer rounded-t-[8px] rounded-b-none border border-b-0 border-fg/25  px-5 text-[16px] tracking-tight transition-colors ${on
                                     ? "border-[#9747FF] bg-[#9747FF] text-white"
-                                    : "border-[#5b43b8]/60 bg-black/30 text-white hover:border-[#9747FF]"
+                                    : "border-[#5b43b8]/60 bg-surface/30 text-fg hover:border-[#9747FF]"
                                     }`}
                             >
                                 {t.label}
@@ -106,7 +106,7 @@ export function PartnersTabs() {
                 {current.partners.length ? (
                     current.partners.map((p) => <PartnerCard key={p.slug} p={p} />)
                 ) : (
-                    <p className="col-span-full text-center text-[18px] text-white/60">
+                    <p className="col-span-full text-center text-[18px] text-fg/60">
                         Partners for this category will be added soon.
                     </p>
                 )}

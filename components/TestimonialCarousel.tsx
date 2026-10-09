@@ -29,8 +29,8 @@ export function TestimonialCarousel() {
                     <div className="mt-8 text-[18px] leading-[26px] sm:text-[24px] sm:leading-[32px] tracking-[-.04em]">{t.name}<br />{t.title}</div>
                 </div>
                 <div className="mt-6 flex justify-end gap-3">
-                    <button type="button" onClick={() => go(-1)} aria-label="Previous testimonial" className="grid size-[42px] cursor-pointer place-items-center rounded-[4px] bg-[#1c1c1c] text-white/70 transition hover:bg-[#2a2a2a] hover:text-white"><Arrow dir="l" /></button>
-                    <button type="button" onClick={() => go(1)} aria-label="Next testimonial" className="grid size-[42px] cursor-pointer place-items-center rounded-[4px] bg-gradient-to-b from-[#5724d8] to-[#7950e2] text-black transition hover:brightness-125"><Arrow dir="r" /></button>
+                    <button type="button" onClick={() => go(-1)} aria-label="Previous testimonial" className="grid size-[42px] cursor-pointer place-items-center rounded-[4px] bg-card3 text-fg/70 transition hover:bg-card3 hover:text-fg"><Arrow dir="l" /></button>
+                    <button type="button" onClick={() => go(1)} aria-label="Next testimonial" className="grid size-[42px] cursor-pointer place-items-center rounded-[4px] bg-gradient-to-b from-[#5724d8] to-[#7950e2] text-surface transition hover:brightness-125"><Arrow dir="r" /></button>
                 </div>
             </div>
             <Image src="/images/Partnership_Section_Image.png" alt="" width={636} height={636} className="mx-auto" />
@@ -154,8 +154,8 @@ export function TestimonialCarousel() {
 //                     <div className="mt-8 text-[18px] leading-[26px] sm:text-[24px] sm:leading-[32px] tracking-[-.04em]">{t.name}<br />{t.title}</div>
 //                 </div>
 //                 <div className="mt-6 flex justify-end gap-3">
-//                     <button type="button" onClick={() => go(-1)} aria-label="Previous testimonial" className="grid size-[42px] cursor-pointer place-items-center rounded-[4px] bg-[#1c1c1c] text-white/70 transition hover:bg-[#2a2a2a] hover:text-white"><Arrow dir="l" /></button>
-//                     <button type="button" onClick={() => go(1)} aria-label="Next testimonial" className="grid size-[42px] cursor-pointer place-items-center rounded-[4px] bg-gradient-to-b from-[#5724d8] to-[#7950e2] text-black transition hover:brightness-125"><Arrow dir="r" /></button>
+//                     <button type="button" onClick={() => go(-1)} aria-label="Previous testimonial" className="grid size-[42px] cursor-pointer place-items-center rounded-[4px] bg-card3 text-fg/70 transition hover:bg-card3 hover:text-fg"><Arrow dir="l" /></button>
+//                     <button type="button" onClick={() => go(1)} aria-label="Next testimonial" className="grid size-[42px] cursor-pointer place-items-center rounded-[4px] bg-gradient-to-b from-[#5724d8] to-[#7950e2] text-surface transition hover:brightness-125"><Arrow dir="r" /></button>
 //                 </div>
 //             </div>
 //             <style>{`

@@ -57,7 +57,7 @@ export const logos: Logo[] = [
   {
     name: "HP",
     mark: (
-      <span className="grid size-[56px] place-items-center rounded-full bg-[#0096d6] text-[30px] leading-none font-bold text-white italic">
+      <span className="grid size-[56px] place-items-center rounded-full bg-[#0096d6] text-[30px] leading-none font-bold text-fg italic">
         hp
       </span>
     ),
@@ -92,7 +92,7 @@ export const logos: Logo[] = [
    expanding outward from the card's border while the pointer is on it. Nothing inside the card.
    All layers are separate spans, so the gradient border (gborder-new) is untouched. */
 const Card = ({ l }: { l: Logo }) => (
-  <div className="partner-card group/card relative flex h-[84px] w-[170px] sm:h-[113px] sm:w-[240px] shrink-0 items-center justify-center rounded-[28px] sm:rounded-[40px] border border-[#5b3bd1]/80 bg-gradient-to-b from-[#05010d] to-[#0b0722] cursor-pointer gborder-new">
+  <div className="partner-card group/card relative flex h-[84px] w-[170px] sm:h-[113px] sm:w-[240px] shrink-0 items-center justify-center rounded-[28px] sm:rounded-[40px] border border-[#5b3bd1]/80 bg-gradient-to-b from-[var(--card)] to-[var(--card2)] cursor-pointer gborder-new">
     <span aria-hidden className="partner-halo" />
     <span aria-hidden className="partner-wave" />
     <span aria-hidden className="partner-wave partner-wave-2" />

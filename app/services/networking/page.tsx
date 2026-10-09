@@ -73,11 +73,11 @@ const more = [
 ];
 
 const bandA =
-  "linear-gradient(180deg, #040404 8.06%, rgba(69, 22, 187, 0.42) 43.03%, #040404 80.62%);";
+  "linear-gradient(180deg, var(--bg) 8.06%, rgba(69, 22, 187, 0.42) 43.03%, var(--bg) 80.62%);";
 
 const bandB =
-  // "linear-gradient(180deg, #040404 0%, rgba(69, 22, 187, 0.4) 50%, #040404 100%)";
-  "linear-gradient(179.11deg, rgba(4, 4, 4, 0) 10.61%, rgba(69, 22, 187, 0.36) 53.31%, rgba(4, 4, 4, 0) 99.23%);";
+  // "linear-gradient(180deg, var(--bg) 0%, rgba(69, 22, 187, 0.4) 50%, var(--bg) 100%)";
+  "linear-gradient(179.11deg, rgb(var(--bg-rgb) / 0) 10.61%, rgba(69, 22, 187, 0.36) 53.31%, rgb(var(--bg-rgb) / 0) 99.23%);";
 
 const H2 = "text-[46px] font-medium leading-[54px] tracking-tighter";
 const P = "text-[18px] leading-[31px] tracking-tighter";
@@ -137,10 +137,10 @@ export default function Networking() {
             {capabilities.map(([t, p], i) => (
               <div
                 key={t}
-                className={`card pad-outer min-w-[82%] snap-center bg-[#080808]! p-4!  min-[1101px]:min-w-0 ${i === 0 || i === capabilities.length - 1 ? "min-[1280px]:-translate-y-[42%]" : ""
+                className={`card pad-outer min-w-[82%] snap-center bg-card! p-4!  min-[1101px]:min-w-0 ${i === 0 || i === capabilities.length - 1 ? "min-[1280px]:-translate-y-[42%]" : ""
                   }`}
               >
-                <div className="card svc svc-dark gborder-new h-full bg-[#0f0826]! p-8!">
+                <div className="card svc svc-dark gborder-new h-full bg-card2! p-8!">
                   <h3 className="h3 h3-lg text-[26px]! leading-[38px]! tracking-tighter!">{t}</h3>
                   <p className="text-[18px]! leading-[31px]! font-normal! tracking-tighter!">{p}</p>
                 </div>
@@ -270,8 +270,8 @@ export default function Networking() {
         />
         <div className="g2">
           {more.map(([t, p, b]) => (
-            <div className="card pad-outer flex h-full bg-[#080808]! p-4!" key={t}>
-              <div className="card svc svc-dark gborder-new flex h-full w-full flex-col bg-[#0f0826]!">
+            <div className="card pad-outer flex h-full bg-card! p-4!" key={t}>
+              <div className="card svc svc-dark gborder-new flex h-full w-full flex-col bg-card2!">
                 <h3 className="h3 h3-lg text-[26px]! leading-[75px]! tracking-tighter!">{t}</h3>
                 <p className="text-[18px]! leading-[31px]! font-normal! tracking-tighter!">{p}</p>
                 <div className="mt-auto">

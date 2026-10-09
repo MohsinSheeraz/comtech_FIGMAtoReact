@@ -3,8 +3,8 @@
 import { useState } from "react";
 
 const field =
-    // "h-[61px] w-full rounded-[10px] border border-[#1a2142] bg-[linear-gradient(180deg,#0b1230_0%,#070b1d_100%)] px-6 text-[16px] tracking-normal text-white outline-none placeholder:text-white/80 focus:border-[#7950e2]";
-    "h-[61px] w-full rounded-[10px] border border-[#1a2142] bg-transparent! inset-shadow-sm! px-6 text-[16px] tracking-normal text-white outline-none placeholder:text-white/80 focus:border-[#7950e2]";
+    // "h-[61px] w-full rounded-[10px] border border-line3 bg-[linear-gradient(180deg,#0b1230_0%,#070b1d_100%)] px-6 text-[16px] tracking-normal text-fg outline-none placeholder:text-fg/80 focus:border-[#7950e2]";
+    "h-[61px] w-full rounded-[10px] border border-line3 bg-transparent! inset-shadow-sm! px-6 text-[16px] tracking-normal text-fg outline-none placeholder:text-fg/80 focus:border-[#7950e2]";
 
 
 
@@ -29,10 +29,10 @@ export function ContactForm() {
                 setSent(true);
             }}
             // CommentForGradient
-            // className="rounded-[40px] border border-[#1e2540] bg-[linear-gradient(180deg,#0a0d1c_0%,#05050a_100%)] p-6 sm:p-[40px]"
+            // className="rounded-[40px] border border-line3 bg-[linear-gradient(180deg,#0a0d1c_0%,#05050a_100%)] p-6 sm:p-[40px]"
 
 
-            className="rounded-[40px] border border-[#1e2540] bg-transparent! p-6 sm:p-[40px]"
+            className="rounded-[40px] border border-line3 bg-transparent! p-6 sm:p-[40px]"
         >
             <div className="grid gap-4 sm:grid-cols-2">
                 <input className={field} type="text" name="firstName" placeholder="First Name" aria-label="First Name" required />
@@ -48,13 +48,13 @@ export function ContactForm() {
                         aria-label="Service of Interest"
                         value={service}
                         onChange={(e) => setService(e.target.value)}
-                        className={`${field} cursor-pointer appearance-none pr-12 ${service ? "text-white" : "text-white/80"}`}
+                        className={`${field} cursor-pointer appearance-none pr-12 ${service ? "text-fg" : "text-fg/80"}`}
                     >
                         <option value="" disabled hidden>
                             Service of Interest
                         </option>
                         {services.map((s) => (
-                            <option key={s} value={s} className="bg-[#0b1230] text-white">
+                            <option key={s} value={s} className="bg-card2 text-fg">
                                 {s}
                             </option>
                         ))}
@@ -81,12 +81,12 @@ export function ContactForm() {
             <div className="mt-[30px] flex flex-wrap items-center gap-5">
                 <button
                     type="submit"
-                    className="h-[46px] cursor-pointer rounded-[10px] bg-white px-8 text-[16px] font-normal tracking-tight text-black transition-opacity hover:opacity-90"
+                    className="h-[46px] cursor-pointer rounded-[10px] bg-inv px-8 text-[16px] font-normal tracking-tight text-inv-fg transition-opacity hover:opacity-90"
                 >
                     Submit
                 </button>
                 {sent && (
-                    <p role="status" className="text-[16px] text-white/80">
+                    <p role="status" className="text-[16px] text-fg/80">
                         Thanks, we&apos;ll be in touch shortly.
                     </p>
                 )}

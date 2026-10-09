@@ -80,7 +80,7 @@ export default function Contact() {
                                     aria-label={s.label}
                                     className="flex size-[33px] items-center justify-center overflow-hidden rounded-full"
                                 >
-                                    {/* if your PNGs are just the glyph (no circle), add: bg-white p-2 */}
+                                    {/* if your PNGs are just the glyph (no circle), add: bg-fg p-2 */}
                                     <img src={s.icon} alt="" className="size-full object-contain" />
                                 </a>
                             ))}
@@ -94,7 +94,7 @@ export default function Contact() {
             {/* What Happens When You Reach Out */}
             <section className="py-12 lg:py-[90px]">
                 <div className="wrap">
-                    <h2 className="text-center text-[34px] font-normal leading-[1.15] tracking-tighter text-white lg:text-[48px] lg:leading-[56px]">
+                    <h2 className="text-center text-[34px] font-normal leading-[1.15] tracking-tighter text-fg lg:text-[48px] lg:leading-[56px]">
                         What Happens When You Reach Out
                     </h2>
                     <p className="mx-auto mt-4 max-w-[762px] text-center text-[16px] leading-7 tracking-tighter lg:mt-[22px] lg:text-[18px] lg:leading-[31px]">
@@ -107,7 +107,7 @@ export default function Contact() {
                             <div key={s.title} className="contents">
                                 {i > 0 && <span aria-hidden className="hidden w-[2px] self-stretch bg-[#6739DD] lg:block" />}
                                 <div className="text-center">
-                                    <h3 className="mx-auto max-w-[300px] text-[26px] font-normal leading-[34px] tracking-tighter text-white lg:text-[30px] lg:leading-[38px]">
+                                    <h3 className="mx-auto max-w-[300px] text-[26px] font-normal leading-[34px] tracking-tighter text-fg lg:text-[30px] lg:leading-[38px]">
                                         {s.title}
                                     </h3>
                                     <p className="mx-auto mt-6 max-w-[360px] text-[16px] leading-[28px] tracking-tighter lg:text-[18px] lg:leading-[31px]">

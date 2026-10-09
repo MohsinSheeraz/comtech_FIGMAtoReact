@@ -1,13 +1,13 @@
 "use client";
 
 const field =
-  "w-full border-0 border-b border-white/15 bg-transparent py-4 text-[16px] tracking-normal text-white outline-none placeholder:text-white/40 focus:border-[#7950e2]";
+  "w-full border-0 border-b border-fg/15 bg-transparent py-4 text-[16px] tracking-normal text-fg outline-none placeholder:text-fg/40 focus:border-[#7950e2]";
 
 export function SideForm() {
   return (
     <form
       onSubmit={(e) => e.preventDefault()}
-      className="rounded-[30px] border border-white/10 bg-[#080808] px-8 py-8"
+      className="rounded-[30px] border border-fg/10 bg-card px-8 py-8"
     >
       <input className={field} type="text" name="name" placeholder="Name" aria-label="Name" />
       <input className={field} type="tel" name="phone" placeholder="Phone" aria-label="Phone" />

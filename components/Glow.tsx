@@ -19,7 +19,7 @@ export const Glow = ({
    `variant` is still accepted so existing pages keep working, but "inner" now renders the same
    look as "home". */
 const glowBg =
-  "radial-gradient(ellipse 560px 600px at 95% 33%, #231547 0%, rgba(35,21,71,.6) 50%, transparent 100%), radial-gradient(ellipse 560px 540px at 14% 23%, #193479 0%, rgba(25,52,121,.55) 45%, transparent 100%)";
+  "radial-gradient(ellipse 560px 600px at 95% 33%, var(--glow-a) 0%, color-mix(in srgb, var(--glow-a) 60%, transparent) 50%, transparent 100%), radial-gradient(ellipse 560px 540px at 14% 23%, var(--glow-b) 0%, color-mix(in srgb, var(--glow-b) 55%, transparent) 45%, transparent 100%)";
 
 export const PageGlows = (_props: { variant?: "home" | "inner" }) => (
   <div

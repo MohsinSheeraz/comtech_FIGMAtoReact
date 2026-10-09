@@ -26,7 +26,7 @@ const nav: NavItem[] = [
     label: "Partners",
     href: "/partners",
     children: [
-      { label: "Cisco", href: "/partners" },
+      { label: "Cisco", href: "/partners/cisco" },
       // { label: "Fortinet", href: "/partners/fortinet" },
       // { label: "Huawei", href: "/partners/huawei" },
     ],
@@ -103,9 +103,8 @@ export function Header() {
 
               {/* pt-4 is an invisible bridge so the pointer can travel from the link to the panel */}
               <div
-                className={`absolute left-1/2 top-full z-50 -translate-x-1/2 pt-4 transition-[opacity,transform,visibility] duration-200 ease-out ${
-                  isOpen ? "visible translate-y-0 opacity-100" : "invisible translate-y-1 opacity-0"
-                }`}
+                className={`absolute left-1/2 top-full z-50 -translate-x-1/2 pt-4 transition-[opacity,transform,visibility] duration-200 ease-out ${isOpen ? "visible translate-y-0 opacity-100" : "invisible translate-y-1 opacity-0"
+                  }`}
               >
                 <div className="min-w-[260px] rounded-2xl border border-white/10 bg-[#0a0a0a]/95 p-2 shadow-[0_24px_60px_rgba(0,0,0,.6)] backdrop-blur-xl">
                   {it.children.map((c) => (

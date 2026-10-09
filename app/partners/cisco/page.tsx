@@ -14,6 +14,7 @@ import {
     SectionHeading,
     SectionIntro,
 } from "@/components/PartnersUI";
+import { CtaPanel } from "@/components/CtaPanel";
 
 export const metadata: Metadata = {
     title: "Partners | Comtech Associates",
@@ -78,12 +79,6 @@ const faq = {
         { q: "Does Comtech serve clients outside Karachi?", a: "Yes. Comtech has offices in Karachi, Islamabad, Lahore, and Quetta, so deployment and support don't depend on a single remote team." },
         { q: "How do I get started with Comtech?", a: "Start with a conversation. Tell us what you're dealing with and we'll walk you through how Comtech would approach it, with no obligation to move forward. Most conversations begin with a short assessment of your current environment." },
     ],
-};
-
-const cta = {
-    title: "Ready to Solve Your IT Challenge?",
-    text: "Whether it’s one service or all four, a conversation with Comtech’s team is the place to start. Tell us what you’re dealing with, a security gap, an unreliable network, a data center migration, or a staffing shortfall, and we’ll walk you through how Comtech would approach it, with no obligation to move forward. Most conversations start with a short assessment of your current environment before anything gets proposed.",
-    label: "Request an IT Assessment",
 };
 
 /* ---------- small local pieces ---------- */
@@ -253,21 +248,13 @@ export default function Cisco() {
             <div className="relative isolate">
                 <PurplePanel variant="bottom" />
                 <PartnersFaq text={faq.text} items={faq.items} />
+                <CtaPanel
+                    title="Ready to Solve Your IT Challenge?"
+                    text="Whether it’s one service or all four, a conversation with Comtech’s team is the place to start. Tell us what you’re dealing with, a security gap, an unreliable network, a data center migration, or a staffing shortfall, and we’ll walk you through how Comtech would approach it, with no obligation to move forward. Most conversations start with a short assessment of your current environment before anything gets proposed."
+                    label="Request an IT Assessment"
+                />
 
-                <section className="pb-16 pt-12 lg:pb-[125px] lg:pt-[161px]">
-                    <Container>
-                        <div
-                            className="rounded-[48px] border border-[#2e2e2e] px-6 py-12 text-center lg:rounded-[80px] lg:px-16 lg:py-[81px]"
-                            style={{ background: "linear-gradient(180deg,#040404 0%,#1F0C51 85%,#0D0525 100%)" }}
-                        >
-                            <h2 className="text-[30px] font-normal leading-[1.2] text-white lg:text-[48px] lg:leading-[56px]">{cta.title}</h2>
-                            <p className="mx-auto mt-5 max-w-[990px] text-[16px] leading-7 text-white lg:mt-[27px] lg:text-[18px] lg:leading-[38px]">{cta.text}</p>
-                            <div className="mt-8 flex justify-center lg:mt-[39px]">
-                                <PrimaryButton href="/contact">{cta.label}</PrimaryButton>
-                            </div>
-                        </div>
-                    </Container>
-                </section>
+
             </div>
         </main>
     );

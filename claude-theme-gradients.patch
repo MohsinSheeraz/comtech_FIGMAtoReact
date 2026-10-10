@@ -1,0 +1,233 @@
+From 71bbf9f4eca92aed18ea359d9e7d6f8fa44ff971 Mon Sep 17 00:00:00 2001
+From: Claude <claude@anthropic.com>
+Date: Sat, 10 Oct 2026 04:29:56 +0000
+Subject: [PATCH] Theme-aware gradient variables for long purple bands (dark +
+ light)
+
+---
+ app/about/page.tsx               |  2 +-
+ app/blog/[slug]/page.tsx         |  2 +-
+ app/blog/page.tsx                |  2 +-
+ app/globals.css                  | 38 ++++++++++++++++++++++++--------
+ app/leadership/page.tsx          |  2 +-
+ app/partners/page.tsx            |  2 +-
+ app/services/networking/page.tsx |  4 ++--
+ components/Glow.tsx              |  2 +-
+ components/PartnersUI.tsx        |  4 ++--
+ components/partners/ui.tsx       |  4 ++--
+ 10 files changed, 41 insertions(+), 21 deletions(-)
+
+diff --git a/app/about/page.tsx b/app/about/page.tsx
+index a9ef761..634ffee 100644
+--- a/app/about/page.tsx
++++ b/app/about/page.tsx
+@@ -28,7 +28,7 @@ const awards: [string, string][] = [
+ 
+ // Gradient frame behind Who We Are -> Mission/Vision -> What We Do
+ const frameBg =
+-  "linear-gradient(180deg, var(--bg) 8.06%, rgba(69, 22, 187, 0.42) 43.03%, var(--bg) 80.62%)";
++  "var(--band-long)";
+ 
+ export default function About() {
+   return (
+diff --git a/app/blog/[slug]/page.tsx b/app/blog/[slug]/page.tsx
+index 878cd38..2f2956a 100644
+--- a/app/blog/[slug]/page.tsx
++++ b/app/blog/[slug]/page.tsx
+@@ -87,7 +87,7 @@ const P = "mt-4 text-[18px] leading-[31px] tracking-tighter";
+ const icons = [{ label: "Facebook", icon: FaFacebook, href: "#", }, { label: "X", icon: FaTwitter, href: "#", }, { label: "YouTube", icon: SiYoutube, href: "#", }, { label: "Instagram", icon: RiInstagramFill, href: "#", },];
+ 
+ const frameBg =
+-  "linear-gradient(180deg, var(--bg) 0%, rgba(69, 22, 187, 0.42) 38%, rgba(69, 22, 187, 0.55) 62%, var(--bg) 100%)";
++  "var(--band-long-alt)";
+ 
+ export default async function BlogPost({ params }: { params: Promise<{ slug: string }> }) {
+   const { slug } = await params;
+diff --git a/app/blog/page.tsx b/app/blog/page.tsx
+index f8bc425..1faa848 100644
+--- a/app/blog/page.tsx
++++ b/app/blog/page.tsx
+@@ -9,7 +9,7 @@ import { PER_PAGE, posts } from "@/lib/posts";
+ export const metadata: Metadata = { title: "News & Insights | Comtech Associates" };
+ 
+ const frameBg =
+-  "linear-gradient(180deg, var(--bg) 8.06%, rgba(69, 22, 187, 0.42) 43.03%, var(--bg) 80.62%)";
++  "var(--band-long)";
+ 
+ 
+ export default async function Blog({ searchParams }: { searchParams: Promise<{ page?: string }> }) {
+diff --git a/app/globals.css b/app/globals.css
+index 2c53aad..e838220 100644
+--- a/app/globals.css
++++ b/app/globals.css
+@@ -25,7 +25,17 @@
+     --glow-b: #193479;
+     --cta-a: #1F0C51;
+     --cta-b: #0D0525;
+-    --g: linear-gradient(180deg, #5724d8, #7950e2)
++    --g: linear-gradient(180deg, #5724d8, #7950e2);
++    /* long-div purple bands: dark theme */
++    --band-long: linear-gradient(180deg, var(--bg) 8.06%, rgba(69, 22, 187, .42) 43.03%, var(--bg) 80.62%);
++    --band-long-alt: linear-gradient(180deg, var(--bg) 0%, rgba(69, 22, 187, .42) 38%, rgba(69, 22, 187, .55) 62%, var(--bg) 100%);
++    --band-long-top: linear-gradient(180deg, transparent 8.06%, rgba(69, 22, 187, .42) 43.03%, var(--bg) 80.62%);
++    --band-fade: linear-gradient(179.11deg, rgb(var(--bg-rgb) / 0) 10.61%, rgba(69, 22, 187, .36) 53.31%, rgb(var(--bg-rgb) / 0) 99.23%);
++    --band-section: linear-gradient(0deg, var(--bg) 8%, rgba(69, 22, 187, .45) 43%, var(--bg) 81%);
++    --pan-end: #090909;
++    --pan-b-mid: rgba(69, 22, 187, .62);
++    --ctapanel-mid: #0a0620;
++    --ctapanel-end: #170a45
+ }
+ 
+ :root[data-theme="light"] {
+@@ -50,7 +60,17 @@
+     --glow-b: #d3defa;
+     --cta-a: #e2d8ff;
+     --cta-b: #f1eef9;
+-    --g: linear-gradient(180deg, #5724d8, #7950e2)
++    --g: linear-gradient(180deg, #5724d8, #7950e2);
++    /* long-div purple bands: light theme (soft violet wash instead of deep purple) */
++    --band-long: linear-gradient(180deg, var(--bg) 8.06%, rgba(121, 80, 226, .20) 43.03%, var(--bg) 80.62%);
++    --band-long-alt: linear-gradient(180deg, var(--bg) 0%, rgba(121, 80, 226, .18) 38%, rgba(121, 80, 226, .24) 62%, var(--bg) 100%);
++    --band-long-top: linear-gradient(180deg, transparent 8.06%, rgba(121, 80, 226, .20) 43.03%, var(--bg) 80.62%);
++    --band-fade: linear-gradient(179.11deg, rgb(var(--bg-rgb) / 0) 10.61%, rgba(121, 80, 226, .16) 53.31%, rgb(var(--bg-rgb) / 0) 99.23%);
++    --band-section: linear-gradient(0deg, var(--bg) 8%, rgba(121, 80, 226, .20) 43%, var(--bg) 81%);
++    --pan-end: #f6f5fb;
++    --pan-b-mid: rgba(121, 80, 226, .24);
++    --ctapanel-mid: #ebe6fb;
++    --ctapanel-end: #ddd2fb
+ }
+ 
+ @theme inline {
+@@ -391,19 +411,19 @@ img {
+ 
+ .pan-a {
+     background: linear-gradient(180deg,
+-            #220e55 0%,
+-            #220e55 0%,
+-            #090909 20%
++            var(--pan-top) 0%,
++            var(--pan-top) 0%,
++            var(--pan-end) 20%
+             /* transparent 40% */
+         );
+ }
+ 
+ .pan-b {
+-    background: linear-gradient(180deg, rgba(183, 67, 255, 0) 0%, rgba(69, 22, 187, .62) 42%, var(--bg) 64%)
++    background: linear-gradient(180deg, rgba(183, 67, 255, 0) 0%, var(--pan-b-mid) 42%, var(--bg) 64%)
+ }
+ 
+ .pan-b-new {
+-    background: linear-gradient(180deg, rgba(69, 22, 187, .62) 0%, 42%, var(--bg) 64%)
++    background: linear-gradient(180deg, var(--pan-b-mid) 0%, 42%, var(--bg) 64%)
+ }
+ 
+ .stats {
+@@ -749,7 +769,7 @@ img {
+     flex-direction: column;
+     align-items: center;
+     gap: 20px;
+-    background: linear-gradient(180deg, var(--bg) 0%, #0a0620 50%, #170a45 100%);
++    background: linear-gradient(180deg, var(--bg) 0%, var(--ctapanel-mid) 50%, var(--ctapanel-end) 100%);
+ }
+ 
+ /* faint dot grid, strongest at the bottom */
+@@ -1902,7 +1922,7 @@ main {
+ }
+ 
+ .testing {
+-    background: linear-gradient(179.11deg, rgb(var(--bg-rgb) / 0) 10.61%, rgba(69, 22, 187, 0.36) 53.31%, rgb(var(--bg-rgb) / 0) 99.23%);
++    background: var(--band-fade);
+ }
+ 
+ .leadership-border {
+diff --git a/app/leadership/page.tsx b/app/leadership/page.tsx
+index c445551..ad18168 100644
+--- a/app/leadership/page.tsx
++++ b/app/leadership/page.tsx
+@@ -7,7 +7,7 @@ import { Hero } from "@/components/Hero";
+ export const metadata: Metadata = { title: "Leadership | Comtech Associates" };
+ 
+ const frameBg =
+-  "linear-gradient(180deg, var(--bg) 8.06%, rgba(69, 22, 187, 0.42) 43.03%, var(--bg) 80.62%)";
++  "var(--band-long)";
+ 
+ // rows are 12px high on desktop: [row-start, row-span] per card, copied from the Figma stagger
+ const people = [
+diff --git a/app/partners/page.tsx b/app/partners/page.tsx
+index 2ed63ca..7a679dd 100644
+--- a/app/partners/page.tsx
++++ b/app/partners/page.tsx
+@@ -62,7 +62,7 @@ export default function Partners() {
+           className="rounded-[48px] pointer-events-none absolute inset-x-0 inset-y-0 -z-10 lg:inset-x-[5%]"
+           style={{
+             background:
+-              " linear-gradient(180deg, transparent 8.06%, rgba(69, 22, 187, 0.42) 43.03%, var(--bg) 80.62%)",
++              "var(--band-long-top)",
+           }}
+         />
+ 
+diff --git a/app/services/networking/page.tsx b/app/services/networking/page.tsx
+index d05e3c5..862960c 100644
+--- a/app/services/networking/page.tsx
++++ b/app/services/networking/page.tsx
+@@ -73,11 +73,11 @@ const more = [
+ ];
+ 
+ const bandA =
+-  "linear-gradient(180deg, var(--bg) 8.06%, rgba(69, 22, 187, 0.42) 43.03%, var(--bg) 80.62%);";
++  "var(--band-long)";;
+ 
+ const bandB =
+   // "linear-gradient(180deg, var(--bg) 0%, rgba(69, 22, 187, 0.4) 50%, var(--bg) 100%)";
+-  "linear-gradient(179.11deg, rgb(var(--bg-rgb) / 0) 10.61%, rgba(69, 22, 187, 0.36) 53.31%, rgb(var(--bg-rgb) / 0) 99.23%);";
++  "var(--band-fade)";;
+ 
+ const H2 = "text-[46px] font-medium leading-[54px] tracking-tighter";
+ const P = "text-[18px] leading-[31px] tracking-tighter";
+diff --git a/components/Glow.tsx b/components/Glow.tsx
+index 1e3df5e..dee1ff9 100644
+--- a/components/Glow.tsx
++++ b/components/Glow.tsx
+@@ -42,6 +42,6 @@ export const PageGlows = (_props: { variant?: "home" | "inner" }) => (
+ export const SectionGlow = () => (
+   <div
+     aria-hidden
+-    className="pointer-events-none absolute inset-x-[5%] inset-y-0 z-0 rounded-b-[80px] bg-[linear-gradient(0deg,#040404_8%,rgba(69,22,187,.45)_43%,#040404_81%)]"
++    className="pointer-events-none absolute inset-x-[5%] inset-y-0 z-0 rounded-b-[80px] bg-[image:var(--band-section)]"
+   />
+ );
+\ No newline at end of file
+diff --git a/components/PartnersUI.tsx b/components/PartnersUI.tsx
+index 9eb5ad8..cdb6384 100644
+--- a/components/PartnersUI.tsx
++++ b/components/PartnersUI.tsx
+@@ -74,8 +74,8 @@ export function PurplePanel({ variant, children }: { variant: "top" | "bottom";
+       ].join(" ")}
+       style={{
+         background: top
+-          ? "linear-gradient(180deg, var(--bg) 8.06%, rgba(69, 22, 187, 0.42) 43.03%, var(--bg) 80.62%)"
+-          : "linear-gradient(179.11deg, rgb(var(--bg-rgb) / 0) 10.61%, rgba(69, 22, 187, 0.36) 53.31%, rgb(var(--bg-rgb) / 0) 99.23%)",
++          ? "var(--band-long)"
++          : "var(--band-fade)",
+       }}
+     >
+       {children}
+diff --git a/components/partners/ui.tsx b/components/partners/ui.tsx
+index 39a281f..25d5745 100644
+--- a/components/partners/ui.tsx
++++ b/components/partners/ui.tsx
+@@ -92,8 +92,8 @@ export function PurplePanel({ variant, children }: { variant: "top" | "bottom";
+       ].join(" ")}
+       style={{
+         background: top
+-          ? "linear-gradient(180deg, var(--bg) 8.06%, rgba(69, 22, 187, 0.42) 43.03%, var(--bg) 80.62%)"
+-          : "linear-gradient(179.11deg, rgb(var(--bg-rgb) / 0) 10.61%, rgba(69, 22, 187, 0.36) 53.31%, rgb(var(--bg-rgb) / 0) 99.23%)",
++          ? "var(--band-long)"
++          : "var(--band-fade)",
+       }}
+     >
+       {children}
+-- 
+2.43.0
+

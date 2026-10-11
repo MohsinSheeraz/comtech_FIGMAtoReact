@@ -5,81 +5,41 @@ import { notFound } from "next/navigation";
 import { BlogCard } from "@/components/BlogCard";
 import { CtaPanel } from "@/components/CtaPanel";
 import { PageGlows } from "@/components/Glow";
-import { SideForm } from "@/components/SideForm";
-import { getPost, posts } from "@/lib/posts";
-// import FacebookIcon from "@/public/images/icon_Facebook.png";
-// import XIcon from "@/public/images/icon_Twitter.png";
-// import YTIcon from "@/public/images/icon_YouTube.png";
-// import InstagramIcon from "@/public/images/icon_Insta.png";
+// import { SideForm } from "@/components/SideForm";
+// import { getPost, posts } from "@/lib/posts";
 import { FaFacebook } from "react-icons/fa6";
 import { FaTwitter } from "react-icons/fa";
 import { SiYoutube } from "react-icons/si";
 import { RiInstagramFill } from "react-icons/ri";
+import { getAllSlugs, getPost, getRecentPosts, getRelatedPosts } from "@/lib/posts";
 
 
 
 
 
 
-
-export function generateStaticParams() {
-  return posts.map((p) => ({ slug: p.slug }));
+export async function generateStaticParams() {
+  return (await getAllSlugs()).map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  const post = getPost(slug);
-  return { title: post ? `${post.title} | Comtech Associates` : "Article | Comtech Associates" };
+  const post = await getPost(slug);
+  if (!post) return { title: "Article | Comtech Associates" };
+
+  const title = post.seo.metaTitle ?? `${post.title} | Comtech Associates`;
+  const description = post.seo.metaDescription ?? post.excerpt;
+  const image = post.seo.ogImage ?? post.image;
+
+  return {
+    title,
+    description,
+    keywords: post.seo.metaTags,
+    alternates: { canonical: `/blog/${post.slug}` },
+    openGraph: { type: "article", title, description, images: [image] },
+    twitter: { card: "summary_large_image", title, description, images: [image] },
+  };
 }
-
-const intro =
-  "What happens when a critical server goes down during peak business hours in Pakistan? Orders stop, employees lose access to systems, and customers quickly lose trust. Professional server support services help businesses avoid this risk by providing continuous monitoring, fast issue resolution, and expert management of both on-premises and cloud servers. With local challenges such as power instability and rising cyber threats, reliable server support has become essential for business continuity.";
-
-const toc = [
-  "How Professional Server Support Services Work",
-  "Why Pakistani Businesses Need Professional Server Support",
-  "Cost Advantages of Outsourced Server Management",
-  "24/7 Monitoring and Incident Response",
-  "Role of Certified Professionals",
-  "Network Security and Compliance",
-  "Infrastructure Challenges in Pakistan",
-  "How Does Server Support Fit Into IT Lifecycle Planning?",
-  "Types of Servers Commonly Supported",
-  "Professional Server Support vs Break/Fix: What's the Difference?",
-  "How Comtech Associates Supports Businesses",
-];
-
-const sections: { h: string; p: string[] }[] = [
-  {
-    h: "How Professional Server Support Services Work",
-    p: [
-      "Professional server support involves continuous monitoring, maintenance, security updates, and troubleshooting of business servers. Instead of relying only on internal staff, companies work with specialized teams that manage server health on a daily basis. This approach helps detect issues early and reduces the chances of unexpected downtime. Support teams usually track system performance, apply updates, manage backups, and respond quickly when problems appear.",
-      "By handling routine and complex tasks, professional support allows internal teams to focus on core business activities rather than constant firefighting.",
-    ],
-  },
-  {
-    h: "Why Pakistani Businesses Need Professional Server Support",
-    p: [
-      "Running servers in Pakistan comes with unique challenges. Sudden load shedding, unstable internet connections, and growing cyber threats put constant pressure on business systems.",
-      "Even a short period of downtime can disrupt sales, delay operations, and affect customer trust. Many organizations also struggle to find and retain skilled IT staff, which makes consistent server management difficult.",
-      "Professional server support provides the monitoring and rapid response needed to keep systems stable, even during local infrastructure problems.",
-    ],
-  },
-  {
-    h: "Cost Advantages of Outsourced Server Management",
-    p: [
-      "Hiring full-time system administrators in major cities involves high salaries, benefits, and ongoing training costs. These expenses continue to rise as technology becomes more complex.",
-      "Professional server support offers a predictable monthly fee in PKR. This allows businesses to access skilled expertise while keeping IT expenses under control.",
-      "Instead of investing heavily in recruitment and internal training, companies can scale support according to their actual needs and avoid unnecessary overhead.",
-    ],
-  },
-  {
-    h: "24/7 Monitoring and Incident Response",
-    p: [
-      "Server issues often occur outside regular office hours. Continuous monitoring helps detect high resource usage, storage problems, and security threats before they cause system failure.",
-    ],
-  },
-];
 
 const H2 = "mt-8 text-[34px] font-medium leading-[44px] tracking-tighter";
 const P = "mt-4 text-[18px] leading-[31px] tracking-tighter";
@@ -87,15 +47,19 @@ const P = "mt-4 text-[18px] leading-[31px] tracking-tighter";
 const icons = [{ label: "Facebook", icon: FaFacebook, href: "#", }, { label: "X", icon: FaTwitter, href: "#", }, { label: "YouTube", icon: SiYoutube, href: "#", }, { label: "Instagram", icon: RiInstagramFill, href: "#", },];
 
 const frameBg =
-  "linear-gradient(180deg, #040404 0%, rgba(69, 22, 187, 0.42) 38%, rgba(69, 22, 187, 0.55) 62%, #040404 100%)";
+  "linear-gradient(180deg, transparent 0%, rgba(69, 22, 187, 0.42) 38%, rgba(69, 22, 187, 0.55) 62%, #040404 100%)";
 
 export default async function BlogPost({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const post = getPost(slug);
+  const post = await getPost(slug);
   if (!post) notFound();
 
-  const recent = posts.filter((p) => p.slug !== slug).slice(0, 4);
-  const related = posts.filter((p) => p.slug !== slug).slice(4, 7);
+  const [recent, related] = await Promise.all([
+    getRecentPosts(slug, 4),
+    getRelatedPosts(slug, 3),
+  ]);
+
+  const toc = post.toc ?? post.sections.map((s) => s.h);
 
   return (
     <main>
@@ -118,21 +82,18 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
           <div className="grid items-start gap-6 min-[1101px]:grid-cols-[minmax(0,1fr)_380px]">
             <article className="rounded-[30px] leadership-border  p-6 sm:p-10">
               <h1 className="text-[34px] font-medium leading-[44px] tracking-tighter sm:text-[46px] sm:leading-[56px]">
-                How 24/7 Infrastructure Support Reduces Downtime in a market.
+                {post.title}
               </h1>
-              <p className={`${P} mt-8`}>{intro}</p>
-
-              <h2 className={H2}>Introduction:</h2>
-              <p className={P}>{intro}</p>
+              <p className={`${P} mt-8`}>{post.intro}</p>
 
               <h2 className={H2}>Table of Contents</h2>
               <ul className="mt-4 list-disc space-y-1 pl-6 text-[17px] leading-[30px] tracking-tighter">
-                {toc.map((t, i) => (
-                  <li key={t}>{i === 0 ? <><span className="underline">Server Support Services</span> Work</> : t}</li>
+                {toc.map((t) => (
+                  <li key={t}>{t}</li>
                 ))}
               </ul>
 
-              {sections.map((s) => (
+              {post.sections.map((s) => (
                 <div key={s.h}>
                   <h2 className={H2}>{s.h}</h2>
                   {s.p.map((t) => (
@@ -143,7 +104,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
             </article>
 
             <aside className="flex flex-col gap-5 min-[1101px]:sticky min-[1101px]:top-6">
-              <SideForm />
+              {/* <SideForm /> */}
 
               <div className="rounded-[30px] leadership-border p-4">
                 <ul className="flex flex-col gap-4">

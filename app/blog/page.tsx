@@ -4,19 +4,18 @@ import { Btn } from "@/components/Button";
 import { CtaPanel } from "@/components/CtaPanel";
 import { PageGlows } from "@/components/Glow";
 import { Pagination } from "@/components/Pagination";
-import { PER_PAGE, posts } from "@/lib/posts";
+import { PER_PAGE } from "@/lib/posts";
+import { getPostsPage } from "@/lib/posts";
 
 export const metadata: Metadata = { title: "News & Insights | Comtech Associates" };
 
 const frameBg =
-  "linear-gradient(180deg, #040404 8.06%, rgba(69, 22, 187, 0.42) 43.03%, #040404 80.62%)";
+  "linear-gradient(180deg, transparent 8.06%, rgba(69, 22, 187, 0.42) 43.03%, #040404 80.62%)";
 
 
 export default async function Blog({ searchParams }: { searchParams: Promise<{ page?: string }> }) {
   const { page } = await searchParams;
-  const total = Math.ceil(posts.length / PER_PAGE);
-  const current = Math.min(Math.max(parseInt(page ?? "1", 10) || 1, 1), total);
-  const items = posts.slice((current - 1) * PER_PAGE, current * PER_PAGE);
+  const { items, current, total } = await getPostsPage(parseInt(page ?? "1", 10));
 
   return (
     <main>

@@ -2069,3 +2069,89 @@ a.btn.p::after {
         transition: none;
     }
 }
+
+
+/* ---------- Technology section: energy bolts ---------- */
+.tech-flow {
+    animation: tech-flow linear infinite;
+}
+
+@keyframes tech-flow {
+    from {
+        stroke-dashoffset: 0;
+    }
+
+    to {
+        stroke-dashoffset: -1000;
+    }
+}
+
+.tech-flicker {
+    animation: tech-flicker linear infinite;
+}
+
+@keyframes tech-flicker {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    6% {
+        opacity: .45;
+    }
+
+    9% {
+        opacity: 1;
+    }
+
+    31% {
+        opacity: .85;
+    }
+
+    34% {
+        opacity: .3;
+    }
+
+    37% {
+        opacity: .95;
+    }
+
+    62% {
+        opacity: .7;
+    }
+
+    66% {
+        opacity: 1;
+    }
+
+    83% {
+        opacity: .5;
+    }
+
+    86% {
+        opacity: .95;
+    }
+}
+
+.tech-breathe {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: tech-breathe 6s ease-in-out infinite;
+}
+
+@keyframes tech-breathe {
+    50% {
+        transform: scale(1.08);
+        opacity: .65;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .tech-flow,
+    .tech-flicker,
+    .tech-breathe {
+        animation: none;
+    }
+}

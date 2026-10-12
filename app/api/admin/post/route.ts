@@ -2,7 +2,7 @@ import { promises as fs } from "fs";
 import path from "path";
 import { NextResponse } from "next/server";
 import { isAdmin } from "@/lib/admin-auth";
-import { buildPostCode } from "@/lib/post-code";
+import { buildPostCode, normSizes } from "@/lib/post-code";
 
 export const runtime = "nodejs";
 
@@ -28,18 +28,19 @@ export async function POST(req: Request) {
 
     const slug = text("slug");
     if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) return fail("The slug can only use lowercase letters, numbers and dashes.");
-    if (!text("title") || !text("excerpt") || !text("intro")) return fail("Title, excerpt and intro are required.");
 
-    let raw: unknown = [];
+    const content = text("content");
+    if (!text("title") || !text("excerpt") || !text("intro") || !content)
+        return fail("Title, excerpt, intro and content are required.");
+
+    let rawSizes: unknown = {};
     try {
-        raw = JSON.parse(text("sections"));
+        rawSizes = JSON.parse(text("sizes"));
     } catch { }
-    const sections = Array.isArray(raw)
-        ? raw.map((s) => ({ h: String(s?.h ?? ""), p: String(s?.p ?? "") }))
-        : [];
+    const sizes = normSizes(rawSizes);
 
     // locate the data file and check the slug is new
-    const dataFile = path.join(process.cwd(), "lib", "posts-data.ts");
+    const dataFile = path.join(process.cwd(), "lib", "post-data.ts");
     const src = await fs.readFile(dataFile, "utf8");
     if (src.includes(`slug: ${JSON.stringify(slug)}`)) return fail("A post with this slug already exists.");
 
@@ -92,7 +93,8 @@ export async function POST(req: Request) {
         image: `/images/${name}`,
         excerpt: text("excerpt"),
         intro: text("intro"),
-        sections,
+        content,
+        sizes,
         metaTitle: text("metaTitle"),
         metaDescription: text("metaDescription"),
         metaTags: text("metaTags"),
@@ -110,7 +112,7 @@ export async function POST(req: Request) {
     } else if (inline.test(src)) {
         next = src.replace(inline, `const realPosts: Post[] = [\n${code}\n];`);
     } else {
-        return fail("Couldn't find `const realPosts: Post[] = [` in lib/posts-data.ts.");
+        return fail("Couldn't find `const realPosts: Post[] = [` in lib/post-data.ts.");
     }
     await fs.writeFile(dataFile, next, "utf8");
 

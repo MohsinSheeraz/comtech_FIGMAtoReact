@@ -1,4 +1,5 @@
 import { postsData } from "@/lib/post-data";
+import type { Block, TextSizes } from "@/lib/post-code";
 
 export type Section = { h: string; p: string[] };
 
@@ -11,7 +12,9 @@ export type Post = {
   category: string;
   image: string;
   intro: string;
-  sections: Section[];
+  sections: Section[];   // old posts
+  content?: Block[];     // new posts: headings and paragraphs from the single editor
+  sizes?: TextSizes;     // new posts: px sizes for h1/h2/h3/p
   toc?: string[]; // optional; falls back to section headings
   seo: {
     metaTitle?: string;       // falls back to "<title> | Comtech Associates"

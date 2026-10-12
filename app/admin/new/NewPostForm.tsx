@@ -2,9 +2,8 @@
 
 import { useEffect, useMemo, useState, useTransition } from "react";
 import Link from "next/link";
-import { buildPostCode, slugify } from "@/lib/post-code";
+import { buildPostCode, slugify, DEFAULT_SIZES, type TextSizes } from "@/lib/post-code";
 
-type Sec = { h: string; p: string };
 type Result = { ok: true; slug: string } | { ok: false; error: string } | null;
 
 const MAX_MB = 5;
@@ -18,6 +17,7 @@ const INITIAL = {
     date: "",
     excerpt: "",
     intro: "",
+    content: "",
     metaTitle: "",
     metaDescription: "",
     metaTags: "",
@@ -37,7 +37,7 @@ const counter = (n: number, max: number) => (
 export function NewPostForm({ canSave }: { canSave: boolean }) {
     const [f, setF] = useState(INITIAL);
     const [slugTouched, setSlugTouched] = useState(false);
-    const [secs, setSecs] = useState<Sec[]>([{ h: "", p: "" }]);
+    const [sizes, setSizes] = useState<TextSizes>(DEFAULT_SIZES);
     const [mode, setMode] = useState<"upload" | "url">("upload");
     const [file, setFile] = useState<File | null>(null);
     const [fileUrl, setFileUrl] = useState("");
@@ -74,9 +74,6 @@ export function NewPostForm({ canSave }: { canSave: boolean }) {
                 }));
             };
 
-    const setSec = (i: number, k: keyof Sec, v: string) =>
-        setSecs((s) => s.map((x, j) => (j === i ? { ...x, [k]: v } : x)));
-
     const pick = (e: React.ChangeEvent<HTMLInputElement>) => {
         const x = e.target.files?.[0] ?? null;
         if (x && !TYPES.includes(x.type)) {
@@ -109,12 +106,13 @@ export function NewPostForm({ canSave }: { canSave: boolean }) {
         !f.slug.trim() && "slug",
         !f.excerpt.trim() && "excerpt",
         !f.intro.trim() && "intro",
+        !f.content.trim() && "content",
         !hasImage && "cover image",
     ].filter(Boolean) as string[];
 
     const code = useMemo(
-        () => buildPostCode({ ...f, image: imagePath, sections: secs }),
-        [f, secs, imagePath]
+        () => buildPostCode({ ...f, image: imagePath, sizes }),
+        [f, imagePath, sizes]
     );
 
     const copy = async () => {
@@ -132,11 +130,11 @@ export function NewPostForm({ canSave }: { canSave: boolean }) {
             setResult(null);
             const fd = new FormData();
             Object.entries(f).forEach(([k, v]) => fd.append(k, v));
-            fd.append("sections", JSON.stringify(secs));
+            fd.append("sizes", JSON.stringify(sizes));
             if (mode === "upload" && file) fd.append("imageFile", file);
             if (mode === "url") fd.append("imageUrl", imgUrl.trim());
             try {
-                const res = await fetch("/api/admin/posts", { method: "POST", body: fd });
+                const res = await fetch("/api/admin/post", { method: "POST", body: fd });
                 const data = await res.json();
                 setResult(
                     data.ok
@@ -151,7 +149,7 @@ export function NewPostForm({ canSave }: { canSave: boolean }) {
     const reset = () => {
         setF(INITIAL);
         setSlugTouched(false);
-        setSecs([{ h: "", p: "" }]);
+        setSizes(DEFAULT_SIZES);
         setFile(null);
         setImgUrl("");
         setImgErr("");
@@ -261,40 +259,44 @@ export function NewPostForm({ canSave }: { canSave: boolean }) {
                     <textarea id="intro" rows={5} className={input} value={f.intro} onChange={set("intro")} />
                 </div>
 
+                {/* ----- content (single editor) ----- */}
                 <div className="border-t border-white/10 pt-5">
-                    <p className="text-[16px] font-medium">Sections</p>
-                    {secs.map((s, i) => (
-                        <div key={i} className="mt-4 rounded-2xl border border-white/10 p-4">
-                            <label htmlFor={`sh-${i}`} className={label}>Heading</label>
-                            <input id={`sh-${i}`} className={input} value={s.h} onChange={(e) => setSec(i, "h", e.target.value)} />
-                            <label htmlFor={`sp-${i}`} className={`${label} mt-4`}>
-                                Paragraphs (leave a blank line between each)
-                            </label>
-                            <textarea
-                                id={`sp-${i}`}
-                                rows={6}
-                                className={input}
-                                value={s.p}
-                                onChange={(e) => setSec(i, "p", e.target.value)}
-                            />
-                            {secs.length > 1 && (
-                                <button
-                                    type="button"
-                                    onClick={() => setSecs((x) => x.filter((_, j) => j !== i))}
-                                    className="mt-3 text-[13px] text-red-300 hover:underline"
-                                >
-                                    Remove section
-                                </button>
-                            )}
-                        </div>
-                    ))}
-                    <button
-                        type="button"
-                        onClick={() => setSecs((x) => [...x, { h: "", p: "" }])}
-                        className="mt-4 rounded-xl border border-white/20 px-4 py-2 text-[14px] hover:bg-white/10"
-                    >
-                        + Add section
-                    </button>
+                    <p className="text-[16px] font-medium">Content</p>
+                    <p className="mt-1 text-[13px] text-white/60">
+                        Start a line with <code>#</code> for H1, <code>##</code> for H2, <code>###</code> for H3.
+                        Anything else is paragraph text; leave a blank line between paragraphs.
+                    </p>
+                    <textarea
+                        id="content"
+                        rows={20}
+                        className={`${input} font-mono`}
+                        placeholder={"## My heading\n\nFirst paragraph…"}
+                        value={f.content}
+                        onChange={set("content")}
+                    />
+
+                    <div className="mt-5 flex items-center justify-between">
+                        <p className="text-[14px] text-white/70">Text sizes (px)</p>
+                        <button type="button" onClick={() => setSizes(DEFAULT_SIZES)} className="text-[13px] text-[#b79cff] hover:underline">
+                            Reset to default
+                        </button>
+                    </div>
+                    <div className="mt-3 grid grid-cols-2 gap-4 sm:grid-cols-4">
+                        {(["h1", "h2", "h3", "p"] as const).map((k) => (
+                            <div key={k}>
+                                <label htmlFor={`size-${k}`} className={label}>{k === "p" ? "Text" : k.toUpperCase()}</label>
+                                <input
+                                    id={`size-${k}`}
+                                    type="number"
+                                    min={10}
+                                    max={120}
+                                    className={input}
+                                    value={sizes[k]}
+                                    onChange={(e) => setSizes((s) => ({ ...s, [k]: Number(e.target.value) || 0 }))}
+                                />
+                            </div>
+                        ))}
+                    </div>
                 </div>
 
                 <div className="border-t border-white/10 pt-5">
@@ -372,7 +374,7 @@ export function NewPostForm({ canSave }: { canSave: boolean }) {
                 </pre>
                 <p className="mt-4 text-[13px] leading-[20px] text-white/60">
                     Copy code is for the live site: paste it inside <code>realPosts</code> in{" "}
-                    <code>lib/posts-data.ts</code> and save the image into <code>public/images</code> under the
+                    <code>lib/post-data.ts</code> and save the image into <code>public/images</code> under the
                     path shown. Create post does both steps for you.
                 </p>
             </div>

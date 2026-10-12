@@ -5,18 +5,12 @@ import { notFound } from "next/navigation";
 import { BlogCard } from "@/components/BlogCard";
 import { CtaPanel } from "@/components/CtaPanel";
 import { PageGlows } from "@/components/Glow";
-// import { SideForm } from "@/components/SideForm";
-// import { getPost, posts } from "@/lib/posts";
 import { FaFacebook } from "react-icons/fa6";
 import { FaTwitter } from "react-icons/fa";
 import { SiYoutube } from "react-icons/si";
 import { RiInstagramFill } from "react-icons/ri";
 import { getAllSlugs, getPost, getRecentPosts, getRelatedPosts } from "@/lib/posts";
-
-
-
-
-
+import { DEFAULT_SIZES } from "@/lib/post-code";
 
 export async function generateStaticParams() {
   return (await getAllSlugs()).map((slug) => ({ slug }));
@@ -59,7 +53,10 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
     getRelatedPosts(slug, 3),
   ]);
 
-  const toc = post.toc ?? post.sections.map((s) => s.h);
+  const sz = post.sizes ?? DEFAULT_SIZES;
+  const toc = post.toc ?? (post.content
+    ? post.content.filter((b) => b.t === "h2").map((b) => b.text)
+    : post.sections.map((s) => s.h));
 
   return (
     <main>
@@ -93,14 +90,29 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
                 ))}
               </ul>
 
-              {post.sections.map((s) => (
-                <div key={s.h}>
-                  <h2 className={H2}>{s.h}</h2>
-                  {s.p.map((t) => (
-                    <p key={t} className={P}>{t}</p>
-                  ))}
-                </div>
-              ))}
+              {post.content
+                ? post.content.map((b, i) => {
+                  if (b.t === "p")
+                    return (
+                      <p key={i} className="mt-4 tracking-tighter" style={{ fontSize: sz.p, lineHeight: 1.7 }}>
+                        {b.text}
+                      </p>
+                    );
+                  const Tag = b.t;
+                  return (
+                    <Tag key={i} className="mt-8 font-medium tracking-tighter" style={{ fontSize: sz[b.t], lineHeight: 1.3 }}>
+                      {b.text}
+                    </Tag>
+                  );
+                })
+                : post.sections.map((s) => (
+                  <div key={s.h}>
+                    <h2 className={H2}>{s.h}</h2>
+                    {s.p.map((t) => (
+                      <p key={t} className={P}>{t}</p>
+                    ))}
+                  </div>
+                ))}
             </article>
 
             <aside className="flex flex-col gap-5 min-[1101px]:sticky min-[1101px]:top-6">

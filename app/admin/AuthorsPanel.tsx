@@ -91,7 +91,7 @@ export function AuthorsPanel({ authors, loadError }: { authors: Author[]; loadEr
                     <button
                         type="button"
                         onClick={() => setOpen(true)}
-                        className="rounded-xl bg-[#5522d6] px-5 py-2.5 text-[14px] text-white hover:bg-[#6a3be6]"
+                        className="cursor-pointer rounded-xl bg-[#5522d6] px-5 py-2.5 text-[14px] text-white hover:bg-[#6a3be6]"
                     >
                         + Add author
                     </button>

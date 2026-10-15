@@ -13,9 +13,9 @@ export type Post = {
   image: string;
   intro: string;
   sections: Section[];   // old posts
-  content?: Block[];     // new posts: headings and paragraphs from the single editor
+  content?: Block[];     // new posts: headings and paragraphs from the editor
   sizes?: TextSizes;     // new posts: px sizes for h1/h2/h3/p
-  toc?: string[]; // optional; falls back to section headings
+  toc?: string[]; // optional; falls back to the headings
   seo: {
     metaTitle?: string;       // falls back to "<title> | Comtech Associates"
     metaDescription?: string; // falls back to excerpt
@@ -25,6 +25,10 @@ export type Post = {
 };
 
 export const PER_PAGE = 12;
+
+// the 120 static placeholder posts in post-data.ts all use this slug pattern
+const PLACEHOLDER = /^infrastructure-support-reduces-downtime-\d+$/;
+export const isDynamicPost = (p: Post) => !PLACEHOLDER.test(p.slug);
 
 /* ------------------------------------------------------------------
    DATA ACCESS LAYER: pages only call these functions.
@@ -58,4 +62,9 @@ export async function getRelatedPosts(excludeSlug: string, limit = 3) {
 
 export async function getAllPosts(): Promise<Post[]> {
   return postsData;
+}
+
+// only posts created from the admin (no static placeholders)
+export async function getDynamicPosts(): Promise<Post[]> {
+  return postsData.filter(isDynamicPost);
 }

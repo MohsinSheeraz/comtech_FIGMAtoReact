@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import { isAdmin } from "@/lib/admin-auth";
 import { listAuthors } from "@/lib/authors";
-import { NewPostForm } from "./NewPostForm";
+import { PostEditor } from "@/app/admin/PostEditor";
 
 export default async function NewPost() {
     if (!(await isAdmin())) redirect("/admin/login");
@@ -14,7 +14,7 @@ export default async function NewPost() {
 
     return (
         <main className="mx-auto w-[96%] max-w-[1800px] pb-24 pt-28">
-            <NewPostForm canSave={process.env.NODE_ENV !== "production"} authorNames={authorNames} />
+            <PostEditor canSave={process.env.NODE_ENV !== "production"} authorNames={authorNames} />
         </main>
     );
 }

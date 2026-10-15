@@ -5,6 +5,8 @@ import { notFound } from "next/navigation";
 import { BlogCard } from "@/components/BlogCard";
 import { CtaPanel } from "@/components/CtaPanel";
 import { PageGlows } from "@/components/Glow";
+// import { SideForm } from "@/components/SideForm";
+// import { getPost, posts } from "@/lib/posts";
 import { FaFacebook } from "react-icons/fa6";
 import { FaTwitter } from "react-icons/fa";
 import { SiYoutube } from "react-icons/si";
@@ -83,36 +85,40 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
               </h1>
               <p className={`${P} mt-8`}>{post.intro}</p>
 
-              <h2 className={H2}>Table of Contents</h2>
-              <ul className="mt-4 list-disc space-y-1 pl-6 text-[17px] leading-[30px] tracking-tighter">
-                {toc.map((t) => (
-                  <li key={t}>{t}</li>
-                ))}
-              </ul>
+              {toc.length > 0 && (
+                <nav aria-label="Table of contents" className="mt-8 rounded-2xl border border-white/20 bg-white/5 p-6">
+                  <p className="text-[14px] font-medium uppercase tracking-wide text-white/60">Table of Contents</p>
+                  <ol className="mt-3 list-decimal space-y-1.5 pl-6 text-[17px] leading-[28px] tracking-tighter">
+                    {toc.map((t) => (
+                      <li key={t}>{t}</li>
+                    ))}
+                  </ol>
+                </nav>
+              )}
 
               {post.content
                 ? post.content.map((b, i) => {
-                  if (b.t === "p")
+                    if (b.t === "p")
+                      return (
+                        <p key={i} className="mt-4 tracking-tighter" style={{ fontSize: sz.p, lineHeight: 1.7 }}>
+                          {b.text}
+                        </p>
+                      );
+                    const Tag = b.t;
                     return (
-                      <p key={i} className="mt-4 tracking-tighter" style={{ fontSize: sz.p, lineHeight: 1.7 }}>
+                      <Tag key={i} className="mt-8 font-medium tracking-tighter" style={{ fontSize: sz[b.t], lineHeight: 1.3 }}>
                         {b.text}
-                      </p>
+                      </Tag>
                     );
-                  const Tag = b.t;
-                  return (
-                    <Tag key={i} className="mt-8 font-medium tracking-tighter" style={{ fontSize: sz[b.t], lineHeight: 1.3 }}>
-                      {b.text}
-                    </Tag>
-                  );
-                })
+                  })
                 : post.sections.map((s) => (
-                  <div key={s.h}>
-                    <h2 className={H2}>{s.h}</h2>
-                    {s.p.map((t) => (
-                      <p key={t} className={P}>{t}</p>
-                    ))}
-                  </div>
-                ))}
+                    <div key={s.h}>
+                      <h2 className={H2}>{s.h}</h2>
+                      {s.p.map((t) => (
+                        <p key={t} className={P}>{t}</p>
+                      ))}
+                    </div>
+                  ))}
             </article>
 
             <aside className="flex flex-col gap-5 min-[1101px]:sticky min-[1101px]:top-6">

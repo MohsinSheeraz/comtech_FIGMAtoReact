@@ -24,6 +24,7 @@ export type PostFields = {
     intro: string;
     content: string;
     sizes: TextSizes;
+    toc: string[];
     metaTitle: string;
     metaDescription: string;
     metaTags: string;
@@ -92,6 +93,9 @@ export function buildPostCode(f: PostFields): string {
     ]
         .filter(Boolean)
         .join("\n");
+    // always written: [] = no Table of Contents, otherwise the typed entries
+    const tocItems = f.toc.map((t) => t.trim()).filter(Boolean);
+    const toc = `\n    toc: [${tocItems.map(q).join(", ")}],`;
 
-    return `  {\n${lines}\n    sections: [],\n    content: [\n${content}\n    ],\n    sizes: { h1: ${s.h1}, h2: ${s.h2}, h3: ${s.h3}, p: ${s.p} },\n    seo: {\n${seo}\n    },\n  },`;
+    return `  {\n${lines}\n    sections: [],\n    content: [\n${content}\n    ],\n    sizes: { h1: ${s.h1}, h2: ${s.h2}, h3: ${s.h3}, p: ${s.p} },${toc}\n    seo: {\n${seo}\n    },\n  },`;
 }

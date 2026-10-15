@@ -3,7 +3,9 @@ import { redirect } from "next/navigation";
 import { isAdmin } from "@/lib/admin-auth";
 import { getAllPosts } from "@/lib/posts";
 import { seoIssues } from "@/lib/seo-audit";
+import { listAuthors, type Author } from "@/lib/authors";
 import { logout } from "@/app/admin/action";
+import { AuthorsPanel } from "./AuthorsPanel";
 
 const PAGE = 15;
 
@@ -17,6 +19,14 @@ export default async function AdminDashboard({
     const { page, show } = await searchParams;
     const all = await getAllPosts();
     const audited = all.map((post) => ({ post, issues: seoIssues(post) }));
+
+    let authors: Author[] = [];
+    let authorsError = false;
+    try {
+        authors = await listAuthors();
+    } catch {
+        authorsError = true;
+    }
 
     const stats = [
         { label: "Total posts", value: all.length },
@@ -44,7 +54,7 @@ export default async function AdminDashboard({
                 <div>
                     <h1 className="text-[36px] font-medium leading-[44px] tracking-tighter">Blog Admin</h1>
                     <p className="mt-1 text-[15px] text-white/60">
-                        Read-only for now. Posts are edited in <code>lib/posts-data.ts</code>.
+                        Read-only for now. Posts are edited in <code>lib/post-data.ts</code>.
                     </p>
                 </div>
                 <div className="flex gap-3 items-center justify-center">
@@ -60,11 +70,6 @@ export default async function AdminDashboard({
                         </button>
                     </form>
                 </div>
-                {/* <form action={logout}>
-                    <button className="rounded-xl border border-white/20 px-5 py-2.5 text-[14px] hover:bg-white/10">
-                        Log out
-                    </button>
-                </form> */}
             </div>
 
             <div className="mt-8 grid grid-cols-2 gap-4 min-[900px]:grid-cols-4">
@@ -75,6 +80,8 @@ export default async function AdminDashboard({
                     </div>
                 ))}
             </div>
+
+            <AuthorsPanel authors={authors} loadError={authorsError} />
 
             <div className="mt-10 flex gap-3">
                 <Link href={href(1, false)} className={tab(!issuesOnly)}>All posts</Link>

@@ -64,6 +64,26 @@ const base: Omit<Post, "slug"> = {
 
 // Real posts: paste new posts generated at /admin/new here (newest first).
 const realPosts: Post[] = [
+  {
+    slug: "mazda-rx-8-brief-review",
+    title: "Mazda RX-8 Brief Review",
+    excerpt: "This is in detail blog for How Mazda RX-8 is very good for drifting",
+    author: "Author2",
+    date: "15-10-2026",
+    category: "Automorts",
+    image: "/images/mazda-rx-8-brief-review.jpg",
+    intro: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Temporibus consectetur ex culpa? Exercitationem itaque asperiores laborum adipisci labore tempora dolores eaque iusto repudiandae soluta vitae totam odio dolorum et obcaecati ex dolorem, saepe nihil at ducimus autem hic aliquam. Reprehenderit dolorem ducimus quis impedit ad voluptate voluptas sint nemo et modi nesciunt excepturi dolore aperiam, odio ullam, soluta eum illum.",
+    sections: [],
+    content: [
+      { t: "p", text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe temporibus vitae deserunt culpa quisquam quae, cumque provident quas nobis. Harum beatae et, voluptatibus nulla dolore quos commodi laboriosam quam minus laborum assumenda dolorum expedita error cupiditate nisi molestias est ab aspernatur amet sit corporis hic natus labore. Commodi molestiae consectetur culpa corporis cupiditate, iusto, officia in quisquam hic explicabo quod, quis rem sunt expedita deserunt vero autem? A atque minima veritatis? Fugit unde mollitia iste esse facilis? Mollitia, natus voluptatem dolorum omnis fugiat velit alias sapiente voluptates vel neque, rem deleniti ullam, in et ad! Cum repellat reiciendis nesciunt pariatur veritatis placeat maiores unde nostrum? Aperiam nulla quia incidunt dolorum natus iusto quas explicabo, corporis ratione dolor vel ea itaque in, vitae fugit sunt soluta cum! Officia quibusdam similique quisquam quae deserunt incidunt sunt voluptatum nihil nostrum! Voluptatibus laborum est doloribus voluptatem suscipit deserunt! Ab nemo quae soluta, in eos quia, molestias veritatis placeat explicabo enim sequi vitae numquam ex debitis commodi vel deleniti similique quaerat consequuntur voluptas est ratione facere! Fugiat, inventore, possimus facilis temporibus harum repellat aut nulla corporis, magnam laudantium porro! Possimus reprehenderit excepturi eos impedit iusto officia earum cupiditate delectus est porro, eaque qui, doloribus minus obcaecati quam ducimus eveniet nemo maxime corrupti, quisquam aliquid minima modi? Incidunt quos assumenda necessitatibus ducimus aspernatur, et cum iusto accusamus odio amet numquam minima earum nobis quisquam voluptates a ratione nesciunt facere quis ad nulla tenetur obcaecati. Modi voluptas quo, omnis illo sunt excepturi ab facilis aliquam alias numquam consequatur eius nesciunt corporis repellat vel velit delectus, asperiores unde cumque commodi. Deleniti, cumque id non eum, explicabo, perferendis sapiente expedita nihil mollitia molestias delectus quam cum eos laudantium praesentium doloremque. Iusto, hic? Deleniti error aspernatur dolorem beatae eaque accusamus qui aliquam reiciendis nulla alias nihil corporis nemo eum molestias maiores obcaecati consequatur nobis dignissimos, velit aut quia. Doloremque quae deserunt quisquam, cum commodi quos provident excepturi omnis illum molestias eos molestiae nihil ullam impedit itaque possimus qui accusantium harum consequuntur eaque quidem labore! Vel laborum autem sunt suscipit voluptatem ducimus cupiditate ratione laboriosam, voluptate beatae nobis non atque eaque nemo dolorum molestiae voluptas. Dolorem, excepturi consequatur quae amet nisi harum illum ratione nulla libero itaque vitae eos asperiores, quisquam molestiae necessitatibus ea omnis id ipsam, atque magnam voluptate ipsum rem eaque. Saepe aut dicta adipisci illo sint! Odit, est veniam. Quam ipsa ad id optio. Assumenda doloribus incidunt quod consectetur neque deserunt odio mollitia ab nulla tenetur voluptatem similique vitae, id amet necessitatibus porro eum. Ullam impedit esse ducimus quae perferendis quidem recusandae ipsam nesciunt veniam. Eius, at. Laborum ducimus dolore sunt, consequatur culpa, ipsa laboriosam vel temporibus quas incidunt harum, voluptates delectus. Voluptas provident molestiae quisquam voluptatem consequuntur in. Consectetur deleniti ipsum, quas quam rerum, excepturi aliquid sint ipsam laboriosam amet inventore repellendus. Voluptates soluta laudantium reiciendis facere a, quasi praesentium labore? Autem repellat porro sapiente odit, ea delectus amet dignissimos. Rem laudantium aspernatur incidunt, ab voluptate illo hic consequuntur obcaecati, velit aliquid dolore natus dolor ducimus optio!" },
+    ],
+    sizes: { h1: 34, h2: 28, h3: 22, p: 18 },
+    seo: {
+      metaTitle: "Mazda RX-8",
+      metaDescription: "Mazda RX-8 Full Review",
+      metaTags: ["Cars", "Sport Cars", "SuperCars"],
+    },
+  },
 ];
 
 // Placeholder list (same copy 120 times, like the Figma). Delete when you have enough real posts.

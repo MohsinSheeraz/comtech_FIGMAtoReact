@@ -36,28 +36,10 @@ export const PageGlows = ({ variant = "home" }: { variant?: "home" | "inner" }) 
       <i className="hl-ray hl-ray-b" />
     </div>
     <HeroLightScroll />
-    <svg aria-hidden className="absolute size-0">
-      <filter id="hero-lines-flow" x="-4%" y="-4%" width="108%" height="108%">
-        <feTurbulence
-          type="fractalNoise"
-          baseFrequency="0.008 0.014"
-          numOctaves="1"
-          seed="3"
-          result="flow"
-        >
-          <animate
-            attributeName="baseFrequency"
-            values="0.008 0.014;0.014 0.009;0.008 0.014"
-            dur="36s"
-            repeatCount="indefinite"
-          />
-        </feTurbulence>
-        <feDisplacementMap in="SourceGraphic" in2="flow" scale="14" />
-      </filter>
-    </svg>
-    {/* Contour lines gently ripple in place. */}
-    <div className="hero-lines absolute inset-0 opacity-50">
-      <Image src="/images/wavesImg.png" alt="" fill priority sizes="75vw" className="object-contain" />
+    <div className="absolute inset-0 opacity-50">
+      {[0, 1].map((n) => (
+        <Image key={n} src="/images/wavesImg.png" alt="" fill priority={n === 0} sizes="75vw" className="object-contain" />
+      ))}
     </div>
   </div>
 );

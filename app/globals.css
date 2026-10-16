@@ -2200,15 +2200,10 @@ a.btn.p::after {
   animation: hl-sway 14s ease-in-out infinite alternate-reverse;
 }
 
-.hero-lines {
-  filter: url(#hero-lines-flow);
-}
-
 @keyframes hl-sway    { from { transform: rotate(-5deg) scaleX(1); } to { transform: rotate(5deg) scaleX(1.1); } }
 @keyframes hl-breathe { from { opacity: .65; transform: scale(1); } to { opacity: 1; transform: scale(1.06); } }
 @keyframes hl-drift   { to { transform: translate3d(9vw, 4vw, 0); } }
 
 @media (prefers-reduced-motion: reduce) {
   .hl-cone, .hl-orb, .hl-ray { animation: none; }
-  .hero-lines { filter: none; }
 }

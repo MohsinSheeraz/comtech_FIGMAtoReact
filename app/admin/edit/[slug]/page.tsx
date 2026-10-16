@@ -39,8 +39,7 @@ export default async function EditPost({ params }: { params: Promise<{ slug: str
         excerpt: post.excerpt,
         blocks,
         sizes: post.sizes ?? DEFAULT_SIZES,
-        // no toc field = the post currently shows a Table of Contents built from its H2s
-        // showToc: post.toc === undefined ? true : post.toc.length > 0,
+        // posts without a saved toc keep showing their old auto-built list, now as editable entries
         toc: post.toc ?? (post.content
             ? post.content.filter((b) => b.t === "h2").map((b) => b.text)
             : post.sections.map((s) => s.h)),
@@ -53,11 +52,7 @@ export default async function EditPost({ params }: { params: Promise<{ slug: str
 
     return (
         <main className="mx-auto w-[96%] max-w-[1800px] pb-24 pt-28">
-            <PostEditor
-                canSave={process.env.NODE_ENV !== "production"}
-                authorNames={authorNames}
-                initial={initial}
-            />
+            <PostEditor canSave authorNames={authorNames} initial={initial} />
         </main>
     );
 }

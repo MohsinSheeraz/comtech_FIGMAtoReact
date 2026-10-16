@@ -1,13 +1,19 @@
-import { promises as fs } from "fs";
-import path from "path";
+import { put, del } from "@vercel/blob";
 
-const MAX = 5 * 1024 * 1024;
+const MAX = 4 * 1024 * 1024; // Vercel rejects request bodies over ~4.5 MB
 const EXT: Record<string, string> = {
     "image/png": "png",
     "image/jpeg": "jpg",
     "image/webp": "webp",
     "image/gif": "gif",
     "image/avif": "avif",
+};
+const TYPE: Record<string, string> = {
+    png: "image/png",
+    jpg: "image/jpeg",
+    webp: "image/webp",
+    gif: "image/gif",
+    avif: "image/avif",
 };
 
 export type PostImage = { bytes: Buffer; ext: string };
@@ -20,7 +26,7 @@ export async function readImage(fd: FormData): Promise<PostImage | { error: stri
     if (file instanceof File && file.size > 0) {
         const ext = EXT[file.type];
         if (!ext) return { error: "Use a PNG, JPG, WebP, GIF or AVIF image." };
-        if (file.size > MAX) return { error: "The image is over 5 MB." };
+        if (file.size > MAX) return { error: "The image is over 4 MB." };
         return { bytes: Buffer.from(await file.arrayBuffer()), ext };
     }
 
@@ -44,18 +50,34 @@ export async function readImage(fd: FormData): Promise<PostImage | { error: stri
         const ext = EXT[type];
         if (!ext) return { error: "That URL isn't a supported image (PNG, JPG, WebP, GIF or AVIF)." };
         const bytes = Buffer.from(await res.arrayBuffer());
-        if (bytes.length > MAX) return { error: "The image is over 5 MB." };
+        if (bytes.length > MAX) return { error: "The image is over 4 MB." };
         return { bytes, ext };
     }
 
     return null;
 }
 
-// saves into public/images/<slug>.<ext> and returns the public path
+// uploads to Vercel Blob and returns the public URL
 export async function saveImage(slug: string, img: PostImage): Promise<string> {
-    const dir = path.join(process.cwd(), "public", "images");
-    await fs.mkdir(dir, { recursive: true });
-    const name = `${slug}.${img.ext}`;
-    await fs.writeFile(path.join(dir, name), img.bytes);
-    return `/images/${name}`;
+    if (!process.env.BLOB_READ_WRITE_TOKEN) throw new Error("BLOB_NOT_CONFIGURED");
+    const blob = await put(`post-covers/${slug}.${img.ext}`, img.bytes, {
+        access: "public",
+        addRandomSuffix: true,
+        contentType: TYPE[img.ext],
+    });
+    return blob.url;
+}
+
+// only removes Blob files; old /images/... paths from the repo are left alone
+export async function deleteImage(url: string): Promise<void> {
+    if (!/\.public\.blob\.vercel-storage\.com\//.test(url)) return;
+    try {
+        await del(url);
+    } catch { }
+}
+
+export function imageErrorMessage(e: unknown): string {
+    return e instanceof Error && e.message === "BLOB_NOT_CONFIGURED"
+        ? "Image storage isn't set up yet. Add the Vercel Blob token (BLOB_READ_WRITE_TOKEN)."
+        : "Couldn't upload the image.";
 }

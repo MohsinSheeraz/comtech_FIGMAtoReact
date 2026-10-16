@@ -14,7 +14,7 @@ export default async function NewPost() {
 
     return (
         <main className="mx-auto w-[96%] max-w-[1800px] pb-24 pt-28">
-            <PostEditor canSave={process.env.NODE_ENV !== "production"} authorNames={authorNames} />
+            <PostEditor canSave authorNames={authorNames} />
         </main>
     );
 }

@@ -1,4 +1,6 @@
+import { cache } from "react";
 import { postsData } from "@/lib/post-data";
+import { getDb } from "@/lib/mongodb";
 import type { Block, TextSizes } from "@/lib/post-code";
 
 export type Section = { h: string; p: string[] };
@@ -15,7 +17,7 @@ export type Post = {
   sections: Section[];   // old posts
   content?: Block[];     // new posts: headings and paragraphs from the editor
   sizes?: TextSizes;     // new posts: px sizes for h1/h2/h3/p
-  toc?: string[]; // optional; falls back to the headings
+  toc?: string[];        // Table of Contents entries; [] = hidden
   seo: {
     metaTitle?: string;       // falls back to "<title> | Comtech Associates"
     metaDescription?: string; // falls back to excerpt
@@ -30,41 +32,63 @@ export const PER_PAGE = 12;
 const PLACEHOLDER = /^infrastructure-support-reduces-downtime-\d+$/;
 export const isDynamicPost = (p: Post) => !PLACEHOLDER.test(p.slug);
 
+// posts saved from the admin (newest first); the site keeps working if the database is down
+async function dbPosts(): Promise<Post[]> {
+  try {
+    const db = await getDb();
+    const docs = await db
+      .collection("posts")
+      .find({}, { projection: { _id: 0, createdAt: 0, updatedAt: 0 } })
+      .sort({ createdAt: -1 })
+      .toArray();
+    return docs as unknown as Post[];
+  } catch (e) {
+    console.error("Couldn't read posts from the database:", e);
+    return [];
+  }
+}
+
+// Mongo posts first, then the static ones; if a slug exists in both, Mongo wins
+const loadAll = cache(async (): Promise<Post[]> => {
+  const fromDb = await dbPosts();
+  const seen = new Set(fromDb.map((p) => p.slug));
+  return [...fromDb, ...postsData.filter((p) => !seen.has(p.slug))];
+});
+
 /* ------------------------------------------------------------------
    DATA ACCESS LAYER: pages only call these functions.
-   When the database arrives, rewrite the bodies below and keep the
-   signatures; no page needs to change.
 ------------------------------------------------------------------- */
 
 export async function getPostsPage(page: number) {
-  const total = Math.max(1, Math.ceil(postsData.length / PER_PAGE));
+  const all = await loadAll();
+  const total = Math.max(1, Math.ceil(all.length / PER_PAGE));
   const current = Math.min(Math.max(page || 1, 1), total);
-  const items = postsData.slice((current - 1) * PER_PAGE, current * PER_PAGE);
+  const items = all.slice((current - 1) * PER_PAGE, current * PER_PAGE);
   return { items, current, total };
 }
 
 export async function getPost(slug: string): Promise<Post | null> {
-  return postsData.find((p) => p.slug === slug) ?? null;
+  return (await loadAll()).find((p) => p.slug === slug) ?? null;
 }
 
 export async function getAllSlugs(): Promise<string[]> {
-  return postsData.map((p) => p.slug);
+  return (await loadAll()).map((p) => p.slug);
 }
 
 export async function getRecentPosts(excludeSlug: string, limit = 4) {
-  return postsData.filter((p) => p.slug !== excludeSlug).slice(0, limit);
+  return (await loadAll()).filter((p) => p.slug !== excludeSlug).slice(0, limit);
 }
 
 // Placeholder logic; later this can match by category or tags.
 export async function getRelatedPosts(excludeSlug: string, limit = 3) {
-  return postsData.filter((p) => p.slug !== excludeSlug).slice(4, 4 + limit);
+  return (await loadAll()).filter((p) => p.slug !== excludeSlug).slice(4, 4 + limit);
 }
 
 export async function getAllPosts(): Promise<Post[]> {
-  return postsData;
+  return loadAll();
 }
 
-// only posts created from the admin (no static placeholders)
+// posts created from the admin (no static placeholders)
 export async function getDynamicPosts(): Promise<Post[]> {
-  return postsData.filter(isDynamicPost);
+  return (await loadAll()).filter(isDynamicPost);
 }

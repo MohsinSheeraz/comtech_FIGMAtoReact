@@ -15,18 +15,18 @@ export const Glow = ({
   />
 );
 
-/* Inner pages retain the static gradient; the home hero gets its color from the moving lights. */
+/* Layer the same blue-purple background gradient beneath the animated lights on every hero. */
 const glowBg =
   "radial-gradient(ellipse 680px 620px at 95% 30%, #1b1232 0%, rgba(27,18,50,.5) 44%, rgba(27,18,50,.18) 68%, transparent 100%), radial-gradient(ellipse 680px 560px at 12% 22%, #122344 0%, rgba(18,35,68,.46) 44%, rgba(18,35,68,.16) 68%, transparent 100%)";
 
 
-export const PageGlows = ({ variant = "home" }: { variant?: "home" | "inner" }) => (
+export const PageGlows = (_props: { variant?: "home" | "inner" }) => (
   <div
     aria-hidden
     // h = 100vh, divided by --z so it still spans the full screen height when the page is scaled (see viewport-scale.css)
     className="pointer-events-none absolute inset-x-0 top-0 z-0 h-[calc(100vh/var(--z,1))] overflow-hidden [mask-image:linear-gradient(to_bottom,black_62%,transparent)]"
   >
-    {variant === "inner" && <div className="absolute inset-0" style={{ background: glowBg }} />}
+    <div className="absolute inset-0" style={{ background: glowBg }} />
     {/* moving light rays and drifting orbs */}
     <div className="hl">
       <i className="hl-cone" />

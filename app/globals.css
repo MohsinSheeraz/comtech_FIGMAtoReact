@@ -2155,3 +2155,53 @@ a.btn.p::after {
         animation: none;
     }
 }
+
+
+
+
+/* ---------- Hero light from above (used by PageGlows) ---------- */
+.hl { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+
+/* soft cone of light that breathes (blue core -> violet, matches the Figma glows) */
+.hl-cone {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 60% 55% at 50% -6%,
+    rgba(121, 80, 226, .55), rgba(40, 95, 230, .22) 45%, transparent 72%);
+  animation: hl-breathe 7s ease-in-out infinite alternate;
+}
+
+/* blurred orbs drifting behind the rays */
+.hl-orb {
+  position: absolute; top: -30%; width: 42vw; height: 42vw; border-radius: 50%;
+  filter: blur(90px);
+  animation: hl-drift 16s ease-in-out infinite alternate;
+}
+.hl-o1 { left: -8vw;  background: rgba(40, 95, 230, .35); }
+.hl-o2 { right: -8vw; background: rgba(121, 80, 226, .30); animation-delay: -8s; }
+
+/* the rays: conic slices pivoting from the top-centre */
+.hl-ray {
+  position: absolute; left: -30%; right: -30%; top: -25%; height: 125%;
+  transform-origin: 50% 0;
+  translate: 0 var(--hl-py, 0px); /* scroll parallax, set by HeroLightScroll */
+  background: repeating-conic-gradient(from 158deg at 50% 0,
+    transparent 0deg, rgba(150, 175, 255, .95) 2.2deg, transparent 4.6deg);
+  -webkit-mask-image: radial-gradient(ellipse 55% 75% at 50% 0, #000, transparent 78%);
+          mask-image: radial-gradient(ellipse 55% 75% at 50% 0, #000, transparent 78%);
+  opacity: .55;
+  animation: hl-sway 10s ease-in-out infinite alternate;
+}
+.hl-ray-b {
+  background: repeating-conic-gradient(from 160deg at 50% 0,
+    transparent 0deg, rgba(121, 80, 226, .9) 3.4deg, transparent 7deg);
+  filter: blur(14px); opacity: .5;
+  animation: hl-sway 14s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes hl-sway    { from { transform: rotate(-5deg) scaleX(1); } to { transform: rotate(5deg) scaleX(1.1); } }
+@keyframes hl-breathe { from { opacity: .65; transform: scale(1); } to { opacity: 1; transform: scale(1.06); } }
+@keyframes hl-drift   { to { transform: translate3d(9vw, 4vw, 0); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .hl-cone, .hl-orb, .hl-ray { animation: none; }
+}

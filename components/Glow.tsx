@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { HeroLightScroll } from "@/components/HeroLightScroll";
 
 export const Glow = ({
   className = "",
@@ -18,8 +19,13 @@ export const Glow = ({
    blue glow on the left, purple on the right, with the contour-line texture (wavesImg.png) on top.
    `variant` is still accepted so existing pages keep working, but "inner" now renders the same
    look as "home". */
-const glowBg =
+// background: linear-gradient(180deg, #5724D8 0%, #7950E2 100%);
+
+
+
+  const glowBg =
   "radial-gradient(ellipse 560px 600px at 95% 33%, #231547 0%, rgba(35,21,71,.6) 50%, transparent 100%), radial-gradient(ellipse 560px 540px at 14% 23%, #193479 0%, rgba(25,52,121,.55) 45%, transparent 100%)";
+
 
 export const PageGlows = (_props: { variant?: "home" | "inner" }) => (
   <div
@@ -29,6 +35,15 @@ export const PageGlows = (_props: { variant?: "home" | "inner" }) => (
   >
     {/* gradient layer */}
     <div className="absolute inset-0" style={{ background: glowBg }} />
+        {/* diving light from above (animated rays + breathing cone + drifting orbs) */}
+    <div className="hl">
+      <i className="hl-cone" />
+      <i className="hl-orb hl-o1" />
+      <i className="hl-orb hl-o2" />
+      <i className="hl-ray" />
+      <i className="hl-ray hl-ray-b" />
+    </div>
+    <HeroLightScroll />
     {/* waves layer */}
     <div className="absolute inset-0 opacity-50">
       {[0, 1].map((n) => (

@@ -2165,8 +2165,9 @@ a.btn.p::after {
 /* Soft blue-violet light cone with animated rays for subtle motion. */
 .hl-cone {
   position: absolute; inset: 0;
-  background: radial-gradient(ellipse 60% 55% at 50% -6%,
-    rgba(91, 64, 157, .24), rgba(34, 67, 132, .12) 45%, transparent 72%);
+  background:
+    radial-gradient(ellipse 54% 58% at 18% -5%, rgba(31, 79, 176, .34), transparent 74%),
+    radial-gradient(ellipse 54% 58% at 82% -5%, rgba(107, 55, 177, .32), transparent 74%);
   animation: hl-breathe 7s ease-in-out infinite alternate;
 }
 
@@ -2176,8 +2177,8 @@ a.btn.p::after {
   filter: blur(110px);
   animation: hl-drift 16s ease-in-out infinite alternate;
 }
-.hl-o1 { left: -8vw; background: rgba(31, 66, 145, .2); }
-.hl-o2 { right: -8vw; background: rgba(78, 49, 132, .18); animation-delay: -8s; }
+.hl-o1 { left: -8vw; background: rgba(31, 76, 177, .28); }
+.hl-o2 { right: -8vw; background: rgba(98, 50, 169, .26); animation-delay: -8s; }
 
 /* Rotating conic slices create the moving light rays. */
 .hl-ray {
@@ -2185,7 +2186,7 @@ a.btn.p::after {
   transform-origin: 50% 0;
   translate: 0 var(--hl-py, 0px); /* scroll parallax, set by HeroLightScroll */
   background: repeating-conic-gradient(from 158deg at 50% 0,
-    transparent 0deg, rgba(113, 139, 214, .62) 2.2deg, transparent 4.6deg);
+    transparent 0deg, rgba(83, 133, 255, .68) 2.2deg, transparent 4.6deg);
   -webkit-mask-image: radial-gradient(ellipse 55% 75% at 50% 0, #000, transparent 78%);
           mask-image: radial-gradient(ellipse 55% 75% at 50% 0, #000, transparent 78%);
   opacity: .42;
@@ -2193,10 +2194,14 @@ a.btn.p::after {
 }
 .hl-ray-b {
   background: repeating-conic-gradient(from 160deg at 50% 0,
-    transparent 0deg, rgba(94, 68, 157, .52) 3.4deg, transparent 7deg);
+    transparent 0deg, rgba(159, 94, 235, .58) 3.4deg, transparent 7deg);
   filter: blur(18px);
   opacity: .34;
   animation: hl-sway 14s ease-in-out infinite alternate-reverse;
+}
+
+.hero-lines {
+  filter: url(#hero-lines-flow);
 }
 
 @keyframes hl-sway    { from { transform: rotate(-5deg) scaleX(1); } to { transform: rotate(5deg) scaleX(1.1); } }
@@ -2205,4 +2210,5 @@ a.btn.p::after {
 
 @media (prefers-reduced-motion: reduce) {
   .hl-cone, .hl-orb, .hl-ray { animation: none; }
+  .hero-lines { filter: none; }
 }

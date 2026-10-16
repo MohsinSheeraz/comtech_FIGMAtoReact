@@ -15,26 +15,18 @@ export const Glow = ({
   />
 );
 
-/* Hero background glows: ONE gradient for every page (the Home design):
-   blue glow on the left, purple on the right, with the contour-line texture (wavesImg.png) on top.
-   `variant` is still accepted so existing pages keep working, but "inner" now renders the same
-   look as "home". */
-// background: linear-gradient(180deg, #5724D8 0%, #7950E2 100%);
-
-
-
+/* Inner pages retain the static gradient; the home hero gets its color from the moving lights. */
 const glowBg =
   "radial-gradient(ellipse 680px 620px at 95% 30%, #1b1232 0%, rgba(27,18,50,.5) 44%, rgba(27,18,50,.18) 68%, transparent 100%), radial-gradient(ellipse 680px 560px at 12% 22%, #122344 0%, rgba(18,35,68,.46) 44%, rgba(18,35,68,.16) 68%, transparent 100%)";
 
 
-export const PageGlows = (_props: { variant?: "home" | "inner" }) => (
+export const PageGlows = ({ variant = "home" }: { variant?: "home" | "inner" }) => (
   <div
     aria-hidden
     // h = 100vh, divided by --z so it still spans the full screen height when the page is scaled (see viewport-scale.css)
     className="pointer-events-none absolute inset-x-0 top-0 z-0 h-[calc(100vh/var(--z,1))] overflow-hidden [mask-image:linear-gradient(to_bottom,black_62%,transparent)]"
   >
-    {/* gradient layer */}
-    <div className="absolute inset-0" style={{ background: glowBg }} />
+    {variant === "inner" && <div className="absolute inset-0" style={{ background: glowBg }} />}
     {/* moving light rays and drifting orbs */}
     <div className="hl">
       <i className="hl-cone" />
@@ -44,11 +36,28 @@ export const PageGlows = (_props: { variant?: "home" | "inner" }) => (
       <i className="hl-ray hl-ray-b" />
     </div>
     <HeroLightScroll />
-    {/* waves layer */}
-    <div className="absolute inset-0 opacity-50">
-      {[0, 1].map((n) => (
-        <Image key={n} src="/images/wavesImg.png" alt="" fill priority={n === 0} sizes="75vw" className="object-contain" />
-      ))}
+    <svg aria-hidden className="absolute size-0">
+      <filter id="hero-lines-flow" x="-4%" y="-4%" width="108%" height="108%">
+        <feTurbulence
+          type="fractalNoise"
+          baseFrequency="0.008 0.014"
+          numOctaves="1"
+          seed="3"
+          result="flow"
+        >
+          <animate
+            attributeName="baseFrequency"
+            values="0.008 0.014;0.014 0.009;0.008 0.014"
+            dur="36s"
+            repeatCount="indefinite"
+          />
+        </feTurbulence>
+        <feDisplacementMap in="SourceGraphic" in2="flow" scale="14" />
+      </filter>
+    </svg>
+    {/* Contour lines gently ripple in place. */}
+    <div className="hero-lines absolute inset-0 opacity-50">
+      <Image src="/images/wavesImg.png" alt="" fill priority sizes="75vw" className="object-contain" />
     </div>
   </div>
 );

@@ -55,7 +55,7 @@ export const Hero = ({
     {globe && (
       <Image
         className="globe [mask-image:linear-gradient(to_bottom,#000_45%,transparent)]"
-        src="/images/Globe_hero.png" alt="" width={906} height={510} priority
+        src="/images/Globe_hero.png" alt="" width={1672} height={941} priority
       />
     )}
   </section>

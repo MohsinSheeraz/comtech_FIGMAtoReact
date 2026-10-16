@@ -5,15 +5,15 @@ import { logos } from "./PartnerSlider";
    Same logo assets as the partner slider further down the page. */
 export function HeroLogos({ className = "" }: { className?: string }) {
   const set = (hidden: boolean) => (
-    <div className="flex shrink-0 items-center gap-8 pr-8 sm:gap-14 sm:pr-14" aria-hidden={hidden || undefined}>
+    <div className="flex shrink-0 items-center gap-3 pr-3 sm:gap-4 sm:pr-4" aria-hidden={hidden || undefined}>
       {logos.map((l) => (
         <div
           key={l.name}
-          className="flex h-[48px] w-[120px] shrink-0 items-center justify-center opacity-60 transition-opacity duration-300 hover:opacity-100 sm:h-[56px] sm:w-[150px] [&>*]:scale-[.6]"
+          className="flex h-[48px] w-[112px] shrink-0 items-center justify-center opacity-65 grayscale transition-[filter,opacity] duration-300 hover:opacity-100 hover:grayscale-0 sm:h-[56px] sm:w-[136px] [&>*]:scale-[.68]"
         >
           {l.src ? (
             /* eslint-disable-next-line @next/next/no-img-element */
-            <img src={l.src} alt={l.name} className="max-h-[54px] max-w-[70%] object-contain" />
+            <img src={l.src} alt={l.name} className="max-h-[48px] max-w-[76%] object-contain" />
           ) : (
             l.mark
           )}
@@ -26,7 +26,7 @@ export function HeroLogos({ className = "" }: { className?: string }) {
     <div
       role="group"
       aria-label="Our technology partners"
-      className={`group/herologos relative z-10 overflow-hidden [mask-image:linear-gradient(90deg,transparent,#000_8%,#000_92%,transparent)] ${className}`}
+      className={`group/herologos relative z-10 mx-auto w-full max-w-[860px] overflow-hidden [mask-image:linear-gradient(90deg,transparent,#000_5%,#000_95%,transparent)] ${className}`}
     >
       <style>{`@keyframes hero-marquee{to{transform:translateX(-50%)}}`}</style>
       {/* 38s per loop = unhurried; hover pauses; reduced-motion users get a still row */}

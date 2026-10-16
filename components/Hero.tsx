@@ -47,16 +47,16 @@ export const Hero = ({
       {secondary && <Btn v="o" href="/services">{secondary}</Btn>}
     </div>
 
+    {logos && (
+      // Keep the partner marquee directly beneath the hero actions.
+      <HeroLogos className={globe ? "mt-12" : "mt-14"} />
+    )}
+
     {globe && (
       <Image
         className="globe [mask-image:linear-gradient(to_bottom,#000_45%,transparent)]"
-        src="/images/Globe_hero.png" alt="" width={906} height={510} priority
+        src="/images/Globe_hero.png" alt="" width={1672} height={941} priority
       />
-    )}
-
-    {logos && (
-      // Home (globe): pinned to the bottom of the tall hero on desktop. Other pages: right under the buttons.
-      <HeroLogos className={globe ? "mt-10 md:absolute md:inset-x-0 md:bottom-12 md:mt-0" : "mt-14"} />
     )}
   </section>
 );

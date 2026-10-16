@@ -7,7 +7,7 @@ import { Hero } from "@/components/Hero";
 export const metadata: Metadata = { title: "Leadership | Comtech Associates" };
 
 const frameBg =
-  "linear-gradient(180deg, #040404 8.06%, rgba(69, 22, 187, 0.42) 43.03%, #040404 80.62%)";
+  "linear-gradient(180deg, transparent 8.06%, rgba(69, 22, 187, 0.42) 43.03%, #040404 80.62%)";
 
 // rows are 12px high on desktop: [row-start, row-span] per card, copied from the Figma stagger
 const people = [
@@ -73,7 +73,7 @@ export default function Leadership() {
               kind === "text" ? (
                 <div
                   key={`${p.name}-t`}
-                  className={`flex flex-col justify-center rounded-[40px] bg-gradient-to-r from-[#07050f] to-transparent px-8 py-10 min-[1101px]:px-16 min-[1101px]:py-10 ${cls}`}
+                  className={`flex flex-col justify-center rounded-[40px]  bg-gradient-to-r from-[#07050f] to-transparent px-8 py-10 min-[1101px]:px-16 min-[1101px]:py-10 ${cls}`}
                 >
                   <h2 className="text-[34px] font-medium leading-[44px] tracking-tighter min-[1101px]:text-[46px] min-[1101px]:leading-[54px]">
                     {p.name}

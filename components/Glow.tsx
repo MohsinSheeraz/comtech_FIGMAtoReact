@@ -23,8 +23,8 @@ export const Glow = ({
 
 
 
-  const glowBg =
-  "radial-gradient(ellipse 560px 600px at 95% 33%, #231547 0%, rgba(35,21,71,.6) 50%, transparent 100%), radial-gradient(ellipse 560px 540px at 14% 23%, #193479 0%, rgba(25,52,121,.55) 45%, transparent 100%)";
+const glowBg =
+  "radial-gradient(ellipse 680px 620px at 95% 30%, #1b1232 0%, rgba(27,18,50,.5) 44%, rgba(27,18,50,.18) 68%, transparent 100%), radial-gradient(ellipse 680px 560px at 12% 22%, #122344 0%, rgba(18,35,68,.46) 44%, rgba(18,35,68,.16) 68%, transparent 100%)";
 
 
 export const PageGlows = (_props: { variant?: "home" | "inner" }) => (
@@ -35,7 +35,7 @@ export const PageGlows = (_props: { variant?: "home" | "inner" }) => (
   >
     {/* gradient layer */}
     <div className="absolute inset-0" style={{ background: glowBg }} />
-        {/* diving light from above (animated rays + breathing cone + drifting orbs) */}
+    {/* moving light rays and drifting orbs */}
     <div className="hl">
       <i className="hl-cone" />
       <i className="hl-orb hl-o1" />

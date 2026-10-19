@@ -1,9 +1,9 @@
 /* =====================================================================
    PAGE TRANSITION (see components/PageTransition.tsx)
    html.pt-out = old page leaving / new page waiting. Remove the class = new page reveals.
-   - Page content blurs + fades.
-   - The hero lights (.page-glows) "charge up": they grow, brighten and flood with PURPLE,
-     then relax back to normal once the new page is in.
+   - OUT: content blurs + fades; the hero lights "charge up" with purple.
+   - IN : hero title fades grey -> white, hero parts rise one after another,
+          sections below rise in a short stagger; the lights relax back.
 
    ---------------------------------------------------------------------
    HOW TO CHANGE THE COLOURS (pick one):
@@ -15,17 +15,22 @@
         --pt-c2  left light
         --pt-c3  right light
         --pt-orb the two big drifting orbs
+
+   HOW TO TUNE THE REVEAL: edit the values marked <<
+   Keep OUT_MS in PageTransition.tsx = the "out" time (0.48s).
    ===================================================================== */
 
 :root {
   --pt-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --pt-rise: 26px;        /* << how far things rise while appearing */
+  --pt-title-dim: 0.28;   /* << how grey the title starts (0 = invisible, 1 = white) */
 
   /* default = light purple */
   --pt-c1: rgba(167, 139, 250, 0.55);
   --pt-c2: rgba(196, 167, 255, 0.4);
   --pt-c3: rgba(139, 92, 246, 0.45);
   --pt-orb: rgba(150, 110, 255, 0.5);
-  --pt-bright: 1.3; /* brightness of the lights while charged */
+  --pt-bright: 1.3;
 }
 
 html[data-pt-theme="light"] {
@@ -52,19 +57,83 @@ html[data-pt-theme="vivid"] {
   --pt-bright: 1.4;
 }
 
-/* ---- page content ---- */
+/* =====================================================================
+   PAGE CONTENT: sections (everything in <main> except the lights and the hero)
+   ===================================================================== */
 main > :not(.page-glows) {
   filter: none;
   opacity: 1;
-  transition: opacity 0.9s var(--pt-ease), filter 0.9s var(--pt-ease);
+  transform: none;
+  transition:
+    opacity 0.9s var(--pt-ease) var(--d, 0.3s),
+    filter 0.9s var(--pt-ease) var(--d, 0.3s),
+    transform 0.9s var(--pt-ease) var(--d, 0.3s);
 }
+/* stagger: 1st child is the lights, 2nd is the hero, then the sections */
+main > :nth-child(3) { --d: 0.38s; }
+main > :nth-child(4) { --d: 0.46s; }
+main > :nth-child(5) { --d: 0.54s; }
+main > :nth-child(n + 6) { --d: 0.6s; }
+
+/* hero parent just becomes visible quickly; its children do the staggering below */
+main > .hero {
+  transform: none;
+  transition: opacity 0.35s ease, filter 0.35s ease;
+}
+
+/* OUT */
 html.pt-out main > :not(.page-glows) {
   opacity: 0;
   filter: blur(14px);
-  transition: opacity 0.48s cubic-bezier(0.4, 0, 0.2, 1), filter 0.48s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity 0.48s cubic-bezier(0.4, 0, 0.2, 1), filter 0.48s cubic-bezier(0.4, 0, 0.2, 1), transform 0.48s var(--pt-ease);
+  transition-delay: 0s;
+}
+html.pt-out main > :not(.page-glows):not(.hero) {
+  transform: translateY(var(--pt-rise));
 }
 
-/* ---- hero lights: calm state -> charged state ---- */
+/* =====================================================================
+   HERO PARTS: rise one after another (the home globe image is excluded on purpose)
+   order inside <Hero>: 1 pill, 2 small line, 3 title, 4 text, 5 buttons, 6 logos
+   ===================================================================== */
+main .hero > :not(.globe) {
+  opacity: 1;
+  filter: none;
+  transform: none;
+  transition:
+    opacity 1s var(--pt-ease) var(--d, 0s),
+    filter 1s var(--pt-ease) var(--d, 0s),
+    transform 1s var(--pt-ease) var(--d, 0s);
+}
+main .hero > :nth-child(1) { --d: 0.05s; }
+main .hero > :nth-child(2) { --d: 0.1s; }
+main .hero > :nth-child(3) { --d: 0.15s; }
+main .hero > :nth-child(4) { --d: 0.3s; }
+main .hero > :nth-child(5) { --d: 0.42s; }
+main .hero > :nth-child(6) { --d: 0.55s; }
+
+html.pt-out main .hero > :not(.globe) {
+  opacity: 0;
+  filter: blur(8px);
+  transform: translateY(var(--pt-rise));
+  transition-delay: 0s;
+  transition-duration: 0.3s;
+}
+
+/* title: grey -> white */
+main h1 {
+  color: #fff;
+  transition: color 1.3s var(--pt-ease) 0.2s;
+}
+html.pt-out main h1 {
+  color: rgba(255, 255, 255, var(--pt-title-dim));
+  transition-duration: 0.3s;
+  transition-delay: 0s;
+}
+
+/* =====================================================================
+   HERO LIGHTS: calm state -> charged state
+   ===================================================================== */
 .page-glows {
   transform-origin: 50% 0;
   filter: none;
@@ -114,7 +183,11 @@ html.pt-out .page-glows .hl-orb {
 @media (prefers-reduced-motion: reduce) {
   main > :not(.page-glows),
   html.pt-out main > :not(.page-glows),
+  main .hero > *,
+  html.pt-out main .hero > *,
+  main h1,
+  html.pt-out main h1,
   .page-glows,
-  html.pt-out .page-glows { transition: none; filter: none; opacity: 1; transform: none; }
+  html.pt-out .page-glows { transition: none; filter: none; opacity: 1; transform: none; color: #fff; }
   .pt-charge { display: none; }
 }

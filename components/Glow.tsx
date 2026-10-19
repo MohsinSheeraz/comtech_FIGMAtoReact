@@ -24,7 +24,8 @@ export const PageGlows = (_props: { variant?: "home" | "inner" }) => (
   <div
     aria-hidden
     // h = 100vh, divided by --z so it still spans the full screen height when the page is scaled (see viewport-scale.css)
-    className="pointer-events-none absolute inset-x-0 top-0 z-0 h-[calc(100vh/var(--z,1))] overflow-hidden [mask-image:linear-gradient(to_bottom,black_62%,transparent)]"
+    // "page-glows" = hook used by app/page-transition.css to charge the lights during page changes
+    className="page-glows pointer-events-none absolute inset-x-0 top-0 z-0 h-[calc(100vh/var(--z,1))] overflow-hidden [mask-image:linear-gradient(to_bottom,black_62%,transparent)]"
   >
     <div className="absolute inset-0" style={{ background: glowBg }} />
     {/* moving light rays and drifting orbs */}
@@ -35,6 +36,8 @@ export const PageGlows = (_props: { variant?: "home" | "inner" }) => (
       <i className="hl-ray" />
       <i className="hl-ray hl-ray-b" />
     </div>
+    {/* purple colour that floods in during page changes (colours: app/page-transition.css) */}
+    <div className="pt-charge" />
     <HeroLightScroll />
     <div className="absolute inset-0 opacity-50">
       {[0, 1].map((n) => (

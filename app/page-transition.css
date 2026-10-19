@@ -1,0 +1,120 @@
+/* =====================================================================
+   PAGE TRANSITION (see components/PageTransition.tsx)
+   html.pt-out = old page leaving / new page waiting. Remove the class = new page reveals.
+   - Page content blurs + fades.
+   - The hero lights (.page-glows) "charge up": they grow, brighten and flood with PURPLE,
+     then relax back to normal once the new page is in.
+
+   ---------------------------------------------------------------------
+   HOW TO CHANGE THE COLOURS (pick one):
+   A) Switch preset: in app/layout.tsx set  <html lang="en" data-pt-theme="light">
+        values: "light" | "dark" | "vivid"
+   B) Make your own: edit the numbers inside any preset block below, or add a new block
+      html[data-pt-theme="mine"] { ... } and use data-pt-theme="mine".
+        --pt-c1  main centre light (top middle)
+        --pt-c2  left light
+        --pt-c3  right light
+        --pt-orb the two big drifting orbs
+   ===================================================================== */
+
+:root {
+  --pt-ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* default = light purple */
+  --pt-c1: rgba(167, 139, 250, 0.55);
+  --pt-c2: rgba(196, 167, 255, 0.4);
+  --pt-c3: rgba(139, 92, 246, 0.45);
+  --pt-orb: rgba(150, 110, 255, 0.5);
+  --pt-bright: 1.3; /* brightness of the lights while charged */
+}
+
+html[data-pt-theme="light"] {
+  --pt-c1: rgba(167, 139, 250, 0.55);
+  --pt-c2: rgba(196, 167, 255, 0.4);
+  --pt-c3: rgba(139, 92, 246, 0.45);
+  --pt-orb: rgba(150, 110, 255, 0.5);
+  --pt-bright: 1.3;
+}
+
+html[data-pt-theme="dark"] {
+  --pt-c1: rgba(76, 29, 149, 0.7);
+  --pt-c2: rgba(55, 20, 130, 0.55);
+  --pt-c3: rgba(91, 33, 182, 0.6);
+  --pt-orb: rgba(60, 24, 150, 0.55);
+  --pt-bright: 1.1;
+}
+
+html[data-pt-theme="vivid"] {
+  --pt-c1: rgba(124, 58, 237, 0.7);
+  --pt-c2: rgba(168, 85, 247, 0.5);
+  --pt-c3: rgba(99, 52, 235, 0.6);
+  --pt-orb: rgba(139, 70, 255, 0.6);
+  --pt-bright: 1.4;
+}
+
+/* ---- page content ---- */
+main > :not(.page-glows) {
+  filter: none;
+  opacity: 1;
+  transition: opacity 0.9s var(--pt-ease), filter 0.9s var(--pt-ease);
+}
+html.pt-out main > :not(.page-glows) {
+  opacity: 0;
+  filter: blur(14px);
+  transition: opacity 0.48s cubic-bezier(0.4, 0, 0.2, 1), filter 0.48s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ---- hero lights: calm state -> charged state ---- */
+.page-glows {
+  transform-origin: 50% 0;
+  filter: none;
+  transition: filter 1.2s var(--pt-ease), transform 1.2s var(--pt-ease);
+}
+.page-glows .hl-ray,
+.page-glows .hl-orb {
+  transition: scale 1.2s var(--pt-ease), opacity 1.2s var(--pt-ease), background-color 1.2s ease;
+}
+
+/* purple colour layer (added in Glow.tsx), invisible until the transition starts */
+.pt-charge {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  mix-blend-mode: screen;
+  transform: scale(0.92);
+  transform-origin: 50% 0;
+  background:
+    radial-gradient(ellipse 60% 70% at 50% 0%, var(--pt-c1) 0%, transparent 72%),
+    radial-gradient(ellipse 45% 60% at 14% 6%, var(--pt-c2) 0%, transparent 72%),
+    radial-gradient(ellipse 45% 60% at 86% 6%, var(--pt-c3) 0%, transparent 72%);
+  transition: opacity 1.2s var(--pt-ease), transform 1.2s var(--pt-ease);
+}
+
+html.pt-out .page-glows {
+  filter: brightness(var(--pt-bright)) saturate(1.2);
+  transform: scale(1.1);
+  transition: filter 0.55s ease, transform 0.7s var(--pt-ease);
+}
+html.pt-out .pt-charge {
+  opacity: 1;
+  transform: scale(1.12);
+  transition: opacity 0.5s ease, transform 0.8s var(--pt-ease);
+}
+html.pt-out .page-glows .hl-ray {
+  scale: 1.25;
+  opacity: 0.85;
+  transition: scale 0.7s var(--pt-ease), opacity 0.55s ease;
+}
+html.pt-out .page-glows .hl-orb {
+  scale: 1.6;
+  background-color: var(--pt-orb);
+  transition: scale 0.8s var(--pt-ease), opacity 0.55s ease, background-color 0.5s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  main > :not(.page-glows),
+  html.pt-out main > :not(.page-glows),
+  .page-glows,
+  html.pt-out .page-glows { transition: none; filter: none; opacity: 1; transform: none; }
+  .pt-charge { display: none; }
+}

@@ -41,7 +41,7 @@ import Image from "next/image";
 import CEOBG from "@/public/images/ceobg.png";
 
 export const CeoQuote = ({ title }: { title: string }) => (
-  <section className="relative">
+  <section className="relative p-5">
     {/* purple glow: centered on the section's top-left corner, spills up behind the previous section */}
     <div
       aria-hidden

@@ -121,7 +121,7 @@ export default function Home() {
             </div>
           </div>
           <div className="side">
-            <div className="purple pt-16! pb-16! pr-13! pl-13! flex justify-center items-center">
+            <div className="purple  p-10! md:py-16! md:px-13! flex justify-center items-center text-3xl! md:text-auto!">
               IT infrastructure isn&apos;t four separate problems;
               it&apos;s one system.
             </div>

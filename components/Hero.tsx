@@ -40,7 +40,7 @@ export const Hero = ({
       {small ?? "\u00A0"}
     </p>
 
-    <h1 className="text-[64px] font-medium tracking-tighter leading-[75px]">{title}</h1>
+    <h1 className="text-5xl  md:text-[64px] py-10 md:py-auto font-medium tracking-tighter md:leading-[75px]">{title}</h1>
     {text && <p className="body mt-5! text-[18px]! font-normal! tracking-tighter! leading-[31px]">{text}</p>}
     <div className="row" style={{ marginTop: globe ? 24 : 0 }}>
       <Btn href="/contact">{primary}</Btn>

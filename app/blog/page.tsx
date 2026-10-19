@@ -6,6 +6,7 @@ import { PageGlows } from "@/components/Glow";
 import { Pagination } from "@/components/Pagination";
 import { PER_PAGE } from "@/lib/posts";
 import { getPostsPage } from "@/lib/posts";
+import { Hero } from "@/components/Hero";
 
 export const metadata: Metadata = { title: "News & Insights | Comtech Associates" };
 
@@ -20,21 +21,24 @@ export default async function Blog({ searchParams }: { searchParams: Promise<{ p
   return (
     <main>
       <PageGlows variant="inner" />
-      <section className="wrap hero mx-auto p-40! mt-14!">
-        <h1 className="text-[64px] font-medium leading-[75px] tracking-tighter">
-          See, What new in the News
-        </h1>
-        <p className="body mt-5! text-[18px]! font-normal! leading-[31px] tracking-tighter!">
+            <Hero
+        logos={false}
+        title={
+          <>
+              See, What new in the News
+          </>
+        }
+        text={
+          <>
           As a certified Cisco partner, Comtech designs, deploys, and monitors the network
-          infrastructure banks, hospitals, and manufacturers depend on, 24/7.
-          <br />
+          infrastructure banks, hospitals, and manufacturers depend on, <br /> 24/7.
           We serve enterprises in four major cities, backed by certified engineers, not a
           reseller who ships hardware and disappears.
-        </p>
-        <div className="row">
-          <Btn href="/contact">Get a Professional Consult Today</Btn>
-        </div>
-      </section>
+          </>
+        }
+        primary="Get a Professional Consult Today"
+        
+      />
 
       <div
         className="relative isolate mx-auto mt-16 w-[94%] max-w-[1764px] rounded-[40px] pb-10"

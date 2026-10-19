@@ -1,6 +1,6 @@
-import Image from "next/image";
 import { Btn } from "@/components/Button";
 import { HeroLogos } from "@/components/HeroLogos";
+import { DeferredGlobe } from "@/components/three/DeferredGlobe";
 
 /* Hero position is owned by ONE place: this file + the .hero rules in globals.css.
    `className` can still add things like colours, but any padding / margin-top / height utilities
@@ -40,7 +40,7 @@ export const Hero = ({
       {small ?? "\u00A0"}
     </p>
 
-    <h1 className="text-5xl  md:text-[64px] py-10 md:py-auto font-medium tracking-tighter md:leading-[75px]">{title}</h1>
+    <h1 className="text-[42px] leading-[49px] md:text-[64px] py-5 md:py-auto font-medium tracking-tighter md:leading-[75px]">{title}</h1>
     {text && <p className="body mt-5! text-[18px]! font-normal! tracking-tighter! leading-[31px]">{text}</p>}
     <div className="row" style={{ marginTop: globe ? 24 : 0 }}>
       <Btn href="/contact">{primary}</Btn>
@@ -53,9 +53,12 @@ export const Hero = ({
     )}
 
     {globe && (
-      <Image
+      <DeferredGlobe
         className="globe [mask-image:linear-gradient(to_bottom,#000_45%,transparent)]"
-        src="/images/Globe_hero.png" alt="" width={1672} height={941} priority
+        variant="horizon"
+        fallbackSrc="/images/Globe_hero.png"
+        sizes="(max-width: 768px) 170vw, 906px"
+        style={{ aspectRatio: "1672 / 941" }}
       />
     )}
   </section>

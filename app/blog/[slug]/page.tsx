@@ -11,14 +11,23 @@ import { FaFacebook } from "react-icons/fa6";
 import { FaTwitter } from "react-icons/fa";
 import { SiYoutube } from "react-icons/si";
 import { RiInstagramFill } from "react-icons/ri";
-import { getAllSlugs, getPost, getRecentPosts, getRelatedPosts } from "@/lib/posts";
+import {
+  getAllSlugs,
+  getPost,
+  getRecentPosts,
+  getRelatedPosts,
+} from "@/lib/posts";
 import { DEFAULT_SIZES } from "@/lib/post-code";
 
 export async function generateStaticParams() {
   return (await getAllSlugs()).map((slug) => ({ slug }));
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
   const { slug } = await params;
   const post = await getPost(slug);
   if (!post) return { title: "Article | Comtech Associates" };
@@ -33,19 +42,33 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     keywords: post.seo.metaTags,
     alternates: { canonical: `/blog/${post.slug}` },
     openGraph: { type: "article", title, description, images: [image] },
-    twitter: { card: "summary_large_image", title, description, images: [image] },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [image],
+    },
   };
 }
 
 const H2 = "mt-8 text-[34px] font-medium leading-[44px] tracking-tighter";
 const P = "mt-4 text-[18px] leading-[31px] tracking-tighter";
 
-const icons = [{ label: "Facebook", icon: FaFacebook, href: "#", }, { label: "X", icon: FaTwitter, href: "#", }, { label: "YouTube", icon: SiYoutube, href: "#", }, { label: "Instagram", icon: RiInstagramFill, href: "#", },];
+const icons = [
+  { label: "Facebook", icon: FaFacebook, href: "#" },
+  { label: "X", icon: FaTwitter, href: "#" },
+  { label: "YouTube", icon: SiYoutube, href: "#" },
+  { label: "Instagram", icon: RiInstagramFill, href: "#" },
+];
 
 const frameBg =
   "linear-gradient(180deg, transparent 0%, rgba(69, 22, 187, 0.42) 38%, rgba(69, 22, 187, 0.55) 62%, #040404 100%)";
 
-export default async function BlogPost({ params }: { params: Promise<{ slug: string }> }) {
+export default async function BlogPost({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
   const { slug } = await params;
   const post = await getPost(slug);
   if (!post) notFound();
@@ -56,17 +79,27 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
   ]);
 
   const sz = post.sizes ?? DEFAULT_SIZES;
-  const toc = post.toc ?? (post.content
-    ? post.content.filter((b) => b.t === "h2").map((b) => b.text)
-    : post.sections.map((s) => s.h));
+  const toc =
+    post.toc ??
+    (post.content
+      ? post.content.filter((b) => b.t === "h2").map((b) => b.text)
+      : post.sections.map((s) => s.h));
 
   return (
     <main>
       <PageGlows variant="inner" />
 
-      <section className="wrap pt-12">
-        <div className="gborder-new relative aspect-[1400/390] overflow-hidden rounded-[40px]">
-          <Image src={post.image} alt="" fill priority sizes="1400px" className="object-cover" />
+      <section className="wrap pt-12!">
+        <div className="gborder-new relative md:aspect-[1400/500] overflow-hidden rounded-[40px]">
+          <Image src={post.image} alt="" fill priority sizes="1400px" className="hidden! md:block! object-cover" />
+          {/* ForMobile */}
+          <Image
+            src={post.image}
+            alt=""
+            width={1400}
+            height={250}
+            className="block! md:hidden! object-cover"
+          />
         </div>
         <span className="mt-10 inline-flex h-[44px] items-center rounded-full border border-white/20 px-6 text-[16px] tracking-normal">
           {post.category}
@@ -86,8 +119,13 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
               <p className={`${P} mt-8`}>{post.intro}</p>
 
               {toc.length > 0 && (
-                <nav aria-label="Table of contents" className="mt-8 rounded-2xl border border-white/20 bg-white/5 p-6">
-                  <p className="text-[14px] font-medium uppercase tracking-wide text-white/60">Table of Contents</p>
+                <nav
+                  aria-label="Table of contents"
+                  className="mt-8 rounded-2xl border border-white/20 bg-white/5 p-6"
+                >
+                  <p className="text-[14px] font-medium uppercase tracking-wide text-white/60">
+                    Table of Contents
+                  </p>
                   <ol className="mt-3 list-decimal space-y-1.5 pl-6 text-[17px] leading-[28px] tracking-tighter">
                     {toc.map((t) => (
                       <li key={t}>{t}</li>
@@ -100,13 +138,21 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
                 ? post.content.map((b, i) => {
                     if (b.t === "p")
                       return (
-                        <p key={i} className="mt-4 tracking-tighter" style={{ fontSize: sz.p, lineHeight: 1.7 }}>
+                        <p
+                          key={i}
+                          className="mt-4 tracking-tighter"
+                          style={{ fontSize: sz.p, lineHeight: 1.7 }}
+                        >
                           {b.text}
                         </p>
                       );
                     const Tag = b.t;
                     return (
-                      <Tag key={i} className="mt-8 font-medium tracking-tighter" style={{ fontSize: sz[b.t], lineHeight: 1.3 }}>
+                      <Tag
+                        key={i}
+                        className="mt-8 font-medium tracking-tighter"
+                        style={{ fontSize: sz[b.t], lineHeight: 1.3 }}
+                      >
                         {b.text}
                       </Tag>
                     );
@@ -115,7 +161,9 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
                     <div key={s.h}>
                       <h2 className={H2}>{s.h}</h2>
                       {s.p.map((t) => (
-                        <p key={t} className={P}>{t}</p>
+                        <p key={t} className={P}>
+                          {t}
+                        </p>
                       ))}
                     </div>
                   ))}
@@ -128,13 +176,24 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
                 <ul className="flex flex-col gap-4">
                   {recent.map((r) => (
                     <li key={r.slug}>
-                      <Link href={`/blog/${r.slug}`} className="flex items-center gap-4">
-                        <Image src={r.image} alt="" width={96} height={64} className="h-16 w-24 shrink-0 rounded-xl object-cover" />
+                      <Link
+                        href={`/blog/${r.slug}`}
+                        className="flex items-center gap-4"
+                      >
+                        <Image
+                          src={r.image}
+                          alt=""
+                          width={96}
+                          height={64}
+                          className="h-16 w-24 shrink-0 rounded-xl object-cover"
+                        />
                         <span>
                           <span className="block text-[15px] leading-[20px] tracking-normal">
                             From the land of smiles to the kingdom of wonder
                           </span>
-                          <span className="mt-1 block text-[11px] text-white/60 tracking-normal">05 days ago</span>
+                          <span className="mt-1 block text-[11px] text-white/60 tracking-normal">
+                            05 days ago
+                          </span>
                         </span>
                       </Link>
                     </li>
@@ -143,9 +202,24 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
               </div>
 
               <div className="flex items-center justify-between px-1">
-                <span className="text-[15px] tracking-normal">Share this article</span>
+                <span className="text-[15px] tracking-normal">
+                  Share this article
+                </span>
                 <div className="flex gap-3">
-                  {icons.map((ic) => { const Icon = ic.icon; return (<a key={ic.label} href={ic.href} aria-label={`Share on ${ic.label}`} className="grid size-9 place-items-center rounded-full" > <Icon size={25} aria-hidden="true" /> </a>); })}
+                  {icons.map((ic) => {
+                    const Icon = ic.icon;
+                    return (
+                      <a
+                        key={ic.label}
+                        href={ic.href}
+                        aria-label={`Share on ${ic.label}`}
+                        className="grid size-9 place-items-center rounded-full"
+                      >
+                        {" "}
+                        <Icon size={25} aria-hidden="true" />{" "}
+                      </a>
+                    );
+                  })}
                 </div>
               </div>
             </aside>

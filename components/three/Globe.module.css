@@ -1,0 +1,25 @@
+.container {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.fallback {
+  object-fit: contain;
+  transition: opacity 300ms ease;
+}
+
+.canvas {
+  position: absolute !important;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+  opacity: 0.14;
+  pointer-events: none;
+}
+
+.canvas canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}

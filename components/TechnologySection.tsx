@@ -1,5 +1,5 @@
-import Image from "next/image";
 import { TechLines } from "./TechLines";
+import { DeferredGlobe } from "@/components/three/DeferredGlobe";
 
 type Item = { t: string; s: string; w: string };
 
@@ -18,16 +18,6 @@ const right: Item[] = [
     { t: "Professional Services", s: "Consulting, Support & Implementation.", w: "min-[1101px]:w-[25.4cqw]" },
     { t: "Cisco Meraki", s: "Cloud Networking & Security.", w: "min-[1101px]:w-[19cqw]" },
 ];
-
-// fade all four edges so the image's dark rectangle disappears
-const mask = {
-    maskImage:
-        "linear-gradient(to right, transparent 0, #000 12%, #000 88%, transparent 100%), linear-gradient(to bottom, transparent 0, #000 7%, #000 93%, transparent 100%)",
-    WebkitMaskImage:
-        "linear-gradient(to right, transparent 0, #000 12%, #000 88%, transparent 100%), linear-gradient(to bottom, transparent 0, #000 7%, #000 93%, transparent 100%)",
-    maskComposite: "intersect",
-    WebkitMaskComposite: "source-in",
-} as const;
 
 function TechCard({ t, s, w, tone }: Item & { tone: "side" | "center" }) {
     return (
@@ -83,14 +73,11 @@ export function TechnologySection() {
             <div className="@container relative mx-auto mt-10 w-full max-w-[1300px] min-[1101px]:mt-4 min-[1101px]:aspect-[1062/480]">
                 {/* sphere */}
                 <div className="pointer-events-none absolute inset-0 min-[1101px]:inset-auto min-[1101px]:left-[51.7%] min-[1101px]:top-0 min-[1101px]:h-full min-[1101px]:w-[81%] min-[1101px]:-translate-x-1/2">
-                    <Image
-                        src="/images/TechnologySection_bgImage_withoutLines.png"
-                        alt=""
-                        aria-hidden
-                        fill
+                    <DeferredGlobe
+                        variant="particle"
+                        fallbackSrc="/images/TechnologySection_bgImage_withoutLines.png"
+                        className="absolute inset-0 h-full w-full select-none opacity-50 [mask-image:linear-gradient(to_right,transparent_0,#000_12%,#000_88%,transparent_100%),linear-gradient(to_bottom,transparent_0,#000_7%,#000_93%,transparent_100%)] min-[1101px]:opacity-100"
                         sizes="(max-width: 1100px) 100vw, 1100px"
-                        className="select-none object-contain opacity-50 min-[1101px]:opacity-100"
-                        style={mask}
                     />
                 </div>
 

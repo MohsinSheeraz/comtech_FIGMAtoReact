@@ -1,6 +1,6 @@
 "use client";
-import Image from "next/image";
 import { useState } from "react";
+import { DeferredGlobe } from "@/components/three/DeferredGlobe";
 
 /* Add more testimonials here; the arrows loop through them. */
 const items = [
@@ -33,7 +33,12 @@ export function TestimonialCarousel() {
                     <button type="button" onClick={() => go(1)} aria-label="Next testimonial" className="grid size-[42px] cursor-pointer place-items-center rounded-[4px] bg-gradient-to-b from-[#5724d8] to-[#7950e2] text-black transition hover:brightness-125"><Arrow dir="r" /></button>
                 </div>
             </div>
-            <Image src="/images/Partnership_Section_Image.png" alt="" width={636} height={636} className="mx-auto" />
+            <DeferredGlobe
+                variant="earth"
+                fallbackSrc="/images/Partnership_Section_Image.png"
+                className="mx-auto aspect-square w-full max-w-[636px]"
+                sizes="(max-width: 1100px) 100vw, 636px"
+            />
         </div>
     );
 }

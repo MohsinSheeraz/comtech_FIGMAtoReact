@@ -111,7 +111,7 @@ export default function Services() {
       <div className="relative overflow-x-clip">
         {/* Gradient frame: About + What We Have to Offer + How We Work */}
         <div
-          className="relative isolate mx-auto mt-16 w-[1764px] rounded-[40px]"
+          className="relative isolate mx-auto mt-16 w-full sm:w-[1764px] rounded-[40px]"
           style={{ background: frameBg }}
         >
           {/* blue glows: left-middle + bottom-right, as in Figma */}
@@ -269,7 +269,7 @@ export default function Services() {
         </div>
       </section>
 
-      <section className="wrap sec max-w-[1764px]! p-20! mt-20! testing">
+      <section className="wrap sec max-w-[1764px]! p-5 sm:p-20! mt-20! testing">
         <div className="why">
           <div>
             <h2 className="h2">Here’s Why Comtech Is The Right Choice</h2>

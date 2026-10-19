@@ -233,9 +233,9 @@ export default function Cisco() {
                         <div className="mt-10 grid gap-6 md:grid-cols-2 lg:mt-[59px] lg:gap-x-[46px] lg:gap-y-[48px]">
                             {partnership.map((it) => (
                                 <GlowCard key={it.number}>
-                                    <span className="absolute right-[24px] top-[22px] flex h-[68px] w-[68px] items-center justify-center rounded-full bg-[#6739DC] text-[22px] text-white lg:right-[34px] lg:top-[32px]">
+                                    <div className="absolute right-[24px] top-[22px] flex  h-[50px] w-[50px]  md:h-[68px] md:w-[68px] items-center justify-center rounded-full bg-[#6739DC] text-[22px] text-white lg:right-[34px] lg:top-[32px]">
                                         {it.number}
-                                    </span>
+                                    </div>
                                     <CardText title={it.title} text={cardText} />
                                 </GlowCard>
                             ))}

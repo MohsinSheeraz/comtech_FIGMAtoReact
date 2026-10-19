@@ -85,7 +85,7 @@ export function PartnersTabs() {
                                 aria-selected={on}
                                 aria-controls={`panel-${t.id}`}
                                 onClick={() => setActive(t.id)}
-                                className={`h-[46px] cursor-pointer rounded-t-[8px] rounded-b-none border border-b-0 border-white/25  px-5 text-[16px] tracking-tight transition-colors ${on
+                                className={`h-[46px] cursor-pointer rounded-[8px] md:rounded-b-none! border md:border-b-0 border-white/25  px-5 text-[16px] tracking-tight transition-colors ${on
                                     ? "border-[#9747FF] bg-[#9747FF] text-white"
                                     : "border-[#5b43b8]/60 bg-black/30 text-white hover:border-[#9747FF]"
                                     }`}

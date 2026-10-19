@@ -1,42 +1,3 @@
-// import Image from "next/image";
-// import CEOBG from "@/public/images/ceobg.png";
-
-// export const CeoQuote = ({ title }: { title: string }) => (
-//   <section className="relative">
-//     {/* purple glow: centered on the section's top-left corner, so it spills up behind the previous section like in Figma */}
-//     <div
-//       aria-hidden
-//       className="pointer-events-none absolute"
-//       style={{ top: -450, left: -450, width: 900, height: 900, background: "radial-gradient(circle at center, rgba(87,36,216,.6) 0%, rgba(87,36,216,.28) 38%, transparent 70%)" }}
-//     />
-
-//     <div className="wrap sec ceo p-30!">
-//       <div>
-//         <h2 className="h2 text-[46px] leading-[54px] tracking-tighter">{title}</h2>
-//         <q className="text-[36px] leading-[49px] tracking-tighter" >&quot;We didn&apos;t start big; we started with belief. Every connection we built, every solution we delivered, came from the idea that technology should empower people.&quot;</q>
-//         <span className="bar" />
-//         <div className="name">Muhammad Farooq Zaheer</div>
-//         <div className="role">CEO, Comtech Associates</div>
-//       </div>
-//       {/* bottom fade so the photo never shows a hard cut */}
-//       <div>
-//         {/* section background image */}
-//         <Image
-//           src={CEOBG}
-//           alt=""
-//           height={281}
-//           width={380}
-//           className="-z-20 object-cover object-top"
-//         />
-
-
-//         <Image src="/images/Ceo_Section_Image.png" alt="Muhammad Farooq Zaheer, CEO" width={620} height={778} className="[mask-image:linear-gradient(to_bottom,#000_70%,transparent)]" />
-
-//       </div>
-//     </div>
-//   </section>
-// );
-
 import Image from "next/image";
 import CEOBG from "@/public/images/ceobg.png";
 
@@ -88,7 +49,16 @@ export const CeoQuote = ({ title }: { title: string }) => (
           alt="Muhammad Farooq Zaheer, CEO"
           width={620}
           height={778}
-          className="absolute left-[90px] top-[18px] z-10 h-auto w-auto [mask-image:linear-gradient(to_bottom,#000_70%,transparent)]"
+          className="hidden! lg:block! absolute left-[90px] top-[18px] z-10 h-auto w-auto [mask-image:linear-gradient(to_bottom,#000_70%,transparent)]"
+        />
+
+        {/* ForMobile */}
+        <Image
+          src="/images/Ceo_Section_Image.png"
+          alt="Muhammad Farooq Zaheer, CEO"
+          width={420}
+          height={578}
+          className="block! lg:hidden! absolute left-[90px] top-[18px] z-10 h-auto w-auto [mask-image:linear-gradient(to_bottom,#000_70%,transparent)]"
         />
       </div>
     </div>

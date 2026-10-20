@@ -56,7 +56,7 @@ const lines = [
 
 export function TechnologySection() {
     return (
-        <section className="wrap sec relative py-20 min-[1101px]:py-28">
+        <section className="wrap sec relative z-auto! py-20 min-[1101px]:py-28">
             <div className="relative z-20 mx-auto max-w-[760px] text-center">
                 <h2 className="text-[32px] font-medium leading-[40px] tracking-tight text-white min-[1101px]:text-[42px] min-[1101px]:leading-[52px]">
                     End-to-End Cisco Technology Solutions
@@ -76,7 +76,7 @@ export function TechnologySection() {
                     <DeferredGlobe
                         variant="particle"
                         fallbackSrc="/images/TechnologySection_bgImage_withoutLines.png"
-                        className="absolute inset-0 h-full w-full select-none opacity-50 [mask-image:linear-gradient(to_right,transparent_0,#000_12%,#000_88%,transparent_100%),linear-gradient(to_bottom,transparent_0,#000_7%,#000_93%,transparent_100%)] min-[1101px]:opacity-100"
+                        className="absolute inset-0 h-full w-full mix-blend-screen select-none opacity-50 [mask-image:linear-gradient(to_right,transparent_0,#000_12%,#000_88%,transparent_100%),linear-gradient(to_bottom,transparent_0,#000_7%,#000_93%,transparent_100%)] min-[1101px]:opacity-100"
                         sizes="(max-width: 1100px) 100vw, 1100px"
                     />
                 </div>

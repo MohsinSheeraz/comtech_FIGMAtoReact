@@ -75,7 +75,7 @@ export function TechnologySection() {
                 <div className="pointer-events-none absolute inset-0 min-[1101px]:inset-auto min-[1101px]:left-[51.7%] min-[1101px]:top-0 min-[1101px]:h-full min-[1101px]:w-[81%] min-[1101px]:-translate-x-1/2">
                     <DeferredGlobe
                         variant="particle"
-                        fallbackSrc="/images/TechnologySection_bgImage_withoutLines.png"
+                        fallbackSrc="/images/TechnologySection_bgImage_withoutLines_New.png"
                         className="absolute inset-0 h-full w-full mix-blend-screen select-none opacity-50 [mask-image:linear-gradient(to_right,transparent_0,#000_12%,#000_88%,transparent_100%),linear-gradient(to_bottom,transparent_0,#000_7%,#000_93%,transparent_100%)] min-[1101px]:opacity-100"
                         sizes="(max-width: 1100px) 100vw, 1100px"
                     />

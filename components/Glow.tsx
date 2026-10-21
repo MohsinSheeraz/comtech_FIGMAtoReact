@@ -29,13 +29,13 @@ export const PageGlows = (_props: { variant?: "home" | "inner" }) => (
   >
     <div className="absolute inset-0" style={{ background: glowBg }} />
     {/* moving light rays and drifting orbs */}
-    <div className="hl">
+    {/* <div className="hl">
       <i className="hl-cone" />
       <i className="hl-orb hl-o1" />
       <i className="hl-orb hl-o2" />
       <i className="hl-ray" />
       <i className="hl-ray hl-ray-b" />
-    </div>
+    </div> */}
     {/* purple colour that floods in during page changes (colours: app/page-transition.css) */}
     <div className="pt-charge" />
     <HeroLightScroll />

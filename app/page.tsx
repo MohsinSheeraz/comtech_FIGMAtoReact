@@ -80,7 +80,7 @@ export default function Home() {
         small="Pakistan Trusted It Solutions Providers for"
         title={
           <>
-            Networking, Cybersecurity
+            Networking, Cybersecurity, AI
             <br />
             &amp; Data Centers
           </>
@@ -244,7 +244,7 @@ export default function Home() {
           <div className="g3">
             {ind.map(([t, p], i) => (
               <div
-                className={`gborder-new card ${i === 0 ? "f" : i % 2 ? "v" : ""}`}
+                className={`gborder-new card ${i === 0 ? "f" : ""}`}
                 key={t}
               >
                 <h3 className="h3">{t}</h3>

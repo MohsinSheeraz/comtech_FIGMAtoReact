@@ -529,8 +529,8 @@ img {
     background: linear-gradient(180deg, #100826, #0d0a15)
 }
 
-.ind .card.v {
-    border-color: #7950e2
+.ind .card:not(.f):hover {
+    background: linear-gradient(180deg, #100826, #0d0a15)
 }
 
 .ceo {
@@ -676,7 +676,7 @@ img {
 }
 
 /* glow at the bottom edge + the beams */
-.cta-fx {
+/*.cta-fx {
     position: absolute;
     inset: 0;
     z-index: -2;
@@ -693,7 +693,6 @@ img {
     top: -10%;
     bottom: -30%;
     transform-origin: 50% 100%;
-    /* beams pivot from the bottom centre */
     filter: blur(3px);
     -webkit-mask-image: linear-gradient(to top, #000 0%, rgba(0, 0, 0, .6) 40%, transparent 90%);
     mask-image: linear-gradient(to top, #000 0%, rgba(0, 0, 0, .6) 40%, transparent 90%);
@@ -709,7 +708,7 @@ img {
     animation: cta-sway-b 12s ease-in-out infinite alternate;
 }
 
-@keyframes cta-sway-a {
+/* @keyframes cta-sway-a {
     from {
         transform: rotate(-3deg);
     }
@@ -735,7 +734,63 @@ img {
     .cta-fx::after {
         animation: none;
     }
+} */
+
+/* ReplacementofCTAlightingAnimation */
+/* ---------- CTA: data grid ---------- */
+.cta-fx {
+  position: absolute; inset: 0; z-index: -2; pointer-events: none;
+  perspective: 420px; perspective-origin: 50% 15%;
+  background: radial-gradient(ellipse 60% 50% at 50% 100%, rgba(121,80,226,.45), transparent 75%);
 }
+
+/* breathing glow under the floor */
+.cta-glow {
+  position: absolute; left: 50%; bottom: -45%; width: 75%; aspect-ratio: 1;
+  translate: -50% 0; border-radius: 50%; filter: blur(34px);
+  background: radial-gradient(circle, rgba(123,85,224,.6), transparent 65%);
+  animation: cta-breathe 6s ease-in-out infinite alternate;
+}
+@keyframes cta-breathe { to { scale: 1.15; opacity: .65; } }
+
+/* tilted grid floor, lines slide toward the viewer */
+.cta-floor {
+  position: absolute; left: -50%; right: -50%; bottom: -10%; height: 130%;
+  transform-origin: 50% 100%; transform: rotateX(62deg);
+  --cell: 64px;
+  background-image:
+    linear-gradient(rgba(160,130,255,.35) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(160,130,255,.35) 1px, transparent 1px);
+  background-size: var(--cell) var(--cell);
+  animation: cta-scroll 3.5s linear infinite;
+  -webkit-mask-image: linear-gradient(to top, #000 8%, transparent 85%);
+          mask-image: linear-gradient(to top, #000 8%, transparent 85%);
+}
+@keyframes cta-scroll {
+  from { background-position: 0 0, 0 0; }
+  to   { background-position: 0 var(--cell), 0 0; }
+}
+
+/* bright pulses travel up the vertical lines toward the horizon */
+.cta-floor::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(172deg, transparent 0 42%, #cdb8ff 50%, transparent 58% 100%) 0 0 / 100% 420px repeat-y;
+  -webkit-mask-image: repeating-linear-gradient(90deg, #000 0 2px, transparent 2px var(--cell));
+          mask-image: repeating-linear-gradient(90deg, #000 0 2px, transparent 2px var(--cell));
+  animation: cta-pulse 3.2s linear infinite;
+}
+@keyframes cta-pulse { to { background-position: 0 -420px; } }
+
+@media (max-width: 640px) { .cta-floor { --cell: 40px; } }
+@media (prefers-reduced-motion: reduce) {
+  .cta-glow, .cta-floor, .cta-floor::after { animation: none; }
+}
+
+
+
+
+
+
 
 
 
@@ -1222,7 +1277,8 @@ a {
 }
 
 .hero .globe {
-    top: 350px;
+    /* top: 350px; */
+    top: 300px;
     width: min(906px, 130vw);
     max-width: none;
     height: auto

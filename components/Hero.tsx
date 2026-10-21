@@ -46,12 +46,6 @@ export const Hero = ({
       <Btn href="/contact">{primary}</Btn>
       {secondary && <Btn v="o" href="/services">{secondary}</Btn>}
     </div>
-
-    {logos && (
-      // Keep the partner marquee directly beneath the hero actions.
-      <HeroLogos className={globe ? "mt-12" : "mt-14"} />
-    )}
-
     {globe && (
       <DeferredGlobe
         className="globe [mask-image:linear-gradient(to_bottom,#000_45%,transparent)]"
@@ -60,6 +54,11 @@ export const Hero = ({
         sizes="(max-width: 768px) 170vw, 906px"
         style={{ aspectRatio: "1672 / 941" }}
       />
+    )}
+
+    {logos && (
+      // Keep the partner marquee directly beneath the hero actions.
+      <HeroLogos className={globe ? "mt-96" : "mt-14"} />
     )}
   </section>
 );

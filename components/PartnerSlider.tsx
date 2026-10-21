@@ -126,8 +126,8 @@ export function PartnerSlider() {
     <div className="group/slider mt-8 sm:mt-14 overflow-hidden py-8 sm:py-14 [mask-image:linear-gradient(90deg,transparent,#000_5%,#000_95%,transparent)]">
       <style>{`@keyframes partner-marquee{to{transform:translateX(-50%)}}
 @keyframes edge-wave{
-  0%{opacity:1;box-shadow:0 0 0 0 rgba(124,88,230,.30),0 0 0 1px rgba(190,165,255,.8),0 0 18px 2px rgba(121,80,226,.5)}
-  100%{opacity:0;box-shadow:0 0 0 26px rgba(124,88,230,0),0 0 0 27px rgba(190,165,255,0),0 0 28px 8px rgba(121,80,226,0)}
+  0%{opacity:1;box-shadow:0 0 0 0 rgba(124,88,230,.36),0 0 0 1px rgba(210,190,255,.9),0 0 28px 7px rgba(121,80,226,.68)}
+  100%{opacity:0;box-shadow:0 0 0 48px rgba(124,88,230,0),0 0 0 49px rgba(190,165,255,0),0 0 52px 18px rgba(121,80,226,0)}
 }
 
 .partner-card:hover{z-index:20}
@@ -137,10 +137,11 @@ export function PartnerSlider() {
 .partner-halo{
   transition:opacity .35s ease;
   box-shadow:
-    0 0 34px 4px rgba(121,80,226,.42),
-    0 0 70px 14px rgba(87,36,216,.22),
-    inset 0 0 26px 3px rgba(150,110,255,.32),
-    inset 0 0 0 1px rgba(190,165,255,.55);
+    0 0 64px 16px rgba(121,80,226,.56),
+    0 0 128px 30px rgba(87,36,216,.32),
+    0 0 190px 48px rgba(87,36,216,.14),
+    inset 0 0 42px 12px rgba(150,110,255,.44),
+    inset 0 0 0 1px rgba(210,190,255,.74);
 }
 .partner-card:hover .partner-halo{opacity:1}
 

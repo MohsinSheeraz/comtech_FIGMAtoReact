@@ -2,9 +2,11 @@
 import { useState } from "react";
 import { DeferredGlobe } from "@/components/three/DeferredGlobe";
 
-/* Add more testimonials here; the arrows loop through them. */
 const items = [
-    { quote: "“Comtech's Cisco ACI deployment gave our data center the speed and simplicity we needed. The centralized visibility and control have made a real difference in how confidently we can scale.\"", name: "Bank Islami", title: "Unleashing the Power of Cisco ACI" },
+    { type: "Customer testimonial", quote: "“Comtech's Cisco ACI deployment gave our data center the speed and simplicity we needed. The centralized visibility and control have made a real difference in how confidently we can scale.”", name: "Bank Islami", title: "Unleashing the Power of Cisco ACI" },
+    { type: "Project highlight", quote: "Network infrastructure designed to connect teams, systems, and sites while providing a clear foundation for future growth.", name: "Enterprise Networking", title: "Connected infrastructure" },
+    { type: "Project highlight", quote: "Cybersecurity integrated with network and infrastructure planning to support a coordinated, layered approach to protection.", name: "Cybersecurity", title: "Security by design" },
+    { type: "Project highlight", quote: "Centralized visibility and management help organizations operate complex data center environments with confidence.", name: "Data Centers", title: "Modern infrastructure" },
 ];
 
 const Arrow = ({ dir }: { dir: "l" | "r" }) => (
@@ -24,7 +26,8 @@ export function TestimonialCarousel() {
             <div className="max-w-[640px]">
                 <h2 className="h2">We Provide Real Results,<br />Real Partnerships</h2>
                 <span className="bar mt-10! mb-10!" />
-                <div aria-live="polite" className={`transition-opacity duration-200 ${show ? "opacity-100" : "opacity-0"}`}>
+                <div aria-live="polite" className={`h-[270px] overflow-y-auto transition-opacity duration-200 sm:h-[290px] min-[1101px]:h-[320px] ${show ? "opacity-100" : "opacity-0"}`}>
+                    <p className="mb-3 text-xs font-semibold uppercase tracking-[.16em] text-white/55">{t.type}</p>
                     <p className="text-[18px] leading-[28px] sm:text-[24px] sm:leading-[37px] tracking-[-.06em]">{t.quote}</p>
                     <div className="mt-8 text-[18px] leading-[26px] sm:text-[24px] sm:leading-[32px] tracking-[-.04em]">{t.name}<br />{t.title}</div>
                 </div>

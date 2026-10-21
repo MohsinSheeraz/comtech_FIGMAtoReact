@@ -39,10 +39,22 @@ export const PageGlows = (_props: { variant?: "home" | "inner" }) => (
     {/* purple colour that floods in during page changes (colours: app/page-transition.css) */}
     <div className="pt-charge" />
     <HeroLightScroll />
-    <div className="absolute inset-0 opacity-50">
-      {[0, 1].map((n) => (
-        <Image key={n} src="/images/wavesImg.png" alt="" fill priority={n === 0} sizes="75vw" className="object-contain" />
-      ))}
+    <div className="wave-art">
+      <Image
+        src="/images/wavesImg.png"
+        alt=""
+        fill
+        priority
+        sizes="(max-width: 640px) 220vw, 165vw"
+        className="wave-layer wave-layer-one"
+      />
+      <Image
+        src="/images/wavesImg.png"
+        alt=""
+        fill
+        sizes="(max-width: 640px) 220vw, 165vw"
+        className="wave-layer wave-layer-two"
+      />
     </div>
   </div>
 );

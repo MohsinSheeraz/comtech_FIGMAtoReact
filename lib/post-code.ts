@@ -21,6 +21,7 @@ export type PostFields = {
     date: string;
     image: string;
     excerpt: string;
+    quickAnswer?: string;
     intro: string;
     content: string;
     sizes: TextSizes;
@@ -85,6 +86,7 @@ export function buildPostCode(f: PostFields): string {
         `    slug: ${q(f.slug.trim())},`,
         `    title: ${q(f.title.trim())},`,
         `    excerpt: ${q(f.excerpt.trim())},`,
+        f.quickAnswer?.trim() && `    quickAnswer: ${q(f.quickAnswer.trim())},`,
         f.author.trim() && `    author: ${q(f.author.trim())},`,
         `    date: ${q(f.date.trim() || todayDMY())},`,
         `    category: ${q(f.category.trim())},`,

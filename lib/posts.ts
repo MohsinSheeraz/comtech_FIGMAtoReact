@@ -9,6 +9,7 @@ export type Post = {
   slug: string;
   title: string;
   excerpt: string;
+  quickAnswer?: string;
   author?: string;
   date: string;
   category: string;

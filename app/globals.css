@@ -1839,12 +1839,6 @@ main {
 }
 
 @media (max-width: 768px) {
-
-    /* decorative globe is not needed on mobile and caused sideways scroll */
-    .about-img {
-        display: none
-    }
-
     .about-who {
         gap: 0
     }

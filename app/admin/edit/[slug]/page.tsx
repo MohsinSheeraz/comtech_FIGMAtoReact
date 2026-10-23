@@ -37,6 +37,7 @@ export default async function EditPost({ params }: { params: Promise<{ slug: str
         authors: (post.author ?? "").split(",").map((a) => a.trim()).filter(Boolean),
         date,
         excerpt: post.excerpt,
+        quickAnswer: post.quickAnswer ?? "",
         blocks,
         sizes: post.sizes ?? DEFAULT_SIZES,
         // posts without a saved toc keep showing their old auto-built list, now as editable entries

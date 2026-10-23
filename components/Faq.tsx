@@ -1,15 +1,29 @@
 "use client";
 import { useState } from "react";
 
-export function Faq({ items, className }: { items: [string, string][]; className?: string }) {
-  const [open, setOpen] = useState<number | null>(0);
+export function Faq({
+  items,
+  className,
+  open: openProp,
+  onToggle,
+}: {
+  items: [string, string][];
+  className?: string;
+  open?: number | null; // pass this to control it from outside (pinned mode)
+  onToggle?: (i: number) => void;
+}) {
+  const [inner, setInner] = useState<number | null>(0);
+  const controlled = openProp !== undefined;
+  const open = controlled ? openProp : inner;
+  const toggle = (i: number) => (controlled ? onToggle?.(i) : setInner(open === i ? null : i));
+
   return (
-    <div className={`flex flex-col gap-5 ${className}`}>
+    <div className={`flex flex-col gap-5 ${className ?? ""}`}>
       {items.map(([q, a], i) => {
         const o = open === i;
         return (
           <div key={q} className="gborder-new rounded-[30px] border border-[#242424] bg-[#080808] px-5 py-6 sm:px-10 sm:py-9">
-            <button type="button" aria-expanded={o} onClick={() => setOpen(o ? null : i)}
+            <button type="button" aria-expanded={o} onClick={() => toggle(i)}
               className="flex w-full cursor-pointer items-center justify-between gap-5 text-left text-[20px] leading-[28px] sm:text-[26px] sm:leading-[33px] font-medium tracking-[-0.04em] text-white">
               {q}
               <span aria-hidden className={`grid size-8 shrink-0 place-items-center text-4xl font-normal transition-transform duration-300 ${o ? "rotate-45" : ""}`}>+</span>

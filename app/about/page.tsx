@@ -67,7 +67,7 @@ export default function About() {
           </div>
           <Image
             className="about-img"
-            src="/images/Partnership_Section_Image.png"
+            src="/images/globe-test.png"
             alt=""
             width={568}
             height={568}

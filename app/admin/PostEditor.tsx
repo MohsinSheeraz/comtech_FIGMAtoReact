@@ -17,6 +17,7 @@ export type Initial = {
     authors: string[];
     date: string; // YYYY-MM-DD, or ""
     excerpt: string;
+    quickAnswer: string;
     blocks: Block[]; // first block = intro
     sizes: TextSizes;
     toc: string[]; // Table of Contents entries (empty = no Table of Contents)
@@ -33,6 +34,7 @@ type Fields = {
     category: string;
     date: string;
     excerpt: string;
+    quickAnswer: string;
     metaTitle: string;
     metaDescription: string;
     metaTags: string;
@@ -113,6 +115,7 @@ export function PostEditor({
         category: initial?.category ?? "Networking Infrastructure",
         date: initial?.date ?? "",
         excerpt: initial?.excerpt ?? "",
+        quickAnswer: initial?.quickAnswer ?? "",
         metaTitle: initial?.metaTitle ?? "",
         metaDescription: initial?.metaDescription ?? "",
         metaTags: initial?.metaTags ?? "",
@@ -269,6 +272,7 @@ export function PostEditor({
             category: "Networking Infrastructure",
             date: "",
             excerpt: "",
+            quickAnswer: "",
             metaTitle: "",
             metaDescription: "",
             metaTags: "",
@@ -485,8 +489,24 @@ export function PostEditor({
                     </Section>
 
                     <Section title="Card excerpt" open={!!openSec.excerpt} onToggle={() => toggle("excerpt")}>
-                        <label htmlFor="excerpt" className={label}>Short text shown on the blog cards</label>
+                        <label htmlFor="excerpt" className={`${label} flex justify-between`}>
+                            <span>Short text shown on the blog cards</span>{counter(f.excerpt.length, 80)}
+                        </label>
                         <textarea id="excerpt" rows={3} className={field} value={f.excerpt} onChange={set("excerpt")} />
+                        <p className="mt-1.5 text-[12px] leading-[18px] text-white/50">
+                            Aim for about 80 characters for roughly two lines in the card. This is a guide, not a limit; line count varies by screen width.
+                        </p>
+                    </Section>
+
+                    <Section title="Quick answer" open={!!openSec.quickAnswer} onToggle={() => toggle("quickAnswer")}>
+                        <label htmlFor="quick-answer" className={label}>Short answer shown below the article title</label>
+                        <textarea
+                            id="quick-answer"
+                            rows={3}
+                            className={field}
+                            value={f.quickAnswer}
+                            onChange={set("quickAnswer")}
+                        />
                     </Section>
 
                     <Section title="Content" open={!!openSec.content} onToggle={() => toggle("content")}>

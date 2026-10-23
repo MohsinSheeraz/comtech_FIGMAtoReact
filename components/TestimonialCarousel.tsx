@@ -38,7 +38,7 @@ export function TestimonialCarousel() {
             </div>
             <DeferredGlobe
                 variant="earth"
-                fallbackSrc="/images/Partnership_Section_Image.png"
+                fallbackSrc="/images/globe-test.png"
                 className="mx-auto aspect-square w-full max-w-[636px]"
                 sizes="(max-width: 1100px) 100vw, 636px"
             />
@@ -192,7 +192,7 @@ export function TestimonialCarousel() {
 // `}</style>
 //             {/* earth stays still; the line layers above it do the moving */}
 //             <div className="relative mx-auto w-full max-w-[636px]">
-//                 <Image src="/images/Partnership_Section_Image.png" alt="" width={636} height={636} className="h-auto w-full" />
+//                 <Image src="/images/globe-test.png" alt="" width={636} height={636} className="h-auto w-full" />
 //                 <GlobeLines />
 //             </div>
 //         </div>

@@ -7,6 +7,7 @@ import { Glow, PageGlows } from "@/components/Glow";
 import { Hero } from "@/components/Hero";
 import { HowWeWork } from "@/components/HowWeWork";
 import { SecHead } from "@/components/SecHead";
+import { PinnedFaq } from "@/components/PinnedFaq";
 
 export const metadata: Metadata = {
   title: "Networking & IT Infrastructure | Comtech Associates",
@@ -390,7 +391,7 @@ export default function Networking() {
         className="relative isolate mx-auto mt-16 w-[94%] max-w-[1764px] rounded-[40px] py-10"
         style={{ background: bandB }}
       >
-        <section className="wrap sec faq">
+        {/* <section className="wrap sec faq">
           <div>
             <h2 className={H2}>
               Frequently
@@ -403,7 +404,24 @@ export default function Networking() {
             </p>
           </div>
           <Faq items={faq} />
-        </section>
+        </section> */}
+        <section className="wrap sec">
+  <PinnedFaq
+    items={faq}
+    head={
+      <>
+        <h2 className={H2}>
+          Frequently
+          <br />
+          Asked Questions
+        </h2>
+        <p className="mt-5">
+          Have questions? Our FAQ section has you covered with quick answers to the most common inquiries.
+        </p>
+      </>
+    }
+  />
+</section>
       </div>
 
       <section className="wrap sec mt-16">

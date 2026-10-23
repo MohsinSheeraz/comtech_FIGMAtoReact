@@ -6,7 +6,9 @@ import { Hero } from "@/components/Hero";
 import { PageGlows } from "@/components/Glow";
 import { SecHead } from "@/components/SecHead";
 import { HowWeWork } from "@/components/HowWeWork";
+import { PinnedFaq } from "@/components/PinnedFaq";
 import ComtechRightChoice_SectionImage from "@/public/images/Comtech_RightChoiceIMG.png";
+import { DeferredGlobe } from "@/components/three/DeferredGlobe";
 
 const off = [
   [
@@ -111,7 +113,7 @@ export default function Services() {
       <div className="relative overflow-x-clip">
         {/* Gradient frame: About + What We Have to Offer + How We Work */}
         <div
-          className="relative isolate mx-auto mt-16 w-full sm:w-[1764px] rounded-[40px]"
+          className="relative isolate mx-auto mt-16 w-[94%] max-w-[1764px] rounded-[40px]"
           style={{ background: frameBg }}
         >
           {/* blue glows: left-middle + bottom-right, as in Figma */}
@@ -152,7 +154,7 @@ export default function Services() {
             </div>
             <Image
               className="about-img"
-              src="/images/Partnership_Section_Image.png"
+              src="/images/globe-test.png"
               alt=""
               width={568}
               height={568}
@@ -220,13 +222,16 @@ export default function Services() {
 
         <section className="wrap sec two flex items-stretch">
           <div className="flex flex-col">
-            <h2 className="h2 text-[46px]! leading-[55px]! tracking-tighter!">Built on Enterprise Grade Technology</h2>
+            <h2 className="h2 text-[46px]! leading-[55px]! tracking-tighter!">
+              Built on Enterprise Grade Technology
+            </h2>
             <p className="text-[18px]! leading-[31px]! font-normal! tracking-tighter!">
-              Comtech&apos;s practice runs on 15 confirmed technology partnerships,
-              including Cisco, where Comtech holds Preferred Partner status, alongside
-              Fortinet, Kaspersky, Sangfor, Ubiquiti, TP-Link, D-Link, HPE, H3C,
-              Broadcom, and Dell. Which partners apply depends on the service, each
-              pillar page lists the specific subset it&apos;s built on.
+              Comtech&apos;s practice runs on 15 confirmed technology
+              partnerships, including Cisco, where Comtech holds Preferred
+              Partner status, alongside Fortinet, Kaspersky, Sangfor, Ubiquiti,
+              TP-Link, D-Link, HPE, H3C, Broadcom, and Dell. Which partners
+              apply depends on the service, each pillar page lists the specific
+              subset it&apos;s built on.
             </p>
             <div className="mt-auto">
               <Btn href="/partners">See All Technology Partnerships</Btn>
@@ -236,12 +241,15 @@ export default function Services() {
           <i />
 
           <div className="flex flex-col ml-10">
-            <h2 className="h2 text-[46px]! leading-[55px]! tracking-tighter! ">Compliance You Can <br /> Count On</h2>
+            <h2 className="h2 text-[46px]! leading-[55px]! tracking-tighter! ">
+              Compliance You Can <br /> Count On
+            </h2>
             <p className="text-[18px]! leading-[31px]! font-normal! tracking-tighter!">
               Comtech&apos;s services are built around the compliance frameworks
-              Pakistani enterprises are actually held to, not a generic international
-              checklist: ISO 27001, PCI DSS, HIPAA, and GDPR where relevant, plus
-              Pakistan-specific requirements including the SBP Cybersecurity Framework.
+              Pakistani enterprises are actually held to, not a generic
+              international checklist: ISO 27001, PCI DSS, HIPAA, and GDPR where
+              relevant, plus Pakistan-specific requirements including the SBP
+              Cybersecurity Framework.
             </p>
             <div className="mt-auto">
               <Btn href="/contact">Connect With Us</Btn>
@@ -290,7 +298,7 @@ export default function Services() {
           </div>
         </div>
 
-        <div className="faq mt-20!">
+        {/* <div className="faq mt-20!">
           <div>
             <h2 className="h2">
               Frequently
@@ -304,7 +312,25 @@ export default function Services() {
             <Btn href="/contact">Connect With Us</Btn>
           </div>
           <Faq items={faq as [string, string][]} />
-        </div>
+        </div> */}
+        <PinnedFaq
+          className="mt-20!"
+          items={faq as [string, string][]}
+          head={
+            <>
+              <h2 className="h2">
+                Frequently
+                <br />
+                Asked Questions
+              </h2>
+              <p style={{ margin: "20px 0 30px" }}>
+                Have questions? Our FAQ section has you covered with quick
+                answers to the most common inquiries.
+              </p>
+              <Btn href="/contact">Connect With Us</Btn>
+            </>
+          }
+        />
       </section>
 
       <CtaPanel

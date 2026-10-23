@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { BlogCard } from "@/components/BlogCard";
 import { CtaPanel } from "@/components/CtaPanel";
 import { PageGlows } from "@/components/Glow";
 // import { SideForm } from "@/components/SideForm";
@@ -15,7 +14,6 @@ import {
   getAllSlugs,
   getPost,
   getRecentPosts,
-  getRelatedPosts,
 } from "@/lib/posts";
 import { DEFAULT_SIZES } from "@/lib/post-code";
 
@@ -73,10 +71,7 @@ export default async function BlogPost({
   const post = await getPost(slug);
   if (!post) notFound();
 
-  const [recent, related] = await Promise.all([
-    getRecentPosts(slug, 4),
-    getRelatedPosts(slug, 3),
-  ]);
+  const recent = await getRecentPosts(slug, 4);
 
   const sz = post.sizes ?? DEFAULT_SIZES;
   const toc =
@@ -116,23 +111,17 @@ export default async function BlogPost({
               <h1 className="text-[34px] font-medium leading-[44px] tracking-tighter sm:text-[46px] sm:leading-[56px]">
                 {post.title}
               </h1>
-              <p className={`${P} mt-8`}>{post.intro}</p>
-
-              {toc.length > 0 && (
-                <nav
-                  aria-label="Table of contents"
-                  className="mt-8 rounded-2xl border border-white/20 bg-white/5 p-6"
-                >
-                  <p className="text-[14px] font-medium uppercase tracking-wide text-white/60">
-                    Table of Contents
+              {post.quickAnswer?.trim() && (
+                <div className="mt-8 w-full rounded-2xl border border-white/20 bg-white/5 p-6">
+                  <h2 className="text-[14px] font-medium uppercase tracking-wide text-white/60">
+                    Quick Answer
+                  </h2>
+                  <p className="mt-3 text-[18px] leading-[31px] tracking-tighter">
+                    {post.quickAnswer}
                   </p>
-                  <ol className="mt-3 list-decimal space-y-1.5 pl-6 text-[17px] leading-[28px] tracking-tighter">
-                    {toc.map((t) => (
-                      <li key={t}>{t}</li>
-                    ))}
-                  </ol>
-                </nav>
+                </div>
               )}
+              <p className={`${P} mt-8`}>{post.intro}</p>
 
               {post.content
                 ? post.content.map((b, i) => {
@@ -171,6 +160,22 @@ export default async function BlogPost({
 
             <aside className="flex flex-col gap-5 min-[1101px]:sticky min-[1101px]:top-6">
               {/* <SideForm /> */}
+
+              {toc.length > 0 && (
+                <nav
+                  aria-label="Table of contents"
+                  className="rounded-[30px] leadership-border p-6"
+                >
+                  <p className="text-[14px] font-medium uppercase tracking-wide text-white/60">
+                    Table of Contents
+                  </p>
+                  <ol className="mt-3 list-decimal space-y-1.5 pl-6 text-[17px] leading-[28px] tracking-tighter">
+                    {toc.map((t) => (
+                      <li key={t}>{t}</li>
+                    ))}
+                  </ol>
+                </nav>
+              )}
 
               <div className="rounded-[30px] leadership-border p-4">
                 <ul className="flex flex-col gap-4">
@@ -226,14 +231,6 @@ export default async function BlogPost({
           </div>
         </section>
       </div>
-
-      <section className="wrap sec mt-10">
-        <div className="grid grid-cols-1 gap-x-[33px] gap-y-14 min-[700px]:grid-cols-2 min-[1101px]:grid-cols-3">
-          {related.map((p) => (
-            <BlogCard key={p.slug} post={p} />
-          ))}
-        </div>
-      </section>
 
       <CtaPanel
         title="Let's Build a Network That Never Lets You Down"

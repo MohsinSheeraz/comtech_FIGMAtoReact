@@ -71,6 +71,15 @@ const ind: [string, string][] = [
   ],
 ];
 
+const driveImages = [
+  "/images/whatDriveus1.png",
+  "/images/whatDriveus2.png",
+  "/images/whatDriveus3.png",
+  "/images/whatDriveus4.png",
+  "/images/whatDriveus5.png",
+  "/images/whatDriveus6.png",
+];
+
 export default function Home() {
   return (
     <main>
@@ -155,13 +164,22 @@ export default function Home() {
             sub="The purpose behind every network we build, every system we secure, and every partnership we keep. "
             cta
           />
-          <Image
-            className="strip mb-10 min-[1101px]:mb-20"
-            src="/images/Group_12.png"
-            alt=""
-            width={1230}
-            height={346}
-          />
+          <div className="mx-auto mb-10 flex w-full max-w-[1230px] items-center overflow-visible min-[1101px]:mb-20">
+            {driveImages.map((src, index) => (
+              <div
+                key={src}
+                className={`w-[20.83%] shrink-0 transition-transform duration-300 ease-out hover:-translate-y-3 ${index ? "-ml-[5%]" : ""} ${index === 0 || index === 5 ? "translate-y-6" : index === 1 || index === 4 ? "translate-y-2" : ""}`}
+              >
+                <Image
+                  className="h-auto w-full"
+                  src={src}
+                  alt=""
+                  width={276}
+                  height={276}
+                />
+              </div>
+            ))}
+          </div>
           <div className="mv mb-10">
             <div>
               <h2>Mission</h2>

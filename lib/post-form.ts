@@ -8,6 +8,7 @@ export type PostForm = {
     author: string;
     date: string;
     excerpt: string;
+    quickAnswer: string;
     intro: string;
     blocks: Block[];
     sizes: TextSizes;
@@ -49,6 +50,7 @@ export function readPostForm(fd: FormData): { error: string } | { form: PostForm
             author: text("author"),
             date: text("date"),
             excerpt: text("excerpt"),
+            quickAnswer: text("quickAnswer"),
             intro: text("intro"),
             blocks,
             sizes,
@@ -74,6 +76,7 @@ export function toPost(f: PostForm, image: string): Post {
         slug: f.slug,
         title: f.title,
         excerpt: f.excerpt,
+        ...(f.quickAnswer ? { quickAnswer: f.quickAnswer } : {}),
         ...(f.author ? { author: f.author } : {}),
         date: f.date || todayDMY(),
         category: f.category || "General",

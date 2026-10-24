@@ -12,6 +12,14 @@
 }
 .faq-track.is-pinned .faq { align-items: start; }
 
+/* pin="bottom": the block sticks to the BOTTOM of the screen (the spacer sits above it in the DOM) */
+.faq-track.is-pinned.faq-bottom .faq-sticky {
+  top: auto;
+  bottom: 0;
+  padding-top: 0;
+  padding-bottom: 40px;
+}
+
 /* progress dots + counter under the heading */
 .faq-dots { display: flex; align-items: center; gap: 8px; margin-top: 34px; }
 .faq-dots button {

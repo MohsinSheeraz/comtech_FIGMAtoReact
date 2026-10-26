@@ -133,11 +133,12 @@ export default function Cisco() {
             <div className="relative isolate">
                 <PurplePanel variant="top">
                     <Image
-                        src="/images/globe-test.png"
+                        // src="/images/globe-test.png"
+                        src="/images/new-globe-animated-lines.gif"
                         alt=""
                         width={520}
                         height={520}
-                        className="absolute right-0 top-[773px] h-auto w-[min(90vw,520px)] max-w-none lg:right-[-88px] lg:w-[520px]"
+                        className="opacity-50 absolute right-0 top-[773px] h-auto w-[min(90vw,520px)] max-w-none lg:right-[-88px] lg:w-[520px]"
                     />
                 </PurplePanel>
 

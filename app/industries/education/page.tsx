@@ -181,12 +181,11 @@ export default function Education() {
 
       {/* FAQ band */}
       <div
-        className="relative isolate mx-auto mt-16 w-[94%] max-w-[1764px] rounded-[40px] py-10"
+        className="relative isolate mx-auto mt-16 w-[94%] max-w-[1764px] rounded-[40px]"
         style={{ background: bandB }}
       >
-        <section className="wrap sec">
+        <section className="wrap">
           <PinnedFaq
-            pin="bottom"
             items={faq}
             head={
               <>

@@ -154,7 +154,8 @@ export default function Services() {
             </div>
             <Image
               className="about-img"
-              src="/images/globe-test.png"
+              // src="/images/globe-test.png"
+              src="/images/new-globe-animated-lines.gif"
               alt=""
               width={568}
               height={568}

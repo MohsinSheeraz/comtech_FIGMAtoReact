@@ -98,24 +98,27 @@ export default function Home() {
         secondary="Explore our Services"
         globe
       />
-      <h2
-        className="h2 wrap h2-lead text-[46px] font-medium! leading-[75px] mt-auto md:mt-20!"
-      >
+      <h2 className="h2 wrap h2-lead text-[46px] font-medium! leading-[75px] mt-auto md:mt-20!">
         A Decade of Building Pakistan&apos;s Digital Backbone
       </h2>
       <Stats />
       <section className="wrap sec">
         <div className="split">
           <div className="card big">
-            <h2 className="h2 tracking-tighter!">We’re Not Just an IT Vendor</h2>
-            <h2 className="h2 -mt-2 gt tracking-tighter!">We’re Your Infrastructure Partner!</h2>
+            <h2 className="h2 tracking-tighter!">
+              We’re Not Just an IT Vendor
+            </h2>
+            <h2 className="h2 -mt-2 gt tracking-tighter!">
+              We’re Your Infrastructure Partner!
+            </h2>
             <span className="bar" />
             <p className="text-[18px]! leading-[31px]! tracking-tighter!">
               Every business today runs on its network, the invisible layer of
               switches, servers, firewalls, and connections that decide whether
               your operations move at the speed of your ambition, or grind to a
-              halt at the worst possible moment. <br /> Comtech Associates has spent over a decade building that layer for
-              some of Pakistan&apos;s most demanding organizations. We are a
+              halt at the worst possible moment. <br /> Comtech Associates has
+              spent over a decade building that layer for some of
+              Pakistan&apos;s most demanding organizations. We are a
               full-spectrum IT solutions company specializing in enterprise
               networking, system integration, managed cybersecurity, IT
               infrastructure, and custom software development, engineered not as
@@ -131,8 +134,8 @@ export default function Home() {
           </div>
           <div className="side">
             <div className="purple  p-10! md:py-16! md:px-13! flex justify-center items-center text-3xl! md:text-auto!">
-              IT infrastructure isn&apos;t four separate problems;
-              it&apos;s one system.
+              IT infrastructure isn&apos;t four separate problems; it&apos;s one
+              system.
             </div>
             <Image
               src="/images/Hand_shake_two.png"
@@ -154,7 +157,11 @@ export default function Home() {
           />
           <div className="g3">
             {services.map((c) => (
-              <ServiceCard className="gborder-new bg-transparent!" key={c.t} {...c} />
+              <ServiceCard
+                className="gborder-new bg-transparent!"
+                key={c.t}
+                {...c}
+              />
             ))}
             <StatementCard />
           </div>
@@ -217,8 +224,12 @@ export default function Home() {
         }
         head={
           <>
-            <Reveal as="h2" className="h2 text-[46px]! leading-[54px]! tracking-tighter!">
-              Why Businesses Choose Comtech as Their Enterprise IT Solutions Provider
+            <Reveal
+              as="h2"
+              className="h2 text-[46px]! leading-[54px]! tracking-tighter!"
+            >
+              Why Businesses Choose Comtech as Their Enterprise IT Solutions
+              Provider
             </Reveal>
             <Btn v="p" href="/contact">
               Get in touch
@@ -228,7 +239,9 @@ export default function Home() {
         cards={why.map(([t, p], i) => (
           <div className="card " key={t}>
             <div className={`in gborder-new ${i === 0 ? "gborder-new" : ""}`}>
-              <h3 className="h3 text-[26px] leading-[75px] tracking-tighter">{t}</h3>
+              <h3 className="h3 text-[26px] leading-[75px] tracking-tighter">
+                {t}
+              </h3>
               <p className="text-[18px] leading-[31px] tracking-tighter">{p}</p>
               <Btn href="/contact">Connect with Us</Btn>
             </div>
@@ -247,24 +260,21 @@ export default function Home() {
       />
 
       <section className="wrap sec mt-40">
-
-        <SecHead className="cta-spaced"
-          title={<>
-            Trusted Across Pakistan's Most Regulated &<br />
-            Demanding Sectors
-          </>}
-
+        <SecHead
+          className="cta-spaced"
+          title={
+            <>
+              Trusted Across Pakistan's Most Regulated &<br />
+              Demanding Sectors
+            </>
+          }
           cta
         />
-
 
         <div className="card ind">
           <div className="g3">
             {ind.map(([t, p], i) => (
-              <div
-                className={`gborder-new card ${i === 0 ? "f" : ""}`}
-                key={t}
-              >
+              <div className={`gborder-new card ${i === 0 ? "f" : ""}`} key={t}>
                 <h3 className="h3">{t}</h3>
                 <p>{p}</p>
               </div>
@@ -275,10 +285,7 @@ export default function Home() {
 
       <CeoQuote title="A Message from Our CEO" />
 
-      <section
-        id="partners"
-        className="panel pan-b-new mt-40!"
-      >
+      <section id="partners" className="panel pan-b-new mt-40!">
         <div className="wrap">
           <SecHead title="Backed by the Brands the World Trusts" />
         </div>

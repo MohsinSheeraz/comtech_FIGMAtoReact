@@ -3,7 +3,7 @@ import { Btn } from "@/components/Button";
 import { CtaPanel } from "@/components/CtaPanel";
 import { Hero } from "@/components/Hero";
 import { PageGlows } from "@/components/Glow";
-import { PinnedFaq } from "@/components/PinnedFaq";
+import { StackedFaq } from "@/components/Stackedfaq";
 import { SecHead } from "@/components/SecHead";
 import { Stats } from "@/components/Stats";
 import { NumberedCards } from "@/components/NumberedCards";
@@ -149,7 +149,7 @@ export default function Industries() {
             }
             sub="Seven Sectors. Seven Different Definitions of Downtime."
           />
-          <div className="grid gap-6 md:grid-cols-2 min-[1101px]:grid-cols-3 lg:gap-x-[33px] lg:gap-y-[28px]">
+          <div className="grid gap-6 md:grid-cols-3 min-[1101px]:grid-cols-3 lg:gap-x-[33px] lg:gap-y-[28px]">
             {sectors.map((s) => (
               <GlowCard key={s.slug} className="h-full">
                 <div className="flex h-full flex-col">
@@ -198,12 +198,11 @@ export default function Industries() {
 
       {/* FAQ band */}
       <div
-        className="relative isolate mx-auto mt-16 w-[94%] max-w-[1764px] rounded-[40px] py-10"
+        className="relative isolate mx-auto w-[94%] max-w-[1764px] rounded-[40px]"
         style={{ background: bandB }}
       >
-        <section className="wrap sec">
-          <PinnedFaq
-            pin="bottom"
+        <section className="wrap">
+          <StackedFaq
             items={faq}
             head={
               <>

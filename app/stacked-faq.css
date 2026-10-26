@@ -1,0 +1,30 @@
+/* Stacked FAQ (desktop): same pinned behaviour as the home page "Why Businesses Choose Comtech" section.
+   Heading pinned on the left, one open question at a time on the right, swapped by scroll (see StackedFaq.tsx). */
+
+/* The block is only as tall as its content (no full-screen empty space above and below).
+   It pins as soon as it is fully on screen (10vh above the bottom edge); the spacer is the scroll distance (~62vh per question change). */
+.sfaq-track.is-pinned .sfaq-spacer {
+  height: calc((var(--n) - 1) * 10vh / var(--z, 1));
+}
+.sfaq-track.is-pinned .sfaq-sticky {
+  position: sticky;
+  top: calc(
+    70vh / var(--z, 1) - var(--sh, 0px)
+  ); /* pins where it first appears fully; --sh = block height, set by StackedFaq.tsx */
+  padding-block: 40px;
+}
+.sfaq-track.is-pinned .faq {
+  width: 100%;
+  align-items: center;
+}
+
+/* all questions sit in the same spot; the script fades/moves them */
+.sfaq-stack {
+  display: grid;
+}
+.sfaq-card {
+  grid-area: 1 / 1;
+  opacity: 0;
+  will-change: transform, opacity;
+  transform-origin: 50% 60%;
+}

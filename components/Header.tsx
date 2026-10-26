@@ -27,13 +27,27 @@ const nav: NavItem[] = [
     href: "/partners",
     children: [
       { label: "Cisco", href: "/partners/cisco" },
-      // { label: "Fortinet", href: "/partners/fortinet" },
-      // { label: "Huawei", href: "/partners/huawei" },
+    ],
+  },
+  {
+    label: "Industries",
+    href: "/industries",
+    children: [
+      { label: "Banking & Financial Services", href: "/industries/banking" },
+      { label: "Healthcare", href: "/industries/healthcare" },
+      { label: "Government & Public Sector", href: "/industries/government" },
+      { label: "Education", href: "/industries/education" },
+      { label: "Telecommunications", href: "/industries/telecom" },
+      { label: "Enterprise", href: "/industries/enterprise" },
     ],
   },
   { label: "About Us", href: "/about" },
   { label: "Contact Us", href: "/contact" },
-  { label: "Resources", href: "/blog" },
+  {
+    label: "Resources",
+    href: "/blog",
+    children: [{ label: "Blog", href: "/blog" }],
+  },
 ];
 
 const Chevron = ({ open }: { open: boolean }) => (

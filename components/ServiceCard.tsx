@@ -2,7 +2,13 @@ import Image from "next/image";
 import { Btn } from "./Button";
 import { LiquidBg } from "@/components/LiquidBg";
 
-type Props = { t: string; p: string; img: string; className?: string; number?: string; };
+type Props = {
+  t: string;
+  p: string;
+  img: string;
+  className?: string;
+  number?: string;
+};
 
 export const ServiceCard = ({ t, p, img, className, number }: Props) => (
   <article className={`card svc svc-hover ${className ?? ""}`}>
@@ -15,7 +21,13 @@ export const ServiceCard = ({ t, p, img, className, number }: Props) => (
         Explore our Services
       </Btn>
     </div>
-    <Image src={`/images/${img}.png`} alt={t} width={384} height={208} className="mt-3!" />
+    <Image
+      src={`/images/${img}.png`}
+      alt={t}
+      width={384}
+      height={208}
+      className="mt-3!"
+    />
   </article>
 );
 

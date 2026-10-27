@@ -1,6 +1,5 @@
-"use client";
 import type { ReactNode } from "react";
-import { Faq } from "@/components/Faq";
+import { PinnedFaq } from "@/components/PinnedFaq";
 
 export function StackedFaq({
   head, items, className = "",
@@ -9,12 +8,5 @@ export function StackedFaq({
   items: [string, string][];
   className?: string;
 }) {
-  return (
-    <div className={className}>
-      <div className="faq">
-        <div>{head}</div>
-        <Faq items={items} />
-      </div>
-    </div>
-  );
+  return <PinnedFaq className={className} head={head} items={items} />;
 }

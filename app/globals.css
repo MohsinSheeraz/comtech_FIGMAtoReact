@@ -630,14 +630,12 @@ img {
   height: 170px;
   font-weight: 700;
 }
-
 .ctapanel .body {
   line-height: 38px;
   letter-spacing: -0.04em;
 }
 
 .ctapanel {
-  --cell: 48px;
   position: relative;
   isolation: isolate;
   overflow: hidden;
@@ -652,135 +650,136 @@ img {
   background: linear-gradient(180deg, #040404 0%, #0a0620 50%, #170a45 100%);
 }
 
-/* ---------- CTA: infrastructure grid ---------- */
-.cta-fx {
+.ctapanel::before {
+  content: "";
   position: absolute;
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  overflow: hidden;
-  border-radius: inherit;
-}
-
-/* purple light rising from the bottom, slow breathing */
-.cta-glow {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(
-    ellipse 70% 60% at 50% 105%,
-    rgba(123, 85, 224, 0.6),
+  background-image: radial-gradient(
+    rgba(255, 255, 255, 0.22) 1px,
+    transparent 1.4px
+  );
+  background-size: 20px 20px;
+  -webkit-mask-image: radial-gradient(
+    ellipse 70% 80% at 50% 100%,
+    #000,
     transparent 75%
   );
+  mask-image: radial-gradient(
+    ellipse 70% 80% at 50% 100%,
+    #000,
+    transparent 75%
+  );
+}
+/* ---------- CTA: data grid ---------- */
+.cta-fx {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  perspective: 420px;
+  perspective-origin: 50% 15%;
+  background: radial-gradient(
+    ellipse 60% 50% at 50% 100%,
+    rgba(121, 80, 226, 0.45),
+    transparent 75%
+  );
+}
+
+/* breathing glow under the floor */
+.cta-glow {
+  position: absolute;
+  left: 50%;
+  bottom: -45%;
+  width: 75%;
+  aspect-ratio: 1;
+  translate: -50% 0;
+  border-radius: 50%;
+  filter: blur(34px);
+  background: radial-gradient(circle, rgba(123, 85, 224, 0.6), transparent 65%);
   animation: cta-breathe 6s ease-in-out infinite alternate;
 }
 @keyframes cta-breathe {
-  from {
-    transform: translate3d(0, 6%, 0);
+  to {
+    scale: 1.15;
     opacity: 0.65;
   }
+}
+
+/* tilted grid floor, lines slide toward the viewer */
+.cta-floor {
+  position: absolute;
+  left: -50%;
+  right: -50%;
+  bottom: -10%;
+  height: 130%;
+  transform-origin: 50% 100%;
+  transform: rotateX(62deg);
+  --cell: 64px;
+  background-image:
+    linear-gradient(rgba(160, 130, 255, 0.35) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(160, 130, 255, 0.35) 1px, transparent 1px);
+  background-size: var(--cell) var(--cell);
+  animation: cta-scroll 3.5s linear infinite;
+  -webkit-mask-image: linear-gradient(to top, #000 8%, transparent 85%);
+  mask-image: linear-gradient(to top, #000 8%, transparent 85%);
+}
+@keyframes cta-scroll {
+  from {
+    background-position:
+      0 0,
+      0 0;
+  }
   to {
-    transform: translate3d(0, -4%, 0);
-    opacity: 1;
+    background-position:
+      0 var(--cell),
+      0 0;
   }
 }
 
-/* base grid, strongest at the bottom */
-.cta-grid {
+/* bright pulses travel up the vertical lines toward the horizon */
+.cta-floor::after {
+  content: "";
   position: absolute;
   inset: 0;
-  background-image:
-    linear-gradient(to right, rgba(160, 130, 255, 0.16) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(160, 130, 255, 0.16) 1px, transparent 1px);
-  background-size: var(--cell) var(--cell);
-  -webkit-mask-image: linear-gradient(
-    0deg,
-    #000 0%,
-    rgba(0, 0, 0, 0.55) 60%,
-    rgba(0, 0, 0, 0.15) 100%
+  background: linear-gradient(
+      172deg,
+      transparent 0 42%,
+      #cdb8ff 50%,
+      transparent 58% 100%
+    )
+    0 0 / 100% 420px repeat-y;
+  -webkit-mask-image: repeating-linear-gradient(
+    90deg,
+    #000 0 2px,
+    transparent 2px var(--cell)
   );
-  mask-image: linear-gradient(
-    0deg,
-    #000 0%,
-    rgba(0, 0, 0, 0.55) 60%,
-    rgba(0, 0, 0, 0.15) 100%
+  mask-image: repeating-linear-gradient(
+    90deg,
+    #000 0 2px,
+    transparent 2px var(--cell)
   );
+  animation: cta-pulse 3.2s linear infinite;
 }
-
-/* bright copy of the grid, revealed only inside a diagonal band that sweeps across */
-.cta-grid-lit {
-  background-image:
-    linear-gradient(to right, rgba(205, 184, 255, 0.9) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(205, 184, 255, 0.9) 1px, transparent 1px);
-  -webkit-mask-image: linear-gradient(
-    115deg,
-    transparent 38%,
-    #000 50%,
-    transparent 62%
-  );
-  mask-image: linear-gradient(
-    115deg,
-    transparent 38%,
-    #000 50%,
-    transparent 62%
-  );
-  -webkit-mask-size: 300% 300%;
-  mask-size: 300% 300%;
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  filter: drop-shadow(0 0 3px rgba(160, 130, 255, 0.9));
-  animation: cta-sweep 7s linear infinite;
-}
-@keyframes cta-sweep {
-  0% {
-    -webkit-mask-position: 100% 100%;
-    mask-position: 100% 100%;
-  }
-  75%,
-  100% {
-    -webkit-mask-position: 0% 0%;
-    mask-position: 0% 0%;
-  }
-}
-
-/* status LEDs on grid intersections */
-.cta-led {
-  position: absolute;
-  left: calc(var(--c) * var(--cell) - 2px);
-  top: calc(var(--r) * var(--cell) - 2px);
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: #f3e8ff;
-  box-shadow: 0 0 8px 2px rgba(160, 130, 255, 0.85);
-  opacity: 0.15;
-  animation: cta-blink 3.2s ease-in-out infinite;
-  animation-delay: var(--d);
-}
-@keyframes cta-blink {
-  0%,
-  100% {
-    opacity: 0.15;
-    transform: scale(0.8);
-  }
-  45% {
-    opacity: 1;
-    transform: scale(1.25);
+@keyframes cta-pulse {
+  to {
+    background-position: 0 -420px;
   }
 }
 
 @media (max-width: 640px) {
-  .ctapanel {
-    --cell: 32px;
+  .cta-floor {
+    --cell: 40px;
   }
 }
 @media (prefers-reduced-motion: reduce) {
   .cta-glow,
-  .cta-grid-lit,
-  .cta-led {
+  .cta-floor,
+  .cta-floor::after {
     animation: none;
   }
 }
-
 /* process */
 .proc {
   position: relative;
@@ -2392,4 +2391,141 @@ a.btn.p::after {
   .page-glows .wave-layer {
     animation: none;
   }
+}
+
+
+
+/* LiquidCSS */
+
+/* ---------- Statement card: contour waves + signal sweep ---------- */
+@property --sw {
+    syntax: "<percentage>";
+    inherits: false;
+    initial-value: -16%;
+}
+
+.liquid {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    border-radius: inherit;
+    pointer-events: none;
+    z-index: 0;
+    background: linear-gradient(180deg, #6a2be0 0%, #4516bb 55%, #2a0f7a 100%);
+}
+
+/* light from above, slow breathing */
+.liq-glow {
+    position: absolute;
+    top: -12%;
+    left: 0;
+    right: 0;
+    height: 52%;
+    background: radial-gradient(ellipse 80% 55% at 50% 24%, rgba(196, 167, 255, .8), transparent 100%);
+    animation: liq-breathe 8s ease-in-out infinite alternate;
+}
+
+@keyframes liq-breathe {
+    from {
+        transform: translate3d(0, -3%, 0);
+        opacity: .7;
+    }
+
+    to {
+        transform: translate3d(0, 4%, 0);
+        opacity: 1;
+    }
+}
+
+.liq-lines,
+.liq-lit,
+.liq-nodes {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* always-visible faint contours, a little stronger toward the bottom */
+.liq-lines {
+    stroke: rgba(240, 230, 255, .42);
+    stroke-width: .7;
+    -webkit-mask-image: linear-gradient(180deg, rgba(0, 0, 0, .12) 0%, rgba(0, 0, 0, .2) 42%, #000 100%);
+    mask-image: linear-gradient(180deg, rgba(0, 0, 0, .12) 0%, rgba(0, 0, 0, .2) 42%, #000 100%);
+}
+
+/* bright copy of the same contours, revealed only inside a diagonal band that sweeps across */
+.liq-lit {
+    stroke: #fff;
+    stroke-width: 1.1;
+    filter: drop-shadow(0 0 2px rgba(255, 255, 255, .8)) drop-shadow(0 0 6px rgba(196, 167, 255, .8));
+    /* sweep band, intersected with a fade that keeps the headline area calm */
+    -webkit-mask-image:
+        linear-gradient(62deg, transparent calc(var(--sw) - 14%), #000 var(--sw), transparent calc(var(--sw) + 14%)),
+        linear-gradient(180deg, rgba(0, 0, 0, .18) 0%, rgba(0, 0, 0, .3) 42%, #000 85%);
+    -webkit-mask-composite: source-in;
+    mask-image:
+        linear-gradient(62deg, transparent calc(var(--sw) - 14%), #000 var(--sw), transparent calc(var(--sw) + 14%)),
+        linear-gradient(180deg, rgba(0, 0, 0, .18) 0%, rgba(0, 0, 0, .3) 42%, #000 85%);
+    mask-composite: intersect;
+    animation: liq-sweep 9s linear infinite;
+}
+
+@keyframes liq-sweep {
+    0% {
+        --sw: -16%;
+    }
+
+    72%,
+    100% {
+        --sw: 116%;
+    }
+}
+
+/* nodes flash when the sweep reaches them (delays set per node in the TSX) */
+.liq-node {
+    fill: #fff;
+    opacity: .12;
+    transform-box: fill-box;
+    transform-origin: center;
+    filter: drop-shadow(0 0 3px rgba(255, 255, 255, .95)) drop-shadow(0 0 7px rgba(196, 167, 255, .9));
+    animation: liq-node 9s ease-out infinite;
+}
+
+@keyframes liq-node {
+    0% {
+        opacity: .12;
+        scale: .7;
+    }
+
+    4% {
+        opacity: 1;
+        scale: 1.5;
+    }
+
+    16%,
+    100% {
+        opacity: .12;
+        scale: .7;
+    }
+}
+
+.liq-grain {
+    position: absolute;
+    inset: 0;
+    opacity: .1;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .liquid *,
+    .liq-glow {
+        animation: none !important;
+    }
+
+    .liq-lit {
+        --sw: 50%;
+    }
 }

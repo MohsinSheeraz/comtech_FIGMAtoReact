@@ -391,37 +391,24 @@ export default function Networking() {
         className="relative isolate mx-auto mt-16 w-[94%] max-w-[1764px] rounded-[40px] py-10"
         style={{ background: bandB }}
       >
-        {/* <section className="wrap sec faq">
-          <div>
-            <h2 className={H2}>
-              Frequently
-              <br />
-              Asked Questions
-            </h2>
-            <p className="mt-5">
-              Have questions? Our FAQ section has you covered with quick answers
-              to the most common inquiries.
-            </p>
-          </div>
-          <Faq items={faq} />
-        </section> */}
         <section className="wrap sec">
-  <PinnedFaq
-    items={faq}
-    head={
-      <>
-        <h2 className={H2}>
-          Frequently
-          <br />
-          Asked Questions
-        </h2>
-        <p className="mt-5">
-          Have questions? Our FAQ section has you covered with quick answers to the most common inquiries.
-        </p>
-      </>
-    }
-  />
-</section>
+          <PinnedFaq
+            items={faq}
+            head={
+              <>
+                <h2 className={H2}>
+                  Frequently
+                  <br />
+                  Asked Questions
+                </h2>
+                <p className="mt-5">
+                  Have questions? Our FAQ section has you covered with quick
+                  answers to the most common inquiries.
+                </p>
+              </>
+            }
+          />
+        </section>
       </div>
 
       <section className="wrap sec mt-16">
@@ -439,7 +426,7 @@ export default function Networking() {
                 <h3 className="h3 h3-lg text-[26px]! leading-[75px]! tracking-tighter!">
                   {t}
                 </h3>
-                <p className="text-[18px]! leading-[31px]! font-normal! tracking-tighter!">
+                <p className="-mt-4! mb-3! text-[18px]! leading-[31px]! font-normal! tracking-tighter!">
                   {p}
                 </p>
                 <div className="mt-auto">

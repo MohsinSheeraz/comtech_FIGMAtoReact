@@ -1,7 +1,6 @@
 import Image from "next/image";
 import { Btn } from "@/components/Button";
 import { CtaPanel } from "@/components/CtaPanel";
-import { Faq } from "@/components/Faq";
 import { Hero } from "@/components/Hero";
 import { PageGlows } from "@/components/Glow";
 import { SecHead } from "@/components/SecHead";
@@ -180,7 +179,7 @@ export default function Services() {
                         {t}
                       </h3>
 
-                      <p className="text-[18px]! leading-[31px]! font-normal! tracking-tighter!">
+                      <p className="-mt-4! mb-3! text-[18px]! leading-[31px]! font-normal! tracking-tighter!">
                         {p}
                       </p>
 
@@ -299,21 +298,6 @@ export default function Services() {
           </div>
         </div>
 
-        {/* <div className="faq mt-20!">
-          <div>
-            <h2 className="h2">
-              Frequently
-              <br />
-              Asked Questions
-            </h2>
-            <p style={{ margin: "20px 0 30px" }}>
-              Have questions? Our FAQ section has you covered with quick answers
-              to the most common inquiries.
-            </p>
-            <Btn href="/contact">Connect With Us</Btn>
-          </div>
-          <Faq items={faq as [string, string][]} />
-        </div> */}
         <PinnedFaq
           className="mt-20!"
           items={faq as [string, string][]}

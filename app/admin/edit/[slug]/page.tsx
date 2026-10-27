@@ -2,7 +2,8 @@ import { notFound, redirect } from "next/navigation";
 import { isAdmin } from "@/lib/admin-auth";
 import { listAuthors } from "@/lib/authors";
 import { getPost, isDynamicPost } from "@/lib/posts";
-import { DEFAULT_SIZES, type Block } from "@/lib/post-code";
+import { DEFAULT_SIZES, headings, type Block } from "@/lib/post-code";
+import { DEFAULT_SCHEMA } from "@/lib/post-schema";
 import { PostEditor, type Initial } from "@/app/admin/PostEditor";
 
 export default async function EditPost({ params }: { params: Promise<{ slug: string }> }) {
@@ -17,9 +18,8 @@ export default async function EditPost({ params }: { params: Promise<{ slug: str
         authorNames = (await listAuthors()).map((a) => a.name);
     } catch { }
 
-    // intro first, then the body (older posts stored "sections", so convert those too)
+    // the body (older posts stored "sections", so convert those too)
     const blocks: Block[] = [];
-    if (post.intro.trim()) blocks.push({ t: "p", text: post.intro });
     if (post.content?.length) blocks.push(...post.content);
     else
         for (const s of post.sections) {
@@ -38,12 +38,14 @@ export default async function EditPost({ params }: { params: Promise<{ slug: str
         date,
         excerpt: post.excerpt,
         quickAnswer: post.quickAnswer ?? "",
+        intro: post.intro,
         blocks,
         sizes: post.sizes ?? DEFAULT_SIZES,
         // posts without a saved toc keep showing their old auto-built list, now as editable entries
         toc: post.toc ?? (post.content
-            ? post.content.filter((b) => b.t === "h2").map((b) => b.text)
+            ? headings(post.content)
             : post.sections.map((s) => s.h)),
+        schema: post.schema ?? DEFAULT_SCHEMA,
         metaTitle: post.seo.metaTitle ?? "",
         metaDescription: post.seo.metaDescription ?? "",
         metaTags: (post.seo.metaTags ?? []).join(", "),
@@ -52,7 +54,7 @@ export default async function EditPost({ params }: { params: Promise<{ slug: str
     };
 
     return (
-        <main className="mx-auto w-[96%] max-w-[1800px] pb-24 pt-28">
+        <main className="mx-auto w-[96%] max-w-[1800px] pb-24 pt-4">
             <PostEditor canSave authorNames={authorNames} initial={initial} />
         </main>
     );

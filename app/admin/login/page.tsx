@@ -11,7 +11,7 @@ export default async function AdminLogin({
     const { error } = await searchParams;
 
     return (
-        <main className="wrap flex min-h-[80vh] items-center justify-center pt-24">
+        <main className="wrap flex min-h-[80vh] items-center justify-center pt-0">
             <form
                 action={login}
                 className="w-full max-w-[420px] rounded-[30px] border border-white/15 bg-white/5 p-8"

@@ -1,4 +1,5 @@
-import { DEFAULT_SIZES, normSizes, parseContent, todayDMY, type Block, type TextSizes } from "@/lib/post-code";
+import { DEFAULT_SIZES, normBlocks, normSizes, parseContent, todayDMY, type Block, type TextSizes } from "@/lib/post-code";
+import { DEFAULT_SCHEMA, normSchema, type PostSchema } from "@/lib/post-schema";
 import type { Post } from "@/lib/posts";
 
 export type PostForm = {
@@ -13,6 +14,7 @@ export type PostForm = {
     blocks: Block[];
     sizes: TextSizes;
     toc: string[];
+    schema: PostSchema;
     metaTitle: string;
     metaDescription: string;
     metaTags: string;
@@ -27,7 +29,13 @@ export function readPostForm(fd: FormData): { error: string } | { form: PostForm
     if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug))
         return { error: "The slug can only use lowercase letters, numbers and dashes." };
 
-    const blocks = parseContent(text("content"));
+    // the editor sends "blocks" (JSON); "content" is the older "# / ## / ###" text
+    let blocks: Block[] = [];
+    if (fd.has("blocks")) {
+        try {
+            blocks = normBlocks(JSON.parse(text("blocks")));
+        } catch { }
+    } else blocks = parseContent(text("content"));
     if (!text("title") || !text("excerpt") || !text("intro") || blocks.length === 0)
         return { error: "Title, excerpt, intro and content are required." };
 
@@ -40,6 +48,11 @@ export function readPostForm(fd: FormData): { error: string } | { form: PostForm
     try {
         const t = JSON.parse(text("toc"));
         if (Array.isArray(t)) toc = t.map((x) => String(x).trim()).filter(Boolean);
+    } catch { }
+
+    let schema = DEFAULT_SCHEMA;
+    try {
+        schema = normSchema(JSON.parse(text("schema")));
     } catch { }
 
     return {
@@ -55,6 +68,7 @@ export function readPostForm(fd: FormData): { error: string } | { form: PostForm
             blocks,
             sizes,
             toc,
+            schema,
             metaTitle: text("metaTitle"),
             metaDescription: text("metaDescription"),
             metaTags: text("metaTags"),
@@ -86,6 +100,7 @@ export function toPost(f: PostForm, image: string): Post {
         content: f.blocks,
         sizes: f.sizes,
         toc: f.toc,
+        schema: f.schema,
         seo,
     };
 }

@@ -81,7 +81,7 @@ export function ContactForm() {
             <div className="mt-[30px] flex flex-wrap items-center gap-5">
                 <button
                     type="submit"
-                    className="h-[46px] cursor-pointer rounded-[10px] bg-white px-8 text-[16px] font-normal tracking-tight text-black transition-opacity hover:opacity-90"
+                    className="btn p cursor-pointer"
                 >
                     Submit
                 </button>

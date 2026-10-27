@@ -27,13 +27,18 @@ export function BlogCard({
       {/* <p className="mt-10 text-[14px] leading-[20px] tracking-normal">
         Posted by: {post.author} &nbsp;|&nbsp; Date: {post.date}
       </p> */}
-      <p className="mt-10 text-[14px] leading-[20px] tracking-normal">
-        Date: {post.date}
-      </p>
-      <h3 className="mt-2 text-[26px] font-medium leading-[34px] tracking-tighter">
+      <div className="mt-10 flex items-center justify-between gap-4 text-[14px] leading-[20px] tracking-normal">
+        <p className="shrink-0">Date: {post.date}</p>
+        {post.author && (
+          <p className="min-w-0 truncate text-right" title={post.author}>
+            {post.author}
+          </p>
+        )}
+      </div>
+      <h3 className="mt-4 text-[26px] font-medium leading-[34px] tracking-tighter">
         {post.title}
       </h3>
-      <p className={`mt-5 text-[18px]! leading-[31px]! tracking-tighter! ${clampExcerpt ? "line-clamp-2" : ""}`}>
+      <p className={`mt-4 text-[18px]! leading-[31px]! tracking-tighter! ${clampExcerpt ? "line-clamp-2" : ""}`}>
         {post.excerpt}
       </p>
       <div className="mt-8">

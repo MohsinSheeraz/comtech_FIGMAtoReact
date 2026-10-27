@@ -4,8 +4,9 @@ import { useEffect, useState, useTransition } from "react";
 import Link from "next/link";
 // Copy code (hidden): also add `useMemo` to the react import above and uncomment the next line
 // import { buildPostCode } from "@/lib/post-code";
-import { slugify, DEFAULT_SIZES, type Block, type TextSizes } from "@/lib/post-code";
-import { BlockEditor, newBlock, serializeBlocks, toEBlocks, type EBlock } from "@/app/admin/BlockEditor";
+import { slugify, headings, DEFAULT_SIZES, type Block, type TextSizes } from "@/lib/post-code";
+import { buildSchema, DEFAULT_SCHEMA, SCHEMA_TYPES, type PostSchema, type SchemaType } from "@/lib/post-schema";
+import { AutoText, BlockEditor, fromEBlocks, hasContent, toEBlocks, type EBlock } from "@/app/admin/BlockEditor";
 
 type Result = { ok: true; slug: string } | { ok: false; error: string } | null;
 type Device = "desktop" | "tablet" | "mobile";
@@ -18,8 +19,10 @@ export type Initial = {
     date: string; // YYYY-MM-DD, or ""
     excerpt: string;
     quickAnswer: string;
-    blocks: Block[]; // first block = intro
+    intro: string;
+    blocks: Block[]; // the body, after the intro
     sizes: TextSizes;
+    schema: PostSchema;
     toc: string[]; // Table of Contents entries (empty = no Table of Contents)
     metaTitle: string;
     metaDescription: string;
@@ -122,12 +125,13 @@ export function PostEditor({
         ogImage: initial?.ogImage ?? "",
     });
     const [authors, setAuthors] = useState<string[]>(initial?.authors.length ? initial.authors : [""]);
-    const [blocks, setBlocks] = useState<EBlock[]>(() =>
-        toEBlocks(initial?.blocks.length ? initial.blocks : [{ t: "p", text: "" }])
-    );
+    const [intro, setIntro] = useState(initial?.intro ?? "");
+    const [blocks, setBlocks] = useState<EBlock[]>(() => toEBlocks(initial?.blocks ?? []));
     const [sizes, setSizes] = useState<TextSizes>(initial?.sizes ?? DEFAULT_SIZES);
+    const [schemaCopied, setSchemaCopied] = useState(false);
+    const [schemaType, setSchemaType] = useState<SchemaType>((initial?.schema ?? DEFAULT_SCHEMA).type);
+    const [faq, setFaq] = useState<{ q: string; a: string }[]>((initial?.schema ?? DEFAULT_SCHEMA).faq);
     const [tocOn, setTocOn] = useState(!!initial?.toc.length);
-    const [tocItems, setTocItems] = useState<string[]>(initial?.toc.length ? initial.toc : [""]);
     const [slugTouched, setSlugTouched] = useState(false);
     const [mode, setMode] = useState<"upload" | "url">("upload");
     const [file, setFile] = useState<File | null>(null);
@@ -194,20 +198,17 @@ export function PostEditor({
         setFile(x);
     };
 
-    /* the first Text block is the intro; everything after it is the body */
-    const clean = blocks.filter((b) => b.text.trim());
-    const introBlock = clean[0]?.t === "p" ? clean[0] : null;
-    const intro = introBlock ? introBlock.text.trim() : "";
-    const body = introBlock ? clean.slice(1) : clean;
-    const content = serializeBlocks(body);
-    const toc = tocOn ? tocItems.map((t) => t.trim()).filter(Boolean) : [];
+    /* the intro is its own field; the blocks are the body (empty blocks are not saved) */
+    const body = blocks.filter(hasContent);
+    // the Table of Contents is built from the Heading 2 blocks, so it always matches the article
+    const toc = tocOn ? headings(body) : [];
 
     const missing = [
         !f.title.trim() && "title",
         !f.slug.trim() && "slug",
         !f.excerpt.trim() && "excerpt",
-        !intro && "intro (start the content with a Text block)",
-        body.length === 0 && "content (a heading or more text after the intro)",
+        !intro.trim() && "intro",
+        body.length === 0 && "content (use + to add a heading, text, image or table)",
         !haveCover && "cover image",
     ].filter(Boolean) as string[];
 
@@ -234,6 +235,32 @@ export function PostEditor({
     };
     */
 
+    // what Google will read from this post (the cover is a placeholder until it is saved)
+    const schemaJson = buildSchema(
+        {
+            slug: f.slug || "your-post",
+            title: f.title,
+            description: f.metaDescription.trim() || f.excerpt,
+            image: f.ogImage.trim() || (preview.startsWith("blob:") ? "/your-cover-image" : preview),
+            authors: authors.map((a) => a.trim()).filter(Boolean),
+            date: dateDMY || "",
+            category: f.category,
+            keywords: f.metaTags.split(",").map((t) => t.trim()).filter(Boolean),
+        },
+        { type: schemaType, faq: faq.filter((r) => r.q.trim() && r.a.trim()) }
+    );
+
+    // the schema as a <script> tag, ready to paste (e.g. into Google's Rich Results Test)
+    const copySchema = async () => {
+        try {
+            await navigator.clipboard.writeText(`<script type="application/ld+json">\n${JSON.stringify(schemaJson, null, 2)}\n</script>`);
+            setSchemaCopied(true);
+            setTimeout(() => setSchemaCopied(false), 2000);
+        } catch {
+            // clipboard blocked
+        }
+    };
+
     const frameW = DEVICES.find((d) => d.id === device)!.w;
 
     const save = () =>
@@ -245,10 +272,11 @@ export function PostEditor({
             });
             fd.append("date", dateDMY);
             fd.append("author", authorStr);
-            fd.append("intro", intro);
-            fd.append("content", content);
+            fd.append("intro", intro.trim());
+            fd.append("blocks", JSON.stringify(fromEBlocks(body)));
             fd.append("sizes", JSON.stringify(sizes));
             fd.append("toc", JSON.stringify(toc));
+            fd.append("schema", JSON.stringify({ type: schemaType, faq }));
             if (edit) fd.append("currentImage", initial!.image);
             if (mode === "upload" && file) fd.append("imageFile", file);
             if (mode === "url" && urlOk) fd.append("imageUrl", imgUrl.trim());
@@ -279,12 +307,14 @@ export function PostEditor({
             ogImage: "",
         });
         setAuthors([""]);
-        setBlocks([newBlock()]);
+        setIntro("");
+        setBlocks([]);
         setSlugTouched(false);
         setSizes(DEFAULT_SIZES);
+        setSchemaType(DEFAULT_SCHEMA.type);
+        setFaq([]);
         // setShowToc(false);
                 setTocOn(false);
-        setTocItems([""]);
         setFile(null);
         setImgUrl("");
         setImgErr("");
@@ -299,7 +329,7 @@ export function PostEditor({
     return (
         <div>
             {/* ---------- TOP BAR ---------- */}
-            <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-white/15 bg-white/5 px-4 py-3">
+            <div className="sticky top-2 z-30 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-white/15 bg-[#0b0814]/95 px-4 py-3 backdrop-blur">
                 <div className="flex items-center gap-4">
                     <Link href="/admin" className="text-[13px] text-[#b79cff] hover:underline">
                         ← Dashboard
@@ -498,25 +528,8 @@ export function PostEditor({
                         </p>
                     </Section>
 
-                    <Section title="Quick answer" open={!!openSec.quickAnswer} onToggle={() => toggle("quickAnswer")}>
-                        <label htmlFor="quick-answer" className={label}>Short answer shown below the article title</label>
-                        <textarea
-                            id="quick-answer"
-                            rows={3}
-                            className={field}
-                            value={f.quickAnswer}
-                            onChange={set("quickAnswer")}
-                        />
-                    </Section>
-
-                    <Section title="Content" open={!!openSec.content} onToggle={() => toggle("content")}>
-                        <p className="mb-3 text-[12px] leading-[18px] text-white/55">
-                            Click a block to pick <strong>Text / H1 / H2 / H3</strong>. The first Text block is the
-                            intro, shown above the Table of Contents.
-                        </p>
-                        <BlockEditor blocks={blocks} onChange={setBlocks} />
-
-                        <div className="mt-5 flex items-center justify-between">
+                    <Section title="Text sizes" open={!!openSec.sizes} onToggle={() => toggle("sizes")}>
+                        <div className="flex items-center justify-between">
                             <p className="text-[12px] text-white/60">Text sizes (px)</p>
                             <button type="button" onClick={() => setSizes(DEFAULT_SIZES)} className="text-[12px] text-[#b79cff] hover:underline">
                                 Reset
@@ -560,45 +573,11 @@ export function PostEditor({
                             />
                         </label>
 
-                        {tocOn && (
-                            <div className="mt-3">
-                                <p className="text-[12px] text-white/55">
-                                    Type your own entries. They are separate from your headings.
-                                </p>
-                                <div className="mt-2 space-y-2">
-                                    {tocItems.map((t, i) => (
-                                        <div key={i} className="flex items-center gap-2">
-                                            <input
-                                                aria-label={`Table of contents entry ${i + 1}`}
-                                                className={`${field} !mt-0`}
-                                                placeholder="Entry title"
-                                                value={t}
-                                                onChange={(e) =>
-                                                    setTocItems((p) => p.map((x, j) => (j === i ? e.target.value : x)))
-                                                }
-                                            />
-                                            {tocItems.length > 1 && (
-                                                <button
-                                                    type="button"
-                                                    aria-label={`Remove entry ${i + 1}`}
-                                                    onClick={() => setTocItems((p) => p.filter((_, j) => j !== i))}
-                                                    className="h-9 w-9 shrink-0 rounded-lg border border-white/15 text-white/70 hover:bg-white/10"
-                                                >
-                                                    ✕
-                                                </button>
-                                            )}
-                                        </div>
-                                    ))}
-                                </div>
-                                <button
-                                    type="button"
-                                    onClick={() => setTocItems((p) => [...p, ""])}
-                                    className="mt-3 text-[13px] text-[#b79cff] hover:underline"
-                                >
-                                    + Add entry
-                                </button>
-                            </div>
-                        )}
+                        <p className="mt-3 text-[12px] leading-[18px] text-white/55">
+                            {tocOn
+                                ? "Built from your Heading 2 blocks, so it always matches the article. Readers can click an entry to jump to it."
+                                : "Turn it on to list your Heading 2 blocks next to the article."}
+                        </p>
                     </Section>
 
                     <Section title="SEO" open={!!openSec.seo} onToggle={() => toggle("seo")}>
@@ -624,6 +603,89 @@ export function PostEditor({
                                 <input id="og" className={field} value={f.ogImage} onChange={set("ogImage")} />
                             </div>
                         </div>
+                    </Section>
+                    <Section
+                        title="Post schema"
+                        badge={schemaType === "none" ? "off" : "on"}
+                        open={!!openSec.schema}
+                        onToggle={() => toggle("schema")}
+                    >
+                        <label htmlFor="schema-type" className={label}>Schema type</label>
+                        <select
+                            id="schema-type"
+                            className={`${field} [color-scheme:dark]`}
+                            value={schemaType}
+                            onChange={(e) => setSchemaType(e.target.value as SchemaType)}
+                        >
+                            {SCHEMA_TYPES.map((t) => (
+                                <option key={t.id} value={t.id}>{t.label}</option>
+                            ))}
+                        </select>
+                        <p className="mt-1.5 text-[12px] leading-[18px] text-white/50">
+                            Filled in for you from the title, meta description, cover, authors, date, category and meta tags. Nothing to type here unless you add FAQs.
+                        </p>
+
+                        {schemaType !== "none" && (
+                            <>
+                                <p className="mt-4 text-[12px] text-white/60">FAQ (optional)</p>
+                                <p className="mt-1 text-[12px] leading-[18px] text-white/50">
+                                    Add only questions the article really answers.
+                                </p>
+                                <div className="mt-2 space-y-3">
+                                    {faq.map((r, i) => (
+                                        <div key={i} className="rounded-lg border border-white/10 p-3">
+                                            <div className="flex items-center gap-2">
+                                                <input
+                                                    aria-label={`FAQ question ${i + 1}`}
+                                                    className={`${field} !mt-0`}
+                                                    placeholder="Question"
+                                                    value={r.q}
+                                                    onChange={(e) => setFaq((p) => p.map((x, j) => (j === i ? { ...x, q: e.target.value } : x)))}
+                                                />
+                                                <button
+                                                    type="button"
+                                                    aria-label={`Remove FAQ ${i + 1}`}
+                                                    onClick={() => setFaq((p) => p.filter((_, j) => j !== i))}
+                                                    className="h-9 w-9 shrink-0 rounded-lg border border-white/15 text-white/70 hover:bg-white/10"
+                                                >
+                                                    ✕
+                                                </button>
+                                            </div>
+                                            <textarea
+                                                aria-label={`FAQ answer ${i + 1}`}
+                                                rows={3}
+                                                className={field}
+                                                placeholder="Answer"
+                                                value={r.a}
+                                                onChange={(e) => setFaq((p) => p.map((x, j) => (j === i ? { ...x, a: e.target.value } : x)))}
+                                            />
+                                        </div>
+                                    ))}
+                                </div>
+                                <button
+                                    type="button"
+                                    onClick={() => setFaq((p) => [...p, { q: "", a: "" }])}
+                                    className="mt-3 text-[13px] text-[#b79cff] hover:underline"
+                                >
+                                    + Add FAQ
+                                </button>
+
+                                <button
+                                    type="button"
+                                    onClick={copySchema}
+                                    className="mt-4 w-full rounded-xl border border-white/20 py-2 text-[13px] hover:bg-white/10"
+                                >
+                                    {schemaCopied ? "Copied" : "Copy schema"}
+                                </button>
+
+                                <details className="mt-3">
+                                    <summary className="cursor-pointer text-[13px] text-[#b79cff]">See the generated schema</summary>
+                                    <pre className="mt-2 max-h-72 overflow-auto rounded-lg bg-black/40 p-3 text-[11px] leading-[16px] text-white/70">
+                                        {JSON.stringify(schemaJson, null, 2)}
+                                    </pre>
+                                </details>
+                            </>
+                        )}
                     </Section>
                 </aside>
 
@@ -653,43 +715,63 @@ export function PostEditor({
                         </span>
 
                         <div className="mt-6 rounded-[40px] p-4 sm:p-6" style={{ background: frameBg }}>
-                            <article className="leadership-border rounded-[30px] p-6 sm:p-10">
-                                <h1 className="text-[34px] font-medium leading-[44px] tracking-tighter sm:text-[46px] sm:leading-[56px]">
-                                    {f.title || <span className="text-white/30">Post title</span>}
-                                </h1>
-                                <p className="mt-8 text-[18px] leading-[31px] tracking-tighter">
-                                    {intro || <span className="text-white/30">Intro paragraph…</span>}
-                                </p>
+                            {/* same two columns as the blog page: article on the left, Table of Contents on the right */}
+                            <div className="@container">
+                                <div className="grid items-start gap-6 @min-[760px]:grid-cols-[minmax(0,1fr)_300px]">
+                                    <div className="flex flex-col gap-6">
+                                        {/* shown above the post box; on the blog page only when it has text */}
+                                        <div className="leadership-border rounded-[30px] p-6 sm:px-10">
+                                            <p className="text-[14px] font-medium uppercase tracking-wide text-white/60">Quick Answer</p>
+                                            <AutoText
+                                                aria-label="Quick answer"
+                                                value={f.quickAnswer}
+                                                placeholder="Short answer to the title (optional)"
+                                                onChange={(e) => set("quickAnswer")(e as unknown as React.ChangeEvent<HTMLTextAreaElement>)}
+                                                className="mt-3 text-[17px] leading-[28px] tracking-tighter"
+                                            />
+                                        </div>
+                                        <article className="leadership-border rounded-[30px] p-6 sm:p-10">
+                                            <AutoText
+                                                aria-label="Post title"
+                                                value={f.title}
+                                                placeholder="Post title"
+                                                onChange={(e) => set("title")(e as unknown as React.ChangeEvent<HTMLTextAreaElement>)}
+                                                onKeyDown={(e) => e.key === "Enter" && e.preventDefault()}
+                                                className="text-[34px] font-medium leading-[44px] tracking-tighter sm:text-[46px] sm:leading-[56px]"
+                                            />
+                                            <AutoText
+                                                aria-label="Intro paragraph"
+                                                value={intro}
+                                                placeholder="Intro paragraph…"
+                                                onChange={(e) => setIntro(e.target.value.replace(/\s*\n+\s*/g, " "))}
+                                                onKeyDown={(e) => e.key === "Enter" && e.preventDefault()}
+                                                className="mt-8 text-[18px] leading-[31px] tracking-tighter"
+                                            />
 
-                                {toc.length > 0 && (
-                                    <nav aria-label="Table of contents" className="mt-8 rounded-2xl border border-white/20 bg-white/5 p-6">
-                                        <p className="text-[14px] font-medium uppercase tracking-wide text-white/60">Table of Contents</p>
-                                        <ol className="mt-3 list-decimal space-y-1.5 pl-6 text-[17px] leading-[28px] tracking-tighter">
-                                            {toc.map((t, i) => (
-                                                <li key={i}>{t}</li>
-                                            ))}
-                                        </ol>
-                                    </nav>
-                                )}
+                                            <BlockEditor blocks={blocks} onChange={setBlocks} sizes={sizes} slug={f.slug} />
+                                        </article>
+                                    </div>
 
-                                {body.length === 0 && (
-                                    <p className="mt-8 text-[16px] text-white/30">Your content will appear here…</p>
-                                )}
-                                {body.map((b) => {
-                                    if (b.t === "p")
-                                        return (
-                                            <p key={b.id} className="mt-4 tracking-tighter" style={{ fontSize: sizes.p, lineHeight: 1.7 }}>
-                                                {b.text}
+                                    <aside className="flex flex-col gap-5 @min-[760px]:sticky @min-[760px]:top-24">
+                                        {toc.length > 0 ? (
+                                            <nav aria-label="Table of contents" className="leadership-border rounded-[30px] p-6">
+                                                <p className="text-[14px] font-medium uppercase tracking-wide text-white/60">Table of Contents</p>
+                                                <ol className="mt-3 list-decimal space-y-1.5 pl-6 text-[17px] leading-[28px] tracking-tighter">
+                                                    {toc.map((t, i) => (
+                                                        <li key={i}>{t}</li>
+                                                    ))}
+                                                </ol>
+                                            </nav>
+                                        ) : (
+                                            <p className="rounded-[30px] border border-dashed border-white/20 p-6 text-[13px] leading-[20px] text-white/40">
+                                                {tocOn
+                                                    ? "Add a Heading 2 block and it shows here."
+                                                    : "The Table of Contents is off. Turn it on in the Table of contents section."}
                                             </p>
-                                        );
-                                    const Tag = b.t;
-                                    return (
-                                        <Tag key={b.id} className="mt-8 font-medium tracking-tighter" style={{ fontSize: sizes[b.t], lineHeight: 1.3 }}>
-                                            {b.text}
-                                        </Tag>
-                                    );
-                                })}
-                            </article>
+                                        )}
+                                    </aside>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

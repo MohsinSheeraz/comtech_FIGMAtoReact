@@ -142,7 +142,7 @@ const lines = [
 
 export function TechnologySection() {
   return (
-    <section className="wrap sec relative z-auto! py-20 min-[1101px]:py-28">
+    <section className="wrap sec relative z-auto! py-20 min-[1101px]:py-10">
       <div className="relative z-20 mx-auto max-w-[760px] text-center">
         <h2 className="text-[32px] font-medium leading-[40px] tracking-tight text-white min-[1101px]:text-[42px] min-[1101px]:leading-[52px]">
           End-to-End Cisco Technology Solutions

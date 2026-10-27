@@ -2,6 +2,7 @@ import { cache } from "react";
 import { postsData } from "@/lib/post-data";
 import { getDb } from "@/lib/mongodb";
 import type { Block, TextSizes } from "@/lib/post-code";
+import type { PostSchema } from "@/lib/post-schema";
 
 export type Section = { h: string; p: string[] };
 
@@ -19,6 +20,7 @@ export type Post = {
   content?: Block[];     // new posts: headings and paragraphs from the editor
   sizes?: TextSizes;     // new posts: px sizes for h1/h2/h3/p
   toc?: string[];        // Table of Contents entries; [] = hidden
+  schema?: PostSchema;   // JSON-LD settings; missing = Blog post, no FAQ
   seo: {
     metaTitle?: string;       // falls back to "<title> | Comtech Associates"
     metaDescription?: string; // falls back to excerpt
@@ -83,6 +85,16 @@ export async function getRecentPosts(excludeSlug: string, limit = 4) {
 // Placeholder logic; later this can match by category or tags.
 export async function getRelatedPosts(excludeSlug: string, limit = 3) {
   return (await loadAll()).filter((p) => p.slug !== excludeSlug).slice(4, 4 + limit);
+}
+
+// the post listed before and after this one (the blog list is newest first)
+export async function getAdjacentPosts(slug: string) {
+  const all = await loadAll();
+  const i = all.findIndex((p) => p.slug === slug);
+  return {
+    prev: i > 0 ? all[i - 1] : null,
+    next: i >= 0 && i < all.length - 1 ? all[i + 1] : null,
+  };
 }
 
 export async function getAllPosts(): Promise<Post[]> {

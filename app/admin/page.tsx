@@ -21,7 +21,7 @@ export default async function AdminDashboard() {
     }
 
     return (
-        <main className="wrap pb-24 pt-32">
+        <main className="wrap pb-24 pt-10">
             <div className="flex flex-wrap items-center justify-between gap-4">
                 <div>
                     <h1 className="text-[36px] font-medium leading-[44px] tracking-tighter">Blog Admin</h1>

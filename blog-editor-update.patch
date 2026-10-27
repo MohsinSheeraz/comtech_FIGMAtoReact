@@ -1,0 +1,1343 @@
+diff --git a/app/admin/BlockEditor.tsx b/app/admin/BlockEditor.tsx
+index cb539d2..6398eb7 100644
+--- a/app/admin/BlockEditor.tsx
++++ b/app/admin/BlockEditor.tsx
+@@ -1,111 +1,327 @@
+ "use client";
+ 
+-import { useEffect, useRef, useState } from "react";
+-import type { Block } from "@/lib/post-code";
++import { useEffect, useLayoutEffect, useRef, useState } from "react";
++import { squareRows, type Block, type TextSizes } from "@/lib/post-code";
++import { blockGap, textProps } from "@/components/PostBlock";
+ 
+ export type EBlock = Block & { id: string };
+ 
+ let counter = 0;
+ const uid = () => `b${++counter}`;
+ 
+-export const newBlock = (t: Block["t"] = "p", text = ""): EBlock => ({ id: uid(), t, text });
+-export const toEBlocks = (bs: Block[]): EBlock[] => bs.map((b) => ({ ...b, id: uid() }));
++// a fresh, empty block of any kind
++export function newBlock(t: Block["t"] = "p"): EBlock {
++    const id = uid();
++    switch (t) {
++        case "ul":
++        case "ol":
++            return { id, t, items: [""] };
++        case "img":
++            return { id, t, src: "" };
++        case "table":
++            return { id, t, rows: [["", "", ""], ["", "", ""], ["", "", ""]] };
++        case "hr":
++            return { id, t };
++        default:
++            return { id, t, text: "" };
++    }
++}
++export const toEBlocks = (bs: Block[]): EBlock[] => bs.map((b) => ({ ...b, id: uid() }) as EBlock);
++
++// back to plain blocks (no ids) for the save routes
++export const fromEBlocks = (bs: EBlock[]): Block[] =>
++    bs.map((b) => {
++        const { id, ...rest } = b;
++        void id;
++        return rest as Block;
++    });
+ 
+-// back to the "# / ## / ###" text that the save routes understand
+-export function serializeBlocks(bs: Block[]): string {
+-    return bs
+-        .map((b) => (b.t === "p" ? b.text.trim() : `${"#".repeat(Number(b.t[1]))} ${b.text.trim()}`))
+-        .join("\n\n");
++// blocks with nothing in them are not saved
++export function hasContent(b: Block): boolean {
++    if (b.t === "hr") return true;
++    if (b.t === "img") return !!b.src;
++    if (b.t === "table") return b.rows.some((r) => r.some((c) => c.trim()));
++    if ("items" in b) return b.items.some((i) => i.trim());
++    return !!b.text.trim();
+ }
+ 
+-const STYLES: { t: Block["t"]; label: string }[] = [
++// the element that gets the cursor after a block is added
++const focusKey = (b: EBlock) => (b.t === "ul" || b.t === "ol" ? `${b.id}:0` : b.id);
++
++// the elements shown in the "+" menu (only the ones a blog needs)
++const ELEMENTS: { t: Block["t"]; label: string; icon: string }[] = [
++    { t: "h1", label: "Heading 1", icon: "H1" },
++    { t: "h2", label: "Heading 2", icon: "H2" },
++    { t: "h3", label: "Heading 3", icon: "H3" },
++    { t: "p", label: "Text", icon: "¶" },
++    { t: "img", label: "Image", icon: "▣" },
++    { t: "table", label: "Table", icon: "▦" },
++    { t: "ul", label: "Bulleted list", icon: "•" },
++    { t: "ol", label: "Numbered list", icon: "1." },
++    { t: "quote", label: "Quote", icon: "❝" },
++    { t: "hr", label: "Divider", icon: "—" },
++];
++
++const TEXT_STYLES: { t: Block["t"]; label: string }[] = [
+     { t: "p", label: "Text" },
+     { t: "h1", label: "H1" },
+     { t: "h2", label: "H2" },
+     { t: "h3", label: "H3" },
++    { t: "quote", label: "Quote" },
+ ];
+ 
+-// editor-only look (the preview uses the real px sizes)
+-const look: Record<Block["t"], string> = {
+-    p: "text-[14px] leading-[22px]",
+-    h1: "text-[22px] font-semibold leading-[28px]",
+-    h2: "text-[18px] font-semibold leading-[24px]",
+-    h3: "text-[16px] font-medium leading-[22px]",
+-};
+-
+-const hint: Record<Block["t"], string> = {
+-    p: "Type text…",
++const hint: Record<string, string> = {
++    p: "Type text, or paste a table or a picture…",
+     h1: "Heading 1",
+     h2: "Heading 2",
+     h3: "Heading 3",
++    quote: "Quote",
+ };
+ 
+ const ctl =
+-    "grid h-7 min-w-7 place-items-center rounded-md border border-white/15 px-2 text-[12px] text-white/70 hover:bg-white/10 hover:text-white";
++    "grid h-7 min-w-7 place-items-center rounded-md border border-white/15 px-2 text-[12px] text-white/70 hover:bg-white/10 hover:text-white disabled:opacity-30";
++
++/* textarea that grows with its text (used for the title, intro and every text block) */
++export function AutoText(props: React.TextareaHTMLAttributes<HTMLTextAreaElement>) {
++    const ref = useRef<HTMLTextAreaElement>(null);
++    const fit = () => {
++        const el = ref.current;
++        if (!el) return;
++        el.style.height = "auto";
++        el.style.height = `${el.scrollHeight}px`;
++    };
++    useLayoutEffect(fit, [props.value, props.style?.fontSize]);
++    // re-fit when the preview gets wider or narrower (Desktop / Tablet / Mobile)
++    useEffect(() => {
++        const el = ref.current;
++        if (!el) return;
++        let w = el.offsetWidth;
++        const ro = new ResizeObserver(() => {
++            if (el.offsetWidth !== w) {
++                w = el.offsetWidth;
++                fit();
++            }
++        });
++        ro.observe(el);
++        return () => ro.disconnect();
++    }, []);
++    return <textarea ref={ref} rows={1} {...props} className={`block w-full resize-none overflow-hidden bg-transparent outline-none placeholder:text-white/25 ${props.className ?? ""}`} />;
++}
++
++// rows from a copied table (web page, Word, Excel, Google Sheets) or tab-separated text
++function tableFromClipboard(cd: DataTransfer): string[][] | null {
++    const html = cd.getData("text/html");
++    if (html && /<table[\s>]/i.test(html)) {
++        const t = new DOMParser().parseFromString(html, "text/html").querySelector("table");
++        if (t) {
++            const rows = [...t.rows].map((tr) => [...tr.cells].map((td) => (td.textContent ?? "").replace(/\s+/g, " ").trim()));
++            if (rows.some((r) => r.length)) return squareRows(rows);
++        }
++    }
++    const lines = cd.getData("text/plain").split(/\r?\n/).filter((l) => l.trim() !== "");
++    if (lines.length >= 2 && lines.every((l) => l.includes("\t"))) return squareRows(lines.map((l) => l.split("\t").map((c) => c.trim())));
++    return null;
++}
++
++async function uploadImage(input: File | string, slug: string): Promise<string> {
++    const fd = new FormData();
++    fd.append("slug", slug);
++    fd.append(typeof input === "string" ? "imageUrl" : "imageFile", input);
++    const res = await fetch("/api/admin/post/image", { method: "POST", body: fd });
++    const data = await res.json().catch(() => null);
++    if (!res.ok || !data?.ok) throw new Error(data?.error ?? "Couldn't upload the image.");
++    return data.url as string;
++}
++
++/* the "+" button between blocks, opens the list of elements */
++function Inserter({
++    open,
++    last,
++    empty,
++    onToggle,
++    onPick,
++}: {
++    open: boolean;
++    last?: boolean;
++    empty?: boolean;
++    onToggle: () => void;
++    onPick: (t: Block["t"]) => void;
++}) {
++    const menu = (
++        <div
++            role="menu"
++            aria-label="Add an element"
++            className={`absolute left-1/2 z-40 grid w-[min(92vw,380px)] -translate-x-1/2 grid-cols-2 gap-1 rounded-2xl border border-white/15 bg-[#0b0814] p-2 shadow-2xl ${last || empty ? "bottom-full mb-2" : "top-4"}`}
++        >
++            {ELEMENTS.map((e) => (
++                <button
++                    key={e.t}
++                    type="button"
++                    role="menuitem"
++                    onClick={() => onPick(e.t)}
++                    className="flex items-center gap-3 rounded-lg px-3 py-2 text-left text-[13px] text-white/85 hover:bg-white/10"
++                >
++                    <span aria-hidden="true" className="grid size-7 place-items-center rounded-md bg-[#5522d6]/40 text-[12px]">{e.icon}</span>
++                    {e.label}
++                </button>
++            ))}
++        </div>
++    );
++
++    if (last || empty)
++        return (
++            <div data-insert-menu className="relative mt-6">
++                <button
++                    type="button"
++                    aria-expanded={open}
++                    onClick={onToggle}
++                    className="w-full rounded-lg border border-dashed border-white/20 py-2.5 text-[13px] text-[#b79cff] hover:bg-white/5"
++                >
++                    + {empty ? "Add your first element" : "Add element"}
++                </button>
++                {open && menu}
++            </div>
++        );
++
++    return (
++        <div data-insert-menu className="group/ins relative z-10 h-0">
++            <div className="absolute inset-x-0 -top-3 flex h-6 items-center justify-center">
++                <div className={`absolute inset-x-0 top-1/2 h-px bg-[#7b55e0]/60 ${open ? "" : "opacity-0 group-hover/ins:opacity-100 [@media(hover:none)]:opacity-40"}`} />
++                <button
++                    type="button"
++                    aria-label="Add an element here"
++                    aria-expanded={open}
++                    onClick={onToggle}
++                    className={`relative grid size-6 place-items-center rounded-full bg-[#5522d6] text-[16px] leading-none text-white focus-visible:opacity-100 ${open ? "" : "opacity-0 group-hover/ins:opacity-100 [@media(hover:none)]:opacity-60"}`}
++                >
++                    +
++                </button>
++            </div>
++            {open && menu}
++        </div>
++    );
++}
+ 
+ export function BlockEditor({
+     blocks,
+     onChange,
++    sizes,
++    slug,
+ }: {
+     blocks: EBlock[];
+     onChange: (b: EBlock[]) => void;
++    sizes: TextSizes;
++    slug: string; // names the uploaded pictures
+ }) {
+-    const refs = useRef<Record<string, HTMLTextAreaElement | null>>({});
++    const root = useRef<HTMLDivElement>(null);
+     const pending = useRef<string | null>(null);
+-    const [focused, setFocused] = useState<string | null>(null);
++    const latest = useRef(blocks);
++    latest.current = blocks;
++    const [menuAt, setMenuAt] = useState<number | null>(null);
++    const [busy, setBusy] = useState<Record<string, boolean>>({});
++    const [notice, setNotice] = useState("");
+ 
+-    // grow every textarea to fit its text, then focus a block we just created
++    // focus the block we just created
+     useEffect(() => {
+-        for (const b of blocks) {
+-            const el = refs.current[b.id];
+-            if (el) {
+-                el.style.height = "auto";
+-                el.style.height = `${el.scrollHeight}px`;
+-            }
+-        }
+-        if (pending.current) {
+-            const el = refs.current[pending.current];
+-            pending.current = null;
+-            if (el) {
+-                el.focus();
+-                const n = el.value.length;
+-                el.setSelectionRange(n, n);
+-            }
++        if (!pending.current) return;
++        const el = root.current?.querySelector<HTMLInputElement | HTMLTextAreaElement>(`[data-focus="${pending.current}"]`);
++        pending.current = null;
++        if (el) {
++            el.focus();
++            const n = el.value.length;
++            el.setSelectionRange(n, n);
+         }
+     }, [blocks]);
+ 
+-    const patch = (id: string, p: Partial<Block>) =>
+-        onChange(blocks.map((b) => (b.id === id ? { ...b, ...p } : b)));
++    // close the "+" menu on a click outside it or on Escape
++    useEffect(() => {
++        if (menuAt === null) return;
++        const down = (e: MouseEvent) => {
++            if (!(e.target as Element).closest("[data-insert-menu]")) setMenuAt(null);
++        };
++        const key = (e: KeyboardEvent) => e.key === "Escape" && setMenuAt(null);
++        document.addEventListener("mousedown", down);
++        document.addEventListener("keydown", key);
++        return () => {
++            document.removeEventListener("mousedown", down);
++            document.removeEventListener("keydown", key);
++        };
++    }, [menuAt]);
++
++    const patch = (id: string, p: Partial<EBlock>) =>
++        onChange(latest.current.map((b) => (b.id === id ? ({ ...b, ...p } as EBlock) : b)));
+ 
+-    const insertAfter = (i: number, items: EBlock[]) => {
+-        const next = [...blocks];
+-        next.splice(i + 1, 0, ...items);
+-        pending.current = items[items.length - 1].id;
++    const insertAt = (i: number, items: EBlock[], focus = true) => {
++        const next = [...latest.current];
++        next.splice(i, 0, ...items);
++        if (focus) pending.current = focusKey(items[items.length - 1]);
+         onChange(next);
+     };
+ 
+     const remove = (i: number) => {
+-        if (blocks.length === 1) return patch(blocks[0].id, { text: "", t: "p" });
+-        const next = blocks.filter((_, j) => j !== i);
+-        pending.current = (next[i - 1] ?? next[0]).id;
++        const next = latest.current.filter((_, j) => j !== i);
++        if (next[i - 1] ?? next[0]) pending.current = focusKey(next[i - 1] ?? next[0]);
+         onChange(next);
+     };
+ 
+     const move = (i: number, d: -1 | 1) => {
+         const j = i + d;
+-        if (j < 0 || j >= blocks.length) return;
+-        const next = [...blocks];
++        if (j < 0 || j >= latest.current.length) return;
++        const next = [...latest.current];
+         [next[i], next[j]] = [next[j], next[i]];
+         onChange(next);
+     };
+ 
++    const duplicate = (i: number) => {
++        const copy = { ...JSON.parse(JSON.stringify(latest.current[i])), id: uid() } as EBlock;
++        insertAt(i + 1, [copy], false);
++    };
++
++    // a picture that is still uploading shows "Uploading…" in its block
++    const fill = async (id: string, input: File | string) => {
++        setBusy((s) => ({ ...s, [id]: true }));
++        setNotice("");
++        try {
++            patch(id, { src: await uploadImage(input, slug || "post") } as Partial<EBlock>);
++        } catch (e) {
++            setNotice(e instanceof Error ? e.message : "Couldn't upload the image.");
++        } finally {
++            setBusy((s) => {
++                const n = { ...s };
++                delete n[id];
++                return n;
++            });
++        }
++    };
++
++    const add = (i: number, t: Block["t"]) => {
++        setMenuAt(null);
++        insertAt(i, [newBlock(t)]);
++    };
++
++    // paste a table or a picture into a text block; plain text is handled by onText
++    const onPasteText = (e: React.ClipboardEvent, i: number) => {
++        const pic = [...e.clipboardData.files].find((f) => f.type.startsWith("image/"));
++        const rows = pic ? null : tableFromClipboard(e.clipboardData);
++        if (!pic && !rows) return;
++        e.preventDefault();
++        const cur = latest.current[i];
++        const blank = "text" in cur && !cur.text.trim();
++        const nb: EBlock = pic ? { id: uid(), t: "img", src: "" } : { id: uid(), t: "table", rows: rows! };
++        const next = [...latest.current];
++        next.splice(blank ? i : i + 1, blank ? 1 : 0, nb);
++        onChange(next);
++        if (pic) void fill(nb.id, pic);
++    };
++
+     // pasted multi-line text becomes one block per line
+     const onText = (i: number, v: string) => {
+-        if (!v.includes("\n")) return patch(blocks[i].id, { text: v });
++        const cur = latest.current[i];
++        if (!v.includes("\n")) return patch(cur.id, { text: v } as Partial<EBlock>);
+         const lines = v.split(/\r?\n/).map((s) => s.trim()).filter(Boolean);
+-        if (lines.length === 0) return patch(blocks[i].id, { text: "" });
+-        const extra = lines.slice(1).map((l) => newBlock("p", l));
+-        const next = blocks.map((b, j) => (j === i ? { ...b, text: lines[0] } : b));
++        if (lines.length === 0) return patch(cur.id, { text: "" } as Partial<EBlock>);
++        const extra = lines.slice(1).map((l) => ({ ...newBlock("p"), text: l }) as EBlock);
++        const next = latest.current.map((b, j) => (j === i ? ({ ...b, text: lines[0] } as EBlock) : b));
+         next.splice(i + 1, 0, ...extra);
+         if (extra.length) pending.current = extra[extra.length - 1].id;
+         onChange(next);
+@@ -113,73 +329,262 @@ export function BlockEditor({
+ 
+     const onKey = (e: React.KeyboardEvent<HTMLTextAreaElement>, i: number) => {
+         if (e.nativeEvent.isComposing) return;
++        const b = latest.current[i];
+         if (e.key === "Enter") {
+             e.preventDefault();
+-            insertAfter(i, [newBlock()]);
+-        } else if (e.key === "Backspace" && blocks[i].text === "" && blocks.length > 1) {
++            insertAt(i + 1, [newBlock()]);
++        } else if (e.key === "Backspace" && "text" in b && b.text === "") {
+             e.preventDefault();
+             remove(i);
+         }
+     };
+ 
+-    return (
+-        <div className="space-y-2">
+-            {blocks.map((b, i) => {
+-                const active = focused === b.id;
+-                const label = i === 0 && b.t === "p" ? "Intro" : STYLES.find((s) => s.t === b.t)!.label;
++    /* ---------- one block ---------- */
++    const edit = (b: EBlock, i: number) => {
++        if (b.t === "hr") return <hr className="border-white/20" />;
++
++        if (b.t === "ul" || b.t === "ol") {
++            const List = b.t;
++            const setItems = (items: string[]) => patch(b.id, { items } as Partial<EBlock>);
++            return (
++                <List className={`space-y-2 pl-6 ${b.t === "ul" ? "list-disc" : "list-decimal"} ${textProps("p", sizes).className}`} style={textProps("p", sizes).style}>
++                    {b.items.map((it, k) => (
++                        <li key={k}>
++                            <input
++                                data-focus={`${b.id}:${k}`}
++                                aria-label={`List item ${k + 1}`}
++                                value={it}
++                                placeholder="List item"
++                                onChange={(e) => setItems(b.items.map((x, j) => (j === k ? e.target.value : x)))}
++                                onKeyDown={(e) => {
++                                    if (e.nativeEvent.isComposing) return;
++                                    if (e.key === "Enter") {
++                                        e.preventDefault();
++                                        // Enter on an empty last item ends the list
++                                        if (it === "" && k === b.items.length - 1 && b.items.length > 1) {
++                                            const next = latest.current.map((x) => (x.id === b.id ? ({ ...b, items: b.items.slice(0, -1) } as EBlock) : x));
++                                            next.splice(i + 1, 0, newBlock());
++                                            pending.current = next[i + 1].id;
++                                            onChange(next);
++                                        } else {
++                                            pending.current = `${b.id}:${k + 1}`;
++                                            setItems([...b.items.slice(0, k + 1), "", ...b.items.slice(k + 1)]);
++                                        }
++                                    } else if (e.key === "Backspace" && it === "" && b.items.length > 1) {
++                                        e.preventDefault();
++                                        pending.current = `${b.id}:${Math.max(0, k - 1)}`;
++                                        setItems(b.items.filter((_, j) => j !== k));
++                                    }
++                                }}
++                                onPaste={(e) => {
++                                    const lines = e.clipboardData.getData("text/plain").split(/\r?\n/).map((s) => s.trim()).filter(Boolean);
++                                    if (lines.length < 2) return;
++                                    e.preventDefault();
++                                    setItems([...b.items.slice(0, k), ...lines, ...b.items.slice(k + 1)]);
++                                }}
++                                className="w-full bg-transparent outline-none placeholder:text-white/25"
++                            />
++                        </li>
++                    ))}
++                </List>
++            );
++        }
++
++        if (b.t === "img") {
++            if (b.src)
+                 return (
+-                    <div
+-                        key={b.id}
+-                        className={`rounded-lg border px-3 py-2 ${active ? "border-[#7b55e0] bg-white/5" : "border-white/10"}`}
+-                    >
+-                        {active ? (
+-                            <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
+-                                <div role="group" aria-label="Block style" className="flex gap-1">
+-                                    {STYLES.map((s) => (
+-                                        <button
+-                                            key={s.t}
+-                                            type="button"
+-                                            aria-pressed={b.t === s.t}
+-                                            onMouseDown={(e) => e.preventDefault()}
+-                                            onClick={() => patch(b.id, { t: s.t })}
+-                                            className={`${ctl} ${b.t === s.t ? "!border-[#7b55e0] !bg-[#5522d6] !text-white" : ""}`}
++                    <figure>
++                        {/* eslint-disable-next-line @next/next/no-img-element */}
++                        <img src={b.src} alt={b.alt ?? ""} className="h-auto w-full rounded-2xl" />
++                        <input
++                            aria-label="Image caption"
++                            value={b.caption ?? ""}
++                            placeholder="Caption (optional)"
++                            onChange={(e) => patch(b.id, { caption: e.target.value } as Partial<EBlock>)}
++                            className="mt-2 w-full bg-transparent text-center text-[14px] outline-none placeholder:text-white/25"
++                        />
++                        <input
++                            aria-label="Image description for search engines and screen readers"
++                            value={b.alt ?? ""}
++                            placeholder="Describe the image (alt text)"
++                            onChange={(e) => patch(b.id, { alt: e.target.value } as Partial<EBlock>)}
++                            className="mt-1 w-full rounded-md border border-white/10 bg-black/30 px-2 py-1.5 text-[12px] outline-none focus:border-[#7b55e0]"
++                        />
++                    </figure>
++                );
++            return (
++                <div className="rounded-2xl border border-dashed border-white/25 p-6 text-center">
++                    {busy[b.id] ? (
++                        <p className="text-[14px] text-white/60">Uploading…</p>
++                    ) : (
++                        <>
++                            <label className="inline-block cursor-pointer rounded-lg bg-[#5522d6] px-4 py-2 text-[13px] text-white hover:bg-[#6a3be6]">
++                                Upload image
++                                <input
++                                    type="file"
++                                    accept="image/png,image/jpeg,image/webp,image/gif,image/avif"
++                                    className="sr-only"
++                                    onChange={(e) => {
++                                        const f = e.target.files?.[0];
++                                        e.target.value = "";
++                                        if (f) void fill(b.id, f);
++                                    }}
++                                />
++                            </label>
++                            <p className="mt-3 text-[12px] text-white/50">or paste an image link and press Enter</p>
++                            <input
++                                aria-label="Image URL"
++                                placeholder="https://example.com/photo.jpg"
++                                onKeyDown={(e) => {
++                                    if (e.key !== "Enter") return;
++                                    e.preventDefault();
++                                    const v = e.currentTarget.value.trim();
++                                    if (/^https?:\/\//i.test(v)) void fill(b.id, v);
++                                    else setNotice("The image link must start with http or https.");
++                                }}
++                                className="mx-auto mt-2 block w-full max-w-[420px] rounded-lg border border-white/15 bg-black/40 px-3 py-2 text-[13px] outline-none focus:border-[#7b55e0]"
++                            />
++                            <p className="mt-2 text-[11px] text-white/40">PNG, JPG, WebP, GIF or AVIF, up to 4 MB</p>
++                        </>
++                    )}
++                </div>
++            );
++        }
++
++        if (b.t === "table")
++            return <TableEdit b={b} sizes={sizes} setRows={(rows) => patch(b.id, { rows } as Partial<EBlock>)} />;
++
++        // text, headings and quote
++        if (!("text" in b)) return null;
++        return (
++            <div className={b.t === "quote" ? "border-l-4 border-[#7b55e0] pl-5 italic text-white/90" : ""}>
++                <AutoText
++                    data-focus={b.id}
++                    value={b.text}
++                    aria-label={`${TEXT_STYLES.find((s) => s.t === b.t)?.label ?? "Text"} block`}
++                    placeholder={hint[b.t]}
++                    onChange={(e) => onText(i, e.target.value)}
++                    onKeyDown={(e) => onKey(e, i)}
++                    onPaste={(e) => onPasteText(e, i)}
++                    className={textProps(b.t, sizes).className}
++                    style={textProps(b.t, sizes).style}
++                />
++            </div>
++        );
++    };
++
++    return (
++        <div ref={root}>
++            {notice && (
++                <p role="alert" className="mt-4 rounded-xl bg-red-500/15 px-4 py-2 text-[13px] text-red-200">
++                    {notice}
++                </p>
++            )}
++            {blocks.length === 0 ? (
++                <Inserter empty open={menuAt === 0} onToggle={() => setMenuAt(menuAt === 0 ? null : 0)} onPick={(t) => add(0, t)} />
++            ) : (
++                <>
++                    {blocks.map((b, i) => (
++                        <div key={b.id}>
++                            {i > 0 && (
++                                <Inserter open={menuAt === i} onToggle={() => setMenuAt(menuAt === i ? null : i)} onPick={(t) => add(i, t)} />
++                            )}
++                            <div className={`group/blk relative rounded-lg ring-1 ring-transparent hover:ring-white/15 focus-within:ring-[#7b55e0] ${blockGap(b.t)}`}>
++                                <div className="absolute -top-3.5 right-2 z-20 hidden gap-1 rounded-lg border border-white/15 bg-[#0b0814] p-1 group-focus-within/blk:flex group-hover/blk:flex">
++                                    {"text" in b && (
++                                        <select
++                                            aria-label="Block style"
++                                            value={b.t}
++                                            onChange={(e) => patch(b.id, { t: e.target.value } as Partial<EBlock>)}
++                                            className="h-7 rounded-md border border-white/15 bg-[#0b0814] px-1 text-[12px] text-white/80"
+                                         >
+-                                            {s.label}
+-                                        </button>
+-                                    ))}
+-                                </div>
+-                                <div className="flex gap-1">
+-                                    <button type="button" aria-label="Move block up" onMouseDown={(e) => e.preventDefault()} onClick={() => move(i, -1)} className={ctl}>↑</button>
+-                                    <button type="button" aria-label="Move block down" onMouseDown={(e) => e.preventDefault()} onClick={() => move(i, 1)} className={ctl}>↓</button>
++                                            {TEXT_STYLES.map((s) => (
++                                                <option key={s.t} value={s.t}>{s.label}</option>
++                                            ))}
++                                        </select>
++                                    )}
++                                    <button type="button" aria-label="Move block up" disabled={i === 0} onMouseDown={(e) => e.preventDefault()} onClick={() => move(i, -1)} className={ctl}>↑</button>
++                                    <button type="button" aria-label="Move block down" disabled={i === blocks.length - 1} onMouseDown={(e) => e.preventDefault()} onClick={() => move(i, 1)} className={ctl}>↓</button>
++                                    <button type="button" aria-label="Duplicate block" onMouseDown={(e) => e.preventDefault()} onClick={() => duplicate(i)} className={ctl}>⧉</button>
+                                     <button type="button" aria-label="Delete block" onMouseDown={(e) => e.preventDefault()} onClick={() => remove(i)} className={ctl}>✕</button>
+                                 </div>
++                                {edit(b, i)}
+                             </div>
+-                        ) : (
+-                            <span className="mb-1 block text-[10px] uppercase tracking-wide text-white/35">{label}</span>
+-                        )}
+-                        <textarea
+-                            ref={(el) => {
+-                                refs.current[b.id] = el;
+-                            }}
+-                            rows={1}
+-                            value={b.text}
+-                            aria-label={`${label} block`}
+-                            placeholder={i === 0 && b.t === "p" ? "Write the intro paragraph…" : hint[b.t]}
+-                            onFocus={() => setFocused(b.id)}
+-                            onChange={(e) => onText(i, e.target.value)}
+-                            onKeyDown={(e) => onKey(e, i)}
+-                            className={`block w-full resize-none overflow-hidden bg-transparent outline-none placeholder:text-white/30 ${look[b.t]}`}
+-                        />
+-                    </div>
+-                );
+-            })}
+-            <button
+-                type="button"
+-                onClick={() => insertAfter(blocks.length - 1, [newBlock()])}
+-                className="w-full rounded-lg border border-dashed border-white/20 py-2 text-[13px] text-[#b79cff] hover:bg-white/5"
+-            >
+-                + Add block
+-            </button>
++                        </div>
++                    ))}
++                    <Inserter last open={menuAt === blocks.length} onToggle={() => setMenuAt(menuAt === blocks.length ? null : blocks.length)} onPick={(t) => add(blocks.length, t)} />
++                </>
++            )}
+         </div>
+     );
+-}
+\ No newline at end of file
++}
++
++/* editable table: the first row is the header; paste a copied table into any cell to fill it */
++function TableEdit({
++    b,
++    sizes,
++    setRows,
++}: {
++    b: Extract<EBlock, { t: "table" }>;
++    sizes: TextSizes;
++    setRows: (r: string[][]) => void;
++}) {
++    const [cell, setCell] = useState({ r: 0, c: 0 });
++    const rows = b.rows;
++    const w = rows[0]?.length ?? 1;
++    const setCellText = (r: number, c: number, v: string) =>
++        setRows(rows.map((row, ri) => (ri === r ? row.map((x, ci) => (ci === c ? v : x)) : row)));
++
++    const paste = (e: React.ClipboardEvent, r: number, c: number) => {
++        const pasted = tableFromClipboard(e.clipboardData);
++        if (!pasted) return;
++        e.preventDefault();
++        const next = rows.map((row) => [...row]);
++        pasted.forEach((pr, ri) =>
++            pr.forEach((v, ci) => {
++                while (next.length <= r + ri) next.push(Array(w).fill(""));
++                while (next[r + ri].length <= c + ci) next.forEach((row) => row.push(""));
++                next[r + ri][c + ci] = v;
++            })
++        );
++        setRows(squareRows(next));
++    };
++
++    const small =
++        "rounded-md border border-white/15 px-2.5 py-1 text-[12px] text-white/70 hover:bg-white/10 hover:text-white disabled:opacity-30";
++    return (
++        <div>
++            <div className="overflow-x-auto rounded-2xl border border-white/20">
++                <table className="w-full border-collapse text-left tracking-tighter" style={{ fontSize: Math.round(sizes.p * 0.9) }}>
++                    <tbody>
++                        {rows.map((row, r) => (
++                            <tr key={r}>
++                                {row.map((v, c) => (
++                                    <td key={c} className={`border border-white/10 p-0 ${r === 0 ? "bg-white/10 font-medium" : ""}`}>
++                                        <input
++                                            data-focus={r === 0 && c === 0 ? b.id : undefined}
++                                            aria-label={`${r === 0 ? "Header" : "Row " + (r + 1)}, column ${c + 1}`}
++                                            value={v}
++                                            placeholder={r === 0 ? "Header" : ""}
++                                            onFocus={() => setCell({ r, c })}
++                                            onChange={(e) => setCellText(r, c, e.target.value)}
++                                            onPaste={(e) => paste(e, r, c)}
++                                            className="w-full min-w-[110px] bg-transparent px-4 py-2.5 outline-none placeholder:text-white/25 focus:bg-white/5"
++                                        />
++                                    </td>
++                                ))}
++                            </tr>
++                        ))}
++                    </tbody>
++                </table>
++            </div>
++            <div className="mt-2 hidden flex-wrap gap-2 group-focus-within/blk:flex">
++                <button type="button" className={small} onClick={() => setRows([...rows.slice(0, cell.r + 1), Array(w).fill(""), ...rows.slice(cell.r + 1)])}>+ Row</button>
++                <button type="button" className={small} onClick={() => setRows(rows.map((row) => [...row.slice(0, cell.c + 1), "", ...row.slice(cell.c + 1)]))} disabled={w >= 12}>+ Column</button>
++                <button type="button" className={small} disabled={rows.length <= 1} onClick={() => setRows(rows.filter((_, r) => r !== cell.r))}>Delete row</button>
++                <button type="button" className={small} disabled={w <= 1} onClick={() => setRows(rows.map((row) => row.filter((_, c) => c !== cell.c)))}>Delete column</button>
++                <span className="self-center text-[11px] text-white/40">First row is the header</span>
++            </div>
++        </div>
++    );
++}
+diff --git a/app/admin/PostEditor.tsx b/app/admin/PostEditor.tsx
+index 1be1bad..2e2d945 100644
+--- a/app/admin/PostEditor.tsx
++++ b/app/admin/PostEditor.tsx
+@@ -4,8 +4,8 @@ import { useEffect, useState, useTransition } from "react";
+ import Link from "next/link";
+ // Copy code (hidden): also add `useMemo` to the react import above and uncomment the next line
+ // import { buildPostCode } from "@/lib/post-code";
+-import { slugify, DEFAULT_SIZES, type Block, type TextSizes } from "@/lib/post-code";
+-import { BlockEditor, newBlock, serializeBlocks, toEBlocks, type EBlock } from "@/app/admin/BlockEditor";
++import { slugify, headings, DEFAULT_SIZES, type Block, type TextSizes } from "@/lib/post-code";
++import { AutoText, BlockEditor, fromEBlocks, hasContent, toEBlocks, type EBlock } from "@/app/admin/BlockEditor";
+ 
+ type Result = { ok: true; slug: string } | { ok: false; error: string } | null;
+ type Device = "desktop" | "tablet" | "mobile";
+@@ -18,7 +18,8 @@ export type Initial = {
+     date: string; // YYYY-MM-DD, or ""
+     excerpt: string;
+     quickAnswer: string;
+-    blocks: Block[]; // first block = intro
++    intro: string;
++    blocks: Block[]; // the body, after the intro
+     sizes: TextSizes;
+     toc: string[]; // Table of Contents entries (empty = no Table of Contents)
+     metaTitle: string;
+@@ -122,9 +123,8 @@ export function PostEditor({
+         ogImage: initial?.ogImage ?? "",
+     });
+     const [authors, setAuthors] = useState<string[]>(initial?.authors.length ? initial.authors : [""]);
+-    const [blocks, setBlocks] = useState<EBlock[]>(() =>
+-        toEBlocks(initial?.blocks.length ? initial.blocks : [{ t: "p", text: "" }])
+-    );
++    const [intro, setIntro] = useState(initial?.intro ?? "");
++    const [blocks, setBlocks] = useState<EBlock[]>(() => toEBlocks(initial?.blocks ?? []));
+     const [sizes, setSizes] = useState<TextSizes>(initial?.sizes ?? DEFAULT_SIZES);
+     const [tocOn, setTocOn] = useState(!!initial?.toc.length);
+     const [tocItems, setTocItems] = useState<string[]>(initial?.toc.length ? initial.toc : [""]);
+@@ -194,20 +194,16 @@ export function PostEditor({
+         setFile(x);
+     };
+ 
+-    /* the first Text block is the intro; everything after it is the body */
+-    const clean = blocks.filter((b) => b.text.trim());
+-    const introBlock = clean[0]?.t === "p" ? clean[0] : null;
+-    const intro = introBlock ? introBlock.text.trim() : "";
+-    const body = introBlock ? clean.slice(1) : clean;
+-    const content = serializeBlocks(body);
++    /* the intro is its own field; the blocks are the body (empty blocks are not saved) */
++    const body = blocks.filter(hasContent);
+     const toc = tocOn ? tocItems.map((t) => t.trim()).filter(Boolean) : [];
+ 
+     const missing = [
+         !f.title.trim() && "title",
+         !f.slug.trim() && "slug",
+         !f.excerpt.trim() && "excerpt",
+-        !intro && "intro (start the content with a Text block)",
+-        body.length === 0 && "content (a heading or more text after the intro)",
++        !intro.trim() && "intro",
++        body.length === 0 && "content (use + to add a heading, text, image or table)",
+         !haveCover && "cover image",
+     ].filter(Boolean) as string[];
+ 
+@@ -245,8 +241,8 @@ export function PostEditor({
+             });
+             fd.append("date", dateDMY);
+             fd.append("author", authorStr);
+-            fd.append("intro", intro);
+-            fd.append("content", content);
++            fd.append("intro", intro.trim());
++            fd.append("blocks", JSON.stringify(fromEBlocks(body)));
+             fd.append("sizes", JSON.stringify(sizes));
+             fd.append("toc", JSON.stringify(toc));
+             if (edit) fd.append("currentImage", initial!.image);
+@@ -279,7 +275,8 @@ export function PostEditor({
+             ogImage: "",
+         });
+         setAuthors([""]);
+-        setBlocks([newBlock()]);
++        setIntro("");
++        setBlocks([]);
+         setSlugTouched(false);
+         setSizes(DEFAULT_SIZES);
+         // setShowToc(false);
+@@ -299,7 +296,7 @@ export function PostEditor({
+     return (
+         <div>
+             {/* ---------- TOP BAR ---------- */}
+-            <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-white/15 bg-white/5 px-4 py-3">
++            <div className="sticky top-2 z-30 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-white/15 bg-[#0b0814]/95 px-4 py-3 backdrop-blur">
+                 <div className="flex items-center gap-4">
+                     <Link href="/admin" className="text-[13px] text-[#b79cff] hover:underline">
+                         ← Dashboard
+@@ -509,14 +506,8 @@ export function PostEditor({
+                         />
+                     </Section>
+ 
+-                    <Section title="Content" open={!!openSec.content} onToggle={() => toggle("content")}>
+-                        <p className="mb-3 text-[12px] leading-[18px] text-white/55">
+-                            Click a block to pick <strong>Text / H1 / H2 / H3</strong>. The first Text block is the
+-                            intro, shown above the Table of Contents.
+-                        </p>
+-                        <BlockEditor blocks={blocks} onChange={setBlocks} />
+-
+-                        <div className="mt-5 flex items-center justify-between">
++                    <Section title="Text sizes" open={!!openSec.sizes} onToggle={() => toggle("sizes")}>
++                        <div className="flex items-center justify-between">
+                             <p className="text-[12px] text-white/60">Text sizes (px)</p>
+                             <button type="button" onClick={() => setSizes(DEFAULT_SIZES)} className="text-[12px] text-[#b79cff] hover:underline">
+                                 Reset
+@@ -563,8 +554,16 @@ export function PostEditor({
+                         {tocOn && (
+                             <div className="mt-3">
+                                 <p className="text-[12px] text-white/55">
+-                                    Type your own entries. They are separate from your headings.
++                                    Type your own entries, or fill them from your Heading 2 blocks.
+                                 </p>
++                                <button
++                                    type="button"
++                                    disabled={!body.some((b) => b.t === "h2")}
++                                    onClick={() => setTocItems(headings(body))}
++                                    className="mt-2 text-[13px] text-[#b79cff] hover:underline disabled:cursor-not-allowed disabled:opacity-40"
++                                >
++                                    Use my headings
++                                </button>
+                                 <div className="mt-2 space-y-2">
+                                     {tocItems.map((t, i) => (
+                                         <div key={i} className="flex items-center gap-2">
+@@ -653,43 +652,56 @@ export function PostEditor({
+                         </span>
+ 
+                         <div className="mt-6 rounded-[40px] p-4 sm:p-6" style={{ background: frameBg }}>
+-                            <article className="leadership-border rounded-[30px] p-6 sm:p-10">
+-                                <h1 className="text-[34px] font-medium leading-[44px] tracking-tighter sm:text-[46px] sm:leading-[56px]">
+-                                    {f.title || <span className="text-white/30">Post title</span>}
+-                                </h1>
+-                                <p className="mt-8 text-[18px] leading-[31px] tracking-tighter">
+-                                    {intro || <span className="text-white/30">Intro paragraph…</span>}
+-                                </p>
+-
+-                                {toc.length > 0 && (
+-                                    <nav aria-label="Table of contents" className="mt-8 rounded-2xl border border-white/20 bg-white/5 p-6">
+-                                        <p className="text-[14px] font-medium uppercase tracking-wide text-white/60">Table of Contents</p>
+-                                        <ol className="mt-3 list-decimal space-y-1.5 pl-6 text-[17px] leading-[28px] tracking-tighter">
+-                                            {toc.map((t, i) => (
+-                                                <li key={i}>{t}</li>
+-                                            ))}
+-                                        </ol>
+-                                    </nav>
+-                                )}
+-
+-                                {body.length === 0 && (
+-                                    <p className="mt-8 text-[16px] text-white/30">Your content will appear here…</p>
+-                                )}
+-                                {body.map((b) => {
+-                                    if (b.t === "p")
+-                                        return (
+-                                            <p key={b.id} className="mt-4 tracking-tighter" style={{ fontSize: sizes.p, lineHeight: 1.7 }}>
+-                                                {b.text}
++                            {/* same two columns as the blog page: article on the left, Table of Contents on the right */}
++                            <div className="@container">
++                                <div className="grid items-start gap-6 @min-[760px]:grid-cols-[minmax(0,1fr)_300px]">
++                                    <article className="leadership-border rounded-[30px] p-6 sm:p-10">
++                                        <AutoText
++                                            aria-label="Post title"
++                                            value={f.title}
++                                            placeholder="Post title"
++                                            onChange={(e) => set("title")(e as unknown as React.ChangeEvent<HTMLTextAreaElement>)}
++                                            onKeyDown={(e) => e.key === "Enter" && e.preventDefault()}
++                                            className="text-[34px] font-medium leading-[44px] tracking-tighter sm:text-[46px] sm:leading-[56px]"
++                                        />
++                                        {f.quickAnswer.trim() && (
++                                            <div className="mt-8 w-full rounded-2xl border border-white/20 bg-white/5 p-6">
++                                                <h2 className="text-[14px] font-medium uppercase tracking-wide text-white/60">Quick Answer</h2>
++                                                <p className="mt-3 text-[18px] leading-[31px] tracking-tighter">{f.quickAnswer}</p>
++                                            </div>
++                                        )}
++                                        <AutoText
++                                            aria-label="Intro paragraph"
++                                            value={intro}
++                                            placeholder="Intro paragraph…"
++                                            onChange={(e) => setIntro(e.target.value.replace(/\s*\n+\s*/g, " "))}
++                                            onKeyDown={(e) => e.key === "Enter" && e.preventDefault()}
++                                            className="mt-8 text-[18px] leading-[31px] tracking-tighter"
++                                        />
++
++                                        <BlockEditor blocks={blocks} onChange={setBlocks} sizes={sizes} slug={f.slug} />
++                                    </article>
++
++                                    <aside className="@min-[760px]:sticky @min-[760px]:top-24">
++                                        {toc.length > 0 ? (
++                                            <nav aria-label="Table of contents" className="leadership-border rounded-[30px] p-6">
++                                                <p className="text-[14px] font-medium uppercase tracking-wide text-white/60">Table of Contents</p>
++                                                <ol className="mt-3 list-decimal space-y-1.5 pl-6 text-[17px] leading-[28px] tracking-tighter">
++                                                    {toc.map((t, i) => (
++                                                        <li key={i}>{t}</li>
++                                                    ))}
++                                                </ol>
++                                            </nav>
++                                        ) : (
++                                            <p className="rounded-[30px] border border-dashed border-white/20 p-6 text-[13px] leading-[20px] text-white/40">
++                                                {tocOn
++                                                    ? "Add entries in the Table of contents section and they show here."
++                                                    : "The Table of Contents is off. Turn it on in the Table of contents section and it shows here, as on the blog page."}
+                                             </p>
+-                                        );
+-                                    const Tag = b.t;
+-                                    return (
+-                                        <Tag key={b.id} className="mt-8 font-medium tracking-tighter" style={{ fontSize: sizes[b.t], lineHeight: 1.3 }}>
+-                                            {b.text}
+-                                        </Tag>
+-                                    );
+-                                })}
+-                            </article>
++                                        )}
++                                    </aside>
++                                </div>
++                            </div>
+                         </div>
+                     </div>
+                 </div>
+diff --git a/app/admin/edit/[slug]/page.tsx b/app/admin/edit/[slug]/page.tsx
+index 902c942..e001a64 100644
+--- a/app/admin/edit/[slug]/page.tsx
++++ b/app/admin/edit/[slug]/page.tsx
+@@ -2,7 +2,7 @@ import { notFound, redirect } from "next/navigation";
+ import { isAdmin } from "@/lib/admin-auth";
+ import { listAuthors } from "@/lib/authors";
+ import { getPost, isDynamicPost } from "@/lib/posts";
+-import { DEFAULT_SIZES, type Block } from "@/lib/post-code";
++import { DEFAULT_SIZES, headings, type Block } from "@/lib/post-code";
+ import { PostEditor, type Initial } from "@/app/admin/PostEditor";
+ 
+ export default async function EditPost({ params }: { params: Promise<{ slug: string }> }) {
+@@ -17,9 +17,8 @@ export default async function EditPost({ params }: { params: Promise<{ slug: str
+         authorNames = (await listAuthors()).map((a) => a.name);
+     } catch { }
+ 
+-    // intro first, then the body (older posts stored "sections", so convert those too)
++    // the body (older posts stored "sections", so convert those too)
+     const blocks: Block[] = [];
+-    if (post.intro.trim()) blocks.push({ t: "p", text: post.intro });
+     if (post.content?.length) blocks.push(...post.content);
+     else
+         for (const s of post.sections) {
+@@ -38,11 +37,12 @@ export default async function EditPost({ params }: { params: Promise<{ slug: str
+         date,
+         excerpt: post.excerpt,
+         quickAnswer: post.quickAnswer ?? "",
++        intro: post.intro,
+         blocks,
+         sizes: post.sizes ?? DEFAULT_SIZES,
+         // posts without a saved toc keep showing their old auto-built list, now as editable entries
+         toc: post.toc ?? (post.content
+-            ? post.content.filter((b) => b.t === "h2").map((b) => b.text)
++            ? headings(post.content)
+             : post.sections.map((s) => s.h)),
+         metaTitle: post.seo.metaTitle ?? "",
+         metaDescription: post.seo.metaDescription ?? "",
+@@ -52,7 +52,7 @@ export default async function EditPost({ params }: { params: Promise<{ slug: str
+     };
+ 
+     return (
+-        <main className="mx-auto w-[96%] max-w-[1800px] pb-24 pt-28">
++        <main className="mx-auto w-[96%] max-w-[1800px] pb-24 pt-4">
+             <PostEditor canSave authorNames={authorNames} initial={initial} />
+         </main>
+     );
+diff --git a/app/admin/login/page.tsx b/app/admin/login/page.tsx
+index 127535f..fb43c26 100644
+--- a/app/admin/login/page.tsx
++++ b/app/admin/login/page.tsx
+@@ -11,7 +11,7 @@ export default async function AdminLogin({
+     const { error } = await searchParams;
+ 
+     return (
+-        <main className="wrap flex min-h-[80vh] items-center justify-center pt-24">
++        <main className="wrap flex min-h-[80vh] items-center justify-center pt-0">
+             <form
+                 action={login}
+                 className="w-full max-w-[420px] rounded-[30px] border border-white/15 bg-white/5 p-8"
+diff --git a/app/admin/new/page.tsx b/app/admin/new/page.tsx
+index 0fda7a2..184cc59 100644
+--- a/app/admin/new/page.tsx
++++ b/app/admin/new/page.tsx
+@@ -13,7 +13,7 @@ export default async function NewPost() {
+     } catch { }
+ 
+     return (
+-        <main className="mx-auto w-[96%] max-w-[1800px] pb-24 pt-28">
++        <main className="mx-auto w-[96%] max-w-[1800px] pb-24 pt-4">
+             <PostEditor canSave authorNames={authorNames} />
+         </main>
+     );
+diff --git a/app/admin/page.tsx b/app/admin/page.tsx
+index 0d50efb..bde3e1a 100644
+--- a/app/admin/page.tsx
++++ b/app/admin/page.tsx
+@@ -21,7 +21,7 @@ export default async function AdminDashboard() {
+     }
+ 
+     return (
+-        <main className="wrap pb-24 pt-32">
++        <main className="wrap pb-24 pt-10">
+             <div className="flex flex-wrap items-center justify-between gap-4">
+                 <div>
+                     <h1 className="text-[36px] font-medium leading-[44px] tracking-tighter">Blog Admin</h1>
+diff --git a/app/api/admin/post/image/route.ts b/app/api/admin/post/image/route.ts
+new file mode 100644
+index 0000000..67740f8
+--- /dev/null
++++ b/app/api/admin/post/image/route.ts
+@@ -0,0 +1,27 @@
++import { NextResponse } from "next/server";
++import { isAdmin } from "@/lib/admin-auth";
++import { imageErrorMessage, readImage, saveImage } from "@/lib/post-image";
++
++export const runtime = "nodejs";
++
++const fail = (error: string, status = 400) =>
++    NextResponse.json({ ok: false, error }, { status });
++
++// uploads one picture used inside a post (file or URL) and returns its public URL
++export async function POST(req: Request) {
++    if (!(await isAdmin())) return fail("You're not logged in.", 401);
++
++    const fd = await req.formData();
++    const img = await readImage(fd);
++    if (!img) return fail("Add an image (upload or URL).");
++    if ("error" in img) return fail(img.error);
++
++    const slug = String(fd.get("slug") ?? "");
++    const name = /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug) ? slug : "post";
++
++    try {
++        return NextResponse.json({ ok: true, url: await saveImage(`${name}-body`, img) });
++    } catch (e) {
++        return fail(imageErrorMessage(e), 500);
++    }
++}
+diff --git a/app/blog/[slug]/page.tsx b/app/blog/[slug]/page.tsx
+index 043c9c3..d6acb08 100644
+--- a/app/blog/[slug]/page.tsx
++++ b/app/blog/[slug]/page.tsx
+@@ -15,7 +15,8 @@ import {
+   getPost,
+   getRecentPosts,
+ } from "@/lib/posts";
+-import { DEFAULT_SIZES } from "@/lib/post-code";
++import { DEFAULT_SIZES, headings } from "@/lib/post-code";
++import { PostBlock } from "@/components/PostBlock";
+ 
+ export async function generateStaticParams() {
+   return (await getAllSlugs()).map((slug) => ({ slug }));
+@@ -77,7 +78,7 @@ export default async function BlogPost({
+   const toc =
+     post.toc ??
+     (post.content
+-      ? post.content.filter((b) => b.t === "h2").map((b) => b.text)
++      ? headings(post.content)
+       : post.sections.map((s) => s.h));
+ 
+   return (
+@@ -124,28 +125,7 @@ export default async function BlogPost({
+               <p className={`${P} mt-8`}>{post.intro}</p>
+ 
+               {post.content
+-                ? post.content.map((b, i) => {
+-                    if (b.t === "p")
+-                      return (
+-                        <p
+-                          key={i}
+-                          className="mt-4 tracking-tighter"
+-                          style={{ fontSize: sz.p, lineHeight: 1.7 }}
+-                        >
+-                          {b.text}
+-                        </p>
+-                      );
+-                    const Tag = b.t;
+-                    return (
+-                      <Tag
+-                        key={i}
+-                        className="mt-8 font-medium tracking-tighter"
+-                        style={{ fontSize: sz[b.t], lineHeight: 1.3 }}
+-                      >
+-                        {b.text}
+-                      </Tag>
+-                    );
+-                  })
++                ? post.content.map((b, i) => <PostBlock key={i} b={b} sizes={sz} />)
+                 : post.sections.map((s) => (
+                     <div key={s.h}>
+                       <h2 className={H2}>{s.h}</h2>
+diff --git a/app/layout.tsx b/app/layout.tsx
+index a122c1f..e2dae53 100644
+--- a/app/layout.tsx
++++ b/app/layout.tsx
+@@ -8,6 +8,7 @@ import "./viewport-scale.css";
+ import "./page-transition.css";
+ import { Header } from "@/components/Header";
+ import { Footer } from "@/components/Footer";
++import { HideInAdmin } from "@/components/HideInAdmin";
+ import { SmoothScroll } from "@/components/SmoothScroll";
+ import { CursorFollower } from "@/components/Cursorfollower";
+ import { PageTransition } from "@/components/PageTransition";
+@@ -24,7 +25,7 @@ export default function RootLayout({ children }: { children: React.ReactNode })
+   return (
+     // data-pt-theme = colour of the page-change light: "light" | "dark" | "vivid" (presets live in app/page-transition.css)
+     <html lang="en" data-pt-theme="dark">
+-      <body><SmoothScroll /> <CursorFollower /> <PageTransition /> <Header />{children}<Footer /></body>
++      <body><SmoothScroll /> <CursorFollower /> <PageTransition /> <HideInAdmin><Header /></HideInAdmin>{children}<HideInAdmin><Footer /></HideInAdmin></body>
+     </html>
+   );
+ }
+\ No newline at end of file
+diff --git a/components/HideInAdmin.tsx b/components/HideInAdmin.tsx
+new file mode 100644
+index 0000000..7fee99b
+--- /dev/null
++++ b/components/HideInAdmin.tsx
+@@ -0,0 +1,9 @@
++"use client";
++import { usePathname } from "next/navigation";
++
++/* The admin panel has its own screens, so the site header and footer are not drawn there. */
++export function HideInAdmin({ children }: { children: React.ReactNode }) {
++    const path = usePathname() ?? "";
++    if (path === "/admin" || path.startsWith("/admin/")) return null;
++    return <>{children}</>;
++}
+diff --git a/components/PostBlock.tsx b/components/PostBlock.tsx
+new file mode 100644
+index 0000000..8879067
+--- /dev/null
++++ b/components/PostBlock.tsx
+@@ -0,0 +1,77 @@
++import type { CSSProperties } from "react";
++import type { Block, TextSizes } from "@/lib/post-code";
++
++/* One blog block, drawn the same way on the blog page and in the admin preview.
++   (The admin editor uses blockGap + textProps too, so what you edit is what you get.) */
++
++type Tag = "h1" | "h2" | "h3" | "p" | "quote";
++
++// space above each kind of block
++export const blockGap = (t: Block["t"]) =>
++    t === "p" || t === "ul" || t === "ol" ? "mt-4" : t === "h1" || t === "h2" || t === "h3" || t === "hr" ? "mt-8" : "mt-6";
++
++// class + inline size for the text blocks
++export function textProps(t: Tag, sizes: TextSizes): { className: string; style: CSSProperties } {
++    if (t === "h1" || t === "h2" || t === "h3")
++        return { className: "font-medium tracking-tighter", style: { fontSize: sizes[t], lineHeight: 1.3 } };
++    return { className: "tracking-tighter", style: { fontSize: sizes.p, lineHeight: 1.7 } };
++}
++
++export function PostBlock({ b, sizes }: { b: Block; sizes: TextSizes }) {
++    const gap = blockGap(b.t);
++
++    if (b.t === "h1" || b.t === "h2" || b.t === "h3") {
++        const Tag = b.t;
++        return <Tag className={`${gap} ${textProps(b.t, sizes).className}`} style={textProps(b.t, sizes).style}>{b.text}</Tag>;
++    }
++    if (b.t === "p")
++        return <p className={`${gap} ${textProps("p", sizes).className}`} style={textProps("p", sizes).style}>{b.text}</p>;
++    if (b.t === "quote")
++        return (
++            <blockquote className={`${gap} border-l-4 border-[#7b55e0] pl-5 italic text-white/90 ${textProps("p", sizes).className}`} style={textProps("p", sizes).style}>
++                {b.text}
++            </blockquote>
++        );
++    if (b.t === "ul" || b.t === "ol") {
++        const List = b.t;
++        return (
++            <List className={`${gap} space-y-2 pl-6 ${b.t === "ul" ? "list-disc" : "list-decimal"} ${textProps("p", sizes).className}`} style={textProps("p", sizes).style}>
++                {b.items.map((it, i) => (
++                    <li key={i}>{it}</li>
++                ))}
++            </List>
++        );
++    }
++    if (b.t === "img")
++        return (
++            <figure className={gap}>
++                {/* eslint-disable-next-line @next/next/no-img-element */}
++                <img src={b.src} alt={b.alt ?? ""} loading="lazy" className="h-auto w-full rounded-2xl" />
++                {b.caption && <figcaption className="mt-2 text-center text-[14px] text-white/60">{b.caption}</figcaption>}
++            </figure>
++        );
++    if (b.t === "table")
++        return (
++            <div className={`${gap} overflow-x-auto rounded-2xl border border-white/20`}>
++                <table className="w-full border-collapse text-left tracking-tighter" style={{ fontSize: Math.round(sizes.p * 0.9) }}>
++                    <thead>
++                        <tr>
++                            {b.rows[0].map((c, i) => (
++                                <th key={i} className="border border-white/10 bg-white/10 px-4 py-2.5 font-medium">{c}</th>
++                            ))}
++                        </tr>
++                    </thead>
++                    <tbody>
++                        {b.rows.slice(1).map((r, i) => (
++                            <tr key={i}>
++                                {r.map((c, j) => (
++                                    <td key={j} className="border border-white/10 px-4 py-2.5">{c}</td>
++                                ))}
++                            </tr>
++                        ))}
++                    </tbody>
++                </table>
++            </div>
++        );
++    return <hr className={`${gap} border-white/20`} />;
++}
+diff --git a/lib/post-code.ts b/lib/post-code.ts
+index 081d45d..263de53 100644
+--- a/lib/post-code.ts
++++ b/lib/post-code.ts
+@@ -1,4 +1,10 @@
+-export type Block = { t: "h1" | "h2" | "h3" | "p"; text: string };
++// text blocks keep the old { t, text } shape, so saved posts still load
++export type Block =
++    | { t: "h1" | "h2" | "h3" | "p" | "quote"; text: string }
++    | { t: "ul" | "ol"; items: string[] }
++    | { t: "img"; src: string; alt?: string; caption?: string }
++    | { t: "table"; rows: string[][] } // first row is the header
++    | { t: "hr" };
+ export type TextSizes = { h1: number; h2: number; h3: number; p: number };
+ 
+ export const DEFAULT_SIZES: TextSizes = { h1: 34, h2: 28, h3: 22, p: 18 };
+@@ -13,6 +19,65 @@ export function normSizes(x: unknown): TextSizes {
+     return { h1: pick("h1"), h2: pick("h2"), h3: pick("h3"), p: pick("p") };
+ }
+ 
++// cuts every row to the same width (at most 60 rows x 12 columns)
++export function squareRows(rows: string[][]): string[][] {
++    const cut = rows.slice(0, 60).map((r) => r.slice(0, 12));
++    const w = Math.max(1, ...cut.map((r) => r.length));
++    return cut.map((r) => [...r, ...Array(w - r.length).fill("")]);
++}
++
++// the text of every heading of one level, used for the Table of Contents
++export const headings = (blocks: Block[], t: "h2" | "h3" = "h2"): string[] =>
++    blocks.flatMap((b) => (b.t === t ? [b.text] : []));
++
++// checks and trims blocks that came from the editor; empty ones are dropped
++export function normBlocks(x: unknown): Block[] {
++    if (!Array.isArray(x)) return [];
++    const str = (v: unknown, max = 20000) => (typeof v === "string" ? v.trim().slice(0, max) : "");
++    const out: Block[] = [];
++    for (const raw of x.slice(0, 400)) {
++        const o = (raw ?? {}) as Record<string, unknown>;
++        const t = o.t;
++        switch (t) {
++            case "h1":
++            case "h2":
++            case "h3":
++            case "p":
++            case "quote": {
++                const text = str(o.text);
++                if (text) out.push({ t, text });
++                break;
++            }
++            case "ul":
++            case "ol": {
++                const items = Array.isArray(o.items) ? o.items.map((i) => str(i, 2000)).filter(Boolean).slice(0, 100) : [];
++                if (items.length) out.push({ t, items });
++                break;
++            }
++            case "img": {
++                const src = str(o.src, 2000);
++                if (!/^https?:\/\//i.test(src) && !/^\/(?!\/)/.test(src)) break;
++                const alt = str(o.alt, 300);
++                const caption = str(o.caption, 500);
++                out.push({ t, src, ...(alt ? { alt } : {}), ...(caption ? { caption } : {}) });
++                break;
++            }
++            case "table": {
++                const rows = Array.isArray(o.rows)
++                    ? o.rows.map((r) => (Array.isArray(r) ? r.map((c) => str(c, 2000)) : []))
++                    : [];
++                const sq = squareRows(rows.filter((r) => r.some(Boolean)));
++                if (sq.length) out.push({ t, rows: sq });
++                break;
++            }
++            case "hr":
++                out.push({ t });
++                break;
++        }
++    }
++    return out;
++}
++
+ export type PostFields = {
+     slug: string;
+     title: string;
+@@ -58,7 +123,7 @@ export function parseContent(src: string): Block[] {
+         const m = /^(#{1,3})\s+(.+)$/.exec(line);
+         if (m) {
+             flush();
+-            blocks.push({ t: `h${m[1].length}` as Block["t"], text: m[2].trim() });
++            blocks.push({ t: `h${m[1].length}` as "h1" | "h2" | "h3", text: m[2].trim() });
+         } else if (!line) flush();
+         else para.push(line);
+     }
+@@ -68,7 +133,7 @@ export function parseContent(src: string): Block[] {
+ 
+ export function buildPostCode(f: PostFields): string {
+     const content = parseContent(f.content)
+-        .map((b) => `      { t: ${q(b.t)}, text: ${q(b.text)} },`)
++        .map((b) => `      ${JSON.stringify(b)},`)
+         .join("\n");
+     const s = normSizes(f.sizes);
+ 
+diff --git a/lib/post-form.ts b/lib/post-form.ts
+index e444336..7095c02 100644
+--- a/lib/post-form.ts
++++ b/lib/post-form.ts
+@@ -1,4 +1,4 @@
+-import { DEFAULT_SIZES, normSizes, parseContent, todayDMY, type Block, type TextSizes } from "@/lib/post-code";
++import { DEFAULT_SIZES, normBlocks, normSizes, parseContent, todayDMY, type Block, type TextSizes } from "@/lib/post-code";
+ import type { Post } from "@/lib/posts";
+ 
+ export type PostForm = {
+@@ -27,7 +27,13 @@ export function readPostForm(fd: FormData): { error: string } | { form: PostForm
+     if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug))
+         return { error: "The slug can only use lowercase letters, numbers and dashes." };
+ 
+-    const blocks = parseContent(text("content"));
++    // the editor sends "blocks" (JSON); "content" is the older "# / ## / ###" text
++    let blocks: Block[] = [];
++    if (fd.has("blocks")) {
++        try {
++            blocks = normBlocks(JSON.parse(text("blocks")));
++        } catch { }
++    } else blocks = parseContent(text("content"));
+     if (!text("title") || !text("excerpt") || !text("intro") || blocks.length === 0)
+         return { error: "Title, excerpt, intro and content are required." };
+ 

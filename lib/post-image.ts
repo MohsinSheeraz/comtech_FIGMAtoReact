@@ -78,6 +78,6 @@ export async function deleteImage(url: string): Promise<void> {
 
 export function imageErrorMessage(e: unknown): string {
     return e instanceof Error && e.message === "BLOB_NOT_CONFIGURED"
-        ? "Image storage isn't set up yet. Add the Vercel Blob token (BLOB_READ_WRITE_TOKEN)."
+        ? "Image storage isn't set up yet. Add BLOB_READ_WRITE_TOKEN (your Vercel Blob token) to .env.local and restart npm run dev."
         : "Couldn't upload the image.";
 }

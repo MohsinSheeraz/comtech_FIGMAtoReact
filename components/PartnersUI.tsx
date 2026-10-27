@@ -143,7 +143,7 @@ export function PrimaryButton({
   return (
     <Link
       href={href}
-      className="inline-flex h-[46px] min-w-[209px] items-center justify-center rounded-lg bg-white px-6 font-normal text-black! transition"
+      className="btn p min-w-[209px] justify-center"
     >
       {children}
     </Link>

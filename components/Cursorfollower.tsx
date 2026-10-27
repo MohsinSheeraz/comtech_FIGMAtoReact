@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
 
 const SIZE = 14; // sphere diameter in px
 const EASE = 0.1; // 0-1: lower = floatier / slower follow
@@ -12,10 +13,12 @@ const EASE = 0.1; // 0-1: lower = floatier / slower follow
    - cancels the page-wide `html { zoom }` from viewport-scale.css so it stays exactly under the cursor */
 export function CursorFollower() {
     const ref = useRef<HTMLDivElement>(null);
+    // never shown in the admin panel
+    const admin = (usePathname() ?? "").startsWith("/admin");
 
     useEffect(() => {
         const el = ref.current;
-        if (!el) return;
+        if (!el || admin) return;
         if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
         let tx = 0, ty = 0; // target = real cursor
@@ -75,7 +78,9 @@ export function CursorFollower() {
             window.removeEventListener("resize", syncZoom);
             document.documentElement.removeEventListener("mouseleave", onLeave);
         };
-    }, []);
+    }, [admin]);
+
+    if (admin) return null;
 
     return (
         <div

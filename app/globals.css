@@ -1923,12 +1923,6 @@ main {
   transition-delay: 0.15s;
 }
 
-.svc-hover:is(:hover, :focus-within) .row :is(a, button) {
-  background: #fff !important;
-  color: #0a0a0a !important;
-  border-color: #fff !important;
-  transition-delay: 0.22s;
-}
 
 @media (prefers-reduced-motion: reduce) {
   .svc-hover-bg,
@@ -2085,7 +2079,10 @@ main {
 
 a.btn.p,
 a.btn.p:hover,
-a.btn.p:focus-visible {
+a.btn.p:focus-visible,
+button.btn.p,
+button.btn.p:hover,
+button.btn.p:focus-visible {
   --btn-base: #5522d6;
   --btn-glow: #7b55e0;
   background:
@@ -2098,24 +2095,30 @@ a.btn.p:focus-visible {
   color: #fff !important;
 }
 
-a.btn.p {
+a.btn.p,
+button.btn.p {
   transition: --glow-y 0.6s cubic-bezier(0.22, 0.8, 0.25, 1);
 }
 
 a.btn.p:hover,
-a.btn.p:focus-visible {
+a.btn.p:focus-visible,
+button.btn.p:hover,
+button.btn.p:focus-visible {
   --glow-y: 50%;
   border: none;
 }
 
 /* kill the old hover decoration (the white blob) */
 a.btn.p::before,
-a.btn.p::after {
+a.btn.p::after,
+button.btn.p::before,
+button.btn.p::after {
   content: none !important;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  a.btn.p {
+  a.btn.p,
+  button.btn.p {
     transition: none;
   }
 }

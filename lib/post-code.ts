@@ -1,4 +1,10 @@
-export type Block = { t: "h1" | "h2" | "h3" | "p"; text: string };
+// text blocks keep the old { t, text } shape, so saved posts still load
+export type Block =
+    | { t: "h1" | "h2" | "h3" | "p" | "quote"; text: string }
+    | { t: "ul" | "ol"; items: string[] }
+    | { t: "img"; src: string; alt?: string; caption?: string }
+    | { t: "table"; rows: string[][] } // first row is the header
+    | { t: "hr" };
 export type TextSizes = { h1: number; h2: number; h3: number; p: number };
 
 export const DEFAULT_SIZES: TextSizes = { h1: 34, h2: 28, h3: 22, p: 18 };
@@ -11,6 +17,65 @@ export function normSizes(x: unknown): TextSizes {
         return Number.isFinite(n) && n >= 10 && n <= 120 ? Math.round(n) : DEFAULT_SIZES[k];
     };
     return { h1: pick("h1"), h2: pick("h2"), h3: pick("h3"), p: pick("p") };
+}
+
+// cuts every row to the same width (at most 60 rows x 12 columns)
+export function squareRows(rows: string[][]): string[][] {
+    const cut = rows.slice(0, 60).map((r) => r.slice(0, 12));
+    const w = Math.max(1, ...cut.map((r) => r.length));
+    return cut.map((r) => [...r, ...Array(w - r.length).fill("")]);
+}
+
+// the text of every heading of one level, used for the Table of Contents
+export const headings = (blocks: Block[], t: "h2" | "h3" = "h2"): string[] =>
+    blocks.flatMap((b) => (b.t === t ? [b.text] : []));
+
+// checks and trims blocks that came from the editor; empty ones are dropped
+export function normBlocks(x: unknown): Block[] {
+    if (!Array.isArray(x)) return [];
+    const str = (v: unknown, max = 20000) => (typeof v === "string" ? v.trim().slice(0, max) : "");
+    const out: Block[] = [];
+    for (const raw of x.slice(0, 400)) {
+        const o = (raw ?? {}) as Record<string, unknown>;
+        const t = o.t;
+        switch (t) {
+            case "h1":
+            case "h2":
+            case "h3":
+            case "p":
+            case "quote": {
+                const text = str(o.text);
+                if (text) out.push({ t, text });
+                break;
+            }
+            case "ul":
+            case "ol": {
+                const items = Array.isArray(o.items) ? o.items.map((i) => str(i, 2000)).filter(Boolean).slice(0, 100) : [];
+                if (items.length) out.push({ t, items });
+                break;
+            }
+            case "img": {
+                const src = str(o.src, 2000);
+                if (!/^https?:\/\//i.test(src) && !/^\/(?!\/)/.test(src)) break;
+                const alt = str(o.alt, 300);
+                const caption = str(o.caption, 500);
+                out.push({ t, src, ...(alt ? { alt } : {}), ...(caption ? { caption } : {}) });
+                break;
+            }
+            case "table": {
+                const rows = Array.isArray(o.rows)
+                    ? o.rows.map((r) => (Array.isArray(r) ? r.map((c) => str(c, 2000)) : []))
+                    : [];
+                const sq = squareRows(rows.filter((r) => r.some(Boolean)));
+                if (sq.length) out.push({ t, rows: sq });
+                break;
+            }
+            case "hr":
+                out.push({ t });
+                break;
+        }
+    }
+    return out;
 }
 
 export type PostFields = {
@@ -58,7 +123,7 @@ export function parseContent(src: string): Block[] {
         const m = /^(#{1,3})\s+(.+)$/.exec(line);
         if (m) {
             flush();
-            blocks.push({ t: `h${m[1].length}` as Block["t"], text: m[2].trim() });
+            blocks.push({ t: `h${m[1].length}` as "h1" | "h2" | "h3", text: m[2].trim() });
         } else if (!line) flush();
         else para.push(line);
     }
@@ -68,7 +133,7 @@ export function parseContent(src: string): Block[] {
 
 export function buildPostCode(f: PostFields): string {
     const content = parseContent(f.content)
-        .map((b) => `      { t: ${q(b.t)}, text: ${q(b.text)} },`)
+        .map((b) => `      ${JSON.stringify(b)},`)
         .join("\n");
     const s = normSizes(f.sizes);
 

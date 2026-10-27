@@ -11,11 +11,15 @@ import { FaTwitter } from "react-icons/fa";
 import { SiYoutube } from "react-icons/si";
 import { RiInstagramFill } from "react-icons/ri";
 import {
+  getAdjacentPosts,
   getAllSlugs,
   getPost,
   getRecentPosts,
 } from "@/lib/posts";
-import { DEFAULT_SIZES } from "@/lib/post-code";
+import { DEFAULT_SIZES, headings, slugify } from "@/lib/post-code";
+import { PostBlock } from "@/components/PostBlock";
+import { PostNav } from "@/components/PostNav";
+import { buildSchema, DEFAULT_SCHEMA } from "@/lib/post-schema";
 
 export async function generateStaticParams() {
   return (await getAllSlugs()).map((slug) => ({ slug }));
@@ -72,16 +76,36 @@ export default async function BlogPost({
   if (!post) notFound();
 
   const recent = await getRecentPosts(slug, 4);
+  const { prev, next } = await getAdjacentPosts(slug);
 
   const sz = post.sizes ?? DEFAULT_SIZES;
-  const toc =
-    post.toc ??
-    (post.content
-      ? post.content.filter((b) => b.t === "h2").map((b) => b.text)
-      : post.sections.map((s) => s.h));
+  // the Table of Contents lists the real headings of the article ([] = hidden)
+  const auto = post.content ? headings(post.content) : post.sections.map((s) => s.h);
+  const toc = post.toc && post.toc.length === 0 ? [] : post.content ? auto : (post.toc ?? auto);
+
+  const schema = buildSchema(
+    {
+      slug: post.slug,
+      title: post.title,
+      description: post.seo.metaDescription ?? post.excerpt,
+      image: post.seo.ogImage ?? post.image,
+      authors: (post.author ?? "").split(",").map((a) => a.trim()).filter(Boolean),
+      date: post.date,
+      category: post.category,
+      keywords: post.seo.metaTags ?? [],
+    },
+    post.schema ?? DEFAULT_SCHEMA
+  );
 
   return (
     <main>
+      {schema && (
+        <script
+          type="application/ld+json"
+          // "<" is escaped so text from the editor can never close the script tag
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema).replace(/</g, "\\u003c") }}
+        />
+      )}
       <PageGlows variant="inner" />
 
       <section className="wrap pt-12!">
@@ -107,56 +131,38 @@ export default async function BlogPost({
       >
         <section className="wrap sec">
           <div className="grid items-start gap-6 min-[1101px]:grid-cols-[minmax(0,1fr)_380px]">
-            <article className="rounded-[30px] leadership-border  p-6 sm:p-10">
-              <h1 className="text-[34px] font-medium leading-[44px] tracking-tighter sm:text-[46px] sm:leading-[56px]">
-                {post.title}
-              </h1>
+            <div className="flex flex-col gap-6">
               {post.quickAnswer?.trim() && (
-                <div className="mt-8 w-full rounded-2xl border border-white/20 bg-white/5 p-6">
-                  <h2 className="text-[14px] font-medium uppercase tracking-wide text-white/60">
+                <div className="rounded-[30px] leadership-border p-6 sm:px-10">
+                  <p className="text-[14px] font-medium uppercase tracking-wide text-white/60">
                     Quick Answer
-                  </h2>
-                  <p className="mt-3 text-[18px] leading-[31px] tracking-tighter">
+                  </p>
+                  <p className="mt-3 text-[17px] leading-[28px] tracking-tighter">
                     {post.quickAnswer}
                   </p>
                 </div>
               )}
-              <p className={`${P} mt-8`}>{post.intro}</p>
+              <article className="rounded-[30px] leadership-border  p-6 sm:p-10">
+                <h1 className="text-[34px] font-medium leading-[44px] tracking-tighter sm:text-[46px] sm:leading-[56px]">
+                  {post.title}
+                </h1>
+                <p className={`${P} mt-8`}>{post.intro}</p>
 
-              {post.content
-                ? post.content.map((b, i) => {
-                    if (b.t === "p")
-                      return (
-                        <p
-                          key={i}
-                          className="mt-4 tracking-tighter"
-                          style={{ fontSize: sz.p, lineHeight: 1.7 }}
-                        >
-                          {b.text}
-                        </p>
-                      );
-                    const Tag = b.t;
-                    return (
-                      <Tag
-                        key={i}
-                        className="mt-8 font-medium tracking-tighter"
-                        style={{ fontSize: sz[b.t], lineHeight: 1.3 }}
-                      >
-                        {b.text}
-                      </Tag>
-                    );
-                  })
-                : post.sections.map((s) => (
-                    <div key={s.h}>
-                      <h2 className={H2}>{s.h}</h2>
-                      {s.p.map((t) => (
-                        <p key={t} className={P}>
-                          {t}
-                        </p>
-                      ))}
-                    </div>
-                  ))}
-            </article>
+                {post.content
+                  ? post.content.map((b, i) => <PostBlock key={i} b={b} sizes={sz} />)
+                  : post.sections.map((s) => (
+                      <div key={s.h}>
+                        <h2 id={slugify(s.h)} className={H2}>{s.h}</h2>
+                        {s.p.map((t) => (
+                          <p key={t} className={P}>
+                            {t}
+                          </p>
+                        ))}
+                      </div>
+                    ))}
+                <PostNav prev={prev} next={next} />
+              </article>
+            </div>
 
             <aside className="flex flex-col gap-5 min-[1101px]:sticky min-[1101px]:top-6">
               {/* <SideForm /> */}
@@ -171,7 +177,11 @@ export default async function BlogPost({
                   </p>
                   <ol className="mt-3 list-decimal space-y-1.5 pl-6 text-[17px] leading-[28px] tracking-tighter">
                     {toc.map((t) => (
-                      <li key={t}>{t}</li>
+                      <li key={t}>
+                        <a href={`#${slugify(t)}`} className="hover:underline">
+                          {t}
+                        </a>
+                      </li>
                     ))}
                   </ol>
                 </nav>

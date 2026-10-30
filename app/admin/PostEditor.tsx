@@ -2,217 +2,312 @@
 
 import { useEffect, useState, useTransition } from "react";
 import Link from "next/link";
+import Image from "next/image";
 // Copy code (hidden): also add `useMemo` to the react import above and uncomment the next line
 // import { buildPostCode } from "@/lib/post-code";
-import { slugify, headings, DEFAULT_SIZES, type Block, type TextSizes } from "@/lib/post-code";
-import { buildSchema, DEFAULT_SCHEMA, SCHEMA_TYPES, type PostSchema, type SchemaType } from "@/lib/post-schema";
-import { AutoText, BlockEditor, fromEBlocks, hasContent, toEBlocks, type EBlock } from "@/app/admin/BlockEditor";
+import {
+  slugify,
+  headings,
+  DEFAULT_SIZES,
+  type Block,
+  type TextSizes,
+} from "@/lib/post-code";
+import {
+  buildSchema,
+  DEFAULT_SCHEMA,
+  SCHEMA_TYPES,
+  type PostSchema,
+  type SchemaType,
+} from "@/lib/post-schema";
+import {
+  AutoText,
+  BlockEditor,
+  fromEBlocks,
+  hasContent,
+  toEBlocks,
+  type EBlock,
+} from "@/app/admin/BlockEditor";
 
 type Result = { ok: true; slug: string } | { ok: false; error: string } | null;
 type Device = "desktop" | "tablet" | "mobile";
 
 export type Initial = {
-    slug: string;
-    title: string;
-    category: string;
-    authors: string[];
-    date: string; // YYYY-MM-DD, or ""
-    excerpt: string;
-    quickAnswer: string;
-    intro: string;
-    blocks: Block[]; // the body, after the intro
-    sizes: TextSizes;
-    schema: PostSchema;
-    toc: string[]; // Table of Contents entries (empty = no Table of Contents)
-    metaTitle: string;
-    metaDescription: string;
-    metaTags: string;
-    ogImage: string;
-    image: string;
+  slug: string;
+  title: string;
+  category: string;
+  authors: string[];
+  date: string; // YYYY-MM-DD, or ""
+  excerpt: string;
+  quickAnswer: string;
+  intro: string;
+  blocks: Block[]; // the body, after the intro
+  sizes: TextSizes;
+  schema: PostSchema;
+  toc: string[]; // Table of Contents entries (empty = no Table of Contents)
+  metaTitle: string;
+  metaDescription: string;
+  metaTags: string;
+  ogImage: string;
+  image: string;
+  thumbnailImage?: string;
 };
 
 type Fields = {
-    title: string;
-    slug: string;
-    category: string;
-    date: string;
-    excerpt: string;
-    quickAnswer: string;
-    metaTitle: string;
-    metaDescription: string;
-    metaTags: string;
-    ogImage: string;
+  title: string;
+  slug: string;
+  category: string;
+  date: string;
+  excerpt: string;
+  quickAnswer: string;
+  metaTitle: string;
+  metaDescription: string;
+  metaTags: string;
+  ogImage: string;
 };
 
 const MAX_MB = 5;
-const TYPES = ["image/png", "image/jpeg", "image/webp", "image/gif", "image/avif"];
+const TYPES = [
+  "image/png",
+  "image/jpeg",
+  "image/webp",
+  "image/gif",
+  "image/avif",
+];
 
 const DEVICES: { id: Device; label: string; w: string }[] = [
-    { id: "desktop", label: "Desktop", w: "100%" },
-    { id: "tablet", label: "Tablet", w: "768px" },
-    { id: "mobile", label: "Mobile", w: "390px" },
+  { id: "desktop", label: "Desktop", w: "100%" },
+  { id: "tablet", label: "Tablet", w: "768px" },
+  { id: "mobile", label: "Mobile", w: "390px" },
 ];
 
 const frameBg =
-    "linear-gradient(180deg, transparent 0%, rgba(69, 22, 187, 0.42) 38%, rgba(69, 22, 187, 0.55) 62%, #040404 100%)";
+  "linear-gradient(180deg, transparent 0%, rgba(69, 22, 187, 0.42) 38%, rgba(69, 22, 187, 0.55) 62%, #040404 100%)";
 
 const field =
-    "mt-1.5 w-full rounded-lg border border-white/15 bg-black/40 px-3 py-2 text-[14px] outline-none focus:border-[#7b55e0]";
+  "mt-1.5 w-full rounded-lg border border-white/15 bg-black/40 px-3 py-2 text-[14px] outline-none focus:border-[#7b55e0]";
 const label = "block text-[12px] text-white/60";
 
 const counter = (n: number, max: number) => (
-    <span className={n > max ? "text-amber-300" : "text-white/50"}>
-        {n}/{max}
-    </span>
+  <span className={n > max ? "text-amber-300" : "text-white/50"}>
+    {n}/{max}
+  </span>
 );
 
 /* collapsible sidebar section; children stay mounted so file inputs keep their state */
 function Section({
-    title,
-    badge,
-    open,
-    onToggle,
-    children,
+  title,
+  badge,
+  open,
+  onToggle,
+  children,
 }: {
-    title: string;
-    badge?: string;
-    open: boolean;
-    onToggle: () => void;
-    children: React.ReactNode;
+  title: string;
+  badge?: string;
+  open: boolean;
+  onToggle: () => void;
+  children: React.ReactNode;
 }) {
-    return (
-        <section className="border-b border-white/10 last:border-b-0">
-            <button
-                type="button"
-                aria-expanded={open}
-                onClick={onToggle}
-                className="flex w-full items-center justify-between px-4 py-3 text-left hover:bg-white/5"
-            >
-                <span className="text-[13px] font-medium uppercase tracking-wide text-white/80">{title}</span>
-                <span className="flex items-center gap-3">
-                    {badge && <span className="text-[12px] text-emerald-300">{badge}</span>}
-                    <span aria-hidden="true" className={`text-white/50 transition-transform ${open ? "rotate-180" : ""}`}>
-                        ▾
-                    </span>
-                </span>
-            </button>
-            <div className={open ? "block px-4 pb-4" : "hidden"}>{children}</div>
-        </section>
-    );
+  return (
+    <section className="border-b border-white/10 last:border-b-0">
+      <button
+        type="button"
+        aria-expanded={open}
+        onClick={onToggle}
+        className="flex w-full items-center justify-between px-4 py-3 text-left hover:bg-white/5"
+      >
+        <span className="text-[13px] font-medium uppercase tracking-wide text-white/80">
+          {title}
+        </span>
+        <span className="flex items-center gap-3">
+          {badge && (
+            <span className="text-[12px] text-emerald-300">{badge}</span>
+          )}
+          <span
+            aria-hidden="true"
+            className={`text-white/50 transition-transform ${open ? "rotate-180" : ""}`}
+          >
+            ▾
+          </span>
+        </span>
+      </button>
+      <div className={open ? "block px-4 pb-4" : "hidden"}>{children}</div>
+    </section>
+  );
 }
 
 export function PostEditor({
-    canSave,
-    authorNames,
-    initial,
+  canSave,
+  authorNames,
+  initial,
 }: {
-    canSave: boolean;
-    authorNames: string[];
-    initial?: Initial;
+  canSave: boolean;
+  authorNames: string[];
+  initial?: Initial;
 }) {
-    const edit = !!initial;
+  const edit = !!initial;
 
-    const [f, setF] = useState<Fields>({
-        title: initial?.title ?? "",
-        slug: initial?.slug ?? "",
-        category: initial?.category ?? "Networking Infrastructure",
-        date: initial?.date ?? "",
-        excerpt: initial?.excerpt ?? "",
-        quickAnswer: initial?.quickAnswer ?? "",
-        metaTitle: initial?.metaTitle ?? "",
-        metaDescription: initial?.metaDescription ?? "",
-        metaTags: initial?.metaTags ?? "",
-        ogImage: initial?.ogImage ?? "",
-    });
-    const [authors, setAuthors] = useState<string[]>(initial?.authors.length ? initial.authors : [""]);
-    const [intro, setIntro] = useState(initial?.intro ?? "");
-    const [blocks, setBlocks] = useState<EBlock[]>(() => toEBlocks(initial?.blocks ?? []));
-    const [sizes, setSizes] = useState<TextSizes>(initial?.sizes ?? DEFAULT_SIZES);
-    const [schemaCopied, setSchemaCopied] = useState(false);
-    const [schemaType, setSchemaType] = useState<SchemaType>((initial?.schema ?? DEFAULT_SCHEMA).type);
-    const [faq, setFaq] = useState<{ q: string; a: string }[]>((initial?.schema ?? DEFAULT_SCHEMA).faq);
-    const [tocOn, setTocOn] = useState(!!initial?.toc.length);
-    const [slugTouched, setSlugTouched] = useState(false);
-    const [mode, setMode] = useState<"upload" | "url">("upload");
-    const [file, setFile] = useState<File | null>(null);
-    const [fileUrl, setFileUrl] = useState("");
-    const [imgUrl, setImgUrl] = useState("");
-    const [imgErr, setImgErr] = useState("");
-    const [failed, setFailed] = useState("");
-    const [result, setResult] = useState<Result>(null);
-    const [device, setDevice] = useState<Device>("desktop");
-    const [openSec, setOpenSec] = useState<Record<string, boolean>>({ basics: true, content: true });
-    const [pending, start] = useTransition();
+  const [f, setF] = useState<Fields>({
+    title: initial?.title ?? "",
+    slug: initial?.slug ?? "",
+    category: initial?.category ?? "Networking Infrastructure",
+    date: initial?.date ?? "",
+    excerpt: initial?.excerpt ?? "",
+    quickAnswer: initial?.quickAnswer ?? "",
+    metaTitle: initial?.metaTitle ?? "",
+    metaDescription: initial?.metaDescription ?? "",
+    metaTags: initial?.metaTags ?? "",
+    ogImage: initial?.ogImage ?? "",
+  });
+  const [authors, setAuthors] = useState<string[]>(
+    initial?.authors.length ? initial.authors : [""],
+  );
+  const [intro, setIntro] = useState(initial?.intro ?? "");
+  const [blocks, setBlocks] = useState<EBlock[]>(() =>
+    toEBlocks(initial?.blocks ?? []),
+  );
+  const [sizes, setSizes] = useState<TextSizes>(
+    initial?.sizes ?? DEFAULT_SIZES,
+  );
+  const [schemaCopied, setSchemaCopied] = useState(false);
+  const [schemaType, setSchemaType] = useState<SchemaType>(
+    (initial?.schema ?? DEFAULT_SCHEMA).type,
+  );
+  const [faq, setFaq] = useState<{ q: string; a: string }[]>(
+    (initial?.schema ?? DEFAULT_SCHEMA).faq,
+  );
+  const [tocOn, setTocOn] = useState(!!initial?.toc.length);
+  const [slugTouched, setSlugTouched] = useState(false);
+  const [mode, setMode] = useState<"upload" | "url">("upload");
+  const [file, setFile] = useState<File | null>(null);
+  const [fileUrl, setFileUrl] = useState("");
+  const [imgUrl, setImgUrl] = useState("");
+  const [imgErr, setImgErr] = useState("");
+  const [thumbnailMode, setThumbnailMode] = useState<"upload" | "url">("upload");
+  const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
+  const [thumbnailFileUrl, setThumbnailFileUrl] = useState("");
+  const [thumbnailUrl, setThumbnailUrl] = useState("");
+  const [thumbnailErr, setThumbnailErr] = useState("");
+  const [failed, setFailed] = useState("");
+  const [result, setResult] = useState<Result>(null);
+  const [device, setDevice] = useState<Device>("desktop");
+  const [openSec, setOpenSec] = useState<Record<string, boolean>>({
+    basics: true,
+    content: true,
+  });
+  const [pending, start] = useTransition();
 
-    const toggle = (id: string) => setOpenSec((s) => ({ ...s, [id]: !s[id] }));
+  const toggle = (id: string) => setOpenSec((s) => ({ ...s, [id]: !s[id] }));
 
-    // "Ali, Sara": one string, blank rows skipped
-    const authorStr = authors.map((a) => a.trim()).filter(Boolean).join(", ");
+  // "Ali, Sara": one string, blank rows skipped
+  const authorStr = authors
+    .map((a) => a.trim())
+    .filter(Boolean)
+    .join(", ");
 
-    // calendar value (YYYY-MM-DD) -> DD-MM-YYYY; blank = today (the save code fills it)
-    const dateDMY = f.date ? f.date.split("-").reverse().join("-") : "";
+  // calendar value (YYYY-MM-DD) -> DD-MM-YYYY; blank = today (the save code fills it)
+  const dateDMY = f.date ? f.date.split("-").reverse().join("-") : "";
 
-    // local preview for an uploaded file
-    useEffect(() => {
-        if (!file) {
-            setFileUrl("");
-            return;
-        }
-        const u = URL.createObjectURL(file);
-        setFileUrl(u);
-        return () => URL.revokeObjectURL(u);
-    }, [file]);
+  // local preview for an uploaded file
+  useEffect(() => {
+    if (!file) {
+      setFileUrl("");
+      return;
+    }
+    const u = URL.createObjectURL(file);
+    setFileUrl(u);
+    return () => URL.revokeObjectURL(u);
+  }, [file]);
 
-    const urlOk = /^https?:\/\//i.test(imgUrl.trim());
-    const hasNewImage = mode === "upload" ? !!file : urlOk;
-    const newPreview = mode === "upload" ? fileUrl : urlOk ? imgUrl.trim() : "";
-    const preview = newPreview || initial?.image || "";
-    const haveCover = hasNewImage || !!initial?.image;
+  useEffect(() => {
+    if (!thumbnailFile) {
+      setThumbnailFileUrl("");
+      return;
+    }
+    const u = URL.createObjectURL(thumbnailFile);
+    setThumbnailFileUrl(u);
+    return () => URL.revokeObjectURL(u);
+  }, [thumbnailFile]);
 
-    const set =
-        (k: keyof Fields) =>
-            (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-                const v = e.target.value;
-                setF((p) => ({
-                    ...p,
-                    [k]: v,
-                    ...(k === "title" && !slugTouched && !edit ? { slug: slugify(v) } : {}),
-                }));
-            };
+  const urlOk = /^https?:\/\//i.test(imgUrl.trim());
+  const hasNewImage = mode === "upload" ? !!file : urlOk;
+  const newPreview = mode === "upload" ? fileUrl : urlOk ? imgUrl.trim() : "";
+  const preview = newPreview || initial?.image || "";
+  const haveCover = hasNewImage || !!initial?.image;
+  const thumbnailUrlOk = /^https?:\/\//i.test(thumbnailUrl.trim());
+  const hasNewThumbnail =
+    thumbnailMode === "upload" ? !!thumbnailFile : thumbnailUrlOk;
+  const thumbnailPreview =
+    (thumbnailMode === "upload"
+      ? thumbnailFileUrl
+      : thumbnailUrlOk
+        ? thumbnailUrl.trim()
+        : "") ||
+    initial?.thumbnailImage ||
+    "";
 
-    const pick = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const x = e.target.files?.[0] ?? null;
-        if (x && !TYPES.includes(x.type)) {
-            setImgErr("Use a PNG, JPG, WebP, GIF or AVIF image.");
-            setFile(null);
-            e.target.value = "";
-            return;
-        }
-        if (x && x.size > MAX_MB * 1024 * 1024) {
-            setImgErr(`The image is over ${MAX_MB} MB.`);
-            setFile(null);
-            e.target.value = "";
-            return;
-        }
-        setImgErr("");
-        setFile(x);
+  const set =
+    (k: keyof Fields) =>
+    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      const v = e.target.value;
+      setF((p) => ({
+        ...p,
+        [k]: v,
+        ...(k === "title" && !slugTouched && !edit ? { slug: slugify(v) } : {}),
+      }));
     };
 
-    /* the intro is its own field; the blocks are the body (empty blocks are not saved) */
-    const body = blocks.filter(hasContent);
-    // the Table of Contents is built from the Heading 2 blocks, so it always matches the article
-    const toc = tocOn ? headings(body) : [];
+  const pick = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const x = e.target.files?.[0] ?? null;
+    if (x && !TYPES.includes(x.type)) {
+      setImgErr("Use a PNG, JPG, WebP, GIF or AVIF image.");
+      setFile(null);
+      e.target.value = "";
+      return;
+    }
+    if (x && x.size > MAX_MB * 1024 * 1024) {
+      setImgErr(`The image is over ${MAX_MB} MB.`);
+      setFile(null);
+      e.target.value = "";
+      return;
+    }
+    setImgErr("");
+    setFile(x);
+  };
 
-    const missing = [
-        !f.title.trim() && "title",
-        !f.slug.trim() && "slug",
-        !f.excerpt.trim() && "excerpt",
-        !intro.trim() && "intro",
-        body.length === 0 && "content (use + to add a heading, text, image or table)",
-        !haveCover && "cover image",
-    ].filter(Boolean) as string[];
+  const pickThumbnail = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const x = e.target.files?.[0] ?? null;
+    if (x && !TYPES.includes(x.type)) {
+      setThumbnailErr("Use a PNG, JPG, WebP, GIF or AVIF image.");
+      setThumbnailFile(null);
+      e.target.value = "";
+      return;
+    }
+    if (x && x.size > MAX_MB * 1024 * 1024) {
+      setThumbnailErr(`The image is over ${MAX_MB} MB.`);
+      setThumbnailFile(null);
+      e.target.value = "";
+      return;
+    }
+    setThumbnailErr("");
+    setThumbnailFile(x);
+  };
 
-    /* HIDDEN (Copy code): uncomment this whole block, the button in the top bar,
+  /* the intro is its own field; the blocks are the body (empty blocks are not saved) */
+  const body = blocks.filter(hasContent);
+  // the Table of Contents is built from the Heading 2 blocks, so it always matches the article
+  const toc = tocOn ? headings(body) : [];
+
+  const missing = [
+    !f.title.trim() && "title",
+    !f.slug.trim() && "slug",
+    !f.excerpt.trim() && "excerpt",
+    !intro.trim() && "intro",
+    body.length === 0 &&
+      "content (use + to add a heading, text, image or table)",
+    !haveCover && "cover image",
+  ].filter(Boolean) as string[];
+
+  /* HIDDEN (Copy code): uncomment this whole block, the button in the top bar,
        `useMemo` in the react import and `buildPostCode` in the post-code import to bring it back.
     const [copied, setCopied] = useState(false);
     const ext =
@@ -235,118 +330,150 @@ export function PostEditor({
     };
     */
 
-    // what Google will read from this post (the cover is a placeholder until it is saved)
-    const schemaJson = buildSchema(
-        {
-            slug: f.slug || "your-post",
-            title: f.title,
-            description: f.metaDescription.trim() || f.excerpt,
-            image: f.ogImage.trim() || (preview.startsWith("blob:") ? "/your-cover-image" : preview),
-            authors: authors.map((a) => a.trim()).filter(Boolean),
-            date: dateDMY || "",
-            category: f.category,
-            keywords: f.metaTags.split(",").map((t) => t.trim()).filter(Boolean),
-        },
-        { type: schemaType, faq: faq.filter((r) => r.q.trim() && r.a.trim()) }
-    );
+  // what Google will read from this post (the cover is a placeholder until it is saved)
+  const schemaJson = buildSchema(
+    {
+      slug: f.slug || "your-post",
+      title: f.title,
+      description: f.metaDescription.trim() || f.excerpt,
+      image:
+        f.ogImage.trim() ||
+        (preview.startsWith("blob:") ? "/your-cover-image" : preview),
+      authors: authors.map((a) => a.trim()).filter(Boolean),
+      date: dateDMY || "",
+      category: f.category,
+      keywords: f.metaTags
+        .split(",")
+        .map((t) => t.trim())
+        .filter(Boolean),
+    },
+    { type: schemaType, faq: faq.filter((r) => r.q.trim() && r.a.trim()) },
+  );
 
-    // the schema as a <script> tag, ready to paste (e.g. into Google's Rich Results Test)
-    const copySchema = async () => {
-        try {
-            await navigator.clipboard.writeText(`<script type="application/ld+json">\n${JSON.stringify(schemaJson, null, 2)}\n</script>`);
-            setSchemaCopied(true);
-            setTimeout(() => setSchemaCopied(false), 2000);
-        } catch {
-            // clipboard blocked
-        }
-    };
+  // the schema as a <script> tag, ready to paste (e.g. into Google's Rich Results Test)
+  const copySchema = async () => {
+    try {
+      await navigator.clipboard.writeText(
+        `<script type="application/ld+json">\n${JSON.stringify(schemaJson, null, 2)}\n</script>`,
+      );
+      setSchemaCopied(true);
+      setTimeout(() => setSchemaCopied(false), 2000);
+    } catch {
+      // clipboard blocked
+    }
+  };
 
-    const frameW = DEVICES.find((d) => d.id === device)!.w;
+  const frameW = DEVICES.find((d) => d.id === device)!.w;
 
-    const save = () =>
-        start(async () => {
-            setResult(null);
-            const fd = new FormData();
-            Object.entries(f).forEach(([k, v]) => {
-                if (k !== "date") fd.append(k, v);
-            });
-            fd.append("date", dateDMY);
-            fd.append("author", authorStr);
-            fd.append("intro", intro.trim());
-            fd.append("blocks", JSON.stringify(fromEBlocks(body)));
-            fd.append("sizes", JSON.stringify(sizes));
-            fd.append("toc", JSON.stringify(toc));
-            fd.append("schema", JSON.stringify({ type: schemaType, faq }));
-            if (edit) fd.append("currentImage", initial!.image);
-            if (mode === "upload" && file) fd.append("imageFile", file);
-            if (mode === "url" && urlOk) fd.append("imageUrl", imgUrl.trim());
-            try {
-                const res = await fetch(edit ? "/api/admin/post/edit" : "/api/admin/post", { method: "POST", body: fd });
-                const data = await res.json();
-                setResult(
-                    data.ok
-                        ? { ok: true, slug: data.slug }
-                        : { ok: false, error: data.error ?? "Something went wrong." }
-                );
-            } catch {
-                setResult({ ok: false, error: "Couldn't reach the server." });
-            }
-        });
+  const save = () =>
+    start(async () => {
+      setResult(null);
+      const fd = new FormData();
+      Object.entries(f).forEach(([k, v]) => {
+        if (k !== "date") fd.append(k, v);
+      });
+      fd.append("date", dateDMY);
+      fd.append("author", authorStr);
+      fd.append("intro", intro.trim());
+      fd.append("blocks", JSON.stringify(fromEBlocks(body)));
+      fd.append("sizes", JSON.stringify(sizes));
+      fd.append("toc", JSON.stringify(toc));
+      fd.append("schema", JSON.stringify({ type: schemaType, faq }));
+      if (edit) fd.append("currentImage", initial!.image);
+      if (mode === "upload" && file) fd.append("imageFile", file);
+      if (mode === "url" && urlOk) fd.append("imageUrl", imgUrl.trim());
+      if (thumbnailMode === "upload" && thumbnailFile)
+        fd.append("thumbnailImageFile", thumbnailFile);
+      if (thumbnailMode === "url" && thumbnailUrlOk)
+        fd.append("thumbnailImageUrl", thumbnailUrl.trim());
+      try {
+        const res = await fetch(
+          edit ? "/api/admin/post/edit" : "/api/admin/post",
+          { method: "POST", body: fd },
+        );
+        const data = await res.json();
+        setResult(
+          data.ok
+            ? { ok: true, slug: data.slug }
+            : { ok: false, error: data.error ?? "Something went wrong." },
+        );
+      } catch {
+        setResult({ ok: false, error: "Couldn't reach the server." });
+      }
+    });
 
-    const reset = () => {
-        setF({
-            title: "",
-            slug: "",
-            category: "Networking Infrastructure",
-            date: "",
-            excerpt: "",
-            quickAnswer: "",
-            metaTitle: "",
-            metaDescription: "",
-            metaTags: "",
-            ogImage: "",
-        });
-        setAuthors([""]);
-        setIntro("");
-        setBlocks([]);
-        setSlugTouched(false);
-        setSizes(DEFAULT_SIZES);
-        setSchemaType(DEFAULT_SCHEMA.type);
-        setFaq([]);
-        // setShowToc(false);
-                setTocOn(false);
-        setFile(null);
-        setImgUrl("");
-        setImgErr("");
-        setResult(null);
-    };
+  const reset = () => {
+    setF({
+      title: "",
+      slug: "",
+      category: "Networking Infrastructure",
+      date: "",
+      excerpt: "",
+      quickAnswer: "",
+      metaTitle: "",
+      metaDescription: "",
+      metaTags: "",
+      ogImage: "",
+    });
+    setAuthors([""]);
+    setIntro("");
+    setBlocks([]);
+    setSlugTouched(false);
+    setSizes(DEFAULT_SIZES);
+    setSchemaType(DEFAULT_SCHEMA.type);
+    setFaq([]);
+    // setShowToc(false);
+    setTocOn(false);
+    setFile(null);
+    setImgUrl("");
+    setImgErr("");
+    setThumbnailFile(null);
+    setThumbnailUrl("");
+    setThumbnailErr("");
+    setResult(null);
+  };
 
-    const pill = (active: boolean) =>
-        `rounded-full px-3 py-1.5 text-[13px] ${active ? "bg-[#5522d6] text-white" : "text-white/70 hover:text-white"}`;
-    const tab = (active: boolean) =>
-        `rounded-full border px-3 py-1.5 text-[13px] ${active ? "border-[#7b55e0] bg-[#5522d6]/40" : "border-white/20 text-white/70 hover:text-white"}`;
+  const pill = (active: boolean) =>
+    `rounded-full px-3 py-1.5 text-[13px] ${active ? "bg-[#5522d6] text-white" : "text-white/70 hover:text-white"}`;
+  const tab = (active: boolean) =>
+    `rounded-full border px-3 py-1.5 text-[13px] ${active ? "border-[#7b55e0] bg-[#5522d6]/40" : "border-white/20 text-white/70 hover:text-white"}`;
 
-    return (
-        <div>
-            {/* ---------- TOP BAR ---------- */}
-            <div className="sticky top-2 z-30 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-white/15 bg-[#0b0814]/95 px-4 py-3 backdrop-blur">
-                <div className="flex items-center gap-4">
-                    <Link href="/admin" className="text-[13px] text-[#b79cff] hover:underline">
-                        ← Dashboard
-                    </Link>
-                    <p className="text-[16px] font-medium">{edit ? "Edit post" : "Add post"}</p>
-                </div>
+  return (
+    <div>
+      {/* ---------- TOP BAR ---------- */}
+      <div className="sticky top-2 z-30 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-white/15 bg-[#0b0814]/95 px-4 py-3 backdrop-blur">
+        <div className="flex items-center gap-4">
+          <Link
+            href="/admin"
+            className="text-[13px] text-[#b79cff] hover:underline"
+          >
+            ← Back
+          </Link>
+          <p className="text-[16px] font-medium">
+            {edit ? "Edit post" : "Add post"}
+          </p>
+        </div>
 
-                <div role="group" aria-label="Preview size" className="flex gap-1 rounded-full border border-white/15 p-1">
-                    {DEVICES.map((d) => (
-                        <button key={d.id} type="button" aria-pressed={device === d.id} onClick={() => setDevice(d.id)} className={pill(device === d.id)}>
-                            {d.label}
-                        </button>
-                    ))}
-                </div>
+        <div
+          role="group"
+          aria-label="Preview size"
+          className="flex gap-1 rounded-full border border-white/15 p-1"
+        >
+          {DEVICES.map((d) => (
+            <button
+              key={d.id}
+              type="button"
+              aria-pressed={device === d.id}
+              onClick={() => setDevice(d.id)}
+              className={pill(device === d.id)}
+            >
+              {d.label}
+            </button>
+          ))}
+        </div>
 
-                <div className="flex items-center gap-2">
-                    {/* HIDDEN: Copy code button
+        <div className="flex items-center gap-2">
+          {/* HIDDEN: Copy code button
                     <button
                         type="button"
                         onClick={copy}
@@ -355,427 +482,695 @@ export function PostEditor({
                         {copied ? "Copied" : "Copy code"}
                     </button>
                     */}
-                    <button
-                        type="button"
-                        onClick={save}
-                        disabled={!canSave || missing.length > 0 || pending}
-                        className="rounded-xl bg-[#5522d6] px-5 py-2 text-[13px] font-medium text-white hover:bg-[#6a3be6] disabled:cursor-not-allowed disabled:opacity-40"
-                    >
-                        {pending ? "Saving…" : edit ? "Save changes" : "Create post"}
-                    </button>
-                </div>
-            </div>
-
-            {/* ---------- STATUS LINE ---------- */}
-            {result?.ok ? (
-                <div role="status" className="mt-3 rounded-xl bg-emerald-500/15 px-4 py-2 text-[14px] text-emerald-200">
-                    {edit ? "Changes saved." : "Post created."}{" "}
-                    <Link href={`/blog/${result.slug}`} target="_blank" className="underline">View it</Link>
-                    {!edit && (
-                        <>
-                            {" · "}
-                            <button type="button" onClick={reset} className="underline">Add another</button>
-                        </>
-                    )}
-                </div>
-            ) : result ? (
-                <p role="alert" className="mt-3 rounded-xl bg-red-500/15 px-4 py-2 text-[14px] text-red-200">
-                    {result.error}
-                </p>
-            ) : !canSave ? (
-                <p className="mt-3 text-[13px] text-white/60">
-                    Saving only works when running locally (npm run dev).
-                </p>
-            ) : missing.length > 0 ? (
-                <p className="mt-3 text-[13px] text-amber-300">Still needed: {missing.join(", ")}</p>
-            ) : null}
-
-            {/* both panes grow with their content; the whole page scrolls */}
-            <div className="mt-4 grid items-start gap-4 min-[1100px]:grid-cols-[400px_minmax(0,1fr)]">
-                {/* ---------- SIDEBAR ---------- */}
-                <aside className="overflow-hidden rounded-2xl border border-white/15 bg-white/5">
-                    <Section title="Basics" open={!!openSec.basics} onToggle={() => toggle("basics")}>
-                        <div className="space-y-3">
-                            <div>
-                                <label htmlFor="title" className={label}>Title</label>
-                                <input id="title" className={field} value={f.title} onChange={set("title")} />
-                            </div>
-                            <div>
-                                <label htmlFor="slug" className={label}>
-                                    Slug (/blog/…){edit ? " · can't be changed" : ""}
-                                </label>
-                                <input
-                                    id="slug"
-                                    className={`${field} ${edit ? "cursor-not-allowed opacity-60" : ""}`}
-                                    value={f.slug}
-                                    readOnly={edit}
-                                    onChange={(e) => {
-                                        setSlugTouched(true);
-                                        setF((p) => ({ ...p, slug: e.target.value.toLowerCase().replace(/[^a-z0-9-]+/g, "-") }));
-                                    }}
-                                />
-                            </div>
-                            <div>
-                                <label htmlFor="category" className={label}>Category</label>
-                                <input id="category" className={field} value={f.category} onChange={set("category")} />
-                            </div>
-                            <div>
-                                <label htmlFor="date" className={label}>Date (blank = today)</label>
-                                <input
-                                    id="date"
-                                    type="date"
-                                    className={`${field} [color-scheme:dark]`}
-                                    value={f.date}
-                                    onChange={set("date")}
-                                />
-                            </div>
-                        </div>
-                    </Section>
-
-                    <Section
-                        title="Authors"
-                        badge={authorStr ? `${authors.filter((a) => a.trim()).length} added` : undefined}
-                        open={!!openSec.authors}
-                        onToggle={() => toggle("authors")}
-                    >
-                        <datalist id="author-list">
-                            {authorNames.map((n) => (
-                                <option key={n} value={n} />
-                            ))}
-                        </datalist>
-                        <div className="space-y-2">
-                            {authors.map((a, i) => (
-                                <div key={i} className="flex items-center gap-2">
-                                    <input
-                                        aria-label={`Author ${i + 1} name`}
-                                        list="author-list"
-                                        className={`${field} !mt-0`}
-                                        placeholder="Author Name"
-                                        value={a}
-                                        onChange={(e) => setAuthors((p) => p.map((x, j) => (j === i ? e.target.value : x)))}
-                                    />
-                                    {authors.length > 1 && (
-                                        <button
-                                            type="button"
-                                            aria-label={`Remove author ${i + 1}`}
-                                            onClick={() => setAuthors((p) => p.filter((_, j) => j !== i))}
-                                            className="h-9 w-9 shrink-0 rounded-lg border border-white/15 text-white/70 hover:bg-white/10"
-                                        >
-                                            ✕
-                                        </button>
-                                    )}
-                                </div>
-                            ))}
-                        </div>
-                        <button type="button" onClick={() => setAuthors((p) => [...p, ""])} className="mt-3 text-[13px] text-[#b79cff] hover:underline">
-                            + Add author
-                        </button>
-                    </Section>
-
-                    <Section
-                        title="Cover image"
-                        badge={haveCover ? "✓ added" : undefined}
-                        open={!!openSec.cover}
-                        onToggle={() => toggle("cover")}
-                    >
-                        <div className="flex gap-2">
-                            <button type="button" aria-pressed={mode === "upload"} onClick={() => setMode("upload")} className={tab(mode === "upload")}>
-                                Upload
-                            </button>
-                            <button type="button" aria-pressed={mode === "url"} onClick={() => setMode("url")} className={tab(mode === "url")}>
-                                From URL
-                            </button>
-                        </div>
-
-                        {mode === "upload" ? (
-                            <div className="mt-3">
-                                <label htmlFor="img-file" className={label}>
-                                    {edit ? "Replace the image (optional, max " : "Choose an image (max "}{MAX_MB} MB)
-                                </label>
-                                <input
-                                    id="img-file"
-                                    type="file"
-                                    accept="image/png,image/jpeg,image/webp,image/gif,image/avif"
-                                    onChange={pick}
-                                    className="mt-1.5 block w-full text-[13px] text-white/70 file:mr-3 file:cursor-pointer file:rounded-lg file:border-0 file:bg-[#5522d6] file:px-3 file:py-2 file:text-white"
-                                />
-                            </div>
-                        ) : (
-                            <div className="mt-3">
-                                <label htmlFor="img-url" className={label}>Image URL</label>
-                                <input
-                                    id="img-url"
-                                    className={field}
-                                    placeholder="https://example.com/photo.jpg"
-                                    value={imgUrl}
-                                    onChange={(e) => setImgUrl(e.target.value)}
-                                />
-                            </div>
-                        )}
-                        {imgErr && <p role="alert" className="mt-2 text-[12px] text-red-300">{imgErr}</p>}
-                        <p className="mt-2 text-[12px] text-white/50">
-                            {edit ? "The current cover is kept unless you pick a new one. " : ""}The cover shows in the live preview.
-                        </p>
-                    </Section>
-
-                    <Section title="Card excerpt" open={!!openSec.excerpt} onToggle={() => toggle("excerpt")}>
-                        <label htmlFor="excerpt" className={`${label} flex justify-between`}>
-                            <span>Short text shown on the blog cards</span>{counter(f.excerpt.length, 80)}
-                        </label>
-                        <textarea id="excerpt" rows={3} className={field} value={f.excerpt} onChange={set("excerpt")} />
-                        <p className="mt-1.5 text-[12px] leading-[18px] text-white/50">
-                            Aim for about 80 characters for roughly two lines in the card. This is a guide, not a limit; line count varies by screen width.
-                        </p>
-                    </Section>
-
-                    <Section title="Text sizes" open={!!openSec.sizes} onToggle={() => toggle("sizes")}>
-                        <div className="flex items-center justify-between">
-                            <p className="text-[12px] text-white/60">Text sizes (px)</p>
-                            <button type="button" onClick={() => setSizes(DEFAULT_SIZES)} className="text-[12px] text-[#b79cff] hover:underline">
-                                Reset
-                            </button>
-                        </div>
-                        <div className="mt-2 grid grid-cols-4 gap-2">
-                            {(["h1", "h2", "h3", "p"] as const).map((k) => (
-                                <div key={k}>
-                                    <label htmlFor={`size-${k}`} className={label}>{k === "p" ? "Text" : k.toUpperCase()}</label>
-                                    <input
-                                        id={`size-${k}`}
-                                        type="number"
-                                        min={10}
-                                        max={120}
-                                        className={field}
-                                        value={sizes[k]}
-                                        onChange={(e) => setSizes((s) => ({ ...s, [k]: Number(e.target.value) || 0 }))}
-                                    />
-                                </div>
-                            ))}
-                        </div>
-                    </Section>
-                    <Section
-                        title="Table of contents"
-                        badge={tocOn ? "on" : "off"}
-                        open={!!openSec.toc}
-                        onToggle={() => toggle("toc")}
-                    >
-                        <label className="flex cursor-pointer items-center justify-between gap-3">
-                            <span className="text-[13px] text-white/85">Show Table of Contents</span>
-                            <input
-                                type="checkbox"
-                                role="switch"
-                                checked={tocOn}
-                                onChange={(e) => setTocOn(e.target.checked)}
-                                className="peer sr-only"
-                            />
-                            <span
-                                aria-hidden="true"
-                                className="relative h-6 w-11 shrink-0 rounded-full bg-white/20 transition-colors after:absolute after:left-0.5 after:top-0.5 after:size-5 after:rounded-full after:bg-white after:transition-transform peer-checked:bg-[#5522d6] peer-checked:after:translate-x-5 peer-focus-visible:ring-2 peer-focus-visible:ring-[#7b55e0]"
-                            />
-                        </label>
-
-                        <p className="mt-3 text-[12px] leading-[18px] text-white/55">
-                            {tocOn
-                                ? "Built from your Heading 2 blocks, so it always matches the article. Readers can click an entry to jump to it."
-                                : "Turn it on to list your Heading 2 blocks next to the article."}
-                        </p>
-                    </Section>
-
-                    <Section title="SEO" open={!!openSec.seo} onToggle={() => toggle("seo")}>
-                        <div className="space-y-3">
-                            <div>
-                                <label htmlFor="mt" className={`${label} flex justify-between`}>
-                                    <span>Meta title</span>{counter(f.metaTitle.length, 60)}
-                                </label>
-                                <input id="mt" className={field} value={f.metaTitle} onChange={set("metaTitle")} />
-                            </div>
-                            <div>
-                                <label htmlFor="md" className={`${label} flex justify-between`}>
-                                    <span>Meta description</span>{counter(f.metaDescription.length, 160)}
-                                </label>
-                                <textarea id="md" rows={3} className={field} value={f.metaDescription} onChange={set("metaDescription")} />
-                            </div>
-                            <div>
-                                <label htmlFor="tags" className={label}>Meta tags (comma separated)</label>
-                                <input id="tags" className={field} value={f.metaTags} onChange={set("metaTags")} />
-                            </div>
-                            <div>
-                                <label htmlFor="og" className={label}>Social share image (blank = cover)</label>
-                                <input id="og" className={field} value={f.ogImage} onChange={set("ogImage")} />
-                            </div>
-                        </div>
-                    </Section>
-                    <Section
-                        title="Post schema"
-                        badge={schemaType === "none" ? "off" : "on"}
-                        open={!!openSec.schema}
-                        onToggle={() => toggle("schema")}
-                    >
-                        <label htmlFor="schema-type" className={label}>Schema type</label>
-                        <select
-                            id="schema-type"
-                            className={`${field} [color-scheme:dark]`}
-                            value={schemaType}
-                            onChange={(e) => setSchemaType(e.target.value as SchemaType)}
-                        >
-                            {SCHEMA_TYPES.map((t) => (
-                                <option key={t.id} value={t.id}>{t.label}</option>
-                            ))}
-                        </select>
-                        <p className="mt-1.5 text-[12px] leading-[18px] text-white/50">
-                            Filled in for you from the title, meta description, cover, authors, date, category and meta tags. Nothing to type here unless you add FAQs.
-                        </p>
-
-                        {schemaType !== "none" && (
-                            <>
-                                <p className="mt-4 text-[12px] text-white/60">FAQ (optional)</p>
-                                <p className="mt-1 text-[12px] leading-[18px] text-white/50">
-                                    Add only questions the article really answers.
-                                </p>
-                                <div className="mt-2 space-y-3">
-                                    {faq.map((r, i) => (
-                                        <div key={i} className="rounded-lg border border-white/10 p-3">
-                                            <div className="flex items-center gap-2">
-                                                <input
-                                                    aria-label={`FAQ question ${i + 1}`}
-                                                    className={`${field} !mt-0`}
-                                                    placeholder="Question"
-                                                    value={r.q}
-                                                    onChange={(e) => setFaq((p) => p.map((x, j) => (j === i ? { ...x, q: e.target.value } : x)))}
-                                                />
-                                                <button
-                                                    type="button"
-                                                    aria-label={`Remove FAQ ${i + 1}`}
-                                                    onClick={() => setFaq((p) => p.filter((_, j) => j !== i))}
-                                                    className="h-9 w-9 shrink-0 rounded-lg border border-white/15 text-white/70 hover:bg-white/10"
-                                                >
-                                                    ✕
-                                                </button>
-                                            </div>
-                                            <textarea
-                                                aria-label={`FAQ answer ${i + 1}`}
-                                                rows={3}
-                                                className={field}
-                                                placeholder="Answer"
-                                                value={r.a}
-                                                onChange={(e) => setFaq((p) => p.map((x, j) => (j === i ? { ...x, a: e.target.value } : x)))}
-                                            />
-                                        </div>
-                                    ))}
-                                </div>
-                                <button
-                                    type="button"
-                                    onClick={() => setFaq((p) => [...p, { q: "", a: "" }])}
-                                    className="mt-3 text-[13px] text-[#b79cff] hover:underline"
-                                >
-                                    + Add FAQ
-                                </button>
-
-                                <button
-                                    type="button"
-                                    onClick={copySchema}
-                                    className="mt-4 w-full rounded-xl border border-white/20 py-2 text-[13px] hover:bg-white/10"
-                                >
-                                    {schemaCopied ? "Copied" : "Copy schema"}
-                                </button>
-
-                                <details className="mt-3">
-                                    <summary className="cursor-pointer text-[13px] text-[#b79cff]">See the generated schema</summary>
-                                    <pre className="mt-2 max-h-72 overflow-auto rounded-lg bg-black/40 p-3 text-[11px] leading-[16px] text-white/70">
-                                        {JSON.stringify(schemaJson, null, 2)}
-                                    </pre>
-                                </details>
-                            </>
-                        )}
-                    </Section>
-                </aside>
-
-                {/* ---------- LIVE PREVIEW ---------- */}
-                <div className="min-w-0 rounded-2xl border border-white/15 bg-[#040404] p-4">
-                    <p className="mb-3 text-[12px] uppercase tracking-wide text-white/50">Live preview</p>
-                    <div className="mx-auto overflow-hidden transition-[max-width] duration-200" style={{ maxWidth: frameW }}>
-                        <div className="gborder-new relative aspect-[1400/390] overflow-hidden rounded-[40px] bg-black/40">
-                            {preview && failed !== preview ? (
-                                // eslint-disable-next-line @next/next/no-img-element
-                                <img
-                                    key={preview}
-                                    src={preview}
-                                    alt=""
-                                    onError={() => setFailed(preview)}
-                                    className="size-full object-cover"
-                                />
-                            ) : (
-                                <div className="grid size-full place-items-center px-4 text-center text-[14px] text-white/40">
-                                    {preview ? "Couldn't load this image" : "Cover image"}
-                                </div>
-                            )}
-                        </div>
-
-                        <span className="mt-6 inline-flex h-[44px] items-center rounded-full border border-white/20 px-6 text-[16px] tracking-normal">
-                            {f.category || "Category"}
-                        </span>
-
-                        <div className="mt-6 rounded-[40px] p-4 sm:p-6" style={{ background: frameBg }}>
-                            {/* same two columns as the blog page: article on the left, Table of Contents on the right */}
-                            <div className="@container">
-                                <div className="grid items-start gap-6 @min-[760px]:grid-cols-[minmax(0,1fr)_300px]">
-                                    <div className="flex flex-col gap-6">
-                                        {/* shown above the post box; on the blog page only when it has text */}
-                                        <div className="leadership-border rounded-[30px] p-6 sm:px-10">
-                                            <p className="text-[14px] font-medium uppercase tracking-wide text-white/60">Quick Answer</p>
-                                            <AutoText
-                                                aria-label="Quick answer"
-                                                value={f.quickAnswer}
-                                                placeholder="Short answer to the title (optional)"
-                                                onChange={(e) => set("quickAnswer")(e as unknown as React.ChangeEvent<HTMLTextAreaElement>)}
-                                                className="mt-3 text-[17px] leading-[28px] tracking-tighter"
-                                            />
-                                        </div>
-                                        <article className="leadership-border rounded-[30px] p-6 sm:p-10">
-                                            <AutoText
-                                                aria-label="Post title"
-                                                value={f.title}
-                                                placeholder="Post title"
-                                                onChange={(e) => set("title")(e as unknown as React.ChangeEvent<HTMLTextAreaElement>)}
-                                                onKeyDown={(e) => e.key === "Enter" && e.preventDefault()}
-                                                className="text-[34px] font-medium leading-[44px] tracking-tighter sm:text-[46px] sm:leading-[56px]"
-                                            />
-                                            <AutoText
-                                                aria-label="Intro paragraph"
-                                                value={intro}
-                                                placeholder="Intro paragraph…"
-                                                onChange={(e) => setIntro(e.target.value.replace(/\s*\n+\s*/g, " "))}
-                                                onKeyDown={(e) => e.key === "Enter" && e.preventDefault()}
-                                                className="mt-8 text-[18px] leading-[31px] tracking-tighter"
-                                            />
-
-                                            <BlockEditor blocks={blocks} onChange={setBlocks} sizes={sizes} slug={f.slug} />
-                                        </article>
-                                    </div>
-
-                                    <aside className="flex flex-col gap-5 @min-[760px]:sticky @min-[760px]:top-24">
-                                        {toc.length > 0 ? (
-                                            <nav aria-label="Table of contents" className="leadership-border rounded-[30px] p-6">
-                                                <p className="text-[14px] font-medium uppercase tracking-wide text-white/60">Table of Contents</p>
-                                                <ol className="mt-3 list-decimal space-y-1.5 pl-6 text-[17px] leading-[28px] tracking-tighter">
-                                                    {toc.map((t, i) => (
-                                                        <li key={i}>{t}</li>
-                                                    ))}
-                                                </ol>
-                                            </nav>
-                                        ) : (
-                                            <p className="rounded-[30px] border border-dashed border-white/20 p-6 text-[13px] leading-[20px] text-white/40">
-                                                {tocOn
-                                                    ? "Add a Heading 2 block and it shows here."
-                                                    : "The Table of Contents is off. Turn it on in the Table of contents section."}
-                                            </p>
-                                        )}
-                                    </aside>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+          <button
+            type="button"
+            onClick={save}
+            disabled={!canSave || missing.length > 0 || pending}
+            className="rounded-xl bg-[#5522d6] px-5 py-2 text-[13px] font-medium text-white hover:bg-[#6a3be6] disabled:cursor-not-allowed disabled:opacity-40"
+          >
+            {pending ? "Saving…" : edit ? "Save changes" : "Create post"}
+          </button>
         </div>
-    );
+      </div>
+
+      {/* ---------- STATUS LINE ---------- */}
+      {result?.ok ? (
+        <div
+          role="status"
+          className="mt-3 rounded-xl bg-emerald-500/15 px-4 py-2 text-[14px] text-emerald-200"
+        >
+          {edit ? "Changes saved." : "Post created."}{" "}
+          <Link
+            href={`/blog/${result.slug}`}
+            target="_blank"
+            className="underline"
+          >
+            View it
+          </Link>
+          {!edit && (
+            <>
+              {" · "}
+              <button type="button" onClick={reset} className="underline">
+                Add another
+              </button>
+            </>
+          )}
+        </div>
+      ) : result ? (
+        <p
+          role="alert"
+          className="mt-3 rounded-xl bg-red-500/15 px-4 py-2 text-[14px] text-red-200"
+        >
+          {result.error}
+        </p>
+      ) : !canSave ? (
+        <p className="mt-3 text-[13px] text-white/60">
+          Saving only works when running locally (npm run dev).
+        </p>
+      ) : missing.length > 0 ? (
+        <p className="mt-3 text-[13px] text-amber-300">
+          Still needed: {missing.join(", ")}
+        </p>
+      ) : null}
+
+      {/* both panes grow with their content; the whole page scrolls */}
+      <div className="mt-4 grid items-start gap-4 min-[1100px]:grid-cols-[400px_minmax(0,1fr)]">
+        {/* ---------- SIDEBAR ---------- */}
+        <aside className="overflow-hidden rounded-2xl border border-white/15 bg-white/5">
+          <Section
+            title="Basics"
+            open={!!openSec.basics}
+            onToggle={() => toggle("basics")}
+          >
+            <div className="space-y-3">
+              <div>
+                <label htmlFor="title" className={label}>
+                  Title
+                </label>
+                <input
+                  id="title"
+                  className={field}
+                  value={f.title}
+                  onChange={set("title")}
+                />
+              </div>
+              <div>
+                <label htmlFor="slug" className={label}>
+                  Slug (/blog/…){edit ? " · can't be changed" : ""}
+                </label>
+                <input
+                  id="slug"
+                  className={`${field} ${edit ? "cursor-not-allowed opacity-60" : ""}`}
+                  value={f.slug}
+                  readOnly={edit}
+                  onChange={(e) => {
+                    setSlugTouched(true);
+                    setF((p) => ({
+                      ...p,
+                      slug: e.target.value
+                        .toLowerCase()
+                        .replace(/[^a-z0-9-]+/g, "-"),
+                    }));
+                  }}
+                />
+              </div>
+              <div>
+                <label htmlFor="category" className={label}>
+                  Category
+                </label>
+                <input
+                  id="category"
+                  className={field}
+                  value={f.category}
+                  onChange={set("category")}
+                />
+              </div>
+              <div>
+                <label htmlFor="date" className={label}>
+                  Date (blank = today)
+                </label>
+                <input
+                  id="date"
+                  type="date"
+                  className={`${field} [color-scheme:dark]`}
+                  value={f.date}
+                  onChange={set("date")}
+                />
+              </div>
+            </div>
+          </Section>
+
+          <Section
+            title="Authors"
+            badge={
+              authorStr
+                ? `${authors.filter((a) => a.trim()).length} added`
+                : undefined
+            }
+            open={!!openSec.authors}
+            onToggle={() => toggle("authors")}
+          >
+            <datalist id="author-list">
+              {authorNames.map((n) => (
+                <option key={n} value={n} />
+              ))}
+            </datalist>
+            <div className="space-y-2">
+              {authors.map((a, i) => (
+                <div key={i} className="flex items-center gap-2">
+                  <input
+                    aria-label={`Author ${i + 1} name`}
+                    list="author-list"
+                    className={`${field} !mt-0`}
+                    placeholder="Author Name"
+                    value={a}
+                    onChange={(e) =>
+                      setAuthors((p) =>
+                        p.map((x, j) => (j === i ? e.target.value : x)),
+                      )
+                    }
+                  />
+                  {authors.length > 1 && (
+                    <button
+                      type="button"
+                      aria-label={`Remove author ${i + 1}`}
+                      onClick={() =>
+                        setAuthors((p) => p.filter((_, j) => j !== i))
+                      }
+                      className="h-9 w-9 shrink-0 rounded-lg border border-white/15 text-white/70 hover:bg-white/10"
+                    >
+                      ✕
+                    </button>
+                  )}
+                </div>
+              ))}
+            </div>
+            <button
+              type="button"
+              onClick={() => setAuthors((p) => [...p, ""])}
+              className="mt-3 text-[13px] text-[#b79cff] hover:underline"
+            >
+              + Add author
+            </button>
+          </Section>
+
+          <Section
+            title="Post Banner Image"
+            badge={haveCover ? "✓ added" : undefined}
+            open={!!openSec.cover}
+            onToggle={() => toggle("cover")}
+          >
+            <div className="flex gap-2">
+              <button
+                type="button"
+                aria-pressed={mode === "upload"}
+                onClick={() => setMode("upload")}
+                className={tab(mode === "upload")}
+              >
+                Upload
+              </button>
+              <button
+                type="button"
+                aria-pressed={mode === "url"}
+                onClick={() => setMode("url")}
+                className={tab(mode === "url")}
+              >
+                From URL
+              </button>
+            </div>
+
+            {mode === "upload" ? (
+              <div className="mt-3">
+                <label htmlFor="img-file" className={label}>
+                  {edit
+                    ? "Replace the image (optional, max "
+                    : "Choose an image (max "}
+                  {MAX_MB} MB)
+                </label>
+                <input
+                  id="img-file"
+                  type="file"
+                  accept="image/png,image/jpeg,image/webp,image/gif,image/avif"
+                  onChange={pick}
+                  className="mt-1.5 block w-full text-[13px] text-white/70 file:mr-3 file:cursor-pointer file:rounded-lg file:border-0 file:bg-[#5522d6] file:px-3 file:py-2 file:text-white"
+                />
+              </div>
+            ) : (
+              <div className="mt-3">
+                <label htmlFor="img-url" className={label}>
+                  Image URL
+                </label>
+                <input
+                  id="img-url"
+                  className={field}
+                  placeholder="https://example.com/photo.jpg"
+                  value={imgUrl}
+                  onChange={(e) => setImgUrl(e.target.value)}
+                />
+              </div>
+            )}
+            {imgErr && (
+              <p role="alert" className="mt-2 text-[12px] text-red-300">
+                {imgErr}
+              </p>
+            )}
+            <p className="mt-2 text-[12px] text-white/50">
+              {edit
+                ? "The current cover is kept unless you pick a new one. "
+                : ""}
+              The cover shows in the live preview.
+            </p>
+          </Section>
+
+          <Section
+            title="Thumbnail Image"
+            badge={
+              hasNewThumbnail || initial?.thumbnailImage ? "✓ added" : undefined
+            }
+            open={!!openSec.excerpt}
+            onToggle={() => toggle("excerpt")}
+          >
+            <div className="flex gap-2">
+              <button
+                type="button"
+                aria-pressed={thumbnailMode === "upload"}
+                onClick={() => setThumbnailMode("upload")}
+                className={tab(thumbnailMode === "upload")}
+              >
+                From device
+              </button>
+              <button
+                type="button"
+                aria-pressed={thumbnailMode === "url"}
+                onClick={() => setThumbnailMode("url")}
+                className={tab(thumbnailMode === "url")}
+              >
+                From URL
+              </button>
+            </div>
+            {thumbnailMode === "upload" ? (
+              <div className="mt-3">
+                <label htmlFor="thumbnail-image-file" className={label}>
+                  {edit
+                    ? "Replace the thumbnail image (optional, max "
+                    : "Choose a thumbnail image (max "}
+                  {MAX_MB} MB)
+                </label>
+                <input
+                  id="thumbnail-image-file"
+                  type="file"
+                  accept="image/png,image/jpeg,image/webp,image/gif,image/avif"
+                  onChange={pickThumbnail}
+                  className="mt-1.5 block w-full text-[13px] text-white/70 file:mr-3 file:cursor-pointer file:rounded-lg file:border-0 file:bg-[#5522d6] file:px-3 file:py-2 file:text-white"
+                />
+              </div>
+            ) : (
+              <div className="mt-3">
+                <label htmlFor="thumbnail-image-url" className={label}>
+                  Thumbnail image URL
+                </label>
+                <input
+                  id="thumbnail-image-url"
+                  className={field}
+                  placeholder="https://example.com/thumbnail.jpg"
+                  value={thumbnailUrl}
+                  onChange={(e) => setThumbnailUrl(e.target.value)}
+                />
+              </div>
+            )}
+            {thumbnailErr && (
+              <p role="alert" className="mt-2 text-[12px] text-red-300">
+                {thumbnailErr}
+              </p>
+            )}
+            {thumbnailPreview && (
+              <Image
+                src={thumbnailPreview}
+                alt="Thumbnail preview"
+                width={640}
+                height={360}
+                unoptimized
+                className="mt-3 max-h-40 w-full rounded-lg object-cover"
+              />
+            )}
+            <p className="mt-2 text-[12px] leading-[18px] text-white/50">
+              This image appears on blog cards. If omitted, the post banner image is used.
+            </p>
+            <label
+              htmlFor="excerpt"
+              className={`${label} flex justify-between`}
+            >
+              <span className="text-[16px]! mt-5">Thumbnail Text</span>
+              {counter(f.excerpt.length, 80)}
+            </label>
+            <textarea
+              id="excerpt"
+              rows={3}
+              className={field}
+              value={f.excerpt}
+              onChange={set("excerpt")}
+            />
+            <p className="mt-1.5 text-[12px] leading-[18px] text-white">
+              Aim for about 80 characters for roughly two lines in the card.
+              This is a guide, not a limit; line count varies by screen width.
+            </p>
+          </Section>
+
+          <Section
+            title="Text sizes"
+            open={!!openSec.sizes}
+            onToggle={() => toggle("sizes")}
+          >
+            <div className="flex items-center justify-between">
+              <p className="text-[12px] text-white/60">Text sizes (px)</p>
+              <button
+                type="button"
+                onClick={() => setSizes(DEFAULT_SIZES)}
+                className="text-[12px] text-[#b79cff] hover:underline"
+              >
+                Reset
+              </button>
+            </div>
+            <div className="mt-2 grid grid-cols-4 gap-2">
+              {(["h1", "h2", "h3", "p"] as const).map((k) => (
+                <div key={k}>
+                  <label htmlFor={`size-${k}`} className={label}>
+                    {k === "p" ? "Text" : k.toUpperCase()}
+                  </label>
+                  <input
+                    id={`size-${k}`}
+                    type="number"
+                    min={10}
+                    max={120}
+                    className={field}
+                    value={sizes[k]}
+                    onChange={(e) =>
+                      setSizes((s) => ({
+                        ...s,
+                        [k]: Number(e.target.value) || 0,
+                      }))
+                    }
+                  />
+                </div>
+              ))}
+            </div>
+          </Section>
+          <Section
+            title="Table of contents"
+            badge={tocOn ? "on" : "off"}
+            open={!!openSec.toc}
+            onToggle={() => toggle("toc")}
+          >
+            <label className="flex cursor-pointer items-center justify-between gap-3">
+              <span className="text-[13px] text-white/85">
+                Show Table of Contents
+              </span>
+              <input
+                type="checkbox"
+                role="switch"
+                checked={tocOn}
+                onChange={(e) => setTocOn(e.target.checked)}
+                className="peer sr-only"
+              />
+              <span
+                aria-hidden="true"
+                className="relative h-6 w-11 shrink-0 rounded-full bg-white/20 transition-colors after:absolute after:left-0.5 after:top-0.5 after:size-5 after:rounded-full after:bg-white after:transition-transform peer-checked:bg-[#5522d6] peer-checked:after:translate-x-5 peer-focus-visible:ring-2 peer-focus-visible:ring-[#7b55e0]"
+              />
+            </label>
+
+            <p className="mt-3 text-[12px] leading-[18px] text-white/55">
+              {tocOn
+                ? "Built from your Heading 2 blocks, so it always matches the article. Readers can click an entry to jump to it."
+                : "Turn it on to list your Heading 2 blocks next to the article."}
+            </p>
+          </Section>
+
+          <Section
+            title="SEO"
+            open={!!openSec.seo}
+            onToggle={() => toggle("seo")}
+          >
+            <div className="space-y-3">
+              <div>
+                <label htmlFor="mt" className={`${label} flex justify-between`}>
+                  <span>Meta title</span>
+                  {counter(f.metaTitle.length, 60)}
+                </label>
+                <input
+                  id="mt"
+                  className={field}
+                  value={f.metaTitle}
+                  onChange={set("metaTitle")}
+                />
+              </div>
+              <div>
+                <label htmlFor="md" className={`${label} flex justify-between`}>
+                  <span>Meta description</span>
+                  {counter(f.metaDescription.length, 160)}
+                </label>
+                <textarea
+                  id="md"
+                  rows={3}
+                  className={field}
+                  value={f.metaDescription}
+                  onChange={set("metaDescription")}
+                />
+              </div>
+              <div>
+                <label htmlFor="tags" className={label}>
+                  Meta tags (comma separated)
+                </label>
+                <input
+                  id="tags"
+                  className={field}
+                  value={f.metaTags}
+                  onChange={set("metaTags")}
+                />
+              </div>
+              <div>
+                <label htmlFor="og" className={label}>
+                  Social share image (blank = cover)
+                </label>
+                <input
+                  id="og"
+                  className={field}
+                  value={f.ogImage}
+                  onChange={set("ogImage")}
+                />
+              </div>
+            </div>
+          </Section>
+          <Section
+            title="Post schema"
+            badge={schemaType === "none" ? "off" : "on"}
+            open={!!openSec.schema}
+            onToggle={() => toggle("schema")}
+          >
+            <label htmlFor="schema-type" className={label}>
+              Schema type
+            </label>
+            <select
+              id="schema-type"
+              className={`${field} [color-scheme:dark]`}
+              value={schemaType}
+              onChange={(e) => setSchemaType(e.target.value as SchemaType)}
+            >
+              {SCHEMA_TYPES.map((t) => (
+                <option key={t.id} value={t.id}>
+                  {t.label}
+                </option>
+              ))}
+            </select>
+            <p className="mt-1.5 text-[12px] leading-[18px] text-white/50">
+              Filled in for you from the title, meta description, cover,
+              authors, date, category and meta tags. Nothing to type here unless
+              you add FAQs.
+            </p>
+
+            {schemaType !== "none" && (
+              <>
+                <p className="mt-4 text-[12px] text-white/60">FAQ (optional)</p>
+                <p className="mt-1 text-[12px] leading-[18px] text-white/50">
+                  Add only questions the article really answers.
+                </p>
+                <div className="mt-2 space-y-3">
+                  {faq.map((r, i) => (
+                    <div
+                      key={i}
+                      className="rounded-lg border border-white/10 p-3"
+                    >
+                      <div className="flex items-center gap-2">
+                        <input
+                          aria-label={`FAQ question ${i + 1}`}
+                          className={`${field} !mt-0`}
+                          placeholder="Question"
+                          value={r.q}
+                          onChange={(e) =>
+                            setFaq((p) =>
+                              p.map((x, j) =>
+                                j === i ? { ...x, q: e.target.value } : x,
+                              ),
+                            )
+                          }
+                        />
+                        <button
+                          type="button"
+                          aria-label={`Remove FAQ ${i + 1}`}
+                          onClick={() =>
+                            setFaq((p) => p.filter((_, j) => j !== i))
+                          }
+                          className="h-9 w-9 shrink-0 rounded-lg border border-white/15 text-white/70 hover:bg-white/10"
+                        >
+                          ✕
+                        </button>
+                      </div>
+                      <textarea
+                        aria-label={`FAQ answer ${i + 1}`}
+                        rows={3}
+                        className={field}
+                        placeholder="Answer"
+                        value={r.a}
+                        onChange={(e) =>
+                          setFaq((p) =>
+                            p.map((x, j) =>
+                              j === i ? { ...x, a: e.target.value } : x,
+                            ),
+                          )
+                        }
+                      />
+                    </div>
+                  ))}
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setFaq((p) => [...p, { q: "", a: "" }])}
+                  className="mt-3 text-[13px] text-[#b79cff] hover:underline"
+                >
+                  + Add FAQ
+                </button>
+
+                <button
+                  type="button"
+                  onClick={copySchema}
+                  className="mt-4 w-full rounded-xl border border-white/20 py-2 text-[13px] hover:bg-white/10"
+                >
+                  {schemaCopied ? "Copied" : "Copy schema"}
+                </button>
+
+                <details className="mt-3">
+                  <summary className="cursor-pointer text-[13px] text-[#b79cff]">
+                    See the generated schema
+                  </summary>
+                  <pre className="mt-2 max-h-72 overflow-auto rounded-lg bg-black/40 p-3 text-[11px] leading-[16px] text-white/70">
+                    {JSON.stringify(schemaJson, null, 2)}
+                  </pre>
+                </details>
+              </>
+            )}
+          </Section>
+        </aside>
+
+        {/* ---------- LIVE PREVIEW ---------- */}
+        <div className="min-w-0 rounded-2xl border border-white/15 bg-[#040404] p-4">
+          <p className="mb-3 text-[12px] uppercase tracking-wide text-white/50">
+            Live preview
+          </p>
+          <div
+            className="mx-auto overflow-hidden transition-[max-width] duration-200"
+            style={{ maxWidth: frameW }}
+          >
+            <div className="gborder-new relative aspect-[1400/390] overflow-hidden rounded-[40px] bg-black/40">
+              {preview && failed !== preview ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  key={preview}
+                  src={preview}
+                  alt=""
+                  onError={() => setFailed(preview)}
+                  className="size-full object-cover"
+                />
+              ) : (
+                <div className="grid size-full place-items-center px-4 text-center text-[14px] text-white/40">
+                  {preview ? "Couldn't load this image" : "Cover image"}
+                </div>
+              )}
+            </div>
+
+            <span className="mt-6 inline-flex h-[44px] items-center rounded-full border border-white/20 px-6 text-[16px] tracking-normal">
+              {f.category || "Category"}
+            </span>
+
+            <div
+              className="mt-6 rounded-[40px] p-4 sm:p-6"
+              style={{ background: frameBg }}
+            >
+              {/* same two columns as the blog page: article on the left, Table of Contents on the right */}
+              <div className="@container">
+                <div className="grid items-start gap-6 @min-[760px]:grid-cols-[minmax(0,1fr)_300px]">
+                  <div className="flex flex-col gap-6">
+                    {/* shown above the post box; on the blog page only when it has text */}
+                    <div className="leadership-border rounded-[30px] p-6 sm:px-10">
+                      <p className="text-[14px] font-medium uppercase tracking-wide text-white/60">
+                        Quick Answer
+                      </p>
+                      <AutoText
+                        aria-label="Quick answer"
+                        value={f.quickAnswer}
+                        placeholder="Short answer to the title (optional)"
+                        onChange={(e) =>
+                          set("quickAnswer")(
+                            e as unknown as React.ChangeEvent<HTMLTextAreaElement>,
+                          )
+                        }
+                        className="mt-3 text-[17px] leading-[28px] tracking-tighter"
+                      />
+                    </div>
+                    <article className="leadership-border rounded-[30px] p-6 sm:p-10">
+                      <AutoText
+                        aria-label="Post title"
+                        value={f.title}
+                        placeholder="Post title"
+                        onChange={(e) =>
+                          set("title")(
+                            e as unknown as React.ChangeEvent<HTMLTextAreaElement>,
+                          )
+                        }
+                        onKeyDown={(e) =>
+                          e.key === "Enter" && e.preventDefault()
+                        }
+                        className="text-[34px] font-medium leading-[44px] tracking-tighter sm:text-[46px] sm:leading-[56px]"
+                      />
+                      <AutoText
+                        aria-label="Intro paragraph"
+                        value={intro}
+                        placeholder="Intro paragraph…"
+                        onChange={(e) =>
+                          setIntro(e.target.value.replace(/\s*\n+\s*/g, " "))
+                        }
+                        onKeyDown={(e) =>
+                          e.key === "Enter" && e.preventDefault()
+                        }
+                        className="mt-8 text-[18px] leading-[31px] tracking-tighter"
+                      />
+
+                      <BlockEditor
+                        blocks={blocks}
+                        onChange={setBlocks}
+                        sizes={sizes}
+                        slug={f.slug}
+                      />
+                    </article>
+                  </div>
+
+                  <aside className="flex flex-col gap-5 @min-[760px]:sticky @min-[760px]:top-24">
+                    {toc.length > 0 ? (
+                      <nav
+                        aria-label="Table of contents"
+                        className="leadership-border rounded-[30px] p-6"
+                      >
+                        <p className="text-[14px] font-medium uppercase tracking-wide text-white/60">
+                          Table of Contents
+                        </p>
+                        <ol className="mt-3 list-decimal space-y-1.5 pl-6 text-[17px] leading-[28px] tracking-tighter">
+                          {toc.map((t, i) => (
+                            <li key={i}>{t}</li>
+                          ))}
+                        </ol>
+                      </nav>
+                    ) : (
+                      <p className="rounded-[30px] border border-dashed border-white/20 p-6 text-[13px] leading-[20px] text-white/40">
+                        {tocOn
+                          ? "Add a Heading 2 block and it shows here."
+                          : "The Table of Contents is off. Turn it on in the Table of contents section."}
+                      </p>
+                    )}
+                  </aside>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }

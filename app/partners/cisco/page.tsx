@@ -213,7 +213,8 @@ export default function Cisco() {
         <PurplePanel variant="top">
           <Image
             // src="/images/globe-test.png"
-            src="/images/new-globe-animated-lines.gif"
+            // src="/images/new-globe-animated-lines.gif"
+            src="/images/globe_spinning_v4.gif"
             alt=""
             width={520}
             height={520}

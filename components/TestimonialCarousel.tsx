@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { DeferredGlobe } from "@/components/three/DeferredGlobe";
+import Image from "next/image";
 
 const items = [
   {
@@ -105,12 +105,20 @@ export function TestimonialCarousel() {
           </button>
         </div>
       </div>
-      <DeferredGlobe
-        variant="earth"
-        fallbackSrc="/images/new-globe-animated-lines.gif"
-        className="mx-auto aspect-square w-full max-w-[636px]"
-        sizes="(max-width: 1100px) 100vw, 636px"
-      />
+      <div className="relative mx-auto aspect-square w-full max-w-[636px]">
+        
+        
+        <img src="/images/globe_spinning_v4.gif" alt="Globe.gif" />
+        {/*
+         <Image
+          src="/images/globe_spinning_v4.gif"
+          alt=""
+          fill
+          sizes="(max-width: 1100px) 100vw, 636px"
+          className="object-contain"
+          aria-hidden="true"
+        /> */}
+      </div>
     </div>
   );
 }

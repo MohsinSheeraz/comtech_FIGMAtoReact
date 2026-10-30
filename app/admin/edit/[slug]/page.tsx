@@ -51,6 +51,7 @@ export default async function EditPost({ params }: { params: Promise<{ slug: str
         metaTags: (post.seo.metaTags ?? []).join(", "),
         ogImage: post.seo.ogImage ?? "",
         image: post.image,
+        thumbnailImage: post.thumbnailImage ?? "",
     };
 
     return (

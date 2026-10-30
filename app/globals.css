@@ -1923,6 +1923,12 @@ main {
   transition-delay: 0.15s;
 }
 
+.svc-hover:is(:hover, :focus-within) .row :is(a, button) {
+  background: #fff !important;
+  border-color: #fff;
+  color: #070707 !important;
+}
+
 
 @media (prefers-reduced-motion: reduce) {
   .svc-hover-bg,

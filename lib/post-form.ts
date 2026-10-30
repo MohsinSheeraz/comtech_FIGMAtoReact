@@ -78,7 +78,7 @@ export function readPostForm(fd: FormData): { error: string } | { form: PostForm
 }
 
 // the post object that gets stored in Mongo (toc: [] = no Table of Contents)
-export function toPost(f: PostForm, image: string): Post {
+export function toPost(f: PostForm, image: string, thumbnailImage?: string): Post {
     const tags = f.metaTags.split(",").map((t) => t.trim()).filter(Boolean);
     const seo: Post["seo"] = {};
     if (f.metaTitle) seo.metaTitle = f.metaTitle;
@@ -95,6 +95,7 @@ export function toPost(f: PostForm, image: string): Post {
         date: f.date || todayDMY(),
         category: f.category || "General",
         image,
+        ...(thumbnailImage ? { thumbnailImage } : {}),
         intro: f.intro,
         sections: [],
         content: f.blocks,

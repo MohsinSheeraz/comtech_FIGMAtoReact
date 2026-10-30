@@ -15,6 +15,7 @@ export type Post = {
   date: string;
   category: string;
   image: string;
+  thumbnailImage?: string;
   intro: string;
   sections: Section[];   // old posts
   content?: Block[];     // new posts: headings and paragraphs from the editor

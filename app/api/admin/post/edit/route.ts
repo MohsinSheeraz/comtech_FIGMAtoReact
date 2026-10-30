@@ -22,30 +22,52 @@ export async function POST(req: Request) {
     const existing = await getPost(form.slug);
     if (!existing || !isDynamicPost(existing)) return fail("Post not found.", 404);
 
-    // keep the current cover unless a new one was supplied
+    // Keep current images unless new ones were supplied.
     let image = existing.image;
+    let thumbnailImage = existing.thumbnailImage ?? "";
     let uploaded = "";
+    let uploadedThumbnail = "";
     const img = await readImage(fd);
     if (img && "error" in img) return fail(img.error);
-    if (img) {
-        try {
-            uploaded = await saveImage(form.slug, img);
-        } catch (e) {
-            return fail(imageErrorMessage(e), 500);
-        }
-        image = uploaded;
-    }
+    const thumbnail = await readImage(
+        fd,
+        "thumbnailImageFile",
+        "thumbnailImageUrl",
+    );
+    if (thumbnail && "error" in thumbnail) return fail(thumbnail.error);
+
     if (!image) return fail("This post has no cover image.");
 
     try {
-        await updatePost(toPost(form, image));
+        if (img) {
+            uploaded = await saveImage(form.slug, img);
+            image = uploaded;
+        }
+        if (thumbnail) {
+            uploadedThumbnail = await saveImage(
+                `${form.slug}-thumbnail`,
+                thumbnail,
+            );
+            thumbnailImage = uploadedThumbnail;
+        }
+    } catch (e) {
+        if (uploaded) await deleteImage(uploaded);
+        if (uploadedThumbnail) await deleteImage(uploadedThumbnail);
+        return fail(imageErrorMessage(e), 500);
+    }
+
+    try {
+        await updatePost(toPost(form, image, thumbnailImage || undefined));
     } catch {
         if (uploaded) await deleteImage(uploaded);
+        if (uploadedThumbnail) await deleteImage(uploadedThumbnail);
         return fail("Couldn't save to the database.", 500);
     }
 
-    // the old cover is no longer used
+    // Remove replaced files only after the updated post is saved.
     if (uploaded) await deleteImage(existing.image);
+    if (uploadedThumbnail && existing.thumbnailImage)
+        await deleteImage(existing.thumbnailImage);
 
     revalidatePath("/", "layout");
     return NextResponse.json({ ok: true, slug: form.slug });

@@ -1,4 +1,5 @@
 import { logos } from "./PartnerSlider";
+import Image from "next/image";
 
 /* Small, calm logo marquee for the hero. Pure CSS (no JS), seamless loop:
    the list is rendered twice and the track slides exactly -50%.
@@ -9,9 +10,17 @@ export function HeroLogos({ className = "" }: { className?: string }) {
       {logos.map((l) => (
         <div
           key={l.name}
-          className="flex h-[48px] w-[112px] shrink-0 items-center justify-center opacity-65 grayscale transition-[filter,opacity] duration-300 hover:opacity-100 hover:grayscale-0 sm:h-[56px] sm:w-[136px] [&>*]:scale-[.68]"
+          className={`flex h-[48px] w-[112px] shrink-0 items-center justify-center opacity-65 grayscale transition-[filter,opacity] duration-300 hover:opacity-100 hover:grayscale-0 sm:h-[56px] sm:w-[136px] ${l.name === "Cisco" ? "" : "[&>*]:scale-[.68]"}`}
         >
-          {l.src ? (
+          {l.name === "Cisco" ? (
+            <Image
+              src="/images/cisco-marquee-logo.png"
+              alt="Cisco"
+              width={68}
+              height={36}
+              className="h-[34px] w-[64px] object-contain sm:h-[36px] sm:w-[68px]"
+            />
+          ) : l.src ? (
             /* eslint-disable-next-line @next/next/no-img-element */
             <img src={l.src} alt={l.name} className="max-h-[48px] max-w-[76%] object-contain" />
           ) : (

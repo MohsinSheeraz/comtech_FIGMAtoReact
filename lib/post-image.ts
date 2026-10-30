@@ -19,9 +19,13 @@ const TYPE: Record<string, string> = {
 export type PostImage = { bytes: Buffer; ext: string };
 
 // null = no image was supplied, { error } = the image was rejected
-export async function readImage(fd: FormData): Promise<PostImage | { error: string } | null> {
-    const file = fd.get("imageFile");
-    const url = String(fd.get("imageUrl") ?? "").trim();
+export async function readImage(
+    fd: FormData,
+    fileKey = "imageFile",
+    urlKey = "imageUrl",
+): Promise<PostImage | { error: string } | null> {
+    const file = fd.get(fileKey);
+    const url = String(fd.get(urlKey) ?? "").trim();
 
     if (file instanceof File && file.size > 0) {
         const ext = EXT[file.type];

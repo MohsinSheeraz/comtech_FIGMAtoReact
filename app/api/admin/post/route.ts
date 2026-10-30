@@ -25,21 +25,40 @@ export async function POST(req: Request) {
     if (!img) return fail("Add a cover image (upload or URL).");
     if ("error" in img) return fail(img.error);
 
+    const thumbnail = await readImage(
+        fd,
+        "thumbnailImageFile",
+        "thumbnailImageUrl",
+    );
+    if (thumbnail && "error" in thumbnail) return fail(thumbnail.error);
+
     let image: string;
+    let thumbnailImage = "";
     try {
         image = await saveImage(form.slug, img);
     } catch (e) {
         return fail(imageErrorMessage(e), 500);
     }
 
+    if (thumbnail) {
+        try {
+            thumbnailImage = await saveImage(`${form.slug}-thumbnail`, thumbnail);
+        } catch (e) {
+            await deleteImage(image);
+            return fail(imageErrorMessage(e), 500);
+        }
+    }
+
     try {
-        const ok = await createPost(toPost(form, image));
+        const ok = await createPost(toPost(form, image, thumbnailImage));
         if (!ok) {
             await deleteImage(image);
+            if (thumbnailImage) await deleteImage(thumbnailImage);
             return fail("A post with this slug already exists.");
         }
     } catch {
         await deleteImage(image);
+        if (thumbnailImage) await deleteImage(thumbnailImage);
         return fail("Couldn't save to the database.", 500);
     }
 

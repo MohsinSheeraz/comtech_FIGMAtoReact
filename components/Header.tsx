@@ -46,7 +46,10 @@ const nav: NavItem[] = [
   {
     label: "Resources",
     href: "/blog",
-    children: [{ label: "Blog", href: "/blog" }],
+    children: [
+      { label: "Blog", href: "/blog" },
+      { label: "Leadership", href: "/leadership" }
+    ],
   },
 ];
 

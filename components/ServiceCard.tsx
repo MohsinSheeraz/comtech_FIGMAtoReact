@@ -17,7 +17,7 @@ export const ServiceCard = ({ t, p, img, className, number }: Props) => (
     <h3 className="h3">{t}</h3>
     <p className="text-[18px]! leading-[31px]! font-normal!">{p}</p>{" "}
     <div className="row mt-3!">
-      <Btn v="o" href="/services">
+      <Btn className="btn" v="o" href="/services">
         Explore our Services
       </Btn>
     </div>

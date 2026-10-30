@@ -17,7 +17,7 @@ export function BlogCard({
         className="gborder-new relative block overflow-hidden rounded-[30px]"
       >
         <Image
-          src={post.image}
+          src={post.thumbnailImage || post.image}
           alt=""
           width={597}
           height={346}

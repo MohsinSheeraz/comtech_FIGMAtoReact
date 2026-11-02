@@ -65,15 +65,7 @@ export default function About() {
               long as our clients need us to.{" "}
             </p>
           </div>
-          <Image
-            className="about-img"
-            // src="/images/globe-test.png"
-            src="/images/new-globe-animated-lines.gif"
-            alt=""
-            width={568}
-            height={568}
-            style={{ mixBlendMode: "hard-light", opacity: 0.57 }}
-          />
+          <img src="/images/globe_spinning_v4.gif" alt="Globe.gif" />
         </section>
 
         <section className="wrap mt-20!">

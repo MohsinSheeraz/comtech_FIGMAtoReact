@@ -93,7 +93,6 @@ const industries = [
   "Education",
 ];
 
-// Figma "blue hover" frame: dark -> indigo -> dark vertical gradient
 const frameBg =
   "linear-gradient(180deg, transparent 0%, #08071a 18%, #160a49 34%, #230f72 50%, #190b52 68%, #08061a 86%, #050508 100%)";
 
@@ -151,15 +150,7 @@ export default function Services() {
                 sector already carries.
               </p>
             </div>
-            <Image
-              className="about-img"
-              // src="/images/globe-test.png"
-              src="/images/new-globe-animated-lines.gif"
-              alt=""
-              width={568}
-              height={568}
-              style={{ mixBlendMode: "screen" }}
-            />
+            <img src="/images/globe_spinning_v4.gif" alt="Globe.gif" />
           </section>
 
           <section className="wrap sec">

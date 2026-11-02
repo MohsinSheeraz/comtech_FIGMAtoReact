@@ -1,12 +1,12 @@
 import { Btn } from "@/components/Button";
 import { HeroLogos } from "@/components/HeroLogos";
 import { DeferredGlobe } from "@/components/three/DeferredGlobe";
-
-/* Hero position is owned by ONE place: this file + the .hero rules in globals.css.
-   `className` can still add things like colours, but any padding / margin-top / height utilities
-   passed by a page are dropped, so no page can nudge its hero away from the shared position. */
 const LAYOUT_CLASS = /^(?:[^:\s]+:)*!?(?:p|pt|pb|py|mt|h|min-h)-/;
-const safeClass = (c = "") => c.split(/\s+/).filter((t) => t && !LAYOUT_CLASS.test(t)).join(" ");
+const safeClass = (c = "") =>
+  c
+    .split(/\s+/)
+    .filter((t) => t && !LAYOUT_CLASS.test(t))
+    .join(" ");
 
 export const Hero = ({
   pill,
@@ -26,25 +26,40 @@ export const Hero = ({
   primary: string;
   secondary?: string;
   globe?: boolean;
-  /** auto-scrolling partner logos at the bottom of the hero (default on) */
   logos?: boolean;
   className?: string;
 }) => (
-  <section className={`mx-auto wrap hero ${globe ? "g" : ""} ${safeClass(className)}`}>
-    {/* Eyebrow slot (pill + small line). Pages without them render INVISIBLE copies of the same
-        elements, so their title starts at exactly the same height as on Home, at every breakpoint. */}
-    <span className={`pill text-[16px] ${pill ? "" : "invisible"}`} aria-hidden={pill ? undefined : true}>
+  <section
+    className={`mx-auto wrap hero ${globe ? "g" : ""} ${safeClass(className)}`}
+  >
+    <span
+      className={`pill text-[16px] ${pill ? "" : "invisible"}`}
+      aria-hidden={pill ? undefined : true}
+    >
       {pill ?? "\u00A0"}
     </span>
-    <p className={`sm text-[24px] font-light! ${small ? "" : "invisible"}`} aria-hidden={small ? undefined : true}>
+    <p
+      className={`sm text-[24px] font-light! ${small ? "" : "invisible"}`}
+      aria-hidden={small ? undefined : true}
+    >
       {small ?? "\u00A0"}
     </p>
 
-    <h1 className="text-[42px] leading-[49px] md:text-[64px] py-5 md:py-auto font-medium tracking-tighter md:leading-[75px]">{title}</h1>
-    {text && <p className="body mt-5! text-[18px]! font-normal! tracking-tighter! leading-[31px]">{text}</p>}
+    <h1 className="text-[42px] leading-[49px] md:text-[64px] py-5 md:py-auto font-medium tracking-tighter md:leading-[75px]">
+      {title}
+    </h1>
+    {text && (
+      <p className="body mt-5! text-[18px]! font-normal! tracking-tighter! leading-[31px]">
+        {text}
+      </p>
+    )}
     <div className="row" style={{ marginTop: globe ? 24 : 0 }}>
       <Btn href="/contact">{primary}</Btn>
-      {secondary && <Btn v="o" href="/services">{secondary}</Btn>}
+      {secondary && (
+        <Btn v="o" href="/services">
+          {secondary}
+        </Btn>
+      )}
     </div>
     {globe && (
       <DeferredGlobe
@@ -57,8 +72,7 @@ export const Hero = ({
     )}
 
     {logos && (
-      // Keep the partner marquee directly beneath the hero actions.
-      <HeroLogos className={globe ? "mt-96" : "mt-14"} />
+      <HeroLogos className={globe ? "mt-60 mb-20 sm:mt-96 sm:mb-1" : "mt-14"} />
     )}
   </section>
 );

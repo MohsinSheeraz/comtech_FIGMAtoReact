@@ -181,7 +181,7 @@ img {
   align-items: center;
   justify-content: space-between;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  z-index: 5;
+  z-index: 50;
 }
 
 .logo {
@@ -998,9 +998,15 @@ img {
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+@media (min-width: 1201px) {
+  .foot-main {
+    grid-template-columns: minmax(0, 420px) repeat(3, minmax(0, 1fr));
+  }
+}
+
 .foot-cols a {
   display: block;
-  line-height: 38px;
+  line-height: 30px;
   letter-spacing: -0.06em;
 }
 
@@ -1510,7 +1516,11 @@ a {
   }
 
   .hdr {
+    position: sticky;
+    top: 0;
     height: 72px;
+    background: rgba(4, 4, 4, 0.92);
+    backdrop-filter: blur(12px);
   }
 
   .logo {
@@ -1556,16 +1566,8 @@ a {
 
   /* 1. Your existing baseline styles (applies to desktop) */
   .hero .globe {
-    top: 450px;
-    width: 170vw;
-  }
-
-  /* 2. Undo/reset the styles specifically for mobile screens */
-  @media (max-width: 640px) {
-    .hero .globe {
-      width: auto;
-      top: auto;
-    }
+    top: 390px;
+    width: 140vw;
   }
 
   .hero .sm {

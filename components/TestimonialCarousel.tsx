@@ -106,18 +106,7 @@ export function TestimonialCarousel() {
         </div>
       </div>
       <div className="relative mx-auto aspect-square w-full max-w-[636px]">
-        
-        
         <img src="/images/globe_spinning_v4.gif" alt="Globe.gif" />
-        {/*
-         <Image
-          src="/images/globe_spinning_v4.gif"
-          alt=""
-          fill
-          sizes="(max-width: 1100px) 100vw, 636px"
-          className="object-contain"
-          aria-hidden="true"
-        /> */}
       </div>
     </div>
   );

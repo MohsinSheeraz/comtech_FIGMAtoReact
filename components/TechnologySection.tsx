@@ -51,10 +51,16 @@ const right: Item[] = [
   },
 ];
 
-function TechCard({ t, s, w, tone }: Item & { tone: "side" | "center" }) {
+function TechCard({
+  t,
+  s,
+  w,
+  tone,
+  className = "",
+}: Item & { tone: "side" | "center"; className?: string }) {
   return (
     <div
-      className={`flex w-full flex-col items-center justify-center rounded-xl gborder-new bg-[#0a0a0c] px-4 py-4 text-center min-[1101px]:rounded-[0.95cqw] min-[1101px]:px-0 min-[1101px]:py-[1.55cqw] ${w} ${
+      className={`flex w-full flex-col items-center justify-center rounded-xl gborder-new bg-[#0a0a0c] px-4 py-4 text-center min-[1101px]:rounded-[0.95cqw] min-[1101px]:px-0 min-[1101px]:py-[1.55cqw] ${w} ${className} ${
         tone === "side" ? "gborder-new" : "gborder-new"
       }`}
     >
@@ -169,7 +175,26 @@ export function TechnologySection() {
 
         <TechLines />
 
-        <div className="relative z-10 flex flex-col gap-4 min-[1101px]:contents">
+        <div className="relative z-10 min-[1101px]:hidden">
+          <div
+            aria-label="Cisco technology solutions"
+            className="flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          >
+            {[...left, ...center, ...right].map((card) => (
+              <div
+                key={card.t}
+                className="h-[112px] w-[82%] max-w-[360px] shrink-0 snap-center"
+              >
+                <TechCard {...card} tone="side" className="h-full" />
+              </div>
+            ))}
+          </div>
+          <p className="mt-4 text-center text-xs tracking-wide text-white/60">
+            Swipe to explore
+          </p>
+        </div>
+
+        <div className="relative z-10 hidden flex-col gap-4 min-[1101px]:contents">
           {/* LEFT: hugs left edge */}
           <div className="flex flex-col items-center gap-4 min-[1101px]:absolute min-[1101px]:left-0 min-[1101px]:top-1/2 min-[1101px]:-translate-y-1/2 min-[1101px]:items-start min-[1101px]:gap-[3.8cqw]">
             {left.map((c) => (

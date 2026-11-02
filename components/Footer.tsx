@@ -49,11 +49,11 @@ export function Footer() {
     <footer className="foot">
       <div className="wrap">
         <div className="foot-cols foot-main border-t border-white/10">
-          <div className="col-span-full min-[1101px]:col-auto">
+          <div className="col-span-full min-[1201px]:col-auto">
             <div className="flogo text-[28px]! leading-[34px]!">
               Comtech Associates
             </div>
-            <p className="mt-5 max-w-[420px] text-[18px] leading-[28px]">
+            <p className="mt-5 max-w-[420px]! text-[18px] leading-[28px]">
               Associates is a certified Cisco partner delivering networking,
               cybersecurity, data center, and managed IT solutions to
               enterprises across Pakistan. With over 10 years in operation and

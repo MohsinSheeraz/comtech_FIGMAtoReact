@@ -214,7 +214,7 @@ export default function Networking() {
             {capabilities.map(([t, p], i) => (
               <div
                 key={t}
-                className={`card pad-outer min-w-[82%] snap-center bg-[#080808]! p-4!  min-[1101px]:min-w-0 ${
+                className={`card pad-outer min-w-[90%] snap-center bg-[#080808]! p-4!  min-[1101px]:min-w-0 ${
                   i === 0 || i === capabilities.length - 1
                     ? "min-[1280px]:-translate-y-[42%]"
                     : ""

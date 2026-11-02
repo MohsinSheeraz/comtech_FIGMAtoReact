@@ -98,7 +98,7 @@ export default function Home() {
         secondary="Explore our Services"
         globe
       />
-      <h2 className="h2 wrap h2-lead text-[46px] font-medium! leading-[75px] mt-auto md:mt-20!">
+      <h2 className="h2 wrap h2-lead text-[46px] font-medium! leading-[75px] mt-12 md:mt-20!">
         A Decade of Building Pakistan&apos;s Digital Backbone
       </h2>
       <Stats />

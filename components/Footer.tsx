@@ -20,7 +20,7 @@ const ql: L[] = [
   ["Home", "/"],
   ["About Us", "/about"],
   ["Leadership", "/leadership"],
-  ["Events", "/blog"],
+  ["Events", "/events"],
   ["Contact Us", "/contact"],
 ];
 const socials = [

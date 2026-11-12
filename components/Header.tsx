@@ -41,6 +41,7 @@ const nav: NavItem[] = [
     href: "/blog",
     children: [
       { label: "Blog", href: "/blog" },
+      { label: "Events", href: "/events" },
       { label: "Leadership", href: "/leadership" },
     ],
   },

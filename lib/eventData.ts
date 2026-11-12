@@ -13,7 +13,7 @@ export const events = [
     date: "26-28 October 2026",
     excerpt:
       "From Pakistan to Vancouver: Comtech’s CEO joins Cisco’s global partner community to talk networking, security, and what comes next.",
-    image: PLACEHOLDER,
+    image: "/images/CiscoPartnerSummit2026_TitleImage.webp",
   },
   {
     slug: "itcn-asia-2026",
@@ -22,7 +22,7 @@ export const events = [
     date: "22-24 September 2026",
     excerpt:
       "See Comtech’s networking, cybersecurity, data center, and IT infrastructure solutions live at the 28th ITCN Asia in Karachi.",
-    image: PLACEHOLDER,
+    image: "/images/ITCNAsia2026_TitleImage.webp",
   },
 ];
 

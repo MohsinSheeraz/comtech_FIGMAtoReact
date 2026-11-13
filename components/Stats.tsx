@@ -1,3 +1,5 @@
+import { AnimatedNumber } from "@/components/AnimatedNumber";
+
 type Stat = [string, string];
 
 const DEFAULT_STATS: Stat[] = [
@@ -13,7 +15,7 @@ export const Stats = ({ className, items = DEFAULT_STATS }: { className?: string
     <div className="card stats">
       {items.map(([a, b]) => (
         <div className="card stat gborder-new" key={a}>
-          <b>{a}</b>
+          <AnimatedNumber value={a} />
           <span>{b}</span>
         </div>
       ))}

@@ -17,7 +17,7 @@ export const events = [
   },
   {
     slug: "itcn-asia-2026",
-    live: false,
+    live: true,
     title: "ITCN Asia 2026",
     date: "22-24 September 2026",
     excerpt:
@@ -56,7 +56,7 @@ export const summit = {
     title: "Meet Farooq Zaheer, CEO At Comtech Associates",
     name: "Farooq Zaheer",
     role: "CEO, Comtech Associates",
-    image: "/images/Muhammad_Farooq_Zaheer.png", 
+    image: "/images/Muhammad_Farooq_Zaheer.png",
     text: "Farooq Zaheer leads Comtech Associates, a Pakistani IT solutions company delivering enterprise networking, cybersecurity, and data center infrastructure through a network of 15 technology partners. Under his leadership, Comtech’s Cisco partnership has grown from SMB partner to premier integrator, and the company has delivered a Cisco ACI data center deployment and disaster recovery network migration for Bank Islami.",
   },
 
@@ -150,7 +150,7 @@ export const summit = {
     label: "Why Comtech",
     title: "The Company Behind The CEO",
     text: "Comtech Associates is a Pakistani IT solutions company delivering enterprise networking, cybersecurity, data center and cloud, managed IT, and custom software development to banks, government bodies, universities, hospitals, telecom operators, and large enterprises. Ten-plus years, 250+ projects, and offices in Karachi, Islamabad, Lahore, and Quetta.",
-    image: PLACEHOLDER, 
+    image: PLACEHOLDER,
     imageCaption: "Enterprise networking. Security. Infrastructure.",
     delivers: [
       "Networking and IT Infrastructure",

@@ -124,7 +124,7 @@ export function PurplePanel({
       ].join(" ")}
       style={{
         background: top
-          ? "linear-gradient(180deg, #040404 8.06%, rgba(69, 22, 187, 0.42) 43.03%, #040404 80.62%)"
+          ? "linear-gradient(180deg, rgba(4, 4, 4, 0) 0%, rgba(69, 22, 187, 0.42) 43.03%, rgba(4, 4, 4, 0) 100%)"
           : "linear-gradient(179.11deg, rgba(4, 4, 4, 0) 10.61%, rgba(69, 22, 187, 0.36) 53.31%, rgba(4, 4, 4, 0) 99.23%)",
       }}
     >

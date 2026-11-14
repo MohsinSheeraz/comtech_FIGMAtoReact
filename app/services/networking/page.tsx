@@ -142,12 +142,12 @@ function Feature({
   title,
   flip,
   children,
-  image = "/images/BlogExampleImageForNow.png",
+  image,
 }: {
   title: string;
   flip?: boolean;
   children: React.ReactNode;
-  image?: string;
+  image: string;
 }) {
   return (
     <div className="grid items-center gap-10 min-[1101px]:grid-cols-2 min-[1101px]:gap-24">
@@ -305,7 +305,10 @@ export default function Networking() {
         </section>
 
         <section className="wrap flex flex-col gap-24 pb-10 pt-10 min-[1101px]:gap-32 text-center md:text-left">
-          <Feature title="Security Built Into the Network, Not Bolted On">
+          <Feature
+            title="Security Built Into the Network, Not Bolted On"
+            image="/images/Privacy_Protection.png"
+          >
             <p>
               Network segmentation and access controls are designed to support
               the compliance requirements your sector already carries, not
@@ -321,6 +324,7 @@ export default function Networking() {
           <Feature
             title="Built for the Environments Where Downtime Isn't an Option"
             flip
+            image="/images/BuiltForEnvironment.png"
           >
             <p>
               We design hospital network infrastructure where a dropped
@@ -338,7 +342,10 @@ export default function Networking() {
             </p>
           </Feature>
 
-          <Feature title="Results You Can Verify">
+          <Feature
+            title="Results You Can Verify"
+            image="/images/VerifyResults.png"
+          >
             <p>
               Comtech implemented a Fortinet Secure SD-WAN solution for
               Karakoram Bank (KCBL), a leading financial institution in

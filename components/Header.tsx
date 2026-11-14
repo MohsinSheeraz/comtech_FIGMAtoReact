@@ -20,7 +20,11 @@ const nav: NavItem[] = [
   {
     label: "Partners",
     href: "/partners",
-    children: [{ label: "Cisco", href: "/partners/cisco" }],
+    children: [
+      { label: "Cisco", href: "/partners/cisco" },
+      { label: "Kaspersky", href: "/partners/kaspersky" },
+      { label: "Avaya", href: "/partners/avaya" },
+    ],
   },
   {
     label: "Industries",

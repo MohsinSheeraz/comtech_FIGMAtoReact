@@ -126,7 +126,7 @@ export default function Industries() {
             Actually Runs
           </>
         }
-        text="A bank can’t go offline. A campus can’t go quiet. Comtech delivers IT services for seven sectors across Pakistan, each built to its own definition of uptime."
+        text="A bank can’t go offline. A campus can’t go quiet. Comtech delivers IT services for six sectors across Pakistan, each built to its own definition of uptime."
         primary="Request an Industry IT Assessment"
         secondary="Explore our Services"
       />
@@ -142,12 +142,12 @@ export default function Industries() {
           <SecHead
             title={
               <>
-                Seven Sectors. Seven Different
+                Six Sectors. Six Different
                 <br />
                 Definitions of Downtime.
               </>
             }
-            sub="Seven Sectors. Seven Different Definitions of Downtime."
+            sub="Six Sectors. Six Different Definitions of Downtime."
           />
           <div className="grid gap-6 md:grid-cols-3 min-[1101px]:grid-cols-3 lg:gap-x-[33px] lg:gap-y-[28px]">
             {sectors.map((s) => (

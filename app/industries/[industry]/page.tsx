@@ -1,0 +1,31 @@
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import { IndustryDetail, industryPages } from "@/components/IndustryDetail";
+
+export function generateStaticParams() {
+  return industryPages.map(({ slug }) => ({ industry: slug }));
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ industry: string }>;
+}): Promise<Metadata> {
+  const { industry: slug } = await params;
+  const industry = industryPages.find((item) => item.slug === slug);
+  if (!industry) notFound();
+
+  return { title: industry.title, description: industry.description };
+}
+
+export default async function IndustryPage({
+  params,
+}: {
+  params: Promise<{ industry: string }>;
+}) {
+  const { industry: slug } = await params;
+  const industry = industryPages.find((item) => item.slug === slug);
+  if (!industry) notFound();
+
+  return <IndustryDetail industry={industry} />;
+}

@@ -110,21 +110,25 @@ const more = [
     "Cybersecurity",
     "24/7 SOC monitoring, penetration testing, and compliance-aligned security for banks, telecoms, and enterprises across Pakistan. Covers managed security, VAPT, incident response, identity and access management, cloud security posture management, and compliance with frameworks like ISO 27001, PCI DSS, and the SBP Cybersecurity Framework.",
     "Explore Cybersecurity Services",
+    "/services/cybersecurity",
   ],
   [
     "Custom Software Development",
     "Custom enterprise application development, legacy system modernization, API integrations, and internal tools, built and supported by the same team that manages your infrastructure, not a vendor who disappears after launch.",
     "Explore Custom Software Development",
+    "/services",
   ],
   [
     "Data Center & Cloud Solutions",
     "End-to-end data center architecture, migration, and hybrid cloud connectivity, built on Cisco and HPE infrastructure. Covers Tier II to IV aligned design, disaster recovery, 24/7 NOC operations, and multi-cloud connectivity across AWS, Azure, and GCP.",
     "Explore Data Center & Cloud Solutions",
+    "/services/data-center",
   ],
   [
     "IT Services & Managed IT",
     "IT staff augmentation, custom software development, asset lifecycle management, and after-sales support, delivered as one accountable partner instead of three separate vendors. Certified engineers across Cisco, AWS, Azure, and DevOps disciplines support your team directly.",
     "Explore IT Services & Managed IT",
+    "/services/managed-it",
   ],
 ];
 
@@ -424,7 +428,7 @@ export default function Networking() {
           sub="Each service below has its own dedicated page with the full breakdown of sub-services, process, and technical detail. This is the short version."
         />
         <div className="g2">
-          {more.map(([t, p, b]) => (
+          {more.map(([t, p, b, href]) => (
             <div
               className="card pad-outer flex h-full bg-[#080808]! p-4!"
               key={t}
@@ -437,7 +441,7 @@ export default function Networking() {
                   {p}
                 </p>
                 <div className="mt-auto">
-                  <Btn href="/services">{b}</Btn>
+                  <Btn href={href}>{b}</Btn>
                 </div>
               </div>
             </div>

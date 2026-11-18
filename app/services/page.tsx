@@ -14,7 +14,7 @@ const off = [
     "Cybersecurity",
     "24/7 SOC monitoring, penetration testing, and compliance-aligned security for banks, telecoms, and enterprises across Pakistan. Covers managed security, VAPT, incident response, identity and access management, cloud security posture management, and compliance with frameworks like ISO 27001, PCI DSS, and the SBP Cybersecurity Framework.",
     "Explore Cybersecurity Services",
-    "/services",
+    "/services/cybersecurity",
   ],
   [
     "Networking & IT Infrastructure",
@@ -26,13 +26,13 @@ const off = [
     "Data Center & Cloud Solutions",
     "End-to-end data center architecture, migration, and hybrid cloud connectivity, built on Cisco and HPE infrastructure. Covers Tier II to IV aligned design, disaster recovery, 24/7 NOC operations, and multi-cloud connectivity across AWS, Azure, and GCP.",
     "Explore Data Center & Cloud Solutions",
-    "/services",
+    "/services/data-center",
   ],
   [
     "IT Services & Managed IT",
     "IT staff augmentation, custom software development, asset lifecycle management, and after-sales support, delivered as one accountable partner instead of three separate vendors. Certified engineers across Cisco, AWS, Azure, and DevOps disciplines support your team directly.",
     "Explore IT Services & Managed IT",
-    "/services",
+    "/services/managed-it",
   ],
 ];
 

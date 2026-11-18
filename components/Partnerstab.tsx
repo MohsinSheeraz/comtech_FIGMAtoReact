@@ -5,29 +5,44 @@ import Image from "next/image";
 import Link from "next/link";
 import { BORDER_GRADIENT, Underline } from "@/components/PartnersUI";
 
-type Partner = { slug: string; name: string; logo: string; text: string };
+type Partner = { slug: string; name: string; logo?: string; text: string };
 type Tab = { id: string; label: string; partners: Partner[] };
 
-// placeholder copy exactly as in the Figma; replace per partner when final
-const cardText =
-    "Centrally managed, secure connectivity between multiple offices or branches, replacing costly point-to-point links with something more resilient and far easier to monitor as you add locations.";
-
-// logos live in /public/images (change the extension here if yours are not .png)
 const networking: Partner[] = [
-    { slug: "cisco", name: "Cisco", logo: "/images/ciscoLogo.png", text: cardText },
-    { slug: "huawei", name: "Huawei", logo: "/images/huaweiLogo.png", text: cardText },
-    { slug: "ubiquiti", name: "Ubiquiti", logo: "/images/uniquitiLogo.png", text: cardText },
-    { slug: "d-link", name: "D-Link", logo: "/images/dlinkLogo.png", text: cardText },
-    { slug: "tp-link", name: "TP-Link", logo: "/images/tplinkLogo.png", text: cardText },
-    { slug: "h3c", name: "H3C", logo: "/images/hecLogo.png", text: cardText },
+    { slug: "cisco", name: "Cisco", logo: "/images/ciscoLogo.png", text: "Enterprise networking, security, collaboration, and data center technology for connected organizations." },
+    { slug: "huawei", name: "Huawei", logo: "/images/huaweiLogo.png", text: "Networking and connectivity technology for business infrastructure and multi-site environments." },
+    { slug: "ubiquiti", name: "Ubiquiti", logo: "/images/uniquitiLogo.png", text: "Wireless networking and connectivity options for offices, campuses, and distributed sites." },
+    { slug: "d-link", name: "D-Link", logo: "/images/dlinkLogo.png", text: "Network connectivity products for business environments, from access to site-wide infrastructure." },
+    { slug: "tp-link", name: "TP-Link", logo: "/images/tplinkLogo.png", text: "Business networking and wireless connectivity for offices and growing organizations." },
+    { slug: "h3c", name: "H3C", logo: "/images/hecLogo.png", text: "Enterprise networking technology for organizations building connected infrastructure." },
 ];
 
-// Only the first tab is designed in Figma. Fill the other tabs when their cards are designed.
 const tabs: Tab[] = [
     { id: "networking", label: "Networking & Infrastructure", partners: networking },
-    { id: "security", label: "Cyber Security", partners: [] },
-    { id: "servers", label: "Servers, Storage & Data Center", partners: [] },
-    { id: "comms", label: "Communications & Collaboration", partners: [] },
+    {
+        id: "security",
+        label: "Cyber Security",
+        partners: [
+            { slug: "fortinet", name: "Fortinet", text: "Cybersecurity solutions for protecting networks, users, and distributed business environments." },
+            { slug: "kaspersky", name: "Kaspersky", text: "Endpoint and threat protection for business environments, from user devices to operational sites." },
+            { slug: "sangfor", name: "Sangfor", text: "Cybersecurity and infrastructure technology for organizations reviewing their security architecture." },
+        ],
+    },
+    {
+        id: "servers",
+        label: "Servers, Storage & Data Center",
+        partners: [
+            { slug: "hpe", name: "HPE", text: "Server and data center infrastructure for enterprise workloads, capacity, and operational requirements." },
+            { slug: "dell", name: "Dell", text: "Server and infrastructure technology to support business workloads and data center environments." },
+        ],
+    },
+    {
+        id: "comms",
+        label: "Communications & Collaboration",
+        partners: [
+            { slug: "avaya", name: "Avaya", text: "Business communications, unified communications, and contact center technology for connected teams." },
+        ],
+    },
 ];
 
 function PartnerCard({ p }: { p: Partner }) {
@@ -40,13 +55,19 @@ function PartnerCard({ p }: { p: Partner }) {
                 >
                     {/* logo circle sits on the top border of the card */}
                     <span className="absolute left-[23px] top-0 flex size-[88px] -translate-y-1/2 items-center justify-center rounded-full border border-[#3a2a7a] bg-[#0c0a1f]">
-                        <Image
-                            src={p.logo}
-                            alt={`${p.name} logo`}
-                            width={54}
-                            height={40}
-                            className="h-auto max-h-[40px] w-auto max-w-[54px] object-contain"
-                        />
+                        {p.logo ? (
+                            <Image
+                                src={p.logo}
+                                alt={`${p.name} logo`}
+                                width={54}
+                                height={40}
+                                className="h-auto max-h-[40px] w-auto max-w-[54px] object-contain"
+                            />
+                        ) : (
+                            <span aria-hidden className="text-[20px] font-semibold text-white">
+                                {p.name.slice(0, 1)}
+                            </span>
+                        )}
                     </span>
 
                     <h3 className="text-[26px] font-normal leading-[31px] text-white">{p.name}</h3>

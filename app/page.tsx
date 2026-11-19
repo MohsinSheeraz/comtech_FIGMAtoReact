@@ -13,6 +13,13 @@ import { PartnerSlider } from "@/components/PartnerSlider";
 import { PinnedStory } from "@/components/Pinnedstory";
 import { Reveal } from "@/components/Reveal";
 import { TechnologySection } from "@/components/TechnologySection";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Comtech Associates | IT Solutions Provider in Pakistan",
+  description:
+    "Comtech Associates delivers IT solutions, managed cybersecurity, and custom software development across Pakistan. 10+ years, 250+ projects, 4 cities. Talk to an expert today.",
+};
 
 const why: [string, string][] = [
   [
@@ -86,7 +93,7 @@ export default function Home() {
       <PageGlows />
       <Hero
         pill="16+ Technology Partners"
-        small="Pakistan Trusted It Solutions Providers for"
+        small="Pakistan's Trusted IT Solutions Provider for"
         title={
           <>
             Networking, Cybersecurity, AI
@@ -109,7 +116,7 @@ export default function Home() {
               We’re Not Just an IT Vendor
             </h2>
             <h2 className="h2 -mt-2 gt tracking-tighter!">
-              We’re Your Infrastructure Partner!
+              We’re Your Infrastructure Partner
             </h2>
             <span className="bar" />
             <p className="text-[18px]! leading-[31px]! tracking-tighter!">
@@ -298,7 +305,7 @@ export default function Home() {
       <CtaPanel
         title="Ready to Strengthen Your IT Infrastructure?"
         text="Whether you need networking, cybersecurity, or infrastructure support: Comtech is ready to help. Serving businesses across Karachi, Islamabad, Lahore, Quetta, and everywhere in between."
-        label="Connect with Us"
+        label="Get a Free IT Infrastructure Consultation"
       />
     </main>
   );

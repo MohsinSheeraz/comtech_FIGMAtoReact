@@ -7,8 +7,8 @@ import { PartnersTabs } from "@/components/Partnerstab";
 import { SectionHeading, SectionIntro, Underline } from "@/components/PartnersUI";
 
 export const metadata: Metadata = {
-  title: "Technology Partners | Comtech Associates",
-  description: "15 certified technology partnerships, one accountable team designing, deploying, and supporting all of it.",
+  title: "Technology Partners in Pakistan | Comtech",
+  description: "Comtech Associates is a certified Cisco partner and works with Fortinet, Huawei, Dell, HPE, Kaspersky, and 10 more leading technology brands across Pakistan.",
 };
 
 /* ---------- content (copy is exactly as in the Figma) ---------- */
@@ -75,8 +75,6 @@ export default function Partners() {
               </h2>
               <Underline className="mt-6 h-1! w-[86px]! lg:mt-[30px]" />
               <p className="mt-8 text-[18px] leading-[30px] tracking-tighter text-white lg:mt-[34px] lg:text-[24px] lg:leading-[38px]">
-                {why.heading}
-                <br />
                 {why.text}
               </p>
             </div>

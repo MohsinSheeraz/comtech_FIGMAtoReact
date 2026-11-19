@@ -10,11 +10,12 @@ const field =
 
 
 const services = [
-    "CyberSecurity",
+    "Cybersecurity",
     "Networking & IT Infrastructure",
     "Data Center & Cloud Solutions",
     "IT Services & Managed IT",
     "Custom Software Development",
+    "IT Resourcing",
 ];
 
 export function ContactForm() {
@@ -35,8 +36,7 @@ export function ContactForm() {
             className="rounded-[40px] border border-[#1e2540] bg-transparent! p-6 sm:p-[40px]"
         >
             <div className="grid gap-4 sm:grid-cols-2">
-                <input className={field} type="text" name="firstName" placeholder="First Name" aria-label="First Name" required />
-                <input className={field} type="text" name="lastName" placeholder="Last Name" aria-label="Last Name" />
+                <input className={field} type="text" name="fullName" placeholder="Full Name" aria-label="Full Name" required />
                 <input className={field} type="text" name="company" placeholder="Company Name" aria-label="Company Name" />
                 <input className={field} type="email" name="email" placeholder="Email Address" aria-label="Email Address" required />
                 <input className={field} type="tel" name="phone" placeholder="Phone Number" aria-label="Phone Number" />

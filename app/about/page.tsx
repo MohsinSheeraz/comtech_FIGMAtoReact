@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import { Hero } from "@/components/Hero";
 import { PageGlows, Glow } from "@/components/Glow";
@@ -7,6 +8,12 @@ import { CtaPanel } from "@/components/CtaPanel";
 import { CeoQuote } from "@/components/CeoQuote";
 import { ServiceCard, StatementCard } from "@/components/ServiceCard";
 import { services } from "@/lib/services";
+
+export const metadata: Metadata = {
+  title: "About Comtech Associates | IT Solutions Company in Pakistan",
+  description:
+    "Comtech Associates: 10+ years, 250+ projects, and four offices delivering networking, cybersecurity, data center, and IT services across Pakistan. Meet the team.",
+};
 
 const mv = [
   [
@@ -23,7 +30,7 @@ const awards: [string, string][] = [
   ["2025", "Cisco SMB Partner Award"],
   ["2025", "Cisco Individual Excellence Award"],
   ["2025", "Fortinet Select Champions Award"],
-  ["25+", "Vendor Awards Total"],
+  ["30+", "Vendor Awards Total"],
 ];
 
 // Gradient frame behind Who We Are -> Mission/Vision -> What We Do
@@ -114,9 +121,9 @@ export default function About() {
         </div>
       </section>
       <CtaPanel
-        title="Ready to Strengthen Your IT Infrastructure?"
-        text="Whether you need networking, cybersecurity, or infrastructure support: Comtech is ready to help. Serving businesses across Karachi, Islamabad, Lahore, Quetta, and everywhere in between."
-        label="Connect with Us"
+        title="Let's Build Something That Lasts"
+        text="Whether you need one service or all of them, a conversation with our team is the place to start."
+        label="Talk to Our Team"
       />
     </main>
   );

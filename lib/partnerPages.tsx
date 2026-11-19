@@ -117,8 +117,8 @@ const pages: PartnerPage[] = [
     name: "Fortinet",
     category: "Cybersecurity",
     keyword: "Fortinet cybersecurity solutions",
-    description: "Fortinet cybersecurity solutions and network security planning in Pakistan from Comtech Associates.",
-    overview: "Explore Fortinet cybersecurity solutions as part of a security strategy shaped around your network and business risks. Comtech can help assess requirements and plan how security controls fit into your wider environment.",
+    description: "Comtech is a Fortinet Advanced Partner (Integrator) in Pakistan, with SD-WAN, OT and SASE specializations and 5 Fortinet Certified Engineers.",
+    overview: "Comtech Associates is a Fortinet Advanced Partner in Pakistan, deploying FortiGate firewalls, Secure SD-WAN and managed network security built to close the gaps attackers actually look for.",
     audiences: [
       { title: "Financial services", text: "Security planning for organizations with demanding availability and compliance needs." },
       { title: "Multi-site businesses", text: "Network security considerations for branches, remote sites, and connected teams." },

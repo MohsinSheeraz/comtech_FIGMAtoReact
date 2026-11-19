@@ -8,7 +8,11 @@ import { PER_PAGE } from "@/lib/posts";
 import { getPostsPage } from "@/lib/posts";
 import { Hero } from "@/components/Hero";
 
-export const metadata: Metadata = { title: "News & Insights | Comtech Associates" };
+export const metadata: Metadata = {
+  title: "IT & Cybersecurity Blog | Comtech Associates",
+  description:
+    "Practical IT, networking and cybersecurity insight for Pakistani organizations, from the team at Comtech Associates.",
+};
 
 const frameBg =
   "linear-gradient(180deg, transparent 8.06%, rgba(69, 22, 187, 0.42) 43.03%, #040404 80.62%)";
@@ -25,18 +29,16 @@ export default async function Blog({ searchParams }: { searchParams: Promise<{ p
         logos={false}
         title={
           <>
-              See, What new in the News
+              IT and Security Insight for Pakistani Organizations
           </>
         }
         text={
           <>
-          As a certified Cisco partner, Comtech designs, deploys, and monitors the network
-          infrastructure banks, hospitals, and manufacturers depend on, <br /> 24/7.
-          We serve enterprises in four major cities, backed by certified engineers, not a
-          reseller who ships hardware and disappears.
+            Regulation, threats and infrastructure decisions, explained plainly
+            by the team at Comtech Associates.
           </>
         }
-        primary="Get a Professional Consult Today"
+        primary="Request an IT Assessment"
         
       />
 

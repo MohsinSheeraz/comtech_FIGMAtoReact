@@ -4,8 +4,8 @@ import { CtaPanel } from "@/components/CtaPanel";
 import { ContactForm } from "@/components/Contactform";
 
 export const metadata: Metadata = {
-    title: "Contact Us | Comtech Associates",
-    description: "Tell us what you're working on and we'll get the right person on it, not a generic ticket queue.",
+    title: "Contact Comtech Associates | IT Solutions Company in Pakistan",
+    description: "Get in touch with Comtech Associates. Offices in Karachi, Islamabad, Lahore, and Quetta. Talk to our team about networking, cybersecurity, data center, or IT services.",
 };
 
 /* ---------- content (copy is exactly as in the Figma) ---------- */
@@ -49,7 +49,7 @@ export default function Contact() {
                 <div className="wrap grid items-start gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,754px)] lg:gap-[60px]">
                     <div>
                         <h1 className="text-[40px] font-medium leading-[48px] tracking-tighter md:text-[56px] md:leading-[66px] lg:text-[64px] lg:leading-[75px]">
-                            Have Questions?
+                            Have Questions or Concerns?
                             <br />
                             Get In Touch Today!
                         </h1>
@@ -123,7 +123,7 @@ export default function Contact() {
             <CtaPanel
                 title="Let’s Build Something Together"
                 text="Reach out today, and our team will follow up to understand what you need before recommending anything."
-                label="Get a Free Network Consultation"
+                label="Talk to Our Team"
             />
         </main>
     );

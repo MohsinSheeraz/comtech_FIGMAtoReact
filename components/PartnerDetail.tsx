@@ -97,7 +97,7 @@ export function PartnerDetail({ d }: { d: PartnerDetailData }) {
         <section className="pb-10 pt-16 lg:pb-0 lg:pt-[110px]">
           <Container>
             <SectionHeading>{d.audience.title}</SectionHeading>
-            {d.audience.sub && (
+             {d.audience.sub && (
               <SectionIntro
                 intro={d.audience.sub}
                 className="mt-4 lg:mt-[24px]"
@@ -176,7 +176,7 @@ export function PartnerDetail({ d }: { d: PartnerDetailData }) {
                   <h2 className="text-3xl font-normal leading-tight text-white md:text-4xl lg:text-[40px]">
                     {d.faq.title}
                   </h2>
-                  <p className="mt-6 max-w-[320px] text-xs leading-5 text-white/90 md:text-[13px]">
+                  <p className="mt-6 max-w-[320px] leading-5 text-white/90 ">
                     {FAQ_TEXT}
                   </p>
                 </>

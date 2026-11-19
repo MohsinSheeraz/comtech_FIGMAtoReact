@@ -23,7 +23,7 @@ const tabs: Tab[] = [
         id: "security",
         label: "Cyber Security",
         partners: [
-            { slug: "fortinet", name: "Fortinet", text: "Cybersecurity solutions for protecting networks, users, and distributed business environments." },
+            { slug: "fortinet", name: "Fortinet", text: "Comtech is a Fortinet Authorized Partner in Pakistan, delivering FortiGate firewall deployment, Fortinet SD-WAN, and Fortinet SASE/ZTNA architecture for enterprises that need security built in." },
             { slug: "kaspersky", name: "Kaspersky", text: "Endpoint and threat protection for business environments, from user devices to operational sites." },
             { slug: "sangfor", name: "Sangfor", text: "Cybersecurity and infrastructure technology for organizations reviewing their security architecture." },
         ],

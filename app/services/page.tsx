@@ -1,3 +1,5 @@
+import type { Metadata } from "next";
+
 import Image from "next/image";
 import { Btn } from "@/components/Button";
 import { CtaPanel } from "@/components/CtaPanel";
@@ -8,6 +10,12 @@ import { HowWeWork } from "@/components/HowWeWork";
 import { PinnedFaq } from "@/components/PinnedFaq";
 import ComtechRightChoice_SectionImage from "@/public/images/Comtech_RightChoiceIMG.png";
 import { DeferredGlobe } from "@/components/three/DeferredGlobe";
+
+export const metadata: Metadata = {
+  title: "IT Services in Pakistan | Comtech",
+  description:
+    "Networking, cybersecurity, data center, and managed IT services for enterprises across Pakistan, delivered by a Cisco Premier Partner. Explore Comtech's full range of IT solutions.",
+};
 
 const off = [
   [
@@ -49,7 +57,7 @@ const steps: [string, string, string][] = [
   ],
   [
     "03",
-    "Design",
+    "Deploy",
     "Implementation sequenced to minimize disruption to operations already in progress.",
   ],
   [
@@ -61,7 +69,7 @@ const steps: [string, string, string][] = [
 
 const checks = [
   "One accountable partner across cybersecurity, networking, data center, and IT services, instead of four separate vendors who don't talk to each other.",
-  "A Cisco Preferred Partner with certified engineers across Fortinet, Kaspersky, AWS, Azure, and DevOps disciplines, not a generalist reseller.",
+  "A Cisco Premier Partner with certified engineers across Fortinet, Kaspersky, AWS, Azure, and DevOps disciplines, not a generalist reseller.",
   "Physical presence in four Pakistani cities, so deployment and support don't depend on a single remote team.",
   "Ten years and 250+ delivered projects, with a track record spanning every service Comtech offers, not just one.",
 ];
@@ -193,7 +201,7 @@ export default function Services() {
                       infrastructure, not a vendor who disappears after launch.
                     </p>
                     <div>
-                      <Btn href="/services">
+                        <Btn href="/services/custom-software">
                         Explore Custom Software Development
                       </Btn>
                     </div>
@@ -218,7 +226,7 @@ export default function Services() {
             </h2>
             <p className="text-[18px]! leading-[31px]! font-normal! tracking-tighter!">
               Comtech&apos;s practice runs on 15 confirmed technology
-              partnerships, including Cisco, where Comtech holds Preferred
+              partnerships, including Cisco, where Comtech holds Premier
               Partner status, alongside Fortinet, Kaspersky, Sangfor, Ubiquiti,
               TP-Link, D-Link, HPE, H3C, Broadcom, and Dell. Which partners
               apply depends on the service, each pillar page lists the specific
@@ -240,7 +248,8 @@ export default function Services() {
               Pakistani enterprises are actually held to, not a generic
               international checklist: ISO 27001, PCI DSS, HIPAA, and GDPR where
               relevant, plus Pakistan-specific requirements including the SBP
-              Cybersecurity Framework.
+              Cybersecurity Framework and PECA 2024/25. Data center work aligns
+              to Tier II to IV standards.
             </p>
             <div className="mt-auto">
               <Btn href="/contact">Connect With Us</Btn>

@@ -10,12 +10,10 @@ import { NumberedCards } from "@/components/NumberedCards";
 import { GlowCard, Underline } from "@/components/PartnersUI";
 
 export const metadata: Metadata = {
-  title: "Industries | Comtech Associates",
+  title: "Industry IT Solutions in Pakistan | Comtech Associates",
   description:
-    "Comtech delivers IT services for banking, healthcare, government, education, telecom and enterprise across Pakistan, each built to its own definition of uptime.",
+    "Comtech Associates delivers IT services for banks, healthcare, government, education, telecom, and enterprise organizations across Pakistan.",
 };
-
-/* ---------- content (copy is exactly as in the Figma) ---------- */
 
 const stats: [string, string][] = [
   ["10+ Years", "In Operation"],
@@ -28,7 +26,7 @@ const stats: [string, string][] = [
 const sectors = [
   {
     title: "Banking & Financial Services",
-    slug: "banking",
+    slug: "banking-and-finance",
     text: "IT services for banking built for institutions where uptime and compliance aren’t optional. Bank IT support, cybersecurity, and bank data center infrastructure from one team.",
   },
   {
@@ -60,38 +58,68 @@ const sectors = [
 ];
 
 const demands: [string, string][] = [
-  ["Banking", "zero tolerance for downtime and audit gaps. We lead with Cisco ACI data centers, Fortinet Secure SD-WAN, and managed security."],
-  ["Healthcare", "patient data that stays private and systems that stay up. We lead with disaster recovery, data protection, and compliance-aligned security."],
-  ["Government", "standards, scale, and accountability. We lead with secure communications, firewalls, and standards-aligned infrastructure."],
-  ["Education", "coverage across every block, hostel, and lab. We lead with campus-wide Wi-Fi 6, switching, and ongoing IT support."],
-  ["Telecom", "continuity at carrier scale. We lead with carrier-grade routing, optical and GPON backbone, and 24/7 support."],
-  ["Enterprise", "many departments, one standard. We lead with enterprise IT management, security, and data center infrastructure."],
+  [
+    "Banking",
+    "zero tolerance for downtime and audit gaps. We lead with Cisco ACI data centers, Fortinet Secure SD-WAN, and managed security.",
+  ],
+  [
+    "Healthcare",
+    "patient data that stays private and systems that stay up. We lead with disaster recovery, data protection, and compliance-aligned security.",
+  ],
+  [
+    "Government",
+    "standards, scale, and accountability. We lead with secure communications, firewalls, and standards-aligned infrastructure.",
+  ],
+  [
+    "Education",
+    "coverage across every block, hostel, and lab. We lead with campus-wide Wi-Fi 6, switching, and ongoing IT support.",
+  ],
+  [
+    "Telecom",
+    "continuity at carrier scale. We lead with carrier-grade routing, optical and GPON backbone, and 24/7 support.",
+  ],
+  [
+    "Enterprise",
+    "many departments, one standard. We lead with enterprise IT management, security, and data center infrastructure.",
+  ],
 ];
 
 const why = [
-  { title: "One Team, the Whole Stack", text: "Networking, security, data center, and managed IT from one accountable team, not four vendors pointing at each other." },
-  { title: "Compliance-Aligned Practices", text: "Delivery built around ISO 27001, PCI DSS, HIPAA, and GDPR requirements, matched to what your sector answers to." },
-  { title: "24/7 Security Operations", text: "A round-the-clock SOC watching the environment after go-live, not just at handover." },
-  { title: "Present in Four Cities", text: "Karachi, Islamabad, Lahore, and Quetta, so multi-site organizations get local engineers." },
+  {
+    title: "One Team, the Whole Stack",
+    text: "Networking, security, data center, and managed IT from one accountable team, not four vendors pointing at each other.",
+  },
+  {
+    title: "Compliance-Aligned Practices",
+    text: "Delivery built around ISO 27001, PCI DSS, HIPAA, and GDPR requirements, matched to what your sector answers to.",
+  },
+  {
+    title: "24/7 Security Operations",
+    text: "A round-the-clock SOC watching the environment after go-live, not just at handover.",
+  },
+  {
+    title: "Present in Four Cities",
+    text: "Karachi, Islamabad, Lahore, and Quetta, so multi-site organizations get local engineers.",
+  },
 ];
 
 // TODO: answers 2-4 were not in the design; drafted from existing site copy, replace with final copy.
 const faq: [string, string][] = [
   [
     "Does Comtech offer a different solution per industry, or one package for all?",
-    "Different starting points on the same engineering base. A bank’s conversation begins with uptime and audit trails, a campus’s with coverage and user density. The sector pages show where each one starts.",
+    "Different starting points on the same engineering base. A bank's conversation begins with uptime and audit trails, a campus's with coverage and user density. The sector pages show where each one starts.",
   ],
   [
     "Which compliance frameworks does Comtech work to?",
-    "Delivery is built around ISO 27001, PCI DSS, HIPAA, and GDPR where relevant, plus Pakistan-specific requirements including the SBP Cybersecurity Framework, matched to what your sector answers to.",
+    "Delivery practices are aligned to ISO 27001, PCI DSS, HIPAA, and GDPR, applied according to what your sector requires.",
   ],
   [
     "Can Comtech support an organization spread across several cities?",
-    "Yes. Comtech has offices in Karachi, Islamabad, Lahore, and Quetta, so multi-site organizations get local engineers instead of a single remote team.",
+    "Yes. With offices in Karachi, Islamabad, Lahore, and Quetta, multi-site deployments get engineers close to each location.",
   ],
   [
-    "My industry isn’t listed. Can Comtech still help?",
-    "Most likely. The engineering base is the same across sectors, so start with a conversation about your environment and we’ll tell you honestly where Comtech fits.",
+    "My industry isn't listed. Can Comtech still help?",
+    "The seven sector pages cover where Comtech has documented work. If yours is different, request an assessment and the team will tell you plainly whether it's a fit.",
   ],
 ];
 
@@ -153,9 +181,13 @@ export default function Industries() {
             {sectors.map((s) => (
               <GlowCard key={s.slug} className="h-full">
                 <div className="flex h-full flex-col">
-                  <h3 className="text-[26px] font-normal leading-[31px] text-white">{s.title}</h3>
+                  <h3 className="text-[26px] font-normal leading-[31px] text-white">
+                    {s.title}
+                  </h3>
                   <Underline className="mt-[20px]" />
-                  <p className="mt-[21px] flex-1 text-[18px] leading-[31px] text-white">{s.text}</p>
+                  <p className="mt-[21px] flex-1 text-[18px] leading-[31px] text-white">
+                    {s.text}
+                  </p>
                   <div className="mt-7">
                     <Btn v="o" href={`/industries/${s.slug}`}>
                       Read More
@@ -173,15 +205,31 @@ export default function Industries() {
             sub="Same engineering team. A different starting point for every conversation."
           />
           <div className="relative grid gap-12 min-[1101px]:grid-cols-3 min-[1101px]:gap-y-0">
-            <span aria-hidden className="pointer-events-none absolute inset-y-0 left-1/3 hidden w-[2px] -translate-x-1/2 bg-[#6739DD] min-[1101px]:block" />
-            <span aria-hidden className="pointer-events-none absolute inset-y-0 left-2/3 hidden w-[2px] -translate-x-1/2 bg-[#6739DD] min-[1101px]:block" />
-            <span aria-hidden className="pointer-events-none absolute inset-x-0 top-1/2 hidden h-[2px] -translate-y-1/2 bg-[#6739DD]/70 min-[1101px]:block" />
+            <span
+              aria-hidden
+              className="pointer-events-none absolute inset-y-0 left-1/3 hidden w-[2px] -translate-x-1/2 bg-[#6739DD] min-[1101px]:block"
+            />
+            <span
+              aria-hidden
+              className="pointer-events-none absolute inset-y-0 left-2/3 hidden w-[2px] -translate-x-1/2 bg-[#6739DD] min-[1101px]:block"
+            />
+            <span
+              aria-hidden
+              className="pointer-events-none absolute inset-x-0 top-1/2 hidden h-[2px] -translate-y-1/2 bg-[#6739DD]/70 min-[1101px]:block"
+            />
             <Dot left="33.3333%" />
             <Dot left="66.6667%" />
             {demands.map(([t, p]) => (
-              <div key={t} className="px-4 text-center min-[1101px]:px-10 min-[1101px]:py-14">
-                <h3 className="text-[26px] font-normal leading-[34px] tracking-tighter text-white lg:text-[30px] lg:leading-[38px]">{t}</h3>
-                <p className="mx-auto mt-5 max-w-[360px] text-[16px] leading-[28px] tracking-tighter lg:text-[18px] lg:leading-[31px]">{p}</p>
+              <div
+                key={t}
+                className="px-4 text-center min-[1101px]:px-10 min-[1101px]:py-14"
+              >
+                <h3 className="text-[26px] font-normal leading-[34px] tracking-tighter text-white lg:text-[30px] lg:leading-[38px]">
+                  {t}
+                </h3>
+                <p className="mx-auto mt-5 max-w-[360px] text-[16px] leading-[28px] tracking-tighter lg:text-[18px] lg:leading-[31px]">
+                  {p}
+                </p>
               </div>
             ))}
           </div>
@@ -212,7 +260,8 @@ export default function Industries() {
                   Straight Answers
                 </h2>
                 <p className="mt-5">
-                  Have questions? Our FAQ section has you covered with quick answers to the most common inquiries.
+                  Have questions? Our FAQ section has you covered with quick
+                  answers to the most common inquiries.
                 </p>
               </>
             }

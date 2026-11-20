@@ -88,6 +88,8 @@ export function Header() {
   const [sub, setSub] = useState<string | null>(null); // mobile accordion that is open
   const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const path = usePathname() ?? "/";
+  const isLegalPage =
+    path === "/privacy-policy" || path === "/terms-and-conditions";
 
   // Highlight the section you are in (e.g. /services/networking keeps "Services" bold).
   const isActive = (href: string) =>
@@ -111,7 +113,7 @@ export function Header() {
   };
 
   return (
-    <header className="wrap hdr">
+    <header className={`wrap hdr${isLegalPage ? " hdr-legal" : ""}`}>
       <Link href="/" className="logo" onClick={close}>
         Comtech Associates
       </Link>

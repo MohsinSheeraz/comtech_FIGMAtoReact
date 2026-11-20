@@ -184,6 +184,10 @@ img {
   z-index: 50;
 }
 
+.hdr.hdr-legal {
+  background-color: var(--bg);
+}
+
 .logo {
   font-size: 24px;
   font-weight: 700;

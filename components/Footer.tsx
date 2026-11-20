@@ -100,7 +100,10 @@ export function Footer() {
         </div>
         <div className="foot-bot">
           <span>© 2026 COMTECH ASSOCIATES. All rights reserved</span>
-          <a href="#">Privacy Policy</a>
+          <div className="flex flex-wrap gap-x-6">
+            <Link href="/privacy-policy">Privacy Policy</Link>
+            <Link href="/terms-and-conditions">Terms and Conditions</Link>
+          </div>
         </div>
       </div>
       <Image

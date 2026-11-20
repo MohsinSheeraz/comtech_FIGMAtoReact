@@ -87,7 +87,7 @@ function TermsSection({
 
 export default function TermsAndConditionsPage() {
   return (
-    <main className="relative overflow-hidden">
+    <main>
       <PageGlows />
       <div className="wrap relative pb-16 pt-36 md:pb-24 md:pt-48 mt-20!">
         <header className="max-w-4xl pb-12 md:pb-16">

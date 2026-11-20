@@ -12,20 +12,49 @@ import { HideInAdmin } from "@/components/HideInAdmin";
 import { SmoothScroll } from "@/components/SmoothScroll";
 import { CursorFollower } from "@/components/Cursorfollower";
 import { PageTransition } from "@/components/PageTransition";
+import { getPostsPage } from "@/lib/posts";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://justforexamplefornow.com"),
   title: "Comtech Associates",
-  description: "Enterprise IT solutions: networking, cybersecurity, data centers and managed IT across Pakistan."
+  description:
+    "Enterprise IT solutions: networking, cybersecurity, data centers and managed IT across Pakistan.",
 };
 
-export const viewport: Viewport = { width: "device-width", initialScale: 1, themeColor: "#040404" };
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#040404",
+};
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const { items } = await getPostsPage(1);
+  const menuPosts = items.slice(0, 3).map((p) => ({
+    slug: p.slug,
+    title: p.title,
+    image: p.thumbnailImage || p.image,
+  }));
+
   return (
-    // data-pt-theme = colour of the page-change light: "light" | "dark" | "vivid" (presets live in app/page-transition.css)
     <html lang="en" data-pt-theme="dark">
-      <body><SmoothScroll /> <HideInAdmin><CursorFollower /></HideInAdmin> <PageTransition /> <HideInAdmin><Header /></HideInAdmin>{children}<HideInAdmin><Footer /></HideInAdmin></body>
+      <body>
+        <SmoothScroll />{" "}
+        <HideInAdmin>
+          <CursorFollower />
+        </HideInAdmin>{" "}
+        <PageTransition />{" "}
+        <HideInAdmin>
+          <Header posts={menuPosts} />
+        </HideInAdmin>
+        {children}
+        <HideInAdmin>
+          <Footer />
+        </HideInAdmin>
+      </body>
     </html>
   );
 }

@@ -19,10 +19,17 @@ export const metadata: Metadata = {
 const frameBg =
   "linear-gradient(180deg, transparent 8.06%, rgba(69, 22, 187, 0.42) 43.03%, #040404 80.62%)";
 
-const H2 = "text-[34px] font-medium leading-[42px] tracking-tighter min-[1101px]:text-[46px] min-[1101px]:leading-[54px]";
+const H2 =
+  "text-[34px] font-medium leading-[42px] tracking-tighter min-[1101px]:text-[46px] min-[1101px]:leading-[54px]";
 const P = "text-[18px] leading-[31px] tracking-tighter";
 
-const Label = ({ children, center }: { children: string; center?: boolean }) => (
+const Label = ({
+  children,
+  center,
+}: {
+  children: string;
+  center?: boolean;
+}) => (
   <div className={`mb-5 flex ${center ? "justify-center" : ""}`}>
     <span className="inline-flex h-[34px] items-center rounded-full border border-white/20 px-4 text-[14px] tracking-normal">
       {children}
@@ -54,19 +61,34 @@ function PersonCard({ p }: { p: Person }) {
               className="object-cover object-center"
             />
           ) : (
-            <span aria-hidden className="absolute inset-0 grid place-items-center text-[64px] font-medium text-white/25">
+            <span
+              aria-hidden
+              className="absolute inset-0 grid place-items-center text-[64px] font-medium text-white/25"
+            >
               {initials(p.name)}
             </span>
           )}
         </div>
       </div>
-      <h3 className="mt-5 text-center text-[24px] font-medium leading-[30px] tracking-tighter">{p.name}</h3>
-      <p className="mt-2 text-center text-[14px] uppercase tracking-wide text-[#b79cff]">{p.role}</p>
+      <h3 className="mt-5 text-center text-[24px] font-medium leading-[30px] tracking-tighter">
+        {p.name}
+      </h3>
+      <p className="mt-2 text-center text-[14px] uppercase tracking-wide text-[#b79cff]">
+        {p.role}
+      </p>
     </div>
   );
 }
 
-function Team({ label, title, people }: { label: string; title: string; people: Person[] }) {
+function Team({
+  label,
+  title,
+  people,
+}: {
+  label: string;
+  title: string;
+  people: Person[];
+}) {
   return (
     <Reveal as="section" className="wrap sec">
       <Label center>{label}</Label>
@@ -84,7 +106,12 @@ export default function ItcnAsia() {
   return (
     <main>
       <PageGlows variant="inner" />
-      <Hero logos={false} title={d.hero.title} text={d.hero.text} primary={d.hero.primary} />
+      <Hero
+        logos={false}
+        title={d.hero.title}
+        text={d.hero.text}
+        primary={d.hero.primary}
+      />
 
       <div
         className="relative isolate mx-auto mt-16 w-[94%] max-w-[1764px] rounded-[40px] pb-16"
@@ -122,8 +149,12 @@ export default function ItcnAsia() {
               />
             </div>
             <div className="gborder-new mx-auto mt-10 max-w-[520px] rounded-[20px] bg-[#0f0826] px-6 py-5 text-center">
-              <p className="text-[18px] font-medium uppercase tracking-wide">{d.find.booth}</p>
-              <p className="mt-1 text-[16px] tracking-tighter text-white/80">{d.find.hall}</p>
+              <p className="text-[18px] font-medium uppercase tracking-wide">
+                {d.find.booth}
+              </p>
+              <p className="mt-1 text-[16px] tracking-tighter text-white/80">
+                {d.find.hall}
+              </p>
             </div>
           </div>
         </Reveal>
@@ -133,8 +164,14 @@ export default function ItcnAsia() {
       </div>
 
       <div className="relative overflow-x-clip">
-        <Glow className="top-[6%] -left-[260px] size-[700px]" color="rgba(30,64,255,.4)" />
-        <Glow className="bottom-[8%] -right-[260px] size-[700px]" color="rgba(30,64,255,.35)" />
+        <Glow
+          className="top-[6%] -left-[260px] size-[700px]"
+          color="rgba(30,64,255,.4)"
+        />
+        <Glow
+          className="bottom-[8%] -right-[260px] size-[700px]"
+          color="rgba(30,64,255,.35)"
+        />
 
         {/* Solutions */}
         <Reveal as="section" className="wrap sec mt-16!">
@@ -159,8 +196,12 @@ export default function ItcnAsia() {
                     height={208}
                     className="h-[208px] w-full rounded-[24px] object-cover"
                   />
-                  <h3 className="h3 mt-4 text-[26px]! leading-[34px]! tracking-tighter!">{s.title}</h3>
-                  <p className="text-[18px]! leading-[31px]! font-normal! tracking-tighter!">{s.text}</p>
+                  <h3 className="h3 mt-4 text-[26px]! leading-[34px]! tracking-tighter!">
+                    {s.title}
+                  </h3>
+                  <p className="text-[18px]! leading-[31px]! font-normal! tracking-tighter!">
+                    {s.text}
+                  </p>
                   <div className="mt-auto pt-2">
                     <Btn v="o" href={s.href}>
                       View More →
@@ -177,7 +218,8 @@ export default function ItcnAsia() {
           <div className="mb-12 flex flex-wrap items-end justify-between gap-6">
             <div className="max-w-[760px]">
               <h2 className={H2}>
-                What We’re Showcasing At <span className="text-[#b79cff]">ITCN Asia 2026</span>
+                What We’re Showcasing At{" "}
+                <span className="text-[#b79cff]">ITCN Asia 2026</span>
               </h2>
               <p className={`${P} mt-4`}>{d.showcase.sub}</p>
             </div>
@@ -192,11 +234,16 @@ export default function ItcnAsia() {
         <Reveal as="section" className="wrap sec">
           <Label center>{d.awards.label}</Label>
           <SecHead title={d.awards.title} />
-          <Stats items={d.awards.stats} />
+          <Stats items={d.awards.stats} interactive />
           <div className="mt-6 grid gap-4 md:grid-cols-2">
             {d.awards.items.map(([a, b], i) => (
-              <div key={i} className="card gborder-new p-8 text-center">
-                <b className="block text-[46px] font-medium leading-[60px] tracking-tighter">{a}</b>
+              <div
+                key={i}
+                className={`card gborder-new interactive-award-card p-8 text-center ${i === 0 ? "is-active" : ""}`}
+              >
+                <b className="block text-[46px] font-medium leading-[60px] tracking-tighter">
+                  {a}
+                </b>
                 <p className="mt-1 text-[18px] tracking-tighter">{b}</p>
               </div>
             ))}

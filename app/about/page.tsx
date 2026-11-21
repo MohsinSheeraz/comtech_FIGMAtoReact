@@ -44,11 +44,13 @@ export default function About() {
       <Hero
         className="p-40! mt-14!"
         title="About Comtech Associates"
-        text={<>Comtech Associates has spent over a decade building the networking,
-          security, and infrastructure
-          <br />
-          that Pakistan&apos;s banks, hospitals, and enterprises run on.
-        </>
+        text={
+          <>
+            Comtech Associates has spent over a decade building the networking,
+            security, and infrastructure
+            <br />
+            that Pakistan&apos;s banks, hospitals, and enterprises run on.
+          </>
         }
         primary="Connect with Us"
         secondary="Explore our Services"
@@ -61,15 +63,17 @@ export default function About() {
       >
         <section className="wrap sec about-who">
           <div>
-            <h2 className="h2 text-[46px] leading-[54px] tracking-tighter">Who We Are</h2>
+            <h2 className="h2 text-[46px] leading-[54px] tracking-tighter">
+              Who We Are
+            </h2>
             <span className="bar mt-8!" />
             <p className="text-[24px] leading-[38px] tracking-tighter">
-              Comtech Associates has spent over a decade building the networking,
-              security, and infrastructure that Pakistan&apos;s banks, hospitals,
-              and enterprises run on. As a certified Cisco partner, we deliver
-              cybersecurity, networking, data center, and managed IT as one
-              connected practice. We design it, secure it, and manage it, for as
-              long as our clients need us to.{" "}
+              Comtech Associates has spent over a decade building the
+              networking, security, and infrastructure that Pakistan&apos;s
+              banks, hospitals, and enterprises run on. As a certified Cisco
+              partner, we deliver cybersecurity, networking, data center, and
+              managed IT as one connected practice. We design it, secure it, and
+              manage it, for as long as our clients need us to.{" "}
             </p>
           </div>
           <img src="/images/globe_spinning_v4.gif" alt="Globe.gif" />
@@ -96,7 +100,11 @@ export default function About() {
           />
           <div className="g3 ">
             {services.map((c) => (
-              <ServiceCard className="gborder-new bg-transparent!" key={c.t} {...c} />
+              <ServiceCard
+                className="gborder-new bg-transparent!"
+                key={c.t}
+                {...c}
+              />
             ))}
             <StatementCard />
           </div>
@@ -105,15 +113,18 @@ export default function About() {
 
       <div className="relative overflow-x-clip">
         <Glow className="bottom-[8%] -left-[150px] size-[600px]" />
-        <Stats className="my-36! " />
+        <Stats className="my-36! " interactive />
         <CeoQuote title="The Faces Behind The Work" />
       </div>
 
       <section className="wrap sec mt-20!">
         <SecHead title="Awards & Recognition" />
         <div className="awards">
-          {awards.map(([a, b]) => (
-            <div className="card gborder-new" key={b}>
+          {awards.map(([a, b], i) => (
+            <div
+              className={`card gborder-new interactive-award-card ${i === 0 ? "is-active" : ""}`}
+              key={b}
+            >
               <b>{a}</b>
               <p>{b}</p>
             </div>

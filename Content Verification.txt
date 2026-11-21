@@ -1,0 +1,44 @@
+CONTENT VERIFICATION
+All audited service, partner, and industry pages compared with their supplied Docs
+
+| Group | Page | Result / key finding |
+|---|---|---|
+| Services | Main Services | Review: Cisco status differs; "16+" omitted; government card truncated; SMB FAQ differs. |
+| Services | Cybersecurity | Gaps: SOC, partners, compliance, industries, and related-service sections missing; copy and final CTA shortened. |
+| Services | Data Center | Gaps: project-manager, multi-vendor/virtualization, compliance, and related-service sections missing; copy/CTAs shortened. |
+| Services | Network Support | Gap: 5 doc capability cards vs 4; monitoring card missing; SEO differs; FAQ omits MikroTik, Juniper, Aruba. |
+| Services | Managed IT | Mostly matches: augmentation intro and process intro shortened/missing; section order differs. |
+| Services | Custom Software | Gaps: build intro, managed-infrastructure and industry sections, related links missing; copy, process step, and CTA differ. |
+| Services | Managed IT aliases | Shared: IT Services, IT Asset Lifecycle, Desktop Support, and related routes use Managed IT content as requested. |
+| Partners | Main Partners hub | Review: 12/15 cards; Broadcom, Polycom, Grandstream missing; CTA differs. |
+| Partners | Cisco | Review: portfolio intro replaced by generic networking text, repeated in the "Why" section. |
+| Partners | Fortinet | Gap: "Beyond the Firewall" services missing; breach-gap comparison shortened. |
+| Partners | Huawei | Review: "deploymentrunning" typo; FAQ mismatch; project-proof section absent. |
+| Partners | Kaspersky | Review: SEO title/description incomplete; track-record section absent. |
+| Partners | HPE | Major: audience section contains H3C content; "Where It Fits" and project story absent. |
+| Partners | Dell | Matches: no major documented section missing. |
+| Partners | Ubiquiti | Review: FAQ heading says "TP-Link"; project-proof section absent. |
+| Partners | Sangfor | Review: documented customer story absent. |
+| Partners | Avaya | Review: documented project story absent. |
+| Partners | Polycom | Review: documented project story absent. |
+| Partners | Grandstream | Matches*: no major gap; both doc and page conflict on 5 categories vs 6 listed. |
+| Partners | D-Link | Review: documented project-proof section absent. |
+| Partners | Broadcom | Review: documented deployment story absent. |
+| Partners | H3C | Major: hero says "Authorized Grandstream Partner"; project story absent. |
+| Partners | TP-Link | Review: documented project-proof section absent. |
+| Industries | Main Industries hub | Review: doc says 7 but lists 6; site uses 6; subtitle, Enterprise text, and CTA label differ. |
+| Industries | Banking & Finance | Mostly matches: header URL /industries/banking-finance is wrong; page is /industries/banking-and-finance. |
+| Industries | Telecom | Route mismatch: full doc page is /industries/telecomunication; linked /industries/telecom shows shorter alternate content. |
+| Industries | Healthcare | Matches: main content present; related-service cards are extra. |
+| Industries | Government | Matches: main content present; related-service cards are extra. |
+| Industries | Education | Review: title differs; FAQ order swapped; Wi-Fi answer omits Huawei/faculty detail. Duplicate card is also in doc. |
+| Industries | Enterprise | Matches: main content present; related-service cards are extra. |
+
+ROUTES AND SHARED ADDITIONS
+- D-Link hub link /partners/d-link loads generic data; detailed page is /partners/dlink.
+- Partner template adds generic networking/FAQ copy; it has no project-proof section.
+- Industry pages add a generic FAQ intro and "Explore our Services" secondary CTA.
+- "You Might Also Need" cards are extra on Banking, Telecom, Healthcare, Government, and Enterprise.
+- The two Services/Network Support links reported earlier were fixed in follow-up.
+
+All audited topics have page content. No page code was changed for this report.

@@ -54,7 +54,7 @@ export function GlowCard({
   children: ReactNode;
 }) {
   return (
-    <div className={`rounded-[32px] border border-[#212121] bg-[#080808] p-[10px] ${className}`} style={style}>
+    <div className={`glow-card rounded-[32px] border border-[#212121] bg-[#080808] p-[10px] ${className}`} style={style}>
       <div className="h-full rounded-[24px] p-px" style={{ background: BORDER_GRADIENT }}>
         <div
           className="relative h-full rounded-[23px] px-[32px] pb-[41px] pt-[54px]"

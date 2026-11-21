@@ -1,6 +1,6 @@
 // the "Post schema" (JSON-LD) that tells Google and AI search what a post is
 
-export const SITE_URL = "https://justforexamplefornow.com"; // same as metadataBase in app/layout.tsx
+export const SITE_URL = "https://comtech.net.pk";
 
 export const SCHEMA_TYPES = [
     { id: "BlogPosting", label: "Blog post" },

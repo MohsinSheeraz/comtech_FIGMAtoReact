@@ -46,7 +46,7 @@ export function HowWeWork({ steps }: { steps: Step[] }) {
             <svg
                 aria-hidden
                 viewBox="0 0 500 410"
-                className="pointer-events-none absolute inset-0 z-20 hidden size-full min-[1101px]:block"
+                className="pointer-events-none absolute inset-0 z-0 hidden size-full min-[1101px]:block"
             >
                 <ScrollConnector
                     d={pathD}
@@ -57,7 +57,7 @@ export function HowWeWork({ steps }: { steps: Step[] }) {
                     dash="5 4"
                     linecap="round"
                     linejoin="round"
-                    dots={nodeDots}
+                    dots={nodeDots.slice(0, -1)}
                     dotStyle={{ outer: 9, inner: 5, outerFill: "#3a2388", innerFill: "#7a52f0" }}
                     progress={progress}
                     range={[0, LINE_END]}

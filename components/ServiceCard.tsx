@@ -8,14 +8,22 @@ type Props = {
   img: string;
   className?: string;
   number?: string;
+  bullets?: string[];
 };
 
-export const ServiceCard = ({ t, p, img, className, number }: Props) => (
+export const ServiceCard = ({ t, p, img, className, number, bullets }: Props) => (
   <article className={`card svc svc-hover ${className ?? ""}`}>
     <span className="svc-hover-bg" aria-hidden="true" />
     <span className="num">{number}</span>
     <h3 className="h3">{t}</h3>
-    <p className="text-[18px]! leading-[31px]! font-normal!">{p}</p>{" "}
+    <p className="text-[18px]! leading-[31px]! font-normal!">{p}</p>
+    {bullets && (
+      <ul className="mt-4 list-disc space-y-1 pl-5 text-[16px] leading-[27px]">
+        {bullets.map((bullet) => (
+          <li key={bullet}>{bullet}</li>
+        ))}
+      </ul>
+    )}
     <div className="row mt-3!">
       <Btn className="btn" v="o" href="/services">
         Explore our Services

@@ -19,12 +19,10 @@ const POS = [
 const PATHS = [
   { d: "M 971 166 H 1048 Q 1090 166 1090 208 V 380", color: "#3A00CB" },
   { d: "M 466 544 H 424 Q 382 544 382 586 V 762", color: "#6A3FE0" },
-  { d: "M 971 928 H 1089", color: "#6A3FE0" },
 ];
 const DOTS = [
   { x: 1076.7, y: 183.7 },
   { x: 396.8, y: 552.5 },
-  { x: 1089.3, y: 928.5 },
 ];
 
 export default function WhatWeDeliver() {
@@ -37,8 +35,8 @@ export default function WhatWeDeliver() {
 
       {/* mobile / tablet: simple stack */}
       <Container className="mt-10 grid gap-6 md:grid-cols-2 lg:hidden">
-        {deliver.cards.map((c) => (
-          <GlowCard key={c.id}>
+        {deliver.cards.map((c, i) => (
+          <GlowCard key={c.id} className={i === 0 ? "is-active" : ""}>
             <CardText title={c.title} text={c.text} />
           </GlowCard>
         ))}
@@ -54,7 +52,7 @@ export default function WhatWeDeliver() {
           </svg>
 
           {deliver.cards.map((c, i) => (
-            <GlowCard key={c.id} className="absolute" style={{ left: POS[i].x, top: POS[i].y, width: CARD_W, height: CARD_H }}>
+            <GlowCard key={c.id} className={`absolute ${i === 0 ? "is-active" : ""}`} style={{ left: POS[i].x, top: POS[i].y, width: CARD_W, height: CARD_H }}>
               <CardText title={c.title} text={c.text} />
             </GlowCard>
           ))}

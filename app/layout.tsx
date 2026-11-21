@@ -15,10 +15,35 @@ import { PageTransition } from "@/components/PageTransition";
 import { getPostsPage } from "@/lib/posts";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://justforexamplefornow.com"),
-  title: "Comtech Associates",
+  metadataBase: new URL("https://comtech.net.pk"),
+  title: "Comtech Associates | IT Solutions Provider in Pakistan",
   description:
-    "Enterprise IT solutions: networking, cybersecurity, data centers and managed IT across Pakistan.",
+    "Comtech delivers Cisco networking, cybersecurity, data center and software solutions across Pakistan. Talk to our team to strengthen your IT.",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    title: "Comtech Associates | IT Solutions Provider in Pakistan",
+    description:
+      "Comtech delivers Cisco networking, cybersecurity, data center and software solutions across Pakistan. Talk to our team to strengthen your IT.",
+    url: "/",
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "Comtech Associates IT solutions across Pakistan",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Comtech Associates | IT Solutions Provider in Pakistan",
+    description:
+      "Comtech delivers Cisco networking, cybersecurity, data center and software solutions across Pakistan. Talk to our team to strengthen your IT.",
+    images: ["/opengraph-image"],
+  },
 };
 
 export const viewport: Viewport = {
@@ -42,6 +67,23 @@ export default async function RootLayout({
   return (
     <html lang="en" data-pt-theme="dark">
       <body>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              name: "Comtech Associates",
+              url: "https://comtech.net.pk",
+              telephone: "+92 213 4404440",
+              contactPoint: {
+                "@type": "ContactPoint",
+                telephone: "+92 213 4404440",
+                contactType: "customer service",
+              },
+            }),
+          }}
+        />
         <SmoothScroll />{" "}
         <HideInAdmin>
           <CursorFollower />

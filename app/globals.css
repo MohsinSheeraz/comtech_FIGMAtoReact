@@ -349,8 +349,25 @@ img {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding: 12px;
   border-color: var(--line);
   text-align: center;
+}
+
+.stat-interactive {
+  background: #0b0a0f;
+  transition: background-color 250ms ease;
+}
+
+.stat-interactive.is-active {
+  background: #130b22;
+}
+
+.stat-interactive:not(.is-active):hover,
+.stat-interactive:not(.is-active):focus-within,
+.stat-interactive.is-active:hover,
+.stat-interactive.is-active:focus-within {
+  background: #1a0d33;
 }
 
 .stat b {
@@ -361,10 +378,12 @@ img {
 }
 
 .stat span {
+  max-width: 100%;
   font-size: 21px;
-  line-height: 38px;
+  line-height: 1.3;
   font-weight: 500;
   letter-spacing: -0.04em;
+  text-wrap: balance;
 }
 
 .split {
@@ -855,6 +874,18 @@ img {
   padding: 0 12px;
 }
 
+.interactive-chip {
+  transition: background-color 250ms ease;
+}
+
+.interactive-chip.is-active {
+  background-color: #130b22;
+}
+
+.interactive-chip:is(:hover, :focus-within) {
+  background-color: #1a0d33;
+}
+
 .check {
   display: grid;
   gap: 26px;
@@ -929,6 +960,18 @@ img {
   text-align: center;
   border-color: var(--line);
   grid-column: span 2;
+}
+
+.interactive-award-card {
+  transition: background-color 250ms ease;
+}
+
+.interactive-award-card.is-active {
+  background-color: #130b22;
+}
+
+.interactive-award-card:is(:hover, :focus-within) {
+  background-color: #1a0d33;
 }
 
 .awards .card:nth-child(n + 4) {
@@ -1260,6 +1303,101 @@ a {
 .svc-dark {
   background: linear-gradient(180deg, #100826, #0d0a15);
   padding: 26px 64px 30px;
+}
+
+.service-offer-card {
+  background-image: none;
+  background-color: #0b0a0f;
+  transition: background-color 250ms ease;
+}
+
+.service-offer-card.is-active {
+  background-color: #130b22;
+}
+
+.service-offer-card:not(.is-active):is(:hover, :focus-within),
+.service-offer-card.is-active:is(:hover, :focus-within) {
+  background-color: #1a0d33;
+}
+
+.service-reason-card > div > div {
+  background-image: none !important;
+  background-color: #0b0a0f !important;
+  transition: background-color 250ms ease;
+}
+
+.service-reason-card.is-active > div > div {
+  background-color: #130b22 !important;
+}
+
+.service-reason-card:not(.is-active):is(:hover, :focus-within) > div > div,
+.service-reason-card.is-active:is(:hover, :focus-within) > div > div {
+  background-color: #1a0d33 !important;
+}
+
+.glow-card > div > div {
+  background-image: none !important;
+  background-color: #0b0a0f !important;
+  transition: background-color 250ms ease;
+}
+
+.glow-card:first-child:not(.glow-card-stage) > div > div,
+.glow-card.is-active > div > div {
+  background-color: #130b22 !important;
+}
+
+.glow-card:is(:hover, :focus-within) > div > div {
+  background-color: #1a0d33 !important;
+}
+
+.service-portfolio-card > div > div,
+.cisco-credential-badge > div {
+  background-image: none !important;
+  background-color: #0b0a0f !important;
+  transition: background-color 250ms ease;
+}
+
+.service-portfolio-card.is-active > div > div,
+.cisco-credential-badge.is-active > div {
+  background-color: #130b22 !important;
+}
+
+.service-portfolio-card:is(:hover, :focus-within) > div > div,
+.cisco-credential-badge:is(:hover, :focus-within) > div {
+  background-color: #1a0d33 !important;
+}
+
+@media (min-width: 1024px) {
+  .regional-event-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    transition: grid-template-columns 300ms ease;
+  }
+
+  .regional-event-grid:has(> .regional-event-card:nth-child(1):hover),
+  .regional-event-grid:has(> .regional-event-card:nth-child(1):focus-within) {
+    grid-template-columns: minmax(0, 1.3fr) repeat(3, minmax(0, 1fr));
+  }
+
+  .regional-event-grid:has(> .regional-event-card:nth-child(2):hover),
+  .regional-event-grid:has(> .regional-event-card:nth-child(2):focus-within) {
+    grid-template-columns: repeat(1, minmax(0, 1fr)) minmax(0, 1.3fr) repeat(
+        2,
+        minmax(0, 1fr)
+      );
+  }
+
+  .regional-event-grid:has(> .regional-event-card:nth-child(3):hover),
+  .regional-event-grid:has(> .regional-event-card:nth-child(3):focus-within) {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) minmax(0, 1.3fr) minmax(
+        0,
+        1fr
+      );
+  }
+
+  .regional-event-grid:has(> .regional-event-card:nth-child(4):hover),
+  .regional-event-grid:has(> .regional-event-card:nth-child(4):focus-within) {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) minmax(0, 1.3fr);
+  }
 }
 
 .g2 {
@@ -1615,6 +1753,7 @@ a {
 
   .stat {
     height: 110px;
+    padding: 8px;
     border-radius: 18px;
   }
 

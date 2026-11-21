@@ -28,7 +28,7 @@ const off = [
     "Networking & IT Infrastructure",
     "Network design, deployment, and 24/7 monitoring for banks, hospitals, and enterprises that cannot afford downtime. Covers LAN/WAN architecture, SD-WAN, structured cabling, wireless networking, and network monitoring, delivered by a Cisco Premier Partner with certified engineers on staff.",
     "Explore Networking & IT Infrastructure",
-    "/services/networking",
+    "/services/network-support",
   ],
   [
     "Data Center & Cloud Solutions",
@@ -168,12 +168,14 @@ export default function Services() {
                 sub="Each service below has its own dedicated page with the full breakdown of sub-services, process, and technical detail. This is the short version."
               />
               <div className="g2">
-                {off.map(([t, p, b, href]) => (
+                {off.map(([t, p, b, href], index) => (
                   <div
                     className="card pad-outer bg-[#080808]! flex h-full p-4!"
                     key={t}
                   >
-                    <div className="card svc svc-dark gborder-new bg-[#0f0826]! flex h-full w-full flex-col">
+                    <div
+                      className={`card svc svc-dark gborder-new service-offer-card flex h-full w-full flex-col ${index === 0 ? "is-active" : ""}`}
+                    >
                       <h3 className="h3 h3-lg text-[26px]! leading-[75px]! tracking-tighter!">
                         {t}
                       </h3>
@@ -201,7 +203,7 @@ export default function Services() {
                       infrastructure, not a vendor who disappears after launch.
                     </p>
                     <div>
-                        <Btn href="/services/custom-software">
+                      <Btn href="/services/custom-software">
                         Explore Custom Software Development
                       </Btn>
                     </div>
@@ -226,11 +228,11 @@ export default function Services() {
             </h2>
             <p className="text-[18px]! leading-[31px]! font-normal! tracking-tighter!">
               Comtech&apos;s practice runs on 15 confirmed technology
-              partnerships, including Cisco, where Comtech holds Premier
-              Partner status, alongside Fortinet, Kaspersky, Sangfor, Ubiquiti,
-              TP-Link, D-Link, HPE, H3C, Broadcom, and Dell. Which partners
-              apply depends on the service, each pillar page lists the specific
-              subset it&apos;s built on.
+              partnerships, including Cisco, where Comtech holds Premier Partner
+              status, alongside Fortinet, Kaspersky, Sangfor, Ubiquiti, TP-Link,
+              D-Link, HPE, H3C, Broadcom, and Dell. Which partners apply depends
+              on the service, each pillar page lists the specific subset
+              it&apos;s built on.
             </p>
             <div className="mt-auto">
               <Btn href="/partners">See All Technology Partnerships</Btn>
@@ -288,18 +290,19 @@ export default function Services() {
             </div>
             <Btn href="/contact">Connect With Us</Btn>
           </div>
-          <div className="card stick">
+          <div className="card stick aspect-[16/10] overflow-hidden">
             <Image
               src={ComtechRightChoice_SectionImage}
               alt=""
               width={652}
               height={641}
+              style={{ width: "100%", height: "100%", objectFit: "cover" }}
             />
           </div>
         </div>
 
         <PinnedFaq
-          className="mt-20!"
+          className="mt-60! mb-40!"
           items={faq as [string, string][]}
           head={
             <>

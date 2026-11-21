@@ -71,7 +71,7 @@ export function GlowCard({
 }) {
   return (
     <div
-      className={`rounded-[32px] border border-[#212121] bg-[#080808] p-[10px] ${className}`}
+      className={`glow-card rounded-[32px] border border-[#212121] bg-[#080808] p-[10px] ${className}`}
       style={style}
     >
       <div

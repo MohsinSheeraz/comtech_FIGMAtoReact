@@ -153,7 +153,7 @@ const related = [
   {
     title: "Networking & IT Infrastructure",
     text: "Branch connectivity, switching, and wireless built for always-on operations.",
-    href: "/services/networking",
+    href: "/services/network-support",
   },
 ];
 
@@ -182,7 +182,7 @@ export default function BankingAndFinance() {
         secondary="Explore our Services"
       />
 
-      <Stats items={stats} />
+      <Stats items={stats} interactive />
 
       <div
         className="relative isolate mx-auto mt-16 w-[94%] max-w-[1764px] rounded-[40px] pb-16"

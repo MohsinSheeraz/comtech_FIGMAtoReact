@@ -8,7 +8,7 @@ import { ScrollReveal, REVEAL } from "@/components/Scrollreveal";
 /* Snake of cards: rows of 2, every other row shifted (same Figma geometry as DeliverStage).
    Works for any EVEN number of cards. Reading order = card order:
    row 1: [0] [1]   row 2: [2] [3]   row 3: [4] [5] ...
-   The line runs 0 -> 1 -> 3 -> 2 -> 4 -> 5 -> 7 -> 6 ... and ends with a dot. */
+   The line runs 0 -> 1 -> 3 -> 2 -> 4 -> 5 -> 7 -> 6 ... and stops at the last card. */
 
 const W = 1440;
 const CARD_W = 469;
@@ -24,7 +24,7 @@ type Link = {
   d: string;
   color: string;
   len: number; // approx path length, so each piece draws in proportion
-  to: number; // card this piece arrives at (-1 = end dot)
+  to: number; // card this piece arrives at
   dot?: { x: number; y: number };
   at?: number;
 };
@@ -72,13 +72,6 @@ function build(n: number) {
               at: 0.37,
             },
       );
-    } else {
-      // end dot
-      links.push(
-        odd
-          ? { d: `M 466 ${my} H 381`, color: C, len: 85, to: -1, dot: { x: 381, y: my + 0.5 }, at: 1 }
-          : { d: `M 971 ${my} H 1089`, color: C, len: 118, to: -1, dot: { x: 1089.3, y: my + 0.5 }, at: 1 },
-      );
     }
   }
 
@@ -106,8 +99,8 @@ export function PartnerStage({ cards }: { cards: { title: string; text: string }
     <>
       {/* mobile / tablet: simple stack */}
       <div className="mt-10 grid gap-6 md:grid-cols-2 lg:hidden">
-        {cards.map((c) => (
-          <GlowCard key={c.title}>
+        {cards.map((c, i) => (
+          <GlowCard key={c.title} className={i === 0 ? "is-active" : ""}>
             <CardText title={c.title} text={c.text} />
           </GlowCard>
         ))}
@@ -141,7 +134,9 @@ export function PartnerStage({ cards }: { cards: { title: string; text: string }
               className={`absolute ${REVEAL}`}
               style={{ left: g.pos[i].x, top: g.pos[i].y, width: CARD_W, height: CARD_H }}
             >
-              <GlowCard className="h-full w-full">
+              <GlowCard
+                className={`glow-card-stage h-full w-full ${i === 0 ? "is-active" : ""}`}
+              >
                 <CardText title={c.title} text={c.text} />
               </GlowCard>
             </ScrollReveal>

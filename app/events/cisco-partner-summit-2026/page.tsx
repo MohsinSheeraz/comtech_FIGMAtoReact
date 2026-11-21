@@ -170,8 +170,11 @@ export default function CiscoPartnerSummit() {
             What Comtech Delivers
           </h3>
           <div className="chips mt-8">
-            {s.company.delivers.map((c) => (
-              <div className="chip gborder-new" key={c}>
+            {s.company.delivers.map((c, i) => (
+              <div
+                className={`chip gborder-new interactive-chip ${i === 0 ? "is-active" : ""}`}
+                key={c}
+              >
                 {c}
               </div>
             ))}
@@ -201,8 +204,11 @@ export default function CiscoPartnerSummit() {
           <Label center>{s.awards.label}</Label>
           <SecHead title={s.awards.title} />
           <div className="awards">
-            {s.awards.items.map(([y, t]) => (
-              <div className="card gborder-new" key={t}>
+            {s.awards.items.map(([y, t], i) => (
+              <div
+                className={`card gborder-new interactive-award-card ${i === 0 ? "is-active" : ""}`}
+                key={t}
+              >
                 <b>{y}</b>
                 <p>{t}</p>
               </div>

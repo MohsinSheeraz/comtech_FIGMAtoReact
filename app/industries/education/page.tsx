@@ -106,7 +106,7 @@ export default function Education() {
         secondary="Explore our Services"
       />
 
-      <Stats items={stats} />
+      <Stats items={stats} interactive />
 
       {/* One Page, Two Kinds of Campus */}
       <section className="wrap sec mt-16">

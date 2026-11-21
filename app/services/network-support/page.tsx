@@ -116,7 +116,7 @@ const more = [
     "Custom Software Development",
     "Custom enterprise application development, legacy system modernization, API integrations, and internal tools, built and supported by the same team that manages your infrastructure, not a vendor who disappears after launch.",
     "Explore Custom Software Development",
-    "/services",
+    "/services/custom-software-development",
   ],
   [
     "Data Center & Cloud Solutions",

@@ -170,7 +170,7 @@ export default function Telecom() {
         secondary="Explore our Services"
       />
 
-      <Stats items={stats} />
+      <Stats items={stats} interactive />
 
       <div
         className="relative isolate mx-auto mt-16 w-[94%] max-w-[1764px] rounded-[40px] pb-16"

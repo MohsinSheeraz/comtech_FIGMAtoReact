@@ -159,7 +159,7 @@ export default function Industries() {
         secondary="Explore our Services"
       />
 
-      <Stats items={stats} />
+      <Stats items={stats} interactive />
 
       {/* gradient frame: sectors + what each sector demands + why */}
       <div

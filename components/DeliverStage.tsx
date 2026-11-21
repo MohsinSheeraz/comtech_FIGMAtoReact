@@ -20,7 +20,7 @@ const POS = [
   { x: 502, y: 762 },
 ];
 
-// One continuous snake through every card:  1 -> 2 -> 4 -> 3 -> 5 -> 6 -> (end dot)
+// One continuous snake through every card:  1 -> 2 -> 4 -> 3 -> 5 -> 6.
 // `len`  = approximate path length in px, so each piece is drawn in proportion to its size.
 // `to`   = index of the card this piece ARRIVES at (that card appears when the piece finishes drawing).
 // `dot`  = same dots as before; `at` = how far along its path the dot sits (0..1).
@@ -36,10 +36,6 @@ const LINKS = [
     dot: { x: 396.8, y: 552.5 }, at: 0.25,
   },
   { d: "M 469 928 H 502", color: "#6A3FE0", len: 33, to: 5 }, // card 5 -> card 6
-  {
-    d: "M 971 928 H 1089", color: "#6A3FE0", len: 118, to: -1, // card 6 -> end dot
-    dot: { x: 1089.3, y: 928.5 }, at: 1,
-  },
 ];
 
 // The whole chain finishes at LINE_END of the scroll progress; each card fades in (over FADE) right after the
@@ -88,7 +84,9 @@ export function DeliverStage({ cards }: { cards: { id: number; title: string; te
             className={`absolute ${REVEAL}`}
             style={{ left: POS[i].x, top: POS[i].y, width: CARD_W, height: CARD_H }}
           >
-            <GlowCard className="h-full w-full">
+            <GlowCard
+              className={`glow-card-stage service-portfolio-card h-full w-full ${i === 0 ? "is-active" : ""}`}
+            >
               <CardText title={c.title} text={c.text} />
             </GlowCard>
           </ScrollReveal>

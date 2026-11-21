@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Btn } from "@/components/Button";
 import { CtaPanel } from "@/components/CtaPanel";
 import { Hero } from "@/components/Hero";
@@ -17,15 +18,29 @@ type ServicePageData = {
   heroText: string;
   ctaLabel: string;
   stats: [string, string][];
-  capabilities: [string, string][];
+  capabilities: [string, string, string[]?][];
   steps: [string, string, string][];
   reasons: { title: string; text: string }[];
   faq: [string, string][];
   ctaTitle: string;
   ctaText: string;
+  capabilitiesTitle?: string;
+  capabilitiesIntro?: string;
+  stepsTitle?: string;
+  reasonsTitle?: string;
+  midCtaLabel?: string;
+  finalCtaLabel?: string;
+  partnerSection?: { title: string; paragraphs: string[] };
+  industries?: string[];
+  relatedServices?: {
+    title: string;
+    text: string;
+    href: string;
+    linkLabel: string;
+  }[];
 };
 
-export const servicePages: ServicePageData[] = [
+const baseServicePages: ServicePageData[] = [
   {
     slug: "cybersecurity",
     title: "Managed Cyber Security Services in Pakistan | Comtech",
@@ -127,42 +142,117 @@ export const servicePages: ServicePageData[] = [
     keyword: "IT services and managed IT",
     heroTitle: "One Team. Every IT Need Covered.",
     heroText:
-      "Comtech delivers IT staff augmentation, asset management, desktop support, and after-sales care as one accountable practice, not four disconnected vendors.",
+      "Comtech delivers IT staff augmentation, asset management, desktop support, and after-sales care as one accountable practice, not four disconnected vendors. We're one of Pakistan's leading IT companies, giving businesses enterprise IT solutions without the overhead of managing it themselves.",
     ctaLabel: "Request an IT Operations Assessment",
-    stats: [
-      ["10+ Years", "IT Delivery Experience"],
-      ["250+", "Projects Delivered"],
-      ["4 Cities", "Nationwide"],
-      ["One Team", "Across the IT Stack"],
-    ],
+    stats: [],
+    capabilitiesTitle: "IT Services & Managed IT Solutions",
+    capabilitiesIntro:
+      "Comtech brings staffing, asset management, desktop support, and after-sales care together as one accountable IT operations practice.",
+    stepsTitle: "How We Get You Supported",
+    reasonsTitle: "Why Businesses Trust Comtech With Their IT Operations",
     capabilities: [
-      ["IT Staff Augmentation", "Hire Cisco-certified engineers, AWS or Azure cloud engineers, DevOps engineers, and cybersecurity analysts sourced and vetted by Comtech."],
-      ["Dedicated Development Team", "A team scoped to start and end with a specific project."],
-      ["Offshore or Remote Extended Team", "Ongoing capacity without the overhead of direct hiring."],
-      ["Managed IT Operations", "Year-round coverage, including helpdesk, desktops, infrastructure, and maintenance."],
-      ["Asset Lifecycle Management", "Procurement tracking, inventory management, license management, secure destruction, and asset disposition."],
-      ["Desktop and After-Sales Support", "Fast troubleshooting, maintenance across sites, extended warranty, and ongoing system optimization."],
+      [
+        "Scale Your Team Without the Six-Month Hiring Process",
+        "Staff augmentation is one part of how we support your IT operations, alongside asset lifecycle management, desktop support, and after-sales care. When you need people rather than a project handed off, our service places vetted Comtech engineers onto your team on your timeline, without direct-hiring overhead.",
+        [
+          "Hire Cisco-certified engineers, cloud engineers across AWS and Azure, DevOps engineers, or cybersecurity analysts, sourced and vetted by Comtech directly.",
+          "A dedicated development team built for a single project, scoped to start and end with the work.",
+          "An offshore IT team or fully remote extended team for ongoing capacity, without the overhead of direct hiring.",
+          "A full managed IT team for year-round coverage, not just a short-term placement.",
+        ],
+      ],
+      [
+        "Hardware That Doesn't Quietly Drain Your Budget",
+        "Untracked IT hardware is one of the most common, and most avoidable, sources of wasted spend and compliance risk in a growing business. Our IT asset management practice covers the full lifecycle, so equipment doesn't disappear into a closet nobody's responsible for.",
+        [
+          "Procurement and deployment tracking from the moment hardware enters your business.",
+          "Ongoing inventory tracking, so nothing goes missing or sits unused without anyone noticing.",
+          "Secure data destruction and IT asset disposition when hardware reaches end of life, not just wiped and forgotten.",
+          "Software license management, so you're not paying for seats nobody's using or exposed by licenses nobody renewed.",
+        ],
+      ],
+      [
+        "Desktops That Just Work",
+        "End-user device support keeps your staff productive, without every issue routing through a slow internal ticket queue that takes days to resolve something simple. It's not glamorous, but it's the difference between a team that trusts IT and one that works around it.",
+        [
+          "Day-to-day troubleshooting and support for end-user devices.",
+          "Fast ticket resolution, not a queue that sits untouched for days.",
+        ],
+      ],
+      [
+        "We Don't Disappear After Go-Live",
+        "Deployment is only half the job. The other half is what happens after, and most vendors treat that as an afterthought. We treat it as the reason clients stay with us for years, not one project.",
+        [
+          "Deployment and maintenance across multiple sites, coordinated centrally rather than handled office by office with no shared visibility.",
+          "Extended warranty coverage beyond standard vendor terms.",
+          "Ongoing maintenance that catches problems before they become downtime.",
+        ],
+      ],
     ],
     steps: [
-      ["01", "We Assess", "Review current IT operations, staffing, and asset inventory before proposing anything."],
-      ["02", "We Design", "A resourcing, development, or asset-management plan matched to your actual gaps."],
-      ["03", "We Deploy", "Staff placement or asset rollout coordinated to minimize disruption."],
-      ["04", "We Manage", "Ongoing support, maintenance, and lifecycle tracking after handover."],
+      ["01", "We Assess", "A review of your current IT operations, staffing, and asset inventory establishes exactly where the real gaps are before anything gets proposed."],
+      ["02", "We Design", "A resourcing, development, or asset-management plan gets matched to your actual gaps, not a standard package applied regardless of what you need."],
+      ["03", "We Deploy", "Staff placement or asset rollout follows, coordinated to minimize disruption to work already in progress."],
+      ["04", "We Manage", "Ongoing support, maintenance, and lifecycle tracking keep the engagement working long after the initial handover."],
     ],
     reasons: [
-      { title: "One Accountable Partner", text: "One partner for staffing, hardware, and support instead of separate vendors pointing fingers." },
-      { title: "Certified, Vetted Engineers", text: "Engineers across Cisco, AWS, Azure, and DevOps disciplines, sourced and vetted directly." },
-      { title: "Asset Lifecycle Experience", text: "Ten years of lifecycle experience reduces cost and compliance risk." },
-      { title: "Single Point of Accountability", text: "Nothing falls into the gap between staffing, assets, and support." },
+      { title: "One Accountable Partner", text: "One accountable partner for staffing, hardware, and support, instead of three separate vendors who point fingers when something goes wrong." },
+      { title: "Certified, Vetted Engineers", text: "Certified engineers across Cisco, AWS, Azure, and DevOps disciplines, sourced and vetted by Comtech directly, not a generic staffing agency filling a seat." },
+      { title: "Decade of Asset Lifecycle Experience", text: "Ten years of hardware lifecycle experience, reducing both cost and compliance risk on asset disposition most businesses handle inconsistently." },
+      { title: "Single Point of Accountability", text: "A single point of accountability for staffing, assets, and support, so nothing falls into the gap between two vendors pointing fingers at each other." },
     ],
     faq: [
-      ["What's the difference between IT staff augmentation and outsourcing?", "Staff augmentation places engineers on your team under your direction. Outsourcing hands over a function for Comtech to run independently."],
-      ["Do you offer offshore or remote developers, or only on-site staff?", "Both. Engineers can be on-site, fully remote, or blended based on role and operating needs."],
-      ["How does IT asset lifecycle management reduce costs?", "Hardware is tracked from procurement through disposal to avoid over-purchasing, identify underused assets, and handle disposition securely."],
-      ["What's included in after-sales support?", "Ongoing maintenance, extended warranty coverage, and system optimization after implementation."],
+      ["What's the difference between IT staff augmentation and outsourcing?", "Staff augmentation places Comtech engineers directly on your team under your direction. Outsourcing hands over an entire function for Comtech to run independently. We offer both, scoped to what the engagement actually needs."],
+      ["Do you offer offshore or remote developers, or only on-site staff?", "Both. Depending on the role and the work, we can place engineers on-site, provide a fully remote extended team, or blend the two, whatever fits how your team actually operates."],
+      ["How does IT asset lifecycle management actually reduce costs?", "By tracking hardware from procurement through disposal, businesses avoid over-purchasing, catch underused assets early, and handle end-of-life disposition securely instead of accumulating unmanaged equipment nobody's responsible for."],
+      ["What's included in your after-sales support?", "Ongoing maintenance, extended warranty coverage beyond standard vendor terms, and ongoing system optimization, so you're not on your own the moment a project wraps."],
     ],
-    ctaTitle: "Make IT Support More Predictable",
-    ctaText: "Start with a review of your users, systems, and support needs. Comtech can help define a managed IT services model that fits your organization.",
+    midCtaLabel: "Get in Touch Today!",
+    finalCtaLabel: "Get a Free IT Services Consultation",
+    ctaTitle: "Need Certified IT Staff or Asset Management Support?",
+    ctaText:
+      "Whether you need one engineer or a full operations handover, we scope the engagement around what you actually need, not a fixed package.",
+    partnerSection: {
+      title: "Backed by Real Vendor Relationships, Not a Reseller Catalog",
+      paragraphs: [
+        "Our IT services practice partners with Dell, HPE, and D-Link for hardware, alongside a certified engineering bench across Cisco, a certified Cisco partner relationship, AWS, and Azure.",
+        "That combination of hardware relationships and certified staff lets us handle procurement, deployment, and ongoing support as one connected service, not three disconnected ones. Comtech maintains 15 confirmed technology partnerships across our full service portfolio.",
+      ],
+    },
+    industries: [
+      "Banking & Financial Services",
+      "Telecommunications",
+      "Healthcare",
+      "Government & Public Sector",
+      "Education",
+      "Retail & E-commerce",
+    ],
+    relatedServices: [
+      {
+        title: "Cybersecurity",
+        text: "Endpoint and identity security across the staff and assets we manage day to day.",
+        href: "/services/cyber-security",
+        linkLabel: "Explore Our Cybersecurity Services",
+      },
+      {
+        title: "Networking & IT Infrastructure",
+        text: "The network layer supporting the distributed teams and devices we support.",
+        href: "/services/network-support",
+        linkLabel: "Explore Networking Solutions",
+      },
+      {
+        title: "Data Center & Cloud Solutions",
+        text: "Infrastructure hosting the systems our staff augmentation and asset management teams work within.",
+        href: "/services/data-center",
+        linkLabel: "Explore Data Center Services",
+      },
+      {
+        title: "Custom Software Development",
+        text: "Application development and legacy modernization, delivered by the same team managing your infrastructure.",
+        href: "/services/custom-software-development",
+        linkLabel: "Explore Software Development",
+      },
+    ],
   },
   {
     slug: "custom-software",
@@ -256,6 +346,30 @@ export const servicePages: ServicePageData[] = [
   },
 ];
 
+const getBaseServicePage = (slug: string): ServicePageData => {
+  const service = baseServicePages.find((item) => item.slug === slug);
+  if (!service) {
+    throw new Error(`Missing source content for service page "${slug}".`);
+  }
+  return service;
+};
+
+const cybersecurityPage = getBaseServicePage("cybersecurity");
+const managedItPage = getBaseServicePage("managed-it");
+const customSoftwarePage = getBaseServicePage("custom-software");
+
+export const servicePages: ServicePageData[] = [
+  ...baseServicePages.filter((service) => service.slug !== "resourcing"),
+  { ...cybersecurityPage, slug: "cyber-security" },
+  { ...managedItPage, slug: "managed-it-services" },
+  { ...customSoftwarePage, slug: "custom-software-development" },
+  { ...managedItPage, slug: "resourcing" },
+  { ...managedItPage, slug: "it-resourcing" },
+  { ...managedItPage, slug: "it-services" },
+  { ...managedItPage, slug: "it-asset-lifecycle" },
+  { ...managedItPage, slug: "desktop-support" },
+];
+
 export function ServiceDetail({ service }: { service: ServicePageData }) {
   return (
     <main>
@@ -268,23 +382,40 @@ export function ServiceDetail({ service }: { service: ServicePageData }) {
         primary={service.ctaLabel}
         secondary="Explore our Services"
       />
-      <Stats items={service.stats} />
+      {service.stats.length > 0 && (
+        <Stats items={service.stats} interactive />
+      )}
 
       <div className="relative isolate mx-auto mt-16 w-[94%] max-w-[1764px] rounded-[40px] pb-16"
         style={{ background: "linear-gradient(180deg, transparent 8.06%, rgba(69, 22, 187, 0.42) 43.03%, #040404 80.62%)" }}
       >
         <section className="wrap sec">
           <SecHead
-            title={`What ${service.keyword} Covers`}
-            sub={`Practical ${service.keyword} for organizations that need their technology to support day-to-day operations and long-term growth.`}
+            title={service.capabilitiesTitle ?? `What ${service.keyword} Covers`}
+            sub={
+              service.capabilitiesIntro ??
+              `Practical ${service.keyword} for organizations that need their technology to support day-to-day operations and long-term growth.`
+            }
           />
           <div className="grid gap-5 md:grid-cols-2 min-[1101px]:grid-cols-4 min-[1101px]:gap-[2.4%]">
-            {service.capabilities.map(([title, text]) => (
+            {service.capabilities.map(([title, text, included], index) => (
               <article key={title} className="card pad-outer bg-[#080808]! p-4!">
-                <div className="card svc svc-dark gborder-new h-full bg-[#0f0826]! p-4! sm:p-8!">
+                <div
+                  className={`card svc svc-dark gborder-new service-offer-card h-full p-4! sm:p-8! ${index === 0 ? "is-active" : ""}`}
+                >
                   <h3 className="h3 h3-lg text-[26px]! leading-[38px]! tracking-tighter!">{title}</h3>
                   <span className="bar mt-2! mb-2!" />
                   <p className="text-[18px]! leading-[31px]! font-normal! tracking-tighter!">{text}</p>
+                  {included && (
+                    <>
+                      <h4 className="mt-4 text-[16px] font-semibold">What's included</h4>
+                      <ul className="mt-2 list-disc space-y-2 pl-5 text-[16px] leading-[25px] font-normal tracking-tighter">
+                        {included.map((item) => (
+                          <li key={item}>{item}</li>
+                        ))}
+                      </ul>
+                    </>
+                  )}
                 </div>
               </article>
             ))}
@@ -292,15 +423,76 @@ export function ServiceDetail({ service }: { service: ServicePageData }) {
         </section>
 
         <section className="wrap sec">
-          <SecHead title={`How We Deliver ${service.keyword}`} />
+          <SecHead title={service.stepsTitle ?? `How We Deliver ${service.keyword}`} />
           <HowWeWork steps={service.steps} />
         </section>
 
         <section className="wrap sec">
-          <SecHead title={`Why Organizations Choose Comtech for ${service.keyword}`} />
-          <NumberedCards items={service.reasons} />
+          <SecHead
+            title={
+              service.reasonsTitle ??
+              `Why Organizations Choose Comtech for ${service.keyword}`
+            }
+          />
+          <NumberedCards items={service.reasons} interactive />
         </section>
       </div>
+
+      {service.midCtaLabel && (
+        <div className="wrap sec flex justify-center">
+          <Btn href="/contact">{service.midCtaLabel}</Btn>
+        </div>
+      )}
+
+      {service.partnerSection && (
+        <section className="wrap sec">
+          <SecHead title={service.partnerSection.title} />
+          {service.partnerSection.paragraphs.map((paragraph) => (
+            <p className="lead" key={paragraph}>
+              {paragraph}
+            </p>
+          ))}
+        </section>
+      )}
+
+      {service.industries && (
+        <section className="wrap sec">
+          <SecHead title="Built for Businesses That Can't Afford IT to Be an Afterthought" />
+          <p className="lead">
+            We support organizations that need IT operations to run reliably in
+            the background, without leadership having to think about it every
+            week.
+          </p>
+          <div className="chips">
+            {service.industries.map((industry) => (
+              <div className="chip gborder-new" key={industry}>
+                {industry}
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {service.relatedServices && (
+        <section className="wrap sec">
+          <SecHead title="You Might Also Need…" />
+          <div className="grid gap-5 md:grid-cols-2 min-[1101px]:grid-cols-4">
+            {service.relatedServices.map((related) => (
+              <Link
+                key={related.title}
+                href={related.href}
+                className="card pad-outer bg-[#080808]! p-6! transition-colors hover:border-[#7950e2]"
+              >
+                <h3 className="h3 text-[22px]! leading-[30px]!">{related.title}</h3>
+                <p className="my-3 text-[16px]! leading-[25px]! font-normal!">
+                  {related.text}
+                </p>
+                <span className="text-[#b79cff]">{related.linkLabel}</span>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
 
       <section className="wrap">
         <PinnedFaq
@@ -316,7 +508,11 @@ export function ServiceDetail({ service }: { service: ServicePageData }) {
         />
       </section>
 
-      <CtaPanel title={service.ctaTitle} text={service.ctaText} label={service.ctaLabel} />
+      <CtaPanel
+        title={service.ctaTitle}
+        text={service.ctaText}
+        label={service.finalCtaLabel ?? service.ctaLabel}
+      />
     </main>
   );
 }

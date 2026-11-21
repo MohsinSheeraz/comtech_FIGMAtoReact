@@ -18,7 +18,29 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Comtech Associates | IT Solutions Provider in Pakistan",
   description:
-    "Comtech Associates delivers IT solutions, managed cybersecurity, and custom software development across Pakistan. 10+ years, 250+ projects, 4 cities. Talk to an expert today.",
+    "Comtech delivers Cisco networking, cybersecurity, data center and software solutions across Pakistan. Talk to our team to strengthen your IT.",
+  openGraph: {
+    type: "website",
+    title: "Comtech Associates | IT Solutions Provider in Pakistan",
+    description:
+      "Comtech delivers Cisco networking, cybersecurity, data center and software solutions across Pakistan. Talk to our team to strengthen your IT.",
+    url: "/",
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "Comtech Associates IT solutions across Pakistan",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Comtech Associates | IT Solutions Provider in Pakistan",
+    description:
+      "Comtech delivers Cisco networking, cybersecurity, data center and software solutions across Pakistan. Talk to our team to strengthen your IT.",
+    images: ["/opengraph-image"],
+  },
 };
 
 const why: [string, string][] = [
@@ -92,7 +114,7 @@ export default function Home() {
     <main>
       <PageGlows />
       <Hero
-        pill="16+ Technology Partners"
+        pill="15 Technology Partners"
         small="Pakistan's Trusted IT Solutions Provider for"
         title={
           <>
@@ -101,6 +123,7 @@ export default function Home() {
             &amp; Data Centers
           </>
         }
+        text=""
         primary="Connect with Us"
         secondary="Explore our Services"
         globe
@@ -141,7 +164,7 @@ export default function Home() {
           </div>
           <div className="side">
             <div className="purple  p-10! md:py-16! md:px-13! flex justify-center items-center text-3xl! md:text-auto!">
-              IT infrastructure isn&apos;t four separate problems; it&apos;s one
+              IT infrastructure isn&apos;t five separate problems; it&apos;s one
               system.
             </div>
             <Image
@@ -159,7 +182,7 @@ export default function Home() {
         <div className="wrap">
           <SecHead
             title="What We Do"
-            sub="We work across four connected disciplines because modern IT infrastructure isn't four separate problems it's one system."
+            sub="We work across five connected disciplines because modern IT infrastructure isn't separate problems—it is one system."
             cta
           />
           <div className="g3">

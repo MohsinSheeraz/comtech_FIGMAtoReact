@@ -16,14 +16,9 @@ const nav: NavItem[] = [
     href: "/services",
     children: [
       {
-        label: "Networking & IT Infrastructure",
-        href: "/services/network-support",
-        desc: "Design, deployment and 24/7 monitoring for networks that can't go down.",
-      },
-      {
-        label: "Managed IT Services",
-        href: "/services/managed-it",
-        desc: "Helpdesk, desktop support and asset lifecycle from one accountable team.",
+        label: "Cybersecurity",
+        href: "/services/cyber-security",
+        desc: "24/7 SOC monitoring, VAPT and compliance-aligned protection.",
       },
       {
         label: "Data Center & Cloud",
@@ -31,19 +26,19 @@ const nav: NavItem[] = [
         desc: "Data center design, migration and hybrid cloud connectivity.",
       },
       {
+        label: "Networking & IT Infrastructure",
+        href: "/services/network-support",
+        desc: "Design, deployment and 24/7 monitoring for networks that can't go down.",
+      },
+      {
+        label: "Managed IT Services",
+        href: "/services/managed-it-services",
+        desc: "Helpdesk, desktop support and asset lifecycle from one accountable team.",
+      },
+      {
         label: "Custom Software Development",
-        href: "/services/custom-software",
+        href: "/services/custom-software-development",
         desc: "Internal tools, platforms and integrations built around your workflow.",
-      },
-      {
-        label: "Cybersecurity",
-        href: "/services/cybersecurity",
-        desc: "24/7 SOC monitoring, VAPT and compliance-aligned protection.",
-      },
-      {
-        label: "IT Resourcing",
-        href: "/services/resourcing",
-        desc: "Vetted engineers on-site or remote, on your timeline.",
       },
     ],
   },
@@ -352,9 +347,12 @@ export function Header({ posts = [] }: { posts?: MenuPost[] }) {
       on ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-1 opacity-0"
     }`}
   >
+    <div className="mb-5 flex items-center gap-2 text-[20px] font-medium leading-[28px]">
+      <span>{it.label}</span>
+      <Chevron open={on} />
+    </div>
     <div className={`grid items-start gap-6 ${posts.length ? "grid-cols-[minmax(0,1.7fr)_minmax(0,1fr)]" : ""}`}>
       <div>
-        {/* 2 per row (3 when there is no blog column); leftover items stretch to fill the last row */}
         <ul className="flex flex-wrap gap-4">
           {shown.map((c) => (
             <li

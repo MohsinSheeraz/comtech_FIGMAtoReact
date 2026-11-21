@@ -11,25 +11,18 @@ const items = [
     title: "Unleashing the Power of Cisco ACI",
   },
   {
-    type: "Project highlight",
+    type: "Customer testimonial",
     quote:
-      "Network infrastructure designed to connect teams, systems, and sites while providing a clear foundation for future growth.",
-    name: "Enterprise Networking",
-    title: "Connected infrastructure",
+      "“Comtech's SD-WAN rollout has strengthened connectivity across every branch and made our digital transformation feel achievable, not just aspirational.”",
+    name: "Karakoram Bank",
+    title: "Fortinet Secure SD-WAN Deployment",
   },
   {
-    type: "Project highlight",
+    type: "Customer testimonial",
     quote:
-      "Cybersecurity integrated with network and infrastructure planning to support a coordinated, layered approach to protection.",
-    name: "Cybersecurity",
-    title: "Security by design",
-  },
-  {
-    type: "Project highlight",
-    quote:
-      "Centralized visibility and management help organizations operate complex data center environments with confidence.",
-    name: "Data Centers",
-    title: "Modern infrastructure",
+      "“Comtech didn't just build our network and leave. They've stayed with us since, keeping everything running smoothly. That kind of after-sales support is rare.”",
+    name: "Karwan-e-Hayat",
+    title: "Complete Network Infrastructure Deployment",
   },
 ];
 
@@ -91,7 +84,7 @@ export function TestimonialCarousel() {
             type="button"
             onClick={() => go(-1)}
             aria-label="Previous testimonial"
-            className="grid size-[42px] cursor-pointer place-items-center rounded-[4px] bg-[#1c1c1c] text-white/70 transition hover:bg-[#2a2a2a] hover:text-white"
+            className="grid size-[44px] cursor-pointer place-items-center rounded-[4px] bg-[#1c1c1c] text-white/70 transition hover:bg-[#2a2a2a] hover:text-white"
           >
             <Arrow dir="l" />
           </button>
@@ -99,7 +92,7 @@ export function TestimonialCarousel() {
             type="button"
             onClick={() => go(1)}
             aria-label="Next testimonial"
-            className="grid size-[42px] cursor-pointer place-items-center rounded-[4px] bg-gradient-to-b from-[#5724d8] to-[#7950e2] text-black transition hover:brightness-125"
+            className="grid size-[44px] cursor-pointer place-items-center rounded-[4px] bg-gradient-to-b from-[#5724d8] to-[#7950e2] text-black transition hover:brightness-125"
           >
             <Arrow dir="r" />
           </button>

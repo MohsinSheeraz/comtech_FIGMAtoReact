@@ -10,11 +10,11 @@ import {
 type L = [string, string];
 
 const svc: L[] = [
-  ["CyberSecurity", "/services"],
-  ["Networking & IT infrastructure", "/services/networking"],
-  ["Data Center & Cloud Solution", "/services"],
-  ["IT Services & Managed Services", "/services"],
-  ["Custom Software Development", "/services"],
+  ["Cybersecurity", "/services/cyber-security"],
+  ["Networking & IT Infrastructure", "/services/network-support"],
+  ["Data Center & Cloud Solution", "/services/data-center"],
+  ["IT Services & Managed Services", "/services/managed-it-services"],
+  ["Custom Software Development", "/services/custom-software-development"],
 ];
 const ql: L[] = [
   ["Home", "/"],
@@ -24,14 +24,14 @@ const ql: L[] = [
   ["Contact Us", "/contact"],
 ];
 const socials = [
-  { label: "Facebook", href: "#", Icon: FaFacebookF },
-  { label: "Instagram", href: "#", Icon: FaInstagram },
-  { label: "LinkedIn", href: "#", Icon: FaLinkedinIn },
-  { label: "Twitter", href: "#", Icon: FaTwitter },
+  { label: "Facebook", Icon: FaFacebookF },
+  { label: "Instagram", Icon: FaInstagram },
+  { label: "LinkedIn", Icon: FaLinkedinIn },
+  { label: "Twitter", Icon: FaTwitter },
 ];
 
 const Col = ({ t, items }: { t: string; items: L[] }) => (
-  <div>
+  <div className={t === "Services" ? "lg:-ml-12" : undefined}>
     <h4 className="fh">
       {t}
       <i className="mt-2! mb-2!" />
@@ -54,22 +54,22 @@ export function Footer() {
               Comtech Associates
             </div>
             <p className="mt-5 max-w-[420px]! text-[18px] leading-[28px]">
-              Associates is a certified Cisco partner delivering networking,
-              cybersecurity, data center, and managed IT solutions to
-              enterprises across Pakistan. With over 10 years in operation and
-              offices in Karachi, Islamabad, Lahore, and Quetta, we build the
-              infrastructure businesses depend on to run.
+              Comtech Associates is a certified Cisco partner delivering
+              networking, cybersecurity, data center, and managed IT solutions
+              to enterprises across Pakistan. With over 10 years in operation
+              and offices in Karachi, Islamabad, Lahore, and Quetta, we build
+              the infrastructure businesses depend on to run.
             </p>
             <div className="mt-6 flex gap-[9px]">
-              {socials.map(({ label, href, Icon }) => (
-                <a
+              {socials.map(({ label, Icon }) => (
+                <span
                   key={label}
-                  href={href}
                   aria-label={label}
-                  className=" p-2  rounded-full bg-[#6739DD] text-black"
+                  role="img"
+                  className="p-2 rounded-full bg-[#6739DD] text-black"
                 >
                   <Icon size={10} aria-hidden />
-                </a>
+                </span>
               ))}
             </div>
           </div>

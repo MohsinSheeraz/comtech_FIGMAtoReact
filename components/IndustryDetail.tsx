@@ -173,7 +173,7 @@ export function IndustryDetail({ industry }: { industry: IndustryPageData }) {
         primary={industry.ctaLabel}
         secondary="Explore our Services"
       />
-      <Stats items={industry.stats} />
+      <Stats items={industry.stats} interactive />
 
       <div className="relative isolate mx-auto mt-16 w-[94%] max-w-[1764px] rounded-[40px] pb-16"
         style={{ background: "linear-gradient(180deg, transparent 8.06%, rgba(69, 22, 187, 0.42) 43.03%, #040404 80.62%)" }}

@@ -159,8 +159,8 @@ const nav: NavItem[] = [
       },
     ],
   },
-  { label: "About Us", href: "/about" },
-  { label: "Contact Us", href: "/contact" },
+  { label: "About Us", href: "/about-us" },
+  { label: "Contact Us", href: "/contact-us" },
   {
     label: "Resources",
     href: "/blog",
@@ -171,8 +171,8 @@ const nav: NavItem[] = [
         desc: "IT and security insight from our team.",
       },
       {
-        label: "Events",
-        href: "/events",
+        label: "Event",
+        href: "/event",
         desc: "Summits and expos where we meet partners.",
       },
       {

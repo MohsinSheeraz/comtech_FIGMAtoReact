@@ -11,7 +11,14 @@ type Props = {
   bullets?: string[];
 };
 
-export const ServiceCard = ({ t, p, img, className, number, bullets }: Props) => (
+export const ServiceCard = ({
+  t,
+  p,
+  img,
+  className,
+  number,
+  bullets,
+}: Props) => (
   <article className={`card svc svc-hover ${className ?? ""}`}>
     <span className="svc-hover-bg" aria-hidden="true" />
     <span className="num">{number}</span>
@@ -40,7 +47,7 @@ export const ServiceCard = ({ t, p, img, className, number, bullets }: Props) =>
 );
 
 export const StatementCard = () => (
-  <article className="card svc fill relative! overflow-hidden! isolate! flex flex-col gap-10 min-[1101px]:gap-52! justify-between">
+  <article className="card svc fill relative! overflow-hidden! isolate! flex flex-col justify-center gap-10 min-[1101px]:gap-52!">
     <LiquidBg />
     <h2 className="h2 relative z-10">
       We work across four connected disciplines because modern IT infrastructure

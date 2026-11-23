@@ -9,12 +9,13 @@ import { SecHead } from "@/components/SecHead";
 import { HowWeWork } from "@/components/HowWeWork";
 import { PinnedFaq } from "@/components/PinnedFaq";
 import ComtechRightChoice_SectionImage from "@/public/images/Comtech_RightChoiceIMG.png";
-import { DeferredGlobe } from "@/components/three/DeferredGlobe";
+// import { DeferredGlobe } from "@/components/three/DeferredGlobe";
 
 export const metadata: Metadata = {
-  title: "IT Services in Pakistan | Comtech",
+  alternates: { canonical: "https://comtech.net.pk/services" },
+  title: "IT Services in Pakistan | Comtech Associates",
   description:
-    "Networking, cybersecurity, data center, and managed IT services for enterprises across Pakistan, delivered by a Cisco Premier Partner. Explore Comtech's full range of IT solutions.",
+    "Enterprise IT services in Pakistan: networking, managed cybersecurity, data center, managed IT, custom software and IT resourcing from one partner.",
 };
 
 const off = [
@@ -22,7 +23,7 @@ const off = [
     "Cybersecurity",
     "24/7 SOC monitoring, penetration testing, and compliance-aligned security for banks, telecoms, and enterprises across Pakistan. Covers managed security, VAPT, incident response, identity and access management, cloud security posture management, and compliance with frameworks like ISO 27001, PCI DSS, and the SBP Cybersecurity Framework.",
     "Explore Cybersecurity Services",
-    "/services/cybersecurity",
+    "/services/cyber-security",
   ],
   [
     "Networking & IT Infrastructure",
@@ -40,7 +41,7 @@ const off = [
     "IT Services & Managed IT",
     "IT staff augmentation, custom software development, asset lifecycle management, and after-sales support, delivered as one accountable partner instead of three separate vendors. Certified engineers across Cisco, AWS, Azure, and DevOps disciplines support your team directly.",
     "Explore IT Services & Managed IT",
-    "/services/managed-it",
+    "/services/managed-it-services",
   ],
 ];
 
@@ -203,7 +204,7 @@ export default function Services() {
                       infrastructure, not a vendor who disappears after launch.
                     </p>
                     <div>
-                      <Btn href="/services/custom-software">
+                      <Btn href="/services/custom-software-development">
                         Explore Custom Software Development
                       </Btn>
                     </div>

@@ -5,6 +5,7 @@ import {
 } from "@/components/PartnerDetail";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "https://comtech.net.pk/partners/polycom" },
   title: "Polycom (HP Poly) Partner in Pakistan | Comtech",
   description:
     "Polycom (HP Poly) headsets, video conferencing and conference phones in Pakistan, installed and supported by Comtech Associates.",

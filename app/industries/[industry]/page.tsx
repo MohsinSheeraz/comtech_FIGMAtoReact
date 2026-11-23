@@ -15,7 +15,13 @@ export async function generateMetadata({
   const industry = industryPages.find((item) => item.slug === slug);
   if (!industry) notFound();
 
-  return { title: industry.title, description: industry.description };
+  return {
+    title: industry.title,
+    description: industry.description,
+    alternates: {
+      canonical: `https://comtech.net.pk/industries/${industry.slug}`,
+    },
+  };
 }
 
 export default async function IndustryPage({

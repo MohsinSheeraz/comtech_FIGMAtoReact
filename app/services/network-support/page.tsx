@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { Btn } from "@/components/Button";
 import { CtaPanel } from "@/components/CtaPanel";
-import { Faq } from "@/components/Faq";
+// import { Faq } from "@/components/Faq";
 import { Glow, PageGlows } from "@/components/Glow";
 import { Hero } from "@/components/Hero";
 import { HowWeWork } from "@/components/HowWeWork";
@@ -10,7 +10,11 @@ import { SecHead } from "@/components/SecHead";
 import { PinnedFaq } from "@/components/PinnedFaq";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "https://comtech.net.pk/services/network-support" },
   title: "Networking & IT Infrastructure | Comtech Associates",
+  description: "Network design, deployment and 24/7 monitoring in Pakistan by Cisco-certified engineers – campus, branch and data center networks that stay up.",
+  keywords:
+    "",
 };
 
 const capabilities = [
@@ -110,7 +114,7 @@ const more = [
     "Cybersecurity",
     "24/7 SOC monitoring, penetration testing, and compliance-aligned security for banks, telecoms, and enterprises across Pakistan. Covers managed security, VAPT, incident response, identity and access management, cloud security posture management, and compliance with frameworks like ISO 27001, PCI DSS, and the SBP Cybersecurity Framework.",
     "Explore Cybersecurity Services",
-    "/services/cybersecurity",
+    "/services/cyber-security",
   ],
   [
     "Custom Software Development",
@@ -128,7 +132,7 @@ const more = [
     "IT Services & Managed IT",
     "IT staff augmentation, custom software development, asset lifecycle management, and after-sales support, delivered as one accountable partner instead of three separate vendors. Certified engineers across Cisco, AWS, Azure, and DevOps disciplines support your team directly.",
     "Explore IT Services & Managed IT",
-    "/services/managed-it",
+    "/services/managed-it-services",
   ],
 ];
 

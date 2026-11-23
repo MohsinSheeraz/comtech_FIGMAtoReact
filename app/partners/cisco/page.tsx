@@ -19,6 +19,7 @@ import {
 } from "@/components/PartnersUI";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "https://comtech.net.pk/partners/cisco" },
   title: "Cisco Premier Partner in Pakistan | Comtech Associates",
   description:
     "Comtech Associates is a Cisco Premier Partner in Pakistan, delivering enterprise networking, security, data center, and cloud infrastructure solutions.",

@@ -5,6 +5,7 @@ import {
 } from "@/components/PartnerDetail";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "https://comtech.net.pk/partners/dlink" },
   title: "D-Link Partner in Pakistan | Comtech Associates",
   description:
     "Comtech Associates is an authorized D-Link partner in Pakistan, supplying switches, Wi-Fi, IP cameras and storage with design and after-sales support.",

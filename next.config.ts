@@ -7,6 +7,14 @@ const nextConfig: NextConfig = {
     },
     async redirects() {
         return [
+            { source: "/services/cybersecurity", destination: "/services/cyber-security", permanent: true },
+            { source: "/services/custom-software", destination: "/services/custom-software-development", permanent: true },
+            { source: "/services/resourcing", destination: "/services/managed-it-services", permanent: true },
+            { source: "/services/managed-it", destination: "/services/managed-it-services", permanent: true },
+            { source: "/services/it-services", destination: "/services/managed-it-services", permanent: true },
+            { source: "/services/it-resourcing", destination: "/services/managed-it-services", permanent: true },
+            { source: "/services/it-asset-lifecycle", destination: "/services/managed-it-services", permanent: true },
+            { source: "/services/desktop-support", destination: "/services/managed-it-services", permanent: true },
             { source: "/index", destination: "/", permanent: true },
             { source: "/favicon.ico", destination: "/icon", permanent: true },
         ];

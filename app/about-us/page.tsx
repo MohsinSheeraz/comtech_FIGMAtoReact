@@ -10,9 +10,10 @@ import { ServiceCard, StatementCard } from "@/components/ServiceCard";
 import { services } from "@/lib/services";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "https://comtech.net.pk/about-us" },
   title: "About Comtech Associates | IT Solutions Company in Pakistan",
   description:
-    "Comtech Associates: 10+ years, 250+ projects, and four offices delivering networking, cybersecurity, data center, and IT services across Pakistan. Meet the team.",
+    "Meet Comtech Associates, the Pakistani IT solutions company behind networks, security and data centers for banks, hospitals and enterprises nationwide.",
 };
 
 const mv = [

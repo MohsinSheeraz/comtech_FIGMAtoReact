@@ -5,6 +5,7 @@ import {
 } from "@/components/PartnerDetail";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "https://comtech.net.pk/partners/huawei" },
   title: "Huawei Partner in Pakistan | Comtech Associates",
   description:
     "Comtech Associates is an authorized Huawei partner in Pakistan, delivering Wi-Fi 6 networks, data center, security and enterprise connectivity.",

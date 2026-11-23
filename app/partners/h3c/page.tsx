@@ -5,6 +5,7 @@ import {
 } from "@/components/PartnerDetail";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "https://comtech.net.pk/partners/h3c" },
   title: "H3C Partner in Pakistan | Comtech Associates",
   description:
     "H3C switches, routers, wireless, UniServer servers, storage and security in Pakistan, supplied and supported by Comtech Associates, an authorized partner.",

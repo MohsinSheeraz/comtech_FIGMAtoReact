@@ -19,6 +19,9 @@ export async function generateMetadata({
   return {
     title: `${page.name} ${page.category} in Pakistan | Comtech Associates`,
     description: page.description,
+    alternates: {
+      canonical: `https://comtech.net.pk/partners/${partner}`,
+    },
   };
 }
 

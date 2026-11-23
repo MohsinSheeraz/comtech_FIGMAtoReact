@@ -19,9 +19,6 @@ export const metadata: Metadata = {
   title: "Comtech Associates | IT Solutions Provider in Pakistan",
   description:
     "Comtech delivers Cisco networking, cybersecurity, data center and software solutions across Pakistan. Talk to our team to strengthen your IT.",
-  alternates: {
-    canonical: "/",
-  },
   openGraph: {
     type: "website",
     title: "Comtech Associates | IT Solutions Provider in Pakistan",

@@ -18,13 +18,16 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Comtech Associates | IT Solutions Provider in Pakistan",
   description:
-    "IT solutions provider in Pakistan: Cisco networking, managed cybersecurity, data center and custom software for banks, telecom and enterprises. Talk to an expert.",
+    "Pakistan's IT partner for Cisco networking, cybersecurity, data center and software. Get expert advice to secure, connect and scale your business.",
+  alternates: {
+    canonical: "https://comtech.net.pk/",
+  },
   openGraph: {
     type: "website",
     title: "Comtech Associates | IT Solutions Provider in Pakistan",
     description:
-      "IT solutions provider in Pakistan: Cisco networking, managed cybersecurity, data center and custom software for banks, telecom and enterprises. Talk to an expert.",
-    url: "/",
+      "Pakistan's IT partner for Cisco networking, cybersecurity, data center and software. Get expert advice to secure, connect and scale your business.",
+    url: "https://comtech.net.pk/",
     images: [
       {
         url: "/opengraph-image",
@@ -38,7 +41,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Comtech Associates | IT Solutions Provider in Pakistan",
     description:
-      "Comtech delivers Cisco networking, cybersecurity, data center and software solutions across Pakistan. Talk to our team to strengthen your IT.",
+      "Pakistan's IT partner for Cisco networking, cybersecurity, data center and software. Get expert advice to secure, connect and scale your business.",
     images: ["/opengraph-image"],
   },
 };

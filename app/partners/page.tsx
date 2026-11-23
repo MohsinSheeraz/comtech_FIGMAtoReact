@@ -4,14 +4,19 @@ import { Hero } from "@/components/Hero";
 import { PageGlows } from "@/components/Glow";
 import { CtaPanel } from "@/components/CtaPanel";
 import { PartnersTabs } from "@/components/Partnerstab";
-import { SectionHeading, SectionIntro, Underline } from "@/components/PartnersUI";
+import {
+  SectionHeading,
+  SectionIntro,
+  Underline,
+} from "@/components/PartnersUI";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "https://comtech.net.pk/partners" },
   title: "Technology Partners in Pakistan | Comtech",
-  description: "Comtech Associates is a certified Cisco partner and works with Fortinet, Huawei, Dell, HPE, Kaspersky, and 10 more leading technology brands across Pakistan.",
+  description:
+    "Comtech Associates partners with Cisco, HPE, Dell, Huawei, Kaspersky and more to supply, deploy and support enterprise technology across Pakistan.",
 };
 
-/* ---------- content (copy is exactly as in the Figma) ---------- */
 
 const why = {
   heading: "Why the Partner Behind the Product Matters",
@@ -19,7 +24,6 @@ const why = {
   alt: "Business professionals shaking hands in front of a global network overlay",
 };
 
-// two sentences so the intro breaks into two lines on desktop, like the design
 const intro = {
   a: "As a certified Cisco partner, Comtech designs, deploys, and monitors the network infrastructure banks, hospitals, and manufacturers depend on, 24/7.",
   b: "We serve enterprises in four major cities, backed by certified engineers, not a reseller who ships hardware and disappears.",
@@ -46,7 +50,8 @@ export default function Partners() {
         }
         text={
           <>
-            15 certified technology partnerships, one accountable team designing,
+            15 certified technology partnerships, one accountable team
+            designing,
             <br />
             deploying, and supporting all of it.
           </>
@@ -55,7 +60,6 @@ export default function Partners() {
         secondary="Explore our Services"
       />
 
-      {/* long purple panel behind "Why the partner" + all partner cards */}
       <div className="relative isolate">
         <div
           aria-hidden
@@ -66,7 +70,6 @@ export default function Partners() {
           }}
         />
 
-        {/* Why the Partner Behind the Product Matters */}
         <section className="pb-10 pt-16 lg:pb-0 lg:pt-[240px]">
           <div className="wrap flex flex-col gap-10 lg:flex-row lg:items-center lg:justify-between lg:gap-12">
             <div className="lg:w-[700px]">
@@ -91,7 +94,6 @@ export default function Partners() {
           </div>
         </section>
 
-        {/* All partners */}
         <section className="pb-12 pt-[80px] lg:pb-[76px] lg:pt-[150px]">
           <div className="wrap">
             <SectionHeading>Here’s all the partners of Comtech</SectionHeading>

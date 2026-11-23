@@ -11,6 +11,9 @@ import { NumberedCards } from "@/components/NumberedCards";
 import { GlowCard, Underline } from "@/components/PartnersUI";
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: "https://comtech.net.pk/industries/telecomunication",
+  },
   title: "Telecom IT Services in Pakistan | Comtech Associates",
   description:
     "Comtech Associates delivers telecom infrastructure services and telecom IT solutions: access, transport, routing, and data center for operators, ISPs, and telecom businesses.",
@@ -78,10 +81,26 @@ const transportServices = [
 ];
 
 const steps: [string, string, string][] = [
-  ["01", "We Map the Network", "Capacity, topology, and growth plans, before any equipment is chosen."],
-  ["02", "We Design for Growth", "Architecture that scales without a redesign every time demand moves."],
-  ["03", "We Build and Cut Over", "Staged rollouts with fallback paths, so live services aren't put at risk."],
-  ["04", "We Operate and Support", "Round-the-clock monitoring and engineers who pick up."],
+  [
+    "01",
+    "We Map the Network",
+    "Capacity, topology, and growth plans, before any equipment is chosen.",
+  ],
+  [
+    "02",
+    "We Design for Growth",
+    "Architecture that scales without a redesign every time demand moves.",
+  ],
+  [
+    "03",
+    "We Build and Cut Over",
+    "Staged rollouts with fallback paths, so live services aren't put at risk.",
+  ],
+  [
+    "04",
+    "We Operate and Support",
+    "Round-the-clock monitoring and engineers who pick up.",
+  ],
 ];
 
 const why = [
@@ -130,7 +149,7 @@ const related = [
   {
     title: "Cybersecurity",
     text: "Managed security and 24/7 monitoring across the network and business systems.",
-    href: "/services/cybersecurity",
+    href: "/services/cyber-security",
   },
   {
     title: "Data Center & Cloud Solutions",
@@ -253,7 +272,8 @@ export default function Telecom() {
                   Answers
                 </h2>
                 <p className="mt-5">
-                  Have questions? Our FAQ section has you covered with quick answers to the most common inquiries.
+                  Have questions? Our FAQ section has you covered with quick
+                  answers to the most common inquiries.
                 </p>
               </>
             }

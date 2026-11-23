@@ -5,6 +5,7 @@ import {
 } from "@/components/PartnerDetail";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "https://comtech.net.pk/partners/sangfor" },
   title: "Sangfor Partner in Pakistan | Comtech Associates",
   description:
     "Sangfor NGAF, endpoint, HCI and cloud platforms in Pakistan, delivered by Comtech Associates, an authorized Sangfor partner.",

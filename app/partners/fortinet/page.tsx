@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { PartnerDetail, type PartnerDetailData } from "@/components/PartnerDetail";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "https://comtech.net.pk/partners/fortinet" },
   title: "Fortinet Partner in Pakistan | Comtech Associates",
   description:
     "Comtech is a Fortinet Advanced Partner (Integrator) in Pakistan, with SD-WAN, OT and SASE specializations and 5 Fortinet Certified Engineers.",

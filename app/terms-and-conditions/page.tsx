@@ -3,6 +3,7 @@ import Link from "next/link";
 import { PageGlows } from "@/components/Glow";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "https://comtech.net.pk/terms-and-conditions" },
   title: "Terms and Conditions | Comtech Associates",
   description:
     "The terms for using comtech.net.pk, the website of Comtech Associates, including content use, links, liability and how to contact us.",

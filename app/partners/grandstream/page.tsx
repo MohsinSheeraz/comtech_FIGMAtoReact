@@ -5,6 +5,7 @@ import {
 } from "@/components/PartnerDetail";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "https://comtech.net.pk/partners/grandstream" },
   title: "Grandstream Partner in Pakistan | Comtech Associates",
   description:
     "Grandstream Wi-Fi 6 access points, switches, routers and UC in Pakistan, deployed by Comtech Associates, an authorized Grandstream partner.",

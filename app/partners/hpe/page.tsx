@@ -5,6 +5,7 @@ import {
 } from "@/components/PartnerDetail";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "https://comtech.net.pk/partners/hpe" },
   title: "HPE Partner in Pakistan | Comtech Associates",
   description:
     "HPE ProLiant servers, Alletra storage, Aruba networking and GreenLake in Pakistan, supplied and supported by Comtech Associates, an authorized partner.",

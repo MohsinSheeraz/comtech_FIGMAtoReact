@@ -5,6 +5,7 @@ import {
 } from "@/components/PartnerDetail";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "https://comtech.net.pk/partners/avaya" },
   title: "Avaya Partner in Pakistan | Comtech Associates",
   description:
     "Avaya IP telephony, unified communications and contact center solutions in Pakistan from Comtech Associates, an authorized Avaya partner.",

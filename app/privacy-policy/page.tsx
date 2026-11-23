@@ -3,6 +3,7 @@ import Link from "next/link";
 import { PageGlows } from "@/components/Glow";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "https://comtech.net.pk/privacy-policy" },
   title: "Privacy Policy | Comtech Associates",
   description:
     "How Comtech Associates collects, uses and protects your information when you use comtech.net.pk, and how to reach us about your data.",

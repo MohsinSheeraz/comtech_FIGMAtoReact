@@ -10,6 +10,7 @@ import { NumberedCards } from "@/components/NumberedCards";
 import { GlowCard, Underline } from "@/components/PartnersUI";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "https://comtech.net.pk/industries" },
   title: "Industry IT Solutions in Pakistan | Comtech Associates",
   description:
     "Comtech Associates delivers IT services for banks, healthcare, government, education, telecom, and enterprise organizations across Pakistan.",

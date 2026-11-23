@@ -42,7 +42,9 @@ export async function generateMetadata({
     title,
     description,
     keywords: post.seo.metaTags,
-    alternates: { canonical: `/blog/${post.slug}` },
+    alternates: {
+      canonical: `https://comtech.net.pk/blog/${post.slug}`,
+    },
     openGraph: { type: "article", title, description, images: [image] },
     twitter: {
       card: "summary_large_image",

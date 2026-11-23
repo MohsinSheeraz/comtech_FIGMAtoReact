@@ -15,7 +15,13 @@ export async function generateMetadata({
   const service = servicePages.find((item) => item.slug === slug);
   if (!service) notFound();
 
-  return { title: service.title, description: service.description };
+  return {
+    title: service.title,
+    description: service.description,
+    alternates: {
+      canonical: `https://comtech.net.pk/services/${service.slug}`,
+    },
+  };
 }
 
 export default async function ServicePage({

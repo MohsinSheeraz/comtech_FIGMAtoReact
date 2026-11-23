@@ -9,6 +9,7 @@ import { getPostsPage } from "@/lib/posts";
 import { Hero } from "@/components/Hero";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "https://comtech.net.pk/blog" },
   title: "IT & Cybersecurity Blog | Comtech Associates",
   description:
     "Practical IT, networking and cybersecurity insight for Pakistani organizations, from the team at Comtech Associates.",
@@ -17,21 +18,22 @@ export const metadata: Metadata = {
 const frameBg =
   "linear-gradient(180deg, transparent 8.06%, rgba(69, 22, 187, 0.42) 43.03%, #040404 80.62%)";
 
-
-export default async function Blog({ searchParams }: { searchParams: Promise<{ page?: string }> }) {
+export default async function Blog({
+  searchParams,
+}: {
+  searchParams: Promise<{ page?: string }>;
+}) {
   const { page } = await searchParams;
-  const { items, current, total } = await getPostsPage(parseInt(page ?? "1", 10));
+  const { items, current, total } = await getPostsPage(
+    parseInt(page ?? "1", 10),
+  );
 
   return (
     <main>
       <PageGlows variant="inner" />
-            <Hero
+      <Hero
         logos={false}
-        title={
-          <>
-              IT and Security Insight for Pakistani Organizations
-          </>
-        }
+        title={<>IT and Security Insight for Pakistani Organizations</>}
         text={
           <>
             Regulation, threats and infrastructure decisions, explained plainly
@@ -39,7 +41,6 @@ export default async function Blog({ searchParams }: { searchParams: Promise<{ p
           </>
         }
         primary="Request an IT Assessment"
-        
       />
 
       <div

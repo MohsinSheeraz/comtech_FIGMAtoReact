@@ -13,6 +13,7 @@ import { SecHead } from "@/components/SecHead";
 import { summit as s } from "@/lib/eventData";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "https://comtech.net.pk/event/cisco-partner-summit-2026" },
   title: "Cisco Partner Summit 2026 | Comtech Associates",
   description:
     "Comtech Associates CEO Farooq Zaheer joins Cisco’s global partner community in Vancouver, 26 to 28 October 2026. Book a meeting or interview.",

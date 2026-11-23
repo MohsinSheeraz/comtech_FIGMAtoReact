@@ -5,6 +5,7 @@ import {
 } from "@/components/PartnerDetail";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "https://comtech.net.pk/partners/ubiquiti" },
   title: "Ubiquiti Partner in Pakistan | Comtech Associates",
   description:
     "Comtech Associates is an authorized Ubiquiti wireless networking partner in Pakistan: UniFi Wi-Fi, switching, surveillance and long-range links.",

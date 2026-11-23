@@ -7,8 +7,10 @@ import { Hero } from "@/components/Hero";
 import { events, eventsHero } from "@/lib/eventData";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "https://comtech.net.pk/event" },
   title: "Events | Comtech Associates",
-  description: "Summits, expos and conversations where Comtech Associates meets its partners and customers.",
+  description:
+    "Where Comtech Associates meets partners and customers: ITCN Asia, Cisco Partner Summit and other technology events in Pakistan and abroad.",
 };
 
 const frameBg =
@@ -38,18 +40,33 @@ export default function Events() {
                 className="group flex flex-col rounded-[30px] border border-gray-700 p-6 transition-transform duration-300 ease-out hover:-translate-y-1"
               >
                 <div className="gborder-new relative block overflow-hidden rounded-[30px]">
-                  <Image src={e.image} alt={e.title} width={597} height={346} className="h-auto w-full" />
+                  <Image
+                    src={e.image}
+                    alt={e.title}
+                    width={597}
+                    height={346}
+                    className="h-auto w-full"
+                  />
                 </div>
-                <p className="mt-10 text-[14px] leading-[20px] tracking-normal">Date: {e.date}</p>
-                <h3 className="mt-4 text-[26px] font-medium leading-[34px] tracking-tighter">{e.title}</h3>
-                <p className="mt-4 line-clamp-3 text-[18px]! leading-[31px]! tracking-tighter!">{e.excerpt}</p>
+                <p className="mt-10 text-[14px] leading-[20px] tracking-normal">
+                  Date: {e.date}
+                </p>
+                <h3 className="mt-4 text-[26px] font-medium leading-[34px] tracking-tighter">
+                  {e.title}
+                </h3>
+                <p className="mt-4 line-clamp-3 text-[18px]! leading-[31px]! tracking-tighter!">
+                  {e.excerpt}
+                </p>
                 <div className="mt-8">
                   {e.live ? (
                     <Btn v="o" href={`/events/${e.slug}`}>
                       Explore More
                     </Btn>
                   ) : (
-                    <span aria-disabled="true" className="btn o cursor-not-allowed opacity-40">
+                    <span
+                      aria-disabled="true"
+                      className="btn o cursor-not-allowed opacity-40"
+                    >
                       Coming soon
                     </span>
                   )}

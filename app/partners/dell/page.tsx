@@ -5,6 +5,7 @@ import {
 } from "@/components/PartnerDetail";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "https://comtech.net.pk/partners/dell" },
   title: "Dell Partner in Pakistan | Comtech Associates",
   description:
     "Dell servers, storage, PowerProtect backup and business PCs in Pakistan, supplied and supported by Comtech Associates, an authorized Dell partner.",

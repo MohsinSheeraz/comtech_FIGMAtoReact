@@ -182,7 +182,7 @@ export default function Home() {
         <div className="wrap">
           <SecHead
             title="What We Do"
-            sub="We work across five connected disciplines because modern IT infrastructure isn't separate problems—it is one system."
+            sub="We work across five connected disciplines because modern IT infrastructure isn't separate problems it is one system."
             cta
           />
           <div className="g3">

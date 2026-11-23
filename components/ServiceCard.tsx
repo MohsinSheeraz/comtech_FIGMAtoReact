@@ -47,7 +47,7 @@ export const ServiceCard = ({
 );
 
 export const StatementCard = () => (
-  <article className="card svc fill relative! overflow-hidden! isolate! flex flex-col justify-center gap-10 min-[1101px]:gap-52!">
+  <article className="h-137 p-10! gap-12! card svc fill relative! overflow-hidden! isolate! flex flex-col justify-items-center">
     <LiquidBg />
     <h2 className="h2 relative z-10">
       We work across four connected disciplines because modern IT infrastructure

@@ -50,9 +50,13 @@ export function Footer() {
       <div className="wrap">
         <div className="foot-cols foot-main border-t border-white/10">
           <div className="col-span-full min-[1201px]:col-auto">
-            <div className="flogo text-[28px]! leading-[34px]!">
-              Comtech Associates
-            </div>
+            <Image
+              src="/images/Comtech_Logo_Design/Png/Comtech_Logo_Design-05.png"
+              alt="Comtech Associates"
+              width={180}
+              height={56}
+              className="h-auto w-[180px]"
+            />
             <p className="mt-5 max-w-[420px]! text-[18px] leading-[28px]">
               Comtech Associates is a certified Cisco partner delivering
               networking, cybersecurity, data center, and managed IT solutions

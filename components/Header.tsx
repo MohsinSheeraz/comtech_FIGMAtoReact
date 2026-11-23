@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -8,7 +9,7 @@ type NavChild = { label: string; href: string; desc?: string };
 type NavItem = { label: string; href: string; children?: NavChild[] };
 export type MenuPost = { slug: string; title: string; image: string };
 
-const VISIBLE = 9; // more than this = "Show more" button
+const VISIBLE = 9; 
 
 const nav: NavItem[] = [
   {
@@ -222,21 +223,21 @@ const ArrowCircle = () => (
 );
 
 export function Header({ posts = [] }: { posts?: MenuPost[] }) {
-  const [open, setOpen] = useState(false); // mobile menu
-  const [dd, setDd] = useState<string | null>(null); // desktop mega menu that is open
-  const [sub, setSub] = useState<string | null>(null); // mobile accordion that is open
-  const [more, setMore] = useState<Record<string, boolean>>({}); // "Show more" per menu
-  const [h, setH] = useState(0); // height of the active panel (animated)
+  const [open, setOpen] = useState(false);
+  const [dd, setDd] = useState<string | null>(null);
+  const [sub, setSub] = useState<string | null>(null);
+  const [more, setMore] = useState<Record<string, boolean>>({});
+  const [h, setH] = useState(0);
   const panels = useRef<Record<string, HTMLDivElement | null>>({});
   const path = usePathname() ?? "/";
 
-  // Highlight the section you are in (e.g. /services/networking keeps "Services" bold).
+
   const isActive = (href: string) =>
     href === "/" ? path === "/" : path === href || path.startsWith(href + "/");
   const itemActive = (it: NavItem) =>
     isActive(it.href) || !!it.children?.some((c) => isActive(c.href));
 
-  // panel height follows the active menu (and "Show more") smoothly
+
   useEffect(() => {
     const el = dd ? panels.current[dd] : null;
     if (!el) return;
@@ -247,10 +248,10 @@ export function Header({ posts = [] }: { posts?: MenuPost[] }) {
   }, [dd]);
 
   const show = (k: string) => {
-    if (dd === null) setMore({}); // fresh start each time the menu opens
+    if (dd === null) setMore({});
     setDd(k);
   };
-  const hideNow = () => setDd(null); // no timer = no lag
+  const hideNow = () => setDd(null); 
   const close = () => {
     setOpen(false);
     setDd(null);
@@ -270,10 +271,15 @@ export function Header({ posts = [] }: { posts?: MenuPost[] }) {
       }}
     >
       <Link href="/" className="logo" onClick={close}>
-        Comtech Associates
+        <Image
+          src="/images/Comtech_Logo_Design/Png/Comtech_Logo_Design-05.png"
+          alt="Comtech Associates"
+          width={180}
+          height={56}
+          className="h-auto w-[145px] sm:w-[180px]"
+        />
       </Link>
 
-      {/* desktop triggers */}
       <nav>
         {nav.map((it) => {
           const active = itemActive(it);
@@ -313,7 +319,6 @@ export function Header({ posts = [] }: { posts?: MenuPost[] }) {
         })}
       </nav>
 
-      {/* ONE shared mega panel: menus cross-fade inside it, height animates */}
       <div
         className={`absolute inset-x-5 top-full z-50 hidden pt-4 transition-opacity duration-150 min-[1101px]:block ${
           dd
@@ -403,7 +408,6 @@ export function Header({ posts = [] }: { posts?: MenuPost[] }) {
               onClick={close}
               className="flex items-center gap-4 rounded-xl p-2 transition-colors hover:bg-white/10"
             >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={p.image} alt="" className="h-[72px] w-[104px] shrink-0 rounded-lg object-cover" />
               <span className="min-w-0">
                 <span className="line-clamp-2 block text-[14px] leading-[20px]">{p.title}</span>
@@ -451,8 +455,6 @@ export function Header({ posts = [] }: { posts?: MenuPost[] }) {
           )}
         </svg>
       </button>
-
-      {/* mobile (unchanged) */}
       {open && (
         <div id="mobile-menu" className="mnav">
           {nav.map((it) =>

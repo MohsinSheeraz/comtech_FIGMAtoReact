@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/page-seo";
 
 import Image from "next/image";
 import { Btn } from "@/components/Button";
@@ -11,12 +12,11 @@ import { PinnedFaq } from "@/components/PinnedFaq";
 import ComtechRightChoice_SectionImage from "@/public/images/Comtech_RightChoiceIMG.png";
 // import { DeferredGlobe } from "@/components/three/DeferredGlobe";
 
-export const metadata: Metadata = {
-  alternates: { canonical: "https://comtech.net.pk/services" },
-  title: "IT Services in Pakistan | Comtech Associates",
-  description:
-    "Enterprise IT services in Pakistan: networking, managed cybersecurity, data center, managed IT, custom software and IT resourcing from one partner.",
-};
+export function generateMetadata(): Promise<Metadata> {
+  return pageMetadata("/services", {
+    alternates: { canonical: "https://comtech.net.pk/services" },
+  });
+}
 
 const off = [
   [

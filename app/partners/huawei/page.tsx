@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/page-seo";
 import {
   PartnerDetail,
   type PartnerDetailData,
 } from "@/components/PartnerDetail";
 
-export const metadata: Metadata = {
-  alternates: { canonical: "https://comtech.net.pk/partners/huawei" },
-  title: "Huawei Partner in Pakistan | Comtech Associates",
-  description:
-    "Comtech Associates is an authorized Huawei partner in Pakistan, delivering Wi-Fi 6 networks, data center, security and enterprise connectivity.",
-};
+export function generateMetadata(): Promise<Metadata> {
+  return pageMetadata("/partners/huawei", {
+    alternates: { canonical: "https://comtech.net.pk/partners/huawei" },
+  });
+}
 
 const data: PartnerDetailData = {
   hero: {

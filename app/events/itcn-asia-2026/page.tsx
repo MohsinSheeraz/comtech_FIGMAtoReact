@@ -1,1 +1,1 @@
-export { default, metadata } from "../../event/itcn-asia-2026/page";
+export { default, generateMetadata } from "../../event/itcn-asia-2026/page";

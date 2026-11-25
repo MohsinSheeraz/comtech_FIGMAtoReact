@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/page-seo";
 import Image from "next/image";
 import { Btn } from "@/components/Button";
 import { CtaPanel } from "@/components/CtaPanel";
@@ -6,12 +7,11 @@ import { PageGlows } from "@/components/Glow";
 import { Hero } from "@/components/Hero";
 import { events, eventsHero } from "@/lib/eventData";
 
-export const metadata: Metadata = {
-  alternates: { canonical: "https://comtech.net.pk/events/" },
-  title: "Events | Comtech Associates",
-  description:
-    "Where Comtech Associates meets partners and customers: ITCN Asia, Cisco Partner Summit and other technology events in Pakistan and abroad.",
-};
+export function generateMetadata(): Promise<Metadata> {
+  return pageMetadata("/events", {
+    alternates: { canonical: "https://comtech.net.pk/events/" },
+  });
+}
 
 const frameBg =
   "linear-gradient(180deg, transparent 8.06%, rgba(69, 22, 187, 0.42) 43.03%, #040404 80.62%)";

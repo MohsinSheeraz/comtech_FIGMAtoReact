@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/page-seo";
 import Image from "next/image";
 import Link from "next/link";
 import { PageGlows } from "@/components/Glow";
@@ -20,12 +21,11 @@ import {
   Underline,
 } from "@/components/PartnersUI";
 
-export const metadata: Metadata = {
-  alternates: { canonical: "https://comtech.net.pk/partners/cisco" },
-  title: "Cisco Premier Partner in Pakistan | Comtech Associates",
-  description:
-    "Comtech Associates is a Cisco Premier Partner in Pakistan, delivering enterprise networking, security, data center, and cloud infrastructure solutions.",
-};
+export function generateMetadata(): Promise<Metadata> {
+  return pageMetadata("/partners/cisco", {
+    alternates: { canonical: "https://comtech.net.pk/partners/cisco" },
+  });
+}
 
 /* ---------- content (copy from the Figma PDF; PLACEHOLDER = not in the design, replace) ---------- */
 

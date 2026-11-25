@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/page-seo";
 import {
   PartnerDetail,
   type PartnerDetailData,
 } from "@/components/PartnerDetail";
 
-export const metadata: Metadata = {
-  alternates: { canonical: "https://comtech.net.pk/partners/polycom" },
-  title: "Polycom (HP Poly) Partner in Pakistan | Comtech",
-  description:
-    "Polycom (HP Poly) headsets, video conferencing and conference phones in Pakistan, installed and supported by Comtech Associates.",
-};
+export function generateMetadata(): Promise<Metadata> {
+  return pageMetadata("/partners/polycom", {
+    alternates: { canonical: "https://comtech.net.pk/partners/polycom" },
+  });
+}
 
 const data: PartnerDetailData = {
   hero: {

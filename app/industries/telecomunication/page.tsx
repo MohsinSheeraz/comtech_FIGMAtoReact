@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/page-seo";
 import { Btn } from "@/components/Button";
 import { CtaPanel } from "@/components/CtaPanel";
 import { Hero } from "@/components/Hero";
@@ -10,14 +11,13 @@ import { Stats } from "@/components/Stats";
 import { NumberedCards } from "@/components/NumberedCards";
 import { GlowCard, Underline } from "@/components/PartnersUI";
 
-export const metadata: Metadata = {
-  alternates: {
-    canonical: "https://comtech.net.pk/industries/telecomunication",
-  },
-  title: "Telecom IT Services in Pakistan | Comtech Associates",
-  description:
-    "Comtech Associates delivers telecom infrastructure services and telecom IT solutions: access, transport, routing, and data center for operators, ISPs, and telecom businesses.",
-};
+export function generateMetadata(): Promise<Metadata> {
+  return pageMetadata("/industries/telecomunication", {
+    alternates: {
+      canonical: "https://comtech.net.pk/industries/telecomunication",
+    },
+  });
+}
 
 const stats: [string, string][] = [
   ["24/7", "Support"],

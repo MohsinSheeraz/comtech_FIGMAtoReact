@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/page-seo";
 import { PageGlows } from "@/components/Glow";
 import { CtaPanel } from "@/components/CtaPanel";
 import { ContactForm } from "@/components/Contactform";
 
-export const metadata: Metadata = {
-  alternates: { canonical: "https://comtech.net.pk/contact-us" },
-  title: "Contact Comtech Associates | IT Solutions Company in Pakistan",
-  description:
-    "Contact Comtech Associates in Karachi: call +92 21 3440 4440 or send your requirements – networking, cybersecurity, data center or IT services.",
-};
+export function generateMetadata(): Promise<Metadata> {
+  return pageMetadata("/contact-us", {
+    alternates: { canonical: "https://comtech.net.pk/contact-us" },
+  });
+}
 
 
 const details = {

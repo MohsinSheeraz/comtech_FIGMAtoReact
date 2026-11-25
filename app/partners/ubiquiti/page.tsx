@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/page-seo";
 import {
   PartnerDetail,
   type PartnerDetailData,
 } from "@/components/PartnerDetail";
 
-export const metadata: Metadata = {
-  alternates: { canonical: "https://comtech.net.pk/partners/ubiquiti" },
-  title: "Ubiquiti Partner in Pakistan | Comtech Associates",
-  description:
-    "Comtech Associates is an authorized Ubiquiti wireless networking partner in Pakistan: UniFi Wi-Fi, switching, surveillance and long-range links.",
-};
+export function generateMetadata(): Promise<Metadata> {
+  return pageMetadata("/partners/ubiquiti", {
+    alternates: { canonical: "https://comtech.net.pk/partners/ubiquiti" },
+  });
+}
 
 const data: PartnerDetailData = {
   hero: {

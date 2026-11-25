@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/page-seo";
 import { Btn } from "@/components/Button";
 import { CtaPanel } from "@/components/CtaPanel";
 import { Hero } from "@/components/Hero";
@@ -9,12 +10,11 @@ import { Stats } from "@/components/Stats";
 import { NumberedCards } from "@/components/NumberedCards";
 import { GlowCard, Underline } from "@/components/PartnersUI";
 
-export const metadata: Metadata = {
-  alternates: { canonical: "https://comtech.net.pk/industries" },
-  title: "Industry IT Solutions in Pakistan | Comtech Associates",
-  description:
-    "Comtech Associates delivers IT services for banks, healthcare, government, education, telecom, and enterprise organizations across Pakistan.",
-};
+export function generateMetadata(): Promise<Metadata> {
+  return pageMetadata("/industries", {
+    alternates: { canonical: "https://comtech.net.pk/industries" },
+  });
+}
 
 const stats: [string, string][] = [
   ["10+ Years", "In Operation"],

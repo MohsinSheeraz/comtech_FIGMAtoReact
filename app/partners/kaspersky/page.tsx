@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/page-seo";
 import {
   PartnerDetail,
   type PartnerDetailData,
 } from "@/components/PartnerDetail";
 
-export const metadata: Metadata = {
-  alternates: { canonical: "https://comtech.net.pk/partners/kaspersky" },
-  title: "Kaspersky Partner | Comtech Associates",
-  description:
-    "Comtech Associates is an Authorized Kaspersky Partner, deploying and managing Kaspersky protection from the endpoint to the plant floor.",
-};
+export function generateMetadata(): Promise<Metadata> {
+  return pageMetadata("/partners/kaspersky", {
+    alternates: { canonical: "https://comtech.net.pk/partners/kaspersky" },
+  });
+}
 
 const data: PartnerDetailData = {
   hero: {

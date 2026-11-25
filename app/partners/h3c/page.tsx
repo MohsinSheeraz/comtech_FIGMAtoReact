@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/page-seo";
 import {
   PartnerDetail,
   type PartnerDetailData,
 } from "@/components/PartnerDetail";
 
-export const metadata: Metadata = {
-  alternates: { canonical: "https://comtech.net.pk/partners/h3c" },
-  title: "H3C Partner in Pakistan | Comtech Associates",
-  description:
-    "H3C switches, routers, wireless, UniServer servers, storage and security in Pakistan, supplied and supported by Comtech Associates, an authorized partner.",
-};
+export function generateMetadata(): Promise<Metadata> {
+  return pageMetadata("/partners/h3c", {
+    alternates: { canonical: "https://comtech.net.pk/partners/h3c" },
+  });
+}
 
 const data: PartnerDetailData = {
   hero: {

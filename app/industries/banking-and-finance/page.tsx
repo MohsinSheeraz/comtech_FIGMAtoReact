@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/page-seo";
 import { Btn } from "@/components/Button";
 import { CtaPanel } from "@/components/CtaPanel";
 import { Hero } from "@/components/Hero";
@@ -10,12 +11,11 @@ import { Stats } from "@/components/Stats";
 import { NumberedCards } from "@/components/NumberedCards";
 import { GlowCard, Underline } from "@/components/PartnersUI";
 
-export const metadata: Metadata = {
-  alternates: { canonical: "https://comtech.net.pk/industries/banking-and-finance" },
-  title: "IT Services for Banks in Pakistan | Comtech Associates",
-  description:
-    "Comtech Associates provides IT services for banks in Pakistan: managed IT, cybersecurity, data center, and branch networking built for uptime and compliance.",
-};
+export function generateMetadata(): Promise<Metadata> {
+  return pageMetadata("/industries/banking-and-finance", {
+    alternates: { canonical: "https://comtech.net.pk/industries/banking-and-finance" },
+  });
+}
 
 const stats: [string, string][] = [
   ["250+", "Projects Delivered"],

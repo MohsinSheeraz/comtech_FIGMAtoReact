@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/page-seo";
 import { Btn } from "@/components/Button";
 import { CtaPanel } from "@/components/CtaPanel";
 import { Hero } from "@/components/Hero";
@@ -9,12 +10,11 @@ import { SecHead } from "@/components/SecHead";
 import { Stats } from "@/components/Stats";
 import { NumberedCards } from "@/components/NumberedCards";
 
-export const metadata: Metadata = {
-  alternates: { canonical: "https://comtech.net.pk/industries/education" },
-  title: "Education IT Services in Pakistan | Comtech Associates",
-  description:
-    "Education IT services in Pakistan: campus-wide Wi-Fi, cybersecurity and managed IT support for schools, colleges and universities.",
-};
+export function generateMetadata(): Promise<Metadata> {
+  return pageMetadata("/industries/education", {
+    alternates: { canonical: "https://comtech.net.pk/industries/education" },
+  });
+}
 
 const stats: [string, string][] = [
   ["5,000+", "Students on One Comtech-Built Campus Network"],

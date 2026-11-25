@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/page-seo";
 import { Btn } from "@/components/Button";
 import { CtaPanel } from "@/components/CtaPanel";
 import { Hero } from "@/components/Hero";
@@ -10,12 +11,11 @@ import { Stats } from "@/components/Stats";
 import { NumberedCards } from "@/components/NumberedCards";
 import { GlowCard, Underline } from "@/components/PartnersUI";
 
-export const metadata: Metadata = {
-  alternates: { canonical: "https://comtech.net.pk/industries/healthcare" },
-  title: "Healthcare IT Services in Pakistan | Comtech Associates",
-  description:
-    "Healthcare IT services in Pakistan: cybersecurity, hospital infrastructure and managed IT that keep patient data private and systems running.",
-};
+export function generateMetadata(): Promise<Metadata> {
+  return pageMetadata("/industries/healthcare", {
+    alternates: { canonical: "https://comtech.net.pk/industries/healthcare" },
+  });
+}
 
 const stats: [string, string][] = [
   ["24/7", "Security Operations"],

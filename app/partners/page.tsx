@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/page-seo";
 import Image from "next/image";
 import { Hero } from "@/components/Hero";
 import { PageGlows } from "@/components/Glow";
@@ -10,12 +11,11 @@ import {
   Underline,
 } from "@/components/PartnersUI";
 
-export const metadata: Metadata = {
-  alternates: { canonical: "https://comtech.net.pk/partners" },
-  title: "Technology Partners in Pakistan | Comtech",
-  description:
-    "Comtech Associates partners with Cisco, HPE, Dell, Huawei, Kaspersky and more to supply, deploy and support enterprise technology across Pakistan.",
-};
+export function generateMetadata(): Promise<Metadata> {
+  return pageMetadata("/partners", {
+    alternates: { canonical: "https://comtech.net.pk/partners" },
+  });
+}
 
 
 const why = {

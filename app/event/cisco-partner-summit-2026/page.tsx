@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/page-seo";
 import Image from "next/image";
 import { Btn } from "@/components/Button";
 import { CtaPanel } from "@/components/CtaPanel";
@@ -12,12 +13,11 @@ import { Reveal } from "@/components/Reveal";
 import { SecHead } from "@/components/SecHead";
 import { summit as s } from "@/lib/eventData";
 
-export const metadata: Metadata = {
-  alternates: { canonical: "https://comtech.net.pk/events/cisco-partner-summit-2026/" },
-  title: "Cisco Partner Summit 2026 | Comtech Associates",
-  description:
-    "Comtech Associates CEO Farooq Zaheer joins Cisco’s global partner community in Vancouver, 26 to 28 October 2026. Book a meeting or interview.",
-};
+export function generateMetadata(): Promise<Metadata> {
+  return pageMetadata("/events/cisco-partner-summit-2026", {
+    alternates: { canonical: "https://comtech.net.pk/events/cisco-partner-summit-2026/" },
+  });
+}
 
 const frameBg =
   "linear-gradient(180deg, transparent 8.06%, rgba(69, 22, 187, 0.42) 43.03%, #040404 80.62%)";

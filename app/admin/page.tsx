@@ -29,6 +29,12 @@ export default async function AdminDashboard() {
                 </div>
                 <div className="flex items-center justify-center gap-3">
                     <Link
+                        href="/admin/seo"
+                        className="rounded-xl border border-white/20 px-5 py-2.5 text-[14px] hover:bg-white/10"
+                    >
+                        Page SEO
+                    </Link>
+                    <Link
                         href="/admin/new"
                         className="rounded-xl bg-[#5522d6] px-5 py-2.5 text-[14px] text-white hover:bg-[#6a3be6]"
                     >

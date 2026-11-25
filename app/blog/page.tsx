@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/page-seo";
 import { BlogCard } from "@/components/BlogCard";
 import { Btn } from "@/components/Button";
 import { CtaPanel } from "@/components/CtaPanel";
@@ -8,12 +9,11 @@ import { redirect } from "next/navigation";
 import { getPostsPage } from "@/lib/posts";
 import { Hero } from "@/components/Hero";
 
-export const metadata: Metadata = {
-  alternates: { canonical: "https://comtech.net.pk/blog" },
-  title: "IT & Cybersecurity Blog | Comtech Associates",
-  description:
-    "Practical IT, networking and cybersecurity insight for Pakistani organizations, from the team at Comtech Associates.",
-};
+export function generateMetadata(): Promise<Metadata> {
+  return pageMetadata("/blog", {
+    alternates: { canonical: "https://comtech.net.pk/blog" },
+  });
+}
 
 const frameBg =
   "linear-gradient(180deg, transparent 8.06%, rgba(69, 22, 187, 0.42) 43.03%, #040404 80.62%)";

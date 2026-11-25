@@ -41,7 +41,14 @@ export const metadata: Metadata = {
       "Comtech delivers Cisco networking, cybersecurity, data center and software solutions across Pakistan. Talk to our team to strengthen your IT.",
     images: ["/opengraph-image"],
   },
+  // Staging builds (NOINDEX=1) are kept out of search engines.
+  ...(process.env.NOINDEX === "1" ? { robots: { index: false, follow: false } } : {}),
 };
+
+// Pages are pre-rendered, then refreshed in the background at most every 5 minutes, so
+// SEO edits from /admin/seo come back after a redeploy even if the build had no database.
+// (Saving in the admin also refreshes the page immediately.)
+export const revalidate = 300;
 
 export const viewport: Viewport = {
   width: "device-width",

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/page-seo";
 import { notFound } from "next/navigation";
 import { ServiceDetail, servicePages } from "@/components/ServiceDetail";
 
@@ -15,13 +16,11 @@ export async function generateMetadata({
   const service = servicePages.find((item) => item.slug === slug);
   if (!service) notFound();
 
-  return {
-    title: service.title,
-    description: service.description,
+  return pageMetadata(`/services/${service.slug}`, {
     alternates: {
       canonical: `https://comtech.net.pk/services/${service.slug}`,
     },
-  };
+  });
 }
 
 export default async function ServicePage({

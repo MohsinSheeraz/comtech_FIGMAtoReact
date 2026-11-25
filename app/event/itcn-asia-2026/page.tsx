@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/page-seo";
 import Image from "next/image";
 import { Btn } from "@/components/Button";
 import { CtaPanel } from "@/components/CtaPanel";
@@ -11,12 +12,11 @@ import { SecHead } from "@/components/SecHead";
 import { Stats } from "@/components/Stats";
 import { itcn as d } from "@/lib/itcnData";
 
-export const metadata: Metadata = {
-  alternates: { canonical: "https://comtech.net.pk/events/itcn-asia-2026/" },
-  title: "ITCN Asia 2026 | Comtech Associates",
-  description:
-    "Meet Comtech Associates and Cisco at the 28th ITCN Asia, Expo Centre Karachi, 22 to 24 September 2026. Hall 04, Booths D-119 to D124 and D133 to D138.",
-};
+export function generateMetadata(): Promise<Metadata> {
+  return pageMetadata("/events/itcn-asia-2026", {
+    alternates: { canonical: "https://comtech.net.pk/events/itcn-asia-2026/" },
+  });
+}
 
 const frameBg =
   "linear-gradient(180deg, transparent 8.06%, rgba(69, 22, 187, 0.42) 43.03%, #040404 80.62%)";

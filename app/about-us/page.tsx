@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/page-seo";
 import Image from "next/image";
 import { Hero } from "@/components/Hero";
 import { PageGlows, Glow } from "@/components/Glow";
@@ -9,12 +10,11 @@ import { CeoQuote } from "@/components/CeoQuote";
 import { ServiceCard, StatementCard } from "@/components/ServiceCard";
 import { services } from "@/lib/services";
 
-export const metadata: Metadata = {
-  alternates: { canonical: "https://comtech.net.pk/about-us" },
-  title: "About Comtech Associates | IT Solutions Company in Pakistan",
-  description:
-    "Meet Comtech Associates, the Pakistani IT solutions company behind networks, security and data centers for banks, hospitals and enterprises nationwide.",
-};
+export function generateMetadata(): Promise<Metadata> {
+  return pageMetadata("/about-us", {
+    alternates: { canonical: "https://comtech.net.pk/about-us" },
+  });
+}
 
 const mv = [
   [

@@ -14,37 +14,31 @@ import { PinnedStory } from "@/components/Pinnedstory";
 import { Reveal } from "@/components/Reveal";
 import { TechnologySection } from "@/components/TechnologySection";
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/page-seo";
 
-export const metadata: Metadata = {
-  title: "Comtech Associates | IT Solutions Provider in Pakistan",
-  description:
-    "Pakistan's IT partner for Cisco networking, cybersecurity, data center and software. Get expert advice to secure, connect and scale your business.",
-  alternates: {
-    canonical: "https://comtech.net.pk/",
-  },
-  openGraph: {
-    type: "website",
-    title: "Comtech Associates | IT Solutions Provider in Pakistan",
-    description:
-      "Pakistan's IT partner for Cisco networking, cybersecurity, data center and software. Get expert advice to secure, connect and scale your business.",
-    url: "https://comtech.net.pk/",
-    images: [
-      {
-        url: "/opengraph-image",
-        width: 1200,
-        height: 630,
-        alt: "Comtech Associates IT solutions across Pakistan",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Comtech Associates | IT Solutions Provider in Pakistan",
-    description:
-      "Pakistan's IT partner for Cisco networking, cybersecurity, data center and software. Get expert advice to secure, connect and scale your business.",
-    images: ["/opengraph-image"],
-  },
-};
+export function generateMetadata(): Promise<Metadata> {
+  return pageMetadata("/", {
+    alternates: {
+      canonical: "https://comtech.net.pk/",
+    },
+    openGraph: {
+      type: "website",
+      url: "https://comtech.net.pk/",
+      images: [
+        {
+          url: "/opengraph-image",
+          width: 1200,
+          height: 630,
+          alt: "Comtech Associates IT solutions across Pakistan",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      images: ["/opengraph-image"],
+    },
+  });
+}
 
 const why: [string, string][] = [
   [

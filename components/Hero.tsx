@@ -67,6 +67,7 @@ export const Hero = ({
         fallbackSrc="/images/globe-network-lowered.webp"
         sizes="(max-width: 768px) 170vw, 906px"
         style={{ aspectRatio: "1672 / 941" }}
+        intro
       />
     )}
 

@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/page-seo";
 import {
   PartnerDetail,
   type PartnerDetailData,
 } from "@/components/PartnerDetail";
 
-export const metadata: Metadata = {
-  alternates: { canonical: "https://comtech.net.pk/partners/dell" },
-  title: "Dell Partner in Pakistan | Comtech Associates",
-  description:
-    "Dell servers, storage, PowerProtect backup and business PCs in Pakistan, supplied and supported by Comtech Associates, an authorized Dell partner.",
-};
+export function generateMetadata(): Promise<Metadata> {
+  return pageMetadata("/partners/dell", {
+    alternates: { canonical: "https://comtech.net.pk/partners/dell" },
+  });
+}
 
 const data: PartnerDetailData = {
   hero: {

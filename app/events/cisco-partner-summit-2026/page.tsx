@@ -1,1 +1,1 @@
-export { default, metadata } from "../../event/cisco-partner-summit-2026/page";
+export { default, generateMetadata } from "../../event/cisco-partner-summit-2026/page";

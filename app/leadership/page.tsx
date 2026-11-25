@@ -1,13 +1,15 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/page-seo";
 import Image from "next/image";
 import { CtaPanel } from "@/components/CtaPanel";
 import { PageGlows } from "@/components/Glow";
 import { Hero } from "@/components/Hero";
 
-export const metadata: Metadata = {
-  title: "Leadership | Comtech Associates",
-  alternates: { canonical: "https://comtech.net.pk/leadership" },
-};
+export function generateMetadata(): Promise<Metadata> {
+  return pageMetadata("/leadership", {
+    alternates: { canonical: "https://comtech.net.pk/leadership" },
+  });
+}
 
 const frameBg =
   "linear-gradient(180deg, transparent 8.06%, rgba(69, 22, 187, 0.42) 43.03%, #040404 80.62%)";

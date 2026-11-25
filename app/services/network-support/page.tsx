@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/page-seo";
 import Image from "next/image";
 import { Btn } from "@/components/Button";
 import { CtaPanel } from "@/components/CtaPanel";
@@ -9,13 +10,13 @@ import { HowWeWork } from "@/components/HowWeWork";
 import { SecHead } from "@/components/SecHead";
 import { PinnedFaq } from "@/components/PinnedFaq";
 
-export const metadata: Metadata = {
-  alternates: { canonical: "https://comtech.net.pk/services/network-support" },
-  title: "Networking & IT Infrastructure | Comtech Associates",
-  description: "Network design, deployment and 24/7 monitoring in Pakistan by Cisco-certified engineers – campus, branch and data center networks that stay up.",
-  keywords:
-    "",
-};
+export function generateMetadata(): Promise<Metadata> {
+  return pageMetadata("/services/network-support", {
+    alternates: { canonical: "https://comtech.net.pk/services/network-support" },
+    keywords:
+      "",
+  });
+}
 
 const capabilities = [
   [

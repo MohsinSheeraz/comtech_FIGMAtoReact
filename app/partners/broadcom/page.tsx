@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/page-seo";
 import {
   PartnerDetail,
   type PartnerDetailData,
 } from "@/components/PartnerDetail";
 
-export const metadata: Metadata = {
-  alternates: { canonical: "https://comtech.net.pk/partners/broadcom" },
-  title: "Broadcom Partner in Pakistan | Comtech Associates",
-  description:
-    "VMware Cloud Foundation, vSphere, vSAN and NSX in Pakistan, deployed by Comtech Associates, an authorized Broadcom partner.",
-};
+export function generateMetadata(): Promise<Metadata> {
+  return pageMetadata("/partners/broadcom", {
+    alternates: { canonical: "https://comtech.net.pk/partners/broadcom" },
+  });
+}
 
 const data: PartnerDetailData = {
   hero: {

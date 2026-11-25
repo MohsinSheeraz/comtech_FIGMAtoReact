@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/page-seo";
 import { notFound } from "next/navigation";
 import { IndustryDetail, industryPages } from "@/components/IndustryDetail";
 
@@ -15,13 +16,11 @@ export async function generateMetadata({
   const industry = industryPages.find((item) => item.slug === slug);
   if (!industry) notFound();
 
-  return {
-    title: industry.title,
-    description: industry.description,
+  return pageMetadata(`/industries/${industry.slug}`, {
     alternates: {
       canonical: `https://comtech.net.pk/industries/${industry.slug}`,
     },
-  };
+  });
 }
 
 export default async function IndustryPage({

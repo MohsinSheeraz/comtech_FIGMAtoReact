@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/page-seo";
 import {
   PartnerDetail,
   type PartnerDetailData,
 } from "@/components/PartnerDetail";
 
-export const metadata: Metadata = {
-  alternates: { canonical: "https://comtech.net.pk/partners/tp-link" },
-  title: "TP-Link Partner in Pakistan | Comtech Associates",
-  description:
-    "Comtech Associates is an authorized TP-Link partner in Pakistan, delivering Omada, Deco and JetStream networking with expert support.",
-};
+export function generateMetadata(): Promise<Metadata> {
+  return pageMetadata("/partners/tp-link", {
+    alternates: { canonical: "https://comtech.net.pk/partners/tp-link" },
+  });
+}
 
 const data: PartnerDetailData = {
   hero: {

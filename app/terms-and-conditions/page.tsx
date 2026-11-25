@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/page-seo";
 import Link from "next/link";
 import { PageGlows } from "@/components/Glow";
 
-export const metadata: Metadata = {
-  alternates: { canonical: "https://comtech.net.pk/terms-and-conditions" },
-  title: "Terms and Conditions | Comtech Associates",
-  description:
-    "The terms for using comtech.net.pk, the website of Comtech Associates, including content use, links, liability and how to contact us.",
-};
+export function generateMetadata(): Promise<Metadata> {
+  return pageMetadata("/terms-and-conditions", {
+    alternates: { canonical: "https://comtech.net.pk/terms-and-conditions" },
+  });
+}
 
 const fairUse: [string, string][] = [
   [

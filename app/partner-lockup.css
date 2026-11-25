@@ -1,0 +1,125 @@
+/* "Comtech + Partner" card (components/PartnerLockup.tsx).
+   Everything is sized in cqw (% of the card width), so the card scales as one piece
+   on phones, tablets and the laptop zoom from viewport-scale.css. */
+
+.lk {
+  position: relative;
+  isolation: isolate;
+  container-type: inline-size;
+  aspect-ratio: 8 / 5;
+  border: 1px solid transparent;
+  border-radius: 28px;
+  background:
+    radial-gradient(ellipse 45% 70% at 50% 50%, rgba(120, 50, 240, 0.55), transparent 75%),
+    linear-gradient(90deg, #1a0a4a 0%, #0c0526 50%, #1a0a4a 100%);
+}
+.lk--float { animation: lk-float 7s ease-in-out infinite; }
+@keyframes lk-float { 50% { translate: 0 -6px; } }
+
+/* background layer (clipped, so the gradient border is never cut) */
+.lk-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  overflow: hidden;
+  pointer-events: none;
+}
+.lk-glow {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 60cqw;
+  height: 120%;
+  translate: -50% -50%;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(176, 90, 255, 0.5), rgba(110, 50, 230, 0.18) 50%, transparent 72%);
+  filter: blur(14px);
+  animation: lk-breathe 5s ease-in-out infinite;
+}
+@keyframes lk-breathe { 50% { scale: 1.1 1; opacity: 0.75; } }
+
+/* floating gems (the little cubes) */
+.lk-gem {
+  position: absolute;
+  border-radius: 20%;
+  background: linear-gradient(135deg, #e6d4ff 0%, #8a5cff 45%, #3a1aa8 100%);
+  box-shadow: 0 0 10px 1px rgba(167, 139, 250, 0.75);
+  rotate: 35deg;
+  opacity: 0.9;
+  animation: lk-gem 6s ease-in-out infinite;
+}
+@keyframes lk-gem {
+  50% { translate: 0 -10px; rotate: 80deg; }
+}
+
+/* ---------- the ) ( arcs ---------- */
+.lk-svg {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: inherit;
+  pointer-events: none;
+}
+.lk-svg path { fill: none; stroke-linecap: round; }
+.lk-svg .lk-fill { fill-opacity: 1; animation: lk-fill 5s ease-in-out infinite; }
+@keyframes lk-fill { 50% { opacity: 0.8; } }
+
+.lk-faint { stroke: rgba(190, 170, 255, 0.28); stroke-width: 1.2; }
+.lk-halo { stroke-width: 10; opacity: 0.45; filter: blur(7px); }
+.lk-line { stroke-width: 2.6; filter: drop-shadow(0 0 6px rgba(220, 150, 255, 0.9)); }
+
+/* ---------- the + ---------- */
+.lk-plus {
+  position: absolute;
+  z-index: 3;
+  left: 50%;
+  top: 50%;
+  width: 6.4cqw;
+  height: 6.4cqw;
+  translate: -50% -50%;
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.9)) drop-shadow(0 0 18px rgba(190, 150, 255, 0.9));
+  animation: lk-plus 3.6s ease-in-out infinite;
+}
+.lk-plus::before,
+.lk-plus::after {
+  content: "";
+  position: absolute;
+  background: #fff;
+  border-radius: 2px;
+}
+.lk-plus::before { left: 0; right: 0; top: 50%; height: 0.5cqw; margin-top: -0.25cqw; }
+.lk-plus::after { top: 0; bottom: 0; left: 50%; width: 0.5cqw; margin-left: -0.25cqw; }
+@keyframes lk-plus { 50% { scale: 1.12; } }
+
+/* ---------- logos ---------- */
+.lk-logo {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  translate: -50% -50%;
+  width: 31cqw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  filter: drop-shadow(0 0 12px rgba(167, 139, 250, 0.3));
+}
+.lk-logo-l { left: 21%; }
+.lk-logo-r { left: 79%; }
+.lk-logo img { display: block; width: 100%; height: auto; max-height: 22cqw; object-fit: contain; }
+
+/* partners whose logo is dark: shown as plain white (no box behind it) */
+.lk-white { filter: brightness(0) invert(1); }
+
+.lk-name { font-size: 6.4cqw; font-weight: 500; letter-spacing: -0.03em; color: #fff; text-align: center; line-height: 1.1; }
+
+@media (prefers-reduced-motion: reduce) {
+  .lk,
+  .lk-glow,
+  .lk-gem,
+  .lk-plus,
+  .lk-svg .lk-fill { animation: none; }
+}

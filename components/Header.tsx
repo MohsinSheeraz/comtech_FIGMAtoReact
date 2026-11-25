@@ -172,8 +172,8 @@ const nav: NavItem[] = [
         desc: "IT and security insight from our team.",
       },
       {
-        label: "Event",
-        href: "/event",
+        label: "Events",
+        href: "/events",
         desc: "Summits and expos where we meet partners.",
       },
       {

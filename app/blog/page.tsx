@@ -4,7 +4,7 @@ import { Btn } from "@/components/Button";
 import { CtaPanel } from "@/components/CtaPanel";
 import { PageGlows } from "@/components/Glow";
 import { Pagination } from "@/components/Pagination";
-import { PER_PAGE } from "@/lib/posts";
+import { redirect } from "next/navigation";
 import { getPostsPage } from "@/lib/posts";
 import { Hero } from "@/components/Hero";
 
@@ -24,9 +24,11 @@ export default async function Blog({
   searchParams: Promise<{ page?: string }>;
 }) {
   const { page } = await searchParams;
-  const { items, current, total } = await getPostsPage(
-    parseInt(page ?? "1", 10),
-  );
+  const requestedPage = parseInt(page ?? "1", 10);
+  const { items, current, total } = await getPostsPage(requestedPage);
+  if (requestedPage !== current) {
+    redirect(current === 1 ? "/blog" : `/blog?page=${current}`);
+  }
 
   return (
     <main>

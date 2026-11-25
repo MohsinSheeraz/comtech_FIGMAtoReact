@@ -4,10 +4,12 @@ export const CtaPanel = ({
   title,
   text,
   label,
+  href = "/contact",
 }: {
   title: string;
   text: string;
   label: string;
+  href?: string;
 }) => (
   <section className="wrap">
     <div className="ctapanel">
@@ -16,7 +18,7 @@ export const CtaPanel = ({
       <i className="cta-floor" />
       <h2 className="h2">{title}</h2>
       <p className="body">{text}</p>
-      <Btn href="/contact">{label}</Btn>
+      <Btn href={href}>{label}</Btn>
     </div>
   </section>
 );

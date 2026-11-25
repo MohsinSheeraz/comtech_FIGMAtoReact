@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { Btn } from "@/components/Button";
 import { CtaPanel } from "@/components/CtaPanel";
+import { EventPageHero } from "@/components/EventPageHero";
+import { EventRegistrationForm } from "@/components/EventRegistrationForm";
 import { Glow, PageGlows } from "@/components/Glow";
-import { Hero } from "@/components/Hero";
 import { ProductShowcase } from "@/components/ProductShowcase";
 import { Reveal } from "@/components/Reveal";
 import { SecHead } from "@/components/SecHead";
@@ -11,7 +12,7 @@ import { Stats } from "@/components/Stats";
 import { itcn as d } from "@/lib/itcnData";
 
 export const metadata: Metadata = {
-  alternates: { canonical: "https://comtech.net.pk/event/itcn-asia-2026" },
+  alternates: { canonical: "https://comtech.net.pk/events/itcn-asia-2026/" },
   title: "ITCN Asia 2026 | Comtech Associates",
   description:
     "Meet Comtech Associates and Cisco at the 28th ITCN Asia, Expo Centre Karachi, 22 to 24 September 2026. Hall 04, Booths D-119 to D124 and D133 to D138.",
@@ -107,11 +108,12 @@ export default function ItcnAsia() {
   return (
     <main>
       <PageGlows variant="inner" />
-      <Hero
-        logos={false}
+      <EventPageHero
+        compactTitle
         title={d.hero.title}
         text={d.hero.text}
-        primary={d.hero.primary}
+        href="#visitor-registration"
+        buttonLabel={d.hero.primary}
       />
 
       <div
@@ -119,7 +121,7 @@ export default function ItcnAsia() {
         style={{ background: frameBg }}
       >
         {/* Why visit */}
-        <Reveal as="section" className="wrap sec">
+        <Reveal as="section" id="why-visit" className="wrap sec">
           <div className="grid items-start gap-8 min-[1101px]:grid-cols-2 min-[1101px]:gap-16">
             <div>
               <Label>{d.why.label}</Label>
@@ -136,7 +138,7 @@ export default function ItcnAsia() {
         </Reveal>
 
         {/* Find us */}
-        <Reveal as="section" className="wrap sec">
+        <Reveal as="section" id="find-us" className="wrap sec">
           <Label center>{d.find.label}</Label>
           <SecHead title={d.find.title} />
           <div className="mx-auto max-w-[900px]">
@@ -144,8 +146,8 @@ export default function ItcnAsia() {
               <Image
                 src={d.find.image}
                 alt={d.find.imageAlt}
-                width={864}
-                height={500}
+                width={1024}
+                height={910}
                 className="h-auto w-full rounded-[28px]"
               />
             </div>
@@ -157,11 +159,30 @@ export default function ItcnAsia() {
                 {d.find.hall}
               </p>
             </div>
+            <div className="mt-8 grid gap-6 md:grid-cols-2">
+              {d.find.maps.map((map) => (
+                <div
+                  key={map.image}
+                  className="card flex min-h-[150px] items-center justify-center overflow-hidden rounded-[24px]! p-5"
+                >
+                  <Image
+                    src={map.image}
+                    alt={map.alt}
+                    width={map.width}
+                    height={map.height}
+                    unoptimized
+                    className="h-auto max-h-[360px] w-full object-contain"
+                  />
+                </div>
+              ))}
+            </div>
           </div>
         </Reveal>
 
-        <Team {...d.comtechTeam} />
-        <Team {...d.ciscoTeam} />
+        <div id="leadership" className="scroll-mt-8">
+          <Team {...d.comtechTeam} />
+          <Team {...d.ciscoTeam} />
+        </div>
       </div>
 
       <div className="relative overflow-x-clip">
@@ -175,7 +196,7 @@ export default function ItcnAsia() {
         />
 
         {/* Solutions */}
-        <Reveal as="section" className="wrap sec mt-16!">
+        <Reveal as="section" id="solutions" className="wrap sec mt-16!">
           <div className="mb-12 flex flex-wrap items-end justify-between gap-6">
             <div className="max-w-[640px]">
               <Label>{d.solutions.label}</Label>
@@ -215,7 +236,7 @@ export default function ItcnAsia() {
         </Reveal>
 
         {/* Showcase */}
-        <Reveal as="section" className="wrap sec">
+        <Reveal as="section" id="showcase" className="wrap sec">
           <div className="mb-12 flex flex-wrap items-end justify-between gap-6">
             <div className="max-w-[760px]">
               <h2 className={H2}>
@@ -224,7 +245,7 @@ export default function ItcnAsia() {
               </h2>
               <p className={`${P} mt-4`}>{d.showcase.sub}</p>
             </div>
-            <Btn v="o" href="/services">
+            <Btn v="o" href="https://comtechassociates.store/">
               View All Solutions
             </Btn>
           </div>
@@ -232,7 +253,7 @@ export default function ItcnAsia() {
         </Reveal>
 
         {/* Why choose + awards */}
-        <Reveal as="section" className="wrap sec">
+        <Reveal as="section" id="awards" className="wrap sec">
           <Label center>{d.awards.label}</Label>
           <SecHead title={d.awards.title} />
           <Stats items={d.awards.stats} interactive />
@@ -249,14 +270,22 @@ export default function ItcnAsia() {
               </div>
             ))}
           </div>
+          <Image
+            src="/images/ITCNAward.jpg"
+            alt="Comtech Associates and Cisco at ITCN Asia 2026"
+            width={1200}
+            height={400}
+            className="mt-8 h-auto w-full rounded-[24px]"
+          />
         </Reveal>
       </div>
 
-      {/* TODO: the screenshot ends at the footer; this CTA matches the other pages, remove if not wanted */}
+      <EventRegistrationForm />
       <CtaPanel
         title="See It Live At ITCN Asia 2026"
         text="Visit Comtech and Cisco at Hall 04, Expo Centre Karachi, 22 to 24 September 2026."
         label="Visitor Registration"
+        href="#visitor-registration"
       />
     </main>
   );

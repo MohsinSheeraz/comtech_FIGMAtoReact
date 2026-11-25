@@ -7,7 +7,7 @@ import { Hero } from "@/components/Hero";
 import { events, eventsHero } from "@/lib/eventData";
 
 export const metadata: Metadata = {
-  alternates: { canonical: "https://comtech.net.pk/event" },
+  alternates: { canonical: "https://comtech.net.pk/events/" },
   title: "Events | Comtech Associates",
   description:
     "Where Comtech Associates meets partners and customers: ITCN Asia, Cisco Partner Summit and other technology events in Pakistan and abroad.",

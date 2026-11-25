@@ -90,8 +90,8 @@ const realPosts: Post[] = [
   },
 ];
 
-// Placeholder list (same copy 120 times, like the Figma). Delete when you have enough real posts.
-const placeholders: Post[] = Array.from({ length: 120 }, (_, i) => ({
+// Keep two pages of local demo content alongside the Mazda post.
+const placeholders: Post[] = Array.from({ length: 23 }, (_, i) => ({
     ...base,
     slug: `infrastructure-support-reduces-downtime-${i + 1}`,
 }));

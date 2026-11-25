@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { Hero } from "@/components/Hero";
 import { PageGlows } from "@/components/Glow";
 import { DeliverStage } from "@/components/DeliverStage";
 import { WhyCisco } from "@/components/WhyCisco";
 import { PinnedFaq } from "@/components/PinnedFaq";
 import { CtaPanel } from "@/components/CtaPanel";
+import { PartnerHero } from "@/components/PartnerHero";
+import { PartnerLockup } from "@/components/PartnerLockup";
+
 import {
   BORDER_GRADIENT,
   CardText,
@@ -208,8 +210,7 @@ export default function Cisco() {
   return (
     <main>
       <PageGlows variant="inner" />
-      <Hero
-        logos={false}
+      <PartnerHero
         title={
           <>
             Advancing Pakistan’s Digital Future
@@ -218,7 +219,7 @@ export default function Cisco() {
           </>
         }
         text="Comtech Associates is a Cisco Premier Partner in Pakistan, designing, deploying, and supporting Cisco networking, security, and data center technology for banks, government, and enterprises."
-        primary="Request A Cisco Solutions Assessment"
+        cta="Request A Cisco Solutions Assessment"
       />
 
       {/* long purple panel #1: Partnership + Credentials + Portfolio (+ globe) */}
@@ -470,6 +471,7 @@ export default function Cisco() {
         <section className="mt-20 py-20">
           <Container>
             <PinnedFaq
+            visual={<PartnerLockup layout="stack" />}
               head={
                 <>
                   <h2 className="text-3xl font-normal leading-tight text-white md:text-4xl lg:text-[40px]">

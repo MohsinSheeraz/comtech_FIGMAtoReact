@@ -3,9 +3,9 @@ import Image from "next/image";
 import { Btn } from "@/components/Button";
 import { CtaPanel } from "@/components/CtaPanel";
 import { EventBookingForm } from "@/components/EventBookingForm";
+import { EventPageHero } from "@/components/EventPageHero";
 import { EventSchedule } from "@/components/EventSchedule";
 import { Glow, PageGlows } from "@/components/Glow";
-import { Hero } from "@/components/Hero";
 import { NumberedCards } from "@/components/NumberedCards";
 import { CardText, GlowCard } from "@/components/PartnersUI";
 import { Reveal } from "@/components/Reveal";
@@ -13,7 +13,7 @@ import { SecHead } from "@/components/SecHead";
 import { summit as s } from "@/lib/eventData";
 
 export const metadata: Metadata = {
-  alternates: { canonical: "https://comtech.net.pk/event/cisco-partner-summit-2026" },
+  alternates: { canonical: "https://comtech.net.pk/events/cisco-partner-summit-2026/" },
   title: "Cisco Partner Summit 2026 | Comtech Associates",
   description:
     "Comtech Associates CEO Farooq Zaheer joins Cisco’s global partner community in Vancouver, 26 to 28 October 2026. Book a meeting or interview.",
@@ -44,18 +44,19 @@ export default function CiscoPartnerSummit() {
   return (
     <main>
       <PageGlows variant="inner" />
-      <Hero
-        logos={false}
-        pill={s.pill}
-        title={s.title}
-        text={
+      <EventPageHero
+        image="/images/CiscoPartnerSummit2026_TitleImage.webp"
+        eyebrow={s.pill}
+        title={
           <>
-            {s.lead}
-            <br />
-            {s.text}
+            Comtech Associates CEO Farooq Zaheer at Cisco Partner{" "}
+            <span className="text-[#2ab9e8]">Summit 2026</span>
           </>
         }
-        primary="Book a Meeting"
+        lead={s.lead}
+        text={s.text}
+        href="#book"
+        buttonLabel="Book a Meeting"
       />
 
       {/* gradient frame: about + CEO + schedule + topics */}
@@ -64,7 +65,7 @@ export default function CiscoPartnerSummit() {
         style={{ background: frameBg }}
       >
         {/* About the event */}
-        <Reveal as="section" className="wrap sec">
+        <Reveal as="section" id="about-event" className="wrap sec">
           <div className="grid items-start gap-8 min-[1101px]:grid-cols-2 min-[1101px]:gap-16">
             <div>
               <Label>{s.about.label}</Label>
@@ -90,7 +91,7 @@ export default function CiscoPartnerSummit() {
         </Reveal>
 
         {/* Meet the CEO */}
-        <Reveal as="section" className="wrap sec">
+        <Reveal as="section" id="leadership" className="wrap sec">
           <div className="grid items-center gap-10 min-[1101px]:grid-cols-[minmax(0,1fr)_minmax(0,1.3fr)] min-[1101px]:gap-16">
             <div className="p-[18px]">
               <Image
@@ -117,7 +118,7 @@ export default function CiscoPartnerSummit() {
         </Reveal>
 
         {/* Schedule */}
-        <Reveal as="section" className="wrap sec">
+        <Reveal as="section" id="schedule" className="wrap sec scroll-mt-8">
           <Label center>{s.schedule.label}</Label>
           <SecHead title={s.schedule.title} sub={s.schedule.sub} />
           <EventSchedule days={s.schedule.days} />
@@ -127,7 +128,7 @@ export default function CiscoPartnerSummit() {
         </Reveal>
 
         {/* Topics */}
-        <Reveal as="section" className="wrap sec">
+        <Reveal as="section" id="conversations" className="wrap sec">
           <Label center>{s.topics.label}</Label>
           <SecHead title={s.topics.title} sub={s.topics.sub} />
           <NumberedCards items={s.topics.items} />
@@ -145,7 +146,7 @@ export default function CiscoPartnerSummit() {
           color="rgba(30,64,255,.35)"
         />
 
-        <Reveal as="section" className="wrap sec mt-16!">
+        <Reveal as="section" id="company" className="wrap sec mt-16!">
           <div className="grid items-center gap-10 min-[1101px]:grid-cols-2 min-[1101px]:gap-16">
             <div>
               <Label>{s.company.label}</Label>
@@ -156,10 +157,10 @@ export default function CiscoPartnerSummit() {
             <div className="card rounded-[35px]! p-[18px]">
               <Image
                 src={s.company.image}
-                alt={s.company.imageCaption}
-                width={597}
-                height={346}
-                className="h-auto w-full rounded-[28px]"
+                alt="Comtech Associates and Cisco partner logos"
+                width={204}
+                height={71}
+                className="mx-auto h-auto w-full max-w-[360px] rounded-[20px]"
               />
               <p className="mt-4 text-center text-[15px] tracking-tighter text-white/70">
                 {s.company.imageCaption}
@@ -193,7 +194,7 @@ export default function CiscoPartnerSummit() {
           </div>
         </Reveal>
 
-        <Reveal as="section" className="wrap sec mt-10!">
+        <Reveal as="section" id="impact" className="wrap sec mt-10!">
           <div className="mx-auto max-w-[900px] text-center">
             <Label center>{s.impact.label}</Label>
             <h2 className={H2}>{s.impact.title}</h2>
@@ -201,7 +202,7 @@ export default function CiscoPartnerSummit() {
           </div>
         </Reveal>
 
-        <Reveal as="section" className="wrap sec">
+        <Reveal as="section" id="awards" className="wrap sec">
           <Label center>{s.awards.label}</Label>
           <SecHead title={s.awards.title} />
           <div className="awards">
@@ -219,7 +220,7 @@ export default function CiscoPartnerSummit() {
       </div>
 
       {/* Book a meeting */}
-      <section id="book" className="wrap sec scroll-mt-6">
+      <section id="book" className="wrap sec scroll-mt-8">
         <div className="grid items-start gap-12 min-[1101px]:grid-cols-[minmax(0,1fr)_minmax(0,754px)] min-[1101px]:gap-[60px]">
           <div>
             <Label>{s.book.label}</Label>
@@ -239,6 +240,7 @@ export default function CiscoPartnerSummit() {
         title="Meet Comtech’s CEO In Vancouver"
         text="Twenty-six to twenty-eight October. One conversation could be all it takes."
         label="Book an Interview"
+        href="#book"
       />
     </main>
   );

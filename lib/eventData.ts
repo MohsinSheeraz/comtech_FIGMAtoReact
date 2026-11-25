@@ -1,5 +1,3 @@
-const PLACEHOLDER = "/images/BlogExampleImageForNow.png";
-
 export const eventsHero = {
   title: "Events",
   text: "Where Comtech shows up: summits, expos, and conversations with the partners and customers shaping Pakistan’s IT landscape.",
@@ -102,14 +100,143 @@ export const summit = {
       {
         tab: "Tuesday 27 October",
         title: "Tuesday 27 October",
-        intro: "",
-        items: [],
+        intro:
+          "The business case for security, cloud, and the Cisco 360 program, and an evening award ceremony.",
+        items: [
+          {
+            time: "7:00 AM",
+            title: "Breakfast",
+            meta: "90 mins | West Exhibition Level, Hall B",
+          },
+          {
+            time: "11:00 AM",
+            title: "Lunch",
+            meta: "120 mins | West Exhibition Level, Hall B",
+          },
+          {
+            time: "11:30 AM",
+            title: "More potential, more profit with security and network modernization",
+            meta: "West Level 1, Ballroom A",
+          },
+          {
+            time: "2:00 PM",
+            title: "Cisco Store Tech Lab Tour",
+            meta: "30 mins | Partner Hub, Cisco Store",
+          },
+          {
+            time: "2:15 PM",
+            title: "Cisco Cloud Control: how to build, sell, and profit",
+            meta: "West Level 1, Ballroom A",
+          },
+          {
+            time: "2:15 PM",
+            title: "Friction Revenue: Accelerating Business Growth Through AI",
+            meta: "45 mins | West Level 2, Room 211",
+          },
+          {
+            time: "3:00 PM",
+            title: "Innovation Exchange",
+            meta: "West Level 3, Room 303",
+          },
+          {
+            time: "4:15 PM",
+            title: "Cisco 360: Accelerate together. Multiply growth. Profit more.",
+            meta: "West Level 1, Ballroom A",
+          },
+          {
+            time: "4:15 PM",
+            title: "Scale without friction: the SMB & mid-market velocity growth engine",
+            meta: "45 mins | West Level 2, Room 211",
+          },
+          {
+            time: "4:30 PM",
+            title: "Guided Solutions Showcase Tour",
+            meta: "30 mins | The Partner Hub, Solutions Showcase",
+          },
+          {
+            time: "7:30 PM",
+            title: "METAC Partner Summit Award Ceremony 2026",
+            meta: "Rosewood Hotel Georgia, 801 W Georgia St",
+          },
+        ],
       },
       {
         tab: "Wednesday 28 October",
         title: "Wednesday 28 October",
-        intro: "",
-        items: [],
+        intro:
+          "Partner growth with Splunk, hands-on tours, and the EMEA celebration.",
+        items: [
+          {
+            time: "7:00 AM",
+            title: "Breakfast",
+            meta: "120 mins | West Exhibition Level, Hall B",
+          },
+          {
+            time: "9:45 AM",
+            title: "Accelerating partner growth in the agentic enterprise with Splunk",
+            meta: "West Level 1, Room 109",
+          },
+          {
+            time: "9:45 AM",
+            title: "Winning with intelligent workplace experiences",
+            meta: "45 mins | West Level 2, Room 211",
+          },
+          {
+            time: "10:00 AM",
+            title: "Guided Solutions Showcase Tour",
+            meta: "30 mins | The Partner Hub, Solutions Showcase",
+          },
+          {
+            time: "10:00 AM",
+            title: "Cisco Store Tech Lab Tour",
+            meta: "30 mins | Partner Hub, Cisco Store",
+          },
+          {
+            time: "11:00 AM",
+            title: "Guided Solutions Showcase Tour",
+            meta: "30 mins | The Partner Hub, Solutions Showcase",
+          },
+          {
+            time: "11:00 AM",
+            title: "Cisco Store Tech Lab Tour",
+            meta: "Partner Hub, Cisco Store",
+          },
+          {
+            time: "11:00 AM",
+            title: "From pilots to production in the data center",
+            meta: "45 mins | West Level 1, Room 109",
+          },
+          {
+            time: "1:15 PM",
+            title: "Partner Exchange",
+            meta: "West Level 3, Room 303",
+          },
+          {
+            time: "1:30 PM",
+            title: "Guided Solutions Showcase Tour",
+            meta: "30 mins | The Partner Hub, Solutions Showcase",
+          },
+          {
+            time: "2:30 PM",
+            title: "Guided Solutions Showcase Tour",
+            meta: "30 mins | The Partner Hub, Solutions Showcase",
+          },
+          {
+            time: "3:15 PM",
+            title: "Women In Channels: From disruption to advantage",
+            meta: "West Level 1, Ballroom A",
+          },
+          {
+            time: "4:30 PM",
+            title: "Guided Solutions Showcase Tour",
+            meta: "30 mins | The Partner Hub, Solutions Showcase",
+          },
+          {
+            time: "7:00 PM",
+            title: "EMEA Celebration",
+            meta: "Mansion Nightclub at Paradox Hotel",
+          },
+        ],
       },
     ],
   },
@@ -150,7 +277,7 @@ export const summit = {
     label: "Why Comtech",
     title: "The Company Behind The CEO",
     text: "Comtech Associates is a Pakistani IT solutions company delivering enterprise networking, cybersecurity, data center and cloud, managed IT, and custom software development to banks, government bodies, universities, hospitals, telecom operators, and large enterprises. Ten-plus years, 250+ projects, and offices in Karachi, Islamabad, Lahore, and Quetta.",
-    image: PLACEHOLDER,
+    image: "/images/CiscoSummitCompany.png",
     imageCaption: "Enterprise networking. Security. Infrastructure.",
     delivers: [
       "Networking and IT Infrastructure",
@@ -175,7 +302,7 @@ export const summit = {
     label: "Our Impact",
     title: "What Comtech Achieved In 2026",
     // TODO: the last sentence was cut off in the screenshot, confirm the ending
-    text: "In 2026, Comtech Associates delivered secure, scalable networking solutions that help public safety teams work smarter and speed up digital transformation. The work showed what Cisco technologies make possible: resilient, mission-critical infrastructure that supports safer, smarter communities. It reinforces Comtech’s standing as a trusted partner for public-sector digital transformation.",
+    text: "In 2026, Comtech Associates delivered secure, scalable networking solutions that help public safety teams work smarter and speed up digital transformation. The work showed what Cisco technologies make possible: resilient, mission-critical infrastructure that supports safer, smarter communities. It reinforces Comtech’s standing as a trusted partner for innovation.",
   },
 
   awards: {

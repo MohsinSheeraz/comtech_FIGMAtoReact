@@ -1,18 +1,24 @@
 "use client";
 import { useState } from "react";
+import { motion, useReducedMotion } from "motion/react";
+import { EASE } from "@/components/Reveal";
 
 export function Faq({
   items,
   className,
   open: openProp,
   onToggle,
+  reveal = false,
 }: {
   items: [string, string][];
   className?: string;
   open?: number | null; // pass this to control it from outside (pinned mode)
   onToggle?: (i: number) => void;
+  reveal?: boolean; // cards rise in one after another when they scroll into view
 }) {
   const [inner, setInner] = useState<number | null>(0);
+  const reduce = useReducedMotion();
+  const on = reveal && !reduce;
   const controlled = openProp !== undefined;
   const open = controlled ? openProp : inner;
   const toggle = (i: number) =>
@@ -23,9 +29,15 @@ export function Faq({
       {items.map(([q, a], i) => {
         const o = open === i;
         return (
-          <div
+          <motion.div
             key={q}
-            className="gborder-new rounded-[30px] border border-[#242424] bg-[#080808] px-5 py-6 sm:px-10 sm:py-9"
+            initial={on ? { opacity: 0, y: 36 } : false}
+            whileInView={on ? { opacity: 1, y: 0 } : undefined}
+            viewport={{ once: true, amount: 0.2, margin: "0px 0px -60px 0px" }}
+            transition={{ duration: 0.7, delay: i * 0.08, ease: EASE }}
+            className={`gborder-new rounded-[30px] border border-[#242424] bg-[#080808] px-5 py-6 transition-shadow duration-500 sm:px-10 sm:py-9 ${
+              o ? "shadow-[0_0_44px_rgba(121,80,226,.2)]" : ""
+            }`}
           >
             <button
               type="button"
@@ -48,7 +60,7 @@ export function Faq({
                 <p className="pt-5">{a}</p>
               </div>
             </div>
-          </div>
+          </motion.div>
         );
       })}
     </div>

@@ -31,6 +31,7 @@ export type Post = {
 };
 
 export const PER_PAGE = 12;
+const MAX_LISTED_POSTS = PER_PAGE * 2;
 
 // the 120 static placeholder posts in post-data.ts all use this slug pattern
 const PLACEHOLDER = /^infrastructure-support-reduces-downtime-\d+$/;
@@ -65,9 +66,15 @@ const loadAll = cache(async (): Promise<Post[]> => {
 
 export async function getPostsPage(page: number) {
   const all = await loadAll();
-  const total = Math.max(1, Math.ceil(all.length / PER_PAGE));
+  const listed = all.slice(0, MAX_LISTED_POSTS);
+  const mazdaPost = all.find((post) => post.slug === "mazda-rx-8-brief-review");
+  if (mazdaPost && !listed.some((post) => post.slug === mazdaPost.slug)) {
+    // Keep this existing real post when newer database posts fill both pages.
+    listed[listed.length - 1] = mazdaPost;
+  }
+  const total = Math.max(1, Math.ceil(listed.length / PER_PAGE));
   const current = Math.min(Math.max(page || 1, 1), total);
-  const items = all.slice((current - 1) * PER_PAGE, current * PER_PAGE);
+  const items = listed.slice((current - 1) * PER_PAGE, current * PER_PAGE);
   return { items, current, total };
 }
 

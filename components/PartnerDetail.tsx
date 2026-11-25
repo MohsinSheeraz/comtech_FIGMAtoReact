@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
-import { Hero } from "@/components/Hero";
 import { PageGlows } from "@/components/Glow";
+import { PartnerHero } from "@/components/PartnerHero";
+import { PartnerLockup } from "@/components/PartnerLockup";
 import { CtaPanel } from "@/components/CtaPanel";
 import { PinnedFaq } from "@/components/PinnedFaq";
 import { NumberedCards } from "@/components/NumberedCards";
@@ -44,12 +45,7 @@ export function PartnerDetail({ d }: { d: PartnerDetailData }) {
   return (
     <main>
       <PageGlows variant="inner" />
-      <Hero
-        logos={false}
-        title={d.hero.title}
-        text={d.hero.text}
-        primary={d.hero.cta}
-      />
+      <PartnerHero title={d.hero.title} text={d.hero.text} cta={d.hero.cta} />
 
       {/* intro */}
       <section className="pb-10 pt-10 lg:pb-0 lg:pt-[60px]">
@@ -97,7 +93,7 @@ export function PartnerDetail({ d }: { d: PartnerDetailData }) {
         <section className="pb-10 pt-16 lg:pb-0 lg:pt-[110px]">
           <Container>
             <SectionHeading>{d.audience.title}</SectionHeading>
-             {d.audience.sub && (
+            {d.audience.sub && (
               <SectionIntro
                 intro={d.audience.sub}
                 className="mt-4 lg:mt-[24px]"
@@ -171,6 +167,7 @@ export function PartnerDetail({ d }: { d: PartnerDetailData }) {
         <section className="mt-16 py-16 lg:mt-20 lg:py-20">
           <Container>
             <PinnedFaq
+            visual={<PartnerLockup layout="stack" />}
               head={
                 <>
                   <h2 className="text-3xl font-normal leading-tight text-white md:text-4xl lg:text-[40px]">

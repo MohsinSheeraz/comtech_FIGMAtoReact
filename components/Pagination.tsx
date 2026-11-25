@@ -18,30 +18,32 @@ const selectedBox =
 const disabledBox = "pointer-events-none border-white/5 bg-white/[0.02] text-white/25";
 
 export function Pagination({ current, total, base = "/blog" }: { current: number; total: number; base?: string }) {
+  const pageCount = Math.min(total, 2);
+  const page = Math.min(Math.max(current, 1), pageCount);
   const href = (n: number) => (n === 1 ? base : `${base}?page=${n}`);
-  const prev = Math.max(1, current - 1);
-  const next = Math.min(total, current + 1);
+  const prev = Math.max(1, page - 1);
+  const next = Math.min(pageCount, page + 1);
   return (
     <nav aria-label="Pagination" className="mt-16 flex flex-wrap items-center justify-center gap-2">
       <Link
         href={href(1)}
-        className={`${box} ${current === 1 ? disabledBox : ""}`}
+        className={`${box} ${page === 1 ? disabledBox : ""}`}
         aria-label="First page"
-        aria-disabled={current === 1}
-        tabIndex={current === 1 ? -1 : undefined}
+        aria-disabled={page === 1}
+        tabIndex={page === 1 ? -1 : undefined}
       >
         «
       </Link>
       <Link
         href={href(prev)}
-        className={`${box} ${current === 1 ? disabledBox : ""}`}
+        className={`${box} ${page === 1 ? disabledBox : ""}`}
         aria-label="Previous page"
-        aria-disabled={current === 1}
-        tabIndex={current === 1 ? -1 : undefined}
+        aria-disabled={page === 1}
+        tabIndex={page === 1 ? -1 : undefined}
       >
         ‹
       </Link>
-      {pageList(current, total).map((n, i) =>
+      {pageList(page, pageCount).map((n, i) =>
         n === "…" ? (
           <span
             key={`e${i}`}
@@ -54,8 +56,8 @@ export function Pagination({ current, total, base = "/blog" }: { current: number
           <Link
             key={n}
             href={href(n)}
-            aria-current={n === current ? "page" : undefined}
-            className={`${box} ${n === current ? selectedBox : ""}`}
+            aria-current={n === page ? "page" : undefined}
+            className={`${box} ${n === page ? selectedBox : ""}`}
           >
             {n}
           </Link>
@@ -63,19 +65,19 @@ export function Pagination({ current, total, base = "/blog" }: { current: number
       )}
       <Link
         href={href(next)}
-        className={`${box} ${current === total ? disabledBox : ""}`}
+        className={`${box} ${page === pageCount ? disabledBox : ""}`}
         aria-label="Next page"
-        aria-disabled={current === total}
-        tabIndex={current === total ? -1 : undefined}
+        aria-disabled={page === pageCount}
+        tabIndex={page === pageCount ? -1 : undefined}
       >
         ›
       </Link>
       <Link
         href={href(total)}
-        className={`${box} ${current === total ? disabledBox : ""}`}
+        className={`${box} ${page === pageCount ? disabledBox : ""}`}
         aria-label="Last page"
-        aria-disabled={current === total}
-        tabIndex={current === total ? -1 : undefined}
+        aria-disabled={page === pageCount}
+        tabIndex={page === pageCount ? -1 : undefined}
       >
         »
       </Link>

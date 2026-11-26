@@ -17,7 +17,7 @@ const credentialsText =
 
 export const credentials = {
   title: "Credentials That Set Us Apart",
-  image: "/images/partners/credentials.jpg",
+  image: "/images/partners/credentials.webp",
   imageAlt: "Business professionals shaking hands in front of a global network overlay",
   blocks: [
     { heading: "Why the Partner Behind the Product Matters", text: credentialsText },

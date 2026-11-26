@@ -99,7 +99,7 @@ export function TestimonialCarousel() {
         </div>
       </div>
       <div className="relative mx-auto aspect-square w-full max-w-[636px]">
-        <img src="/images/globe_spinning_v4.gif" alt="Globe.gif" />
+        <img src="/images/globe-spin.webp" alt="" width={636} height={619} loading="lazy" decoding="async" style={{ height: "auto" }} />
       </div>
     </div>
   );

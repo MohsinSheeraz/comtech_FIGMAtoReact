@@ -141,20 +141,29 @@ const whyComtech = [
 
 const events = [
   {
+    year: "2025",
     title: "Cisco Connect 2025, Dubai",
     desc: "Comtech represented at Cisco's regional flagship event.",
+    href: "/events",
   },
   {
+    year: "2025",
     title: "Reseller Event 2025",
     desc: "Hosted by Comtech Associates for the Cisco partner community.",
+    href: "/events",
   },
   {
+    year: "2025",
     title: "ITCN Asia 2025",
     desc: "Showcased Cisco innovations at Pakistan's largest IT expo.",
+    href: "/events",
   },
   {
+    year: "2026",
     title: "ITCN Asia 2026",
     desc: "Returned as a Silver Sponsor, showcasing Cisco networking, security, and data center technology at Hall 4, Booths D-119 to D-124 and D-133 to D-138.",
+    href: "/events/itcn-asia-2026",
+    latest: true,
   },
 ];
 
@@ -226,7 +235,7 @@ export default function Cisco() {
       <div className="relative isolate">
         <PurplePanel variant="top">
           <Image
-            src="/images/globe_spinning_v4.gif"
+            src="/images/globe-spin.webp"
             alt=""
             width={520}
             height={520}
@@ -384,81 +393,102 @@ export default function Cisco() {
           <Container>
             <SectionHeading>Recognized On the Regional Stage</SectionHeading>
 
-            <div className="px-16 mt-10 grid grid-cols-1 items-start gap-4 sm:grid-cols-2 lg:mt-[64px] lg:grid-cols-5 lg:gap-[17px]">
+            <div className="mx-auto mt-10 grid max-w-[1320px] items-stretch gap-5 lg:mt-[64px] lg:grid-cols-[minmax(0,5fr)_minmax(0,8fr)] lg:gap-6">
+              {/* the credential */}
               <div
-                className="gborder-new rounded-[32px] p-px"
+                className="rounded-[32px] p-px"
                 style={{ background: BORDER_GRADIENT }}
               >
                 <div
-                  className="flex min-h-[260px] flex-col rounded-[31px] px-6 pb-7 pt-8 lg:min-h-[374px]"
+                  className="flex h-full flex-col rounded-[31px] px-7 pb-8 pt-9 lg:px-9 lg:pt-11"
                   style={{
                     background:
-                      "linear-gradient(180deg,#100725 0%,#0D0A15 100%)",
+                      "linear-gradient(180deg,#1a0d3a 0%,#0D0A15 100%)",
                   }}
                 >
-                  <h3 className="text-[24px] font-normal leading-[34px] text-white">
+                  <h3 className="text-[28px] font-normal leading-[36px] text-white lg:text-[32px] lg:leading-[40px]">
                     Premier Integrator
                     <br />
                     Certified
                   </h3>
                   <Underline className="mt-6" />
-                  <p className="mt-5 text-[18px] leading-[31px] text-white">
-                    Cisco's recognition of Comtech's technical delivery
+                  <p className="mt-5 text-[17px] leading-[29px] text-white/85 lg:text-[18px] lg:leading-[31px]">
+                    Cisco&apos;s recognition of Comtech&apos;s technical delivery
                     capability
                   </p>
                   <Link
                     href="/contact"
-                    className="mt-8 inline-flex min-h-[52px] w-full items-center justify-center rounded-[8px] bg-white px-3 py-2 text-center text-[14px] font-medium leading-5 text-black! transition-colors hover:bg-[#9747FF] hover:text-white! focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#9747FF] lg:mt-auto"
+                    className="mt-8 inline-flex min-h-[52px] w-full items-center justify-center rounded-[8px] bg-white px-3 py-2 text-center text-[15px] font-medium leading-5 text-black! transition-colors hover:bg-[#9747FF] hover:text-white! focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#9747FF] lg:mt-auto"
                   >
                     Talk to an IT Consultant
                   </Link>
                 </div>
               </div>
 
-              <div className="regional-event-grid grid grid-cols-1 gap-4 sm:grid-cols-2 lg:col-span-4 lg:items-stretch lg:gap-[17px]">
-                {events.map((e, i) => (
-                  <article
-                    key={`${e.title}-${i}`}
-                    className="regional-event-card group/event relative min-w-0 lg:hover:z-20 lg:focus-within:z-20"
-                  >
-                    <div aria-hidden className="hidden px-6 pb-6 pt-8 lg:block">
-                      <p className="text-[24px] leading-[34px] text-[#8B4DE0] lg:-mx-3 lg:whitespace-nowrap lg:text-[13px] lg:leading-[22px] lg:tracking-tight">
-                        {e.title}
-                      </p>
-                    </div>
-                    <div
-                      className="rounded-[32px] p-px lg:absolute lg:inset-x-0 lg:top-0 lg:z-10"
+              {/* the events: always readable, the whole card is the link */}
+              <ul className="grid list-none gap-5 sm:grid-cols-2 lg:gap-6">
+                {events.map((e) => (
+                  <li key={e.title} className="min-w-0">
+                    <article
+                      className="group/event relative h-full rounded-[28px] p-px transition-transform duration-300 hover:-translate-y-1 motion-reduce:transition-none motion-reduce:hover:translate-y-0"
                       style={{ background: BORDER_GRADIENT }}
                     >
                       <div
-                        className="rounded-[31px] px-6 pb-6 pt-8"
+                        className="relative flex h-full min-h-[210px] flex-col overflow-hidden rounded-[27px] px-6 pb-6 pt-6 lg:min-h-[230px] lg:px-7 lg:pb-7"
                         style={{
-                          background:
-                            "linear-gradient(180deg,#100725 0%,#0D0A15 100%)",
+                          background: e.latest
+                            ? "linear-gradient(180deg,#1a0d3a 0%,#0D0A15 100%)"
+                            : "linear-gradient(180deg,#100725 0%,#0D0A15 100%)",
                         }}
                       >
-                        <p className="text-[24px] leading-[34px] text-[#8B4DE0] transition-all duration-300 lg:-mx-3 lg:overflow-hidden lg:whitespace-nowrap lg:text-ellipsis lg:text-[13px] lg:leading-[22px] lg:tracking-tight lg:group-hover/event:overflow-visible lg:group-hover/event:whitespace-normal lg:group-hover/event:text-[24px] lg:group-hover/event:leading-[34px] lg:group-focus-within/event:overflow-visible lg:group-focus-within/event:whitespace-normal lg:group-focus-within/event:text-[24px] lg:group-focus-within/event:leading-[34px]">
-                          {e.title}
-                        </p>
-                        <div className="mt-4 transition-all duration-300 lg:mt-0 lg:grid lg:grid-rows-[0fr] lg:opacity-0 lg:group-hover/event:mt-5 lg:group-hover/event:grid-rows-[1fr] lg:group-hover/event:opacity-100 lg:group-focus-within/event:mt-5 lg:group-focus-within/event:grid-rows-[1fr] lg:group-focus-within/event:opacity-100">
-                          <div className="min-h-0 overflow-hidden">
-                            <p className="text-[18px] leading-[31px] text-white">
-                              {e.desc}
-                            </p>
-                            <Link
-                              href="/events"
-                              style={{ color: "#000" }}
-                              className="mt-3 inline-flex h-[46px] items-center rounded-[8px] bg-white px-6 text-[16px] transition hover:bg-white/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-                            >
-                              View event
-                            </Link>
-                          </div>
+                        <span
+                          aria-hidden
+                          className="pointer-events-none absolute inset-0 bg-[#7950e2]/12 opacity-0 transition-opacity duration-300 group-hover/event:opacity-100 group-focus-within/event:opacity-100"
+                        />
+                        <div className="relative flex items-center justify-between gap-3">
+                          <span className="flex items-center gap-2">
+                            <span className="rounded-full bg-[#6739DD]/25 px-3 py-1 text-[13px] leading-4 text-[#cdbbff]">
+                              {e.year}
+                            </span>
+                            {e.latest && (
+                              <span className="rounded-full border border-[#8B4DE0]/60 px-3 py-1 text-[13px] leading-4 text-[#cdbbff]">
+                                Latest
+                              </span>
+                            )}
+                          </span>
+                          <svg
+                            aria-hidden
+                            viewBox="0 0 24 24"
+                            className="size-5 shrink-0 text-[#8B4DE0] transition-transform duration-300 group-hover/event:-translate-y-0.5 group-hover/event:translate-x-0.5"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <path d="M7 17 17 7M8 7h9v9" />
+                          </svg>
                         </div>
+                        <h3 className="relative mt-5 text-[22px] font-normal leading-[30px] text-white lg:text-[24px] lg:leading-[32px]">
+                          {e.title}
+                        </h3>
+                        <p className="relative mt-3 text-[16px] leading-[26px] text-white/75 lg:text-[17px] lg:leading-[28px]">
+                          {e.desc}
+                        </p>
+                        <Link
+                          href={e.href}
+                          aria-label={`View event: ${e.title}`}
+                          className="relative mt-5 inline-flex w-fit items-center text-[15px] font-medium text-[#b79cff]! after:absolute after:-inset-[999px] after:content-[''] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#9747FF] lg:mt-auto lg:pt-5"
+                        >
+                          <span className="underline-offset-4 group-hover/event:underline">
+                            View event
+                          </span>
+                        </Link>
                       </div>
-                    </div>
-                  </article>
+                    </article>
+                  </li>
                 ))}
-              </div>
+              </ul>
             </div>
           </Container>
         </section>

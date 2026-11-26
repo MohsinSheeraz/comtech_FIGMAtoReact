@@ -45,7 +45,7 @@ export const CeoQuote = ({ title }: { title: string }) => (
         />
 
         <Image
-          src="/images/Ceo_Section_Image.png"
+          src="/images/Ceo_Section_Image.webp"
           alt="Muhammad Farooq Zaheer, CEO"
           width={620}
           height={778}
@@ -54,7 +54,7 @@ export const CeoQuote = ({ title }: { title: string }) => (
 
         {/* ForMobile */}
         <Image
-          src="/images/Ceo_Section_Image.png"
+          src="/images/Ceo_Section_Image.webp"
           alt="Muhammad Farooq Zaheer, CEO"
           width={420}
           height={578}

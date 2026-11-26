@@ -7,7 +7,7 @@ const base: Omit<Post, "slug"> = {
     author: "Ausaf Ali",
     date: "03-10-2026",
     category: "Networking Infrastructure",
-    image: "/images/BlogExampleImageForNow.png",
+    image: "/images/BlogExampleImageForNow.webp",
     intro:
         "What happens when a critical server goes down during peak business hours in Pakistan? Orders stop, employees lose access to systems, and customers quickly lose trust. Professional server support services help businesses avoid this risk by providing continuous monitoring, fast issue resolution, and expert management of both on-premises and cloud servers. With local challenges such as power instability and rising cyber threats, reliable server support has become essential for business continuity.",
     toc: [

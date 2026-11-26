@@ -40,18 +40,20 @@ export const PageGlows = (_props: { variant?: "home" | "inner" }) => (
     <div className="pt-charge" />
     <HeroLightScroll />
     <div className="wave-art">
+      {/* colour boost (saturate/contrast/brightness) is baked into the image, so no live CSS filter is needed */}
       <Image
-        src="/images/wavesImg.png"
+        src="/images/wavesImg-baked.webp"
         alt=""
         fill
-        priority
+        fetchPriority="low"
         sizes="(max-width: 640px) 220vw, 165vw"
         className="wave-layer wave-layer-one"
       />
       <Image
-        src="/images/wavesImg.png"
+        src="/images/wavesImg-baked.webp"
         alt=""
         fill
+        fetchPriority="low"
         sizes="(max-width: 640px) 220vw, 165vw"
         className="wave-layer wave-layer-two"
       />

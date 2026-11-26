@@ -58,6 +58,9 @@ export function PinnedStory({ glow, head, cards, media }: Props) {
     const t = track.current, s = stage.current;
     if (!t || !s) return;
     let raf = 0;
+    // last values written per card / for the counter: only touch the DOM when something changed
+    const written: { op: string; tf: string; vis: string; inert: boolean }[] = [];
+    let lastActive = -1;
 
     const update = () => {
       raf = 0;
@@ -77,15 +80,26 @@ export function PinnedStory({ glow, head, cards, media }: Props) {
         const op = inP * (1 - outP);
         const y = (1 - inP) * 72 - outP * 56;
         const sc = 0.965 + 0.035 * inP - 0.02 * outP;
-        el.style.opacity = op.toFixed(3);
-        el.style.transform = `translate3d(0, ${y.toFixed(1)}px, 0) scale(${sc.toFixed(4)})`;
-        el.style.visibility = op < 0.01 ? "hidden" : "visible";
-        el.inert = op < 0.5;                       // hidden cards can't be tabbed to or clicked
+        const next = {
+          op: op.toFixed(3),
+          tf: `translate3d(0, ${y.toFixed(1)}px, 0) scale(${sc.toFixed(4)})`,
+          vis: op < 0.01 ? "hidden" : "visible",
+          inert: op < 0.5,                          // hidden cards can't be tabbed to or clicked
+        };
+        const prev = written[i];
+        if (!prev || prev.op !== next.op) el.style.opacity = next.op;
+        if (!prev || prev.tf !== next.tf) el.style.transform = next.tf;
+        if (!prev || prev.vis !== next.vis) el.style.visibility = next.vis;
+        if (!prev || prev.inert !== next.inert) el.inert = next.inert;
+        written[i] = next;
         if (op > best) { best = op; active = i; }
       });
 
-      dots.current.forEach((d, i) => { if (d) { if (i === active) d.setAttribute("data-active", ""); else d.removeAttribute("data-active"); } });
-      if (count.current) count.current.textContent = `${String(active + 1).padStart(2, "0")} / ${String(n).padStart(2, "0")}`;
+      if (active !== lastActive) {
+        lastActive = active;
+        dots.current.forEach((d, i) => { if (d) { if (i === active) d.setAttribute("data-active", ""); else d.removeAttribute("data-active"); } });
+        if (count.current) count.current.textContent = `${String(active + 1).padStart(2, "0")} / ${String(n).padStart(2, "0")}`;
+      }
     };
 
     const request = () => { if (!raf) raf = requestAnimationFrame(update); };

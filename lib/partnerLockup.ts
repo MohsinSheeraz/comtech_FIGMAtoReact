@@ -1,5 +1,5 @@
 export const COMTECH_LOGO =
-  "/images/Comtech_Logo_Design/Png/Comtech_Logo_Design-05.png";
+  "/images/Comtech_Logo_Design/Png/Comtech_Logo_Design-05.webp";
 
 export type LockupPartner = { name: string; src?: string; plate?: boolean };
 

@@ -98,12 +98,12 @@ const ind: [string, string][] = [
 ];
 
 const driveImages = [
-  "/images/whatDriveus1.png",
-  "/images/whatDriveus2.png",
-  "/images/whatDriveus3.png",
-  "/images/whatDriveus4.png",
-  "/images/whatDriveus5.png",
-  "/images/whatDriveus6.png",
+  "/images/whatDriveus1.webp",
+  "/images/whatDriveus2.webp",
+  "/images/whatDriveus3.webp",
+  "/images/whatDriveus4.webp",
+  "/images/whatDriveus5.webp",
+  "/images/whatDriveus6.webp",
 ];
 
 export default function Home() {
@@ -165,7 +165,7 @@ export default function Home() {
               system.
             </div>
             <Image
-              src="/images/Hand_shake_two.png"
+              src="/images/Hand_shake_two.webp"
               alt=""
               width={490}
               height={323}
@@ -277,7 +277,7 @@ export default function Home() {
         media={
           <Reveal as="div" className="card stick" delay={0.15}>
             <Image
-              src="/images/Section_Business_Enterprise.png"
+              src="/images/Section_Business_Enterprise.webp"
               alt=""
               width={652}
               height={641}

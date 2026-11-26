@@ -271,7 +271,7 @@ export default function ItcnAsia() {
             ))}
           </div>
           <Image
-            src="/images/ITCNAward.jpg"
+            src="/images/ITCNAward.webp"
             alt="Comtech Associates and Cisco at ITCN Asia 2026"
             width={1200}
             height={400}

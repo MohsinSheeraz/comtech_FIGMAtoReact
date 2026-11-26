@@ -54,7 +54,7 @@ export const summit = {
     title: "Meet Farooq Zaheer, CEO At Comtech Associates",
     name: "Farooq Zaheer",
     role: "CEO, Comtech Associates",
-    image: "/images/Muhammad_Farooq_Zaheer.png",
+    image: "/images/Muhammad_Farooq_Zaheer.webp",
     text: "Farooq Zaheer leads Comtech Associates, a Pakistani IT solutions company delivering enterprise networking, cybersecurity, and data center infrastructure through a network of 15 technology partners. Under his leadership, Comtech’s Cisco partnership has grown from SMB partner to premier integrator, and the company has delivered a Cisco ACI data center deployment and disaster recovery network migration for Bank Islami.",
   },
 

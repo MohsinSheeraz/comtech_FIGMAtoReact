@@ -51,7 +51,7 @@ export function Footer() {
         <div className="foot-cols foot-main border-t border-white/10">
           <div className="col-span-full min-[1201px]:col-auto">
             <Image
-              src="/images/Comtech_Logo_Design/Png/Comtech_Logo_Design-05.png"
+              src="/images/Comtech_Logo_Design/Png/Comtech_Logo_Design-05.webp"
               alt="Comtech Associates"
               width={180}
               height={56}

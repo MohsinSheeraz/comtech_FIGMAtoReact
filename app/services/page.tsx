@@ -9,7 +9,7 @@ import { PageGlows } from "@/components/Glow";
 import { SecHead } from "@/components/SecHead";
 import { HowWeWork } from "@/components/HowWeWork";
 import { PinnedFaq } from "@/components/PinnedFaq";
-import ComtechRightChoice_SectionImage from "@/public/images/Comtech_RightChoiceIMG.png";
+import ComtechRightChoice_SectionImage from "@/public/images/Comtech_RightChoiceIMG.webp";
 // import { DeferredGlobe } from "@/components/three/DeferredGlobe";
 
 export function generateMetadata(): Promise<Metadata> {
@@ -159,7 +159,7 @@ export default function Services() {
                 sector already carries.
               </p>
             </div>
-            <img src="/images/globe_spinning_v4.gif" alt="Globe.gif" />
+            <img src="/images/globe-spin.webp" alt="" width={636} height={619} loading="lazy" decoding="async" style={{ height: "auto" }} />
           </section>
 
           <section className="wrap sec">

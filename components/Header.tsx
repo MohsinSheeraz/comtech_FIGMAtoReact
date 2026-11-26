@@ -272,7 +272,7 @@ export function Header({ posts = [] }: { posts?: MenuPost[] }) {
     >
       <Link href="/" className="logo" onClick={close}>
         <Image
-          src="/images/Comtech_Logo_Design/Png/Comtech_Logo_Design-05.png"
+          src="/images/Comtech_Logo_Design/Png/Comtech_Logo_Design-05.webp"
           alt="Comtech Associates"
           width={180}
           height={56}
@@ -408,7 +408,7 @@ export function Header({ posts = [] }: { posts?: MenuPost[] }) {
               onClick={close}
               className="flex items-center gap-4 rounded-xl p-2 transition-colors hover:bg-white/10"
             >
-              <img src={p.image} alt="" className="h-[72px] w-[104px] shrink-0 rounded-lg object-cover" />
+              <img src={p.image} alt="" loading="lazy" decoding="async" className="h-[72px] w-[104px] shrink-0 rounded-lg object-cover" />
               <span className="min-w-0">
                 <span className="line-clamp-2 block text-[14px] leading-[20px]">{p.title}</span>
                 <span className="mt-1 block text-[12px] text-[#b79cff]">Read More</span>

@@ -37,6 +37,19 @@ const nextConfig: NextConfig = {
                     ...(isStaging ? [{ key: "X-Robots-Tag", value: "noindex, nofollow" }] : []),
                 ],
             },
+            {
+                // pages: browsers re-check with the server every time (a cheap 304 when nothing changed).
+                // Next's default (stale-while-revalidate for a year) shows returning visitors the previous
+                // version of a page first, and after a deploy that old page points at JS files that are gone.
+                source: "/((?!_next/|images/).*)",
+                headers: [{ key: "Cache-Control", value: "public, max-age=0, must-revalidate" }],
+            },
+            {
+                // site images: let browsers keep them for a week instead of re-checking on every visit
+                // (if you replace a file under the same name, visitors may see the old one for up to a week)
+                source: "/images/:path*",
+                headers: [{ key: "Cache-Control", value: "public, max-age=604800, stale-while-revalidate=86400" }],
+            },
         ];
     },
 };

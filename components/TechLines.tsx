@@ -106,8 +106,10 @@ export function TechLines() {
       aria-hidden="true"
       viewBox={`0 0 ${W} ${H}`}
       preserveAspectRatio="none"
+      data-anim-gate
       className="pointer-events-none absolute inset-0 hidden h-full w-full min-[1101px]:block"
-      style={{ filter: "drop-shadow(0 0 5px rgba(139,92,246,.4))" }}
+      // own layer + containment: its animation repaints only this box, not the page around it
+      style={{ filter: "drop-shadow(0 0 5px rgba(139,92,246,.4))", contain: "layout paint style", willChange: "transform" }}
     >
       <defs>
         {/* purple on the left -> blue on the right, across the whole stage */}
@@ -121,6 +123,33 @@ export function TechLines() {
           <stop offset="0.6" stopColor="#4c1fc4" stopOpacity="0.12" />
           <stop offset="1" stopColor="#4c1fc4" stopOpacity="0" />
         </radialGradient>
+
+        {/* each link's shape (and its breathing morph) is defined and animated ONCE here; the four strokes
+            below reuse it through <use>, so the browser morphs 13 paths instead of 52 */}
+        {built.map((b, i) => (
+          <path
+            key={`link${i}`}
+            id={`tech-link-${i}`}
+            d={b.d0}
+            pathLength={1000}
+            fill="none"
+            strokeLinecap="round"
+            vectorEffect="non-scaling-stroke"
+          >
+            {!still && (
+              <animate
+                attributeName="d"
+                values={b.values}
+                keyTimes={KEY_TIMES}
+                keySplines={KEY_SPLINES}
+                calcMode="spline"
+                dur={`${b.morph}s`}
+                begin={`${-b.delay}s`}
+                repeatCount="indefinite"
+              />
+            )}
+          </path>
+        ))}
       </defs>
 
       {/* breathing energy core behind everything */}
@@ -144,39 +173,26 @@ export function TechLines() {
 
       {/* smooth links between the cards */}
       {built.map((b, i) => {
-        const morph = still ? null : (
-          <animate
-            attributeName="d"
-            values={b.values}
-            keyTimes={KEY_TIMES}
-            keySplines={KEY_SPLINES}
-            calcMode="spline"
-            dur={`${b.morph}s`}
-            begin={`${-b.delay}s`}
-            repeatCount="indefinite"
-          />
-        );
+        const href = `#tech-link-${i}`;
         const lag = 0.155 * b.flow; // tail trails the head by this many seconds
         return (
           <g key={i}>
-            <path d={b.d0} stroke="url(#tech-grad)" strokeWidth={5} strokeOpacity={0.1} {...common}>{morph}</path>
-            <path d={b.d0} stroke="url(#tech-grad)" strokeWidth={1.5} strokeOpacity={0.55} {...common}>{morph}</path>
+            <use href={href} stroke="url(#tech-grad)" strokeWidth={5} strokeOpacity={0.1} />
+            <use href={href} stroke="url(#tech-grad)" strokeWidth={1.5} strokeOpacity={0.55} />
             {!still && (
               <>
                 {/* fading tail */}
-                <path
-                  d={b.d0} pathLength={1000} stroke="url(#tech-grad)" strokeWidth={3} strokeOpacity={0.55}
+                <use
+                  href={href} stroke="url(#tech-grad)" strokeWidth={3} strokeOpacity={0.55}
                   strokeDasharray="200 800" className="tech-flow"
                   style={{ animationDuration: `${b.flow}s`, animationDelay: `${-b.delay + lag}s` }}
-                  {...common}
-                >{morph}</path>
+                />
                 {/* bright light packet */}
-                <path
-                  d={b.d0} pathLength={1000} stroke="#f6f2ff" strokeWidth={2.4}
+                <use
+                  href={href} stroke="#f6f2ff" strokeWidth={2.4}
                   strokeDasharray="45 955" className="tech-flow"
                   style={{ animationDuration: `${b.flow}s`, animationDelay: `${-b.delay}s` }}
-                  {...common}
-                >{morph}</path>
+                />
               </>
             )}
           </g>

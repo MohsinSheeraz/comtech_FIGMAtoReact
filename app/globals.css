@@ -1367,39 +1367,6 @@ a {
   background-color: #1a0d33 !important;
 }
 
-@media (min-width: 1024px) {
-  .regional-event-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    transition: grid-template-columns 300ms ease;
-  }
-
-  .regional-event-grid:has(> .regional-event-card:nth-child(1):hover),
-  .regional-event-grid:has(> .regional-event-card:nth-child(1):focus-within) {
-    grid-template-columns: minmax(0, 1.3fr) repeat(3, minmax(0, 1fr));
-  }
-
-  .regional-event-grid:has(> .regional-event-card:nth-child(2):hover),
-  .regional-event-grid:has(> .regional-event-card:nth-child(2):focus-within) {
-    grid-template-columns: repeat(1, minmax(0, 1fr)) minmax(0, 1.3fr) repeat(
-        2,
-        minmax(0, 1fr)
-      );
-  }
-
-  .regional-event-grid:has(> .regional-event-card:nth-child(3):hover),
-  .regional-event-grid:has(> .regional-event-card:nth-child(3):focus-within) {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) minmax(0, 1.3fr) minmax(
-        0,
-        1fr
-      );
-  }
-
-  .regional-event-grid:has(> .regional-event-card:nth-child(4):hover),
-  .regional-event-grid:has(> .regional-event-card:nth-child(4):focus-within) {
-    grid-template-columns: repeat(3, minmax(0, 1fr)) minmax(0, 1.3fr);
-  }
-}
-
 .g2 {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -2274,6 +2241,14 @@ button.btn.p::after {
   }
 }
 
+/* Decorative animations pause while their section is off screen (see components/AnimGate.tsx) */
+[data-anim-paused],
+[data-anim-paused] *,
+[data-anim-paused] *::before,
+[data-anim-paused] *::after {
+  animation-play-state: paused !important;
+}
+
 /* ---------- Technology section: energy bolts ---------- */
 .tech-flow {
   animation: tech-flow linear infinite;
@@ -2480,8 +2455,8 @@ button.btn.p::after {
   transform: translate(-50%, -50%);
   mix-blend-mode: screen;
   pointer-events: none;
-  filter: saturate(1.8) contrast(1.18) brightness(2.05)
-    drop-shadow(0 0 18px rgba(88, 71, 255, 0.18));
+  /* the old saturate/contrast/brightness filter is baked into wavesImg-baked.webp (a live filter on a
+     2000px animated group was costly on every page) */
 }
 
 .page-glows .wave-layer {

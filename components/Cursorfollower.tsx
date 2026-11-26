@@ -34,6 +34,12 @@ export function CursorFollower() {
         };
         syncZoom();
 
+        // the frame loop only runs while the sphere is still catching up with the cursor,
+        // so an idle page does no per-frame work at all
+        const wake = () => {
+            if (!raf) raf = requestAnimationFrame(tick);
+        };
+
         const onMove = (e: PointerEvent) => {
             if (e.pointerType === "touch") return;
             tx = e.clientX;
@@ -45,11 +51,13 @@ export function CursorFollower() {
                 shown = true;
                 el.style.opacity = "1";
             }
+            wake();
         };
 
         const onOver = (e: PointerEvent) => {
             const t = e.target as Element | null;
             targetScale = t?.closest?.("a, button, [role='button'], [role='tab'], input, textarea, select, label") ? 1.8 : 1;
+            wake();
         };
 
         const onLeave = () => {
@@ -57,19 +65,20 @@ export function CursorFollower() {
             el.style.opacity = "0";
         };
 
-        const tick = () => {
+        function tick() {
+            raf = 0;
             x += (tx - x) * EASE;
             y += (ty - y) * EASE;
             scale += (targetScale - scale) * EASE;
-            el.style.transform = `translate3d(${x - SIZE / 2}px, ${y - SIZE / 2}px, 0) scale(${scale})`;
-            raf = requestAnimationFrame(tick);
-        };
+            el!.style.transform = `translate3d(${x - SIZE / 2}px, ${y - SIZE / 2}px, 0) scale(${scale})`;
+            const settled = Math.abs(tx - x) < 0.1 && Math.abs(ty - y) < 0.1 && Math.abs(targetScale - scale) < 0.005;
+            if (!settled) raf = requestAnimationFrame(tick);
+        }
 
         window.addEventListener("pointermove", onMove, { passive: true });
         window.addEventListener("pointerover", onOver, { passive: true });
         window.addEventListener("resize", syncZoom);
         document.documentElement.addEventListener("mouseleave", onLeave);
-        raf = requestAnimationFrame(tick);
 
         return () => {
             cancelAnimationFrame(raf);

@@ -316,7 +316,7 @@ export default function Networking() {
         <section className="wrap flex flex-col gap-24 pb-10 pt-10 min-[1101px]:gap-32 text-center md:text-left">
           <Feature
             title="Security Built Into the Network, Not Bolted On"
-            image="/images/Privacy_Protection.png"
+            image="/images/Privacy_Protection.webp"
           >
             <p>
               Network segmentation and access controls are designed to support
@@ -333,7 +333,7 @@ export default function Networking() {
           <Feature
             title="Built for the Environments Where Downtime Isn't an Option"
             flip
-            image="/images/BuiltForEnvironment.png"
+            image="/images/BuiltForEnvironment.webp"
           >
             <p>
               We design hospital network infrastructure where a dropped
@@ -353,7 +353,7 @@ export default function Networking() {
 
           <Feature
             title="Results You Can Verify"
-            image="/images/VerifyResults.png"
+            image="/images/VerifyResults.webp"
           >
             <p>
               Comtech implemented a Fortinet Secure SD-WAN solution for

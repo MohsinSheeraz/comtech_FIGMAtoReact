@@ -9,6 +9,29 @@
   transition: opacity 300ms ease;
 }
 
+/* ---- animated version laid over the still image once it has loaded ---- */
+.animatedHolder {
+  position: absolute;
+  inset: 0;
+  display: block;
+  pointer-events: none;
+}
+
+.animated {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: contain;
+  opacity: 0;
+  transition: opacity 700ms ease;
+}
+
+.animatedOn {
+  opacity: 1;
+}
+
 /* ---- intro: the rim slides in left to right, then the globe appears under it ---- */
 .rim {
   position: absolute;

@@ -64,7 +64,10 @@ export const Hero = ({
     {globe && (
       <DeferredGlobe
         className="globe [mask-image:linear-gradient(to_bottom,#000_45%,transparent)]"
-        fallbackSrc="/images/globe-network-lowered.webp"
+        fallbackSrc="/images/globe-hero-poster.webp"
+        animatedSrc="/images/globe-hero.webp"
+        animateRevealMs={2100}
+        priority
         sizes="(max-width: 768px) 170vw, 906px"
         style={{ aspectRatio: "1672 / 941" }}
         intro

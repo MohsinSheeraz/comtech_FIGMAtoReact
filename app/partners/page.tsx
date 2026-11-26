@@ -84,7 +84,7 @@ export default function Partners() {
 
             <div className="w-full rounded-[40px] border border-[#262626] bg-[#080808] p-5 lg:h-[393px] lg:w-[640px] lg:shrink-0">
               <Image
-                src="/images/PartnerMainFirstImage.png"
+                src="/images/PartnerMainFirstImage.webp"
                 alt={why.alt}
                 width={600}
                 height={346}

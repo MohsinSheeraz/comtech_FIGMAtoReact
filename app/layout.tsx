@@ -11,6 +11,7 @@ import { Footer } from "@/components/Footer";
 import { HideInAdmin } from "@/components/HideInAdmin";
 import { SmoothScroll } from "@/components/SmoothScroll";
 import { CursorFollower } from "@/components/Cursorfollower";
+import { AnimGate } from "@/components/AnimGate";
 import { PageTransition } from "@/components/PageTransition";
 import { getPostsPage } from "@/lib/posts";
 
@@ -89,6 +90,7 @@ export default async function RootLayout({
           }}
         />
         <SmoothScroll />{" "}
+        <AnimGate />
         <HideInAdmin>
           <CursorFollower />
         </HideInAdmin>{" "}

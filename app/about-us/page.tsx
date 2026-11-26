@@ -77,7 +77,7 @@ export default function About() {
               manage it, for as long as our clients need us to.{" "}
             </p>
           </div>
-          <img src="/images/globe_spinning_v4.gif" alt="Globe.gif" />
+          <img src="/images/globe-spin.webp" alt="" width={636} height={619} loading="lazy" decoding="async" style={{ height: "auto" }} />
         </section>
 
         <section className="wrap mt-20!">

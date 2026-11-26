@@ -112,7 +112,7 @@ export function Footer() {
       </div>
       <Image
         className="foot-bg"
-        src="/images/Globe_hero.png"
+        src="/images/Globe_hero.webp"
         alt=""
         width={940}
         height={530}

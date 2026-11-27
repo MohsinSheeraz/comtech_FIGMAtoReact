@@ -54,7 +54,7 @@ export const StatementCard = () => (
       isn&apos;t four separate problems; it&apos;s one system.
     </h2>
     <div className="relative z-10">
-      <Btn href="/contact">Connect with Us</Btn>
+      <Btn href="/contact-us">Connect with Us</Btn>
     </div>
   </article>
 );

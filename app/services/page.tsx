@@ -255,7 +255,7 @@ export default function Services() {
               to Tier II to IV standards.
             </p>
             <div className="mt-auto">
-              <Btn href="/contact">Connect With Us</Btn>
+              <Btn href="/contact-us">Connect With Us</Btn>
             </div>
           </div>
         </section>
@@ -289,7 +289,7 @@ export default function Services() {
                 <p key={c}>{c}</p>
               ))}
             </div>
-            <Btn href="/contact">Connect With Us</Btn>
+            <Btn href="/contact-us">Connect With Us</Btn>
           </div>
           <div className="card stick aspect-[16/10] overflow-hidden">
             <Image
@@ -316,7 +316,7 @@ export default function Services() {
                 Have questions? Our FAQ section has you covered with quick
                 answers to the most common inquiries.
               </p>
-              <Btn href="/contact">Connect With Us</Btn>
+              <Btn href="/contact-us">Connect With Us</Btn>
             </>
           }
         />

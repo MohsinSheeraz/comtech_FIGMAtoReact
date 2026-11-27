@@ -46,7 +46,7 @@ export default function NotFound() {
 
         <div className="row center nf-row">
           <Btn href="/">Back to Home</Btn>
-          <Btn v="o" href="/contact">Contact Us</Btn>
+          <Btn v="o" href="/contact-us">Contact Us</Btn>
         </div>
       </section>
 

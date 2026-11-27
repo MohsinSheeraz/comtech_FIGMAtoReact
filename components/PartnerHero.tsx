@@ -13,7 +13,7 @@ export function PartnerHero({
   title,
   text,
   cta,
-  href = "/contact",
+  href = "/contact-us",
   secondary,
 }: {
   title: ReactNode;

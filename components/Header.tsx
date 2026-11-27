@@ -425,7 +425,7 @@ export function Header({ posts = [] }: { posts?: MenuPost[] }) {
       </div>
 
       <div className="hdr-cta" onMouseEnter={hideNow}>
-        <Btn v="p" href="/contact">
+        <Btn v="p" href="/contact-us">
           Get in touch
         </Btn>
       </div>
@@ -493,7 +493,7 @@ export function Header({ posts = [] }: { posts?: MenuPost[] }) {
             ),
           )}
           <div className="mnav-cta">
-            <Btn v="p" href="/contact">
+            <Btn v="p" href="/contact-us">
               Get in touch
             </Btn>
           </div>

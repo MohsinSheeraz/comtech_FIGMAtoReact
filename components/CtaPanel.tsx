@@ -4,7 +4,7 @@ export const CtaPanel = ({
   title,
   text,
   label,
-  href = "/contact",
+  href = "/contact-us",
 }: {
   title: string;
   text: string;

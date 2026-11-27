@@ -153,7 +153,7 @@ export default function Home() {
               your business actually operates.
             </p>
             <div className="row" style={{ marginTop: 30 }}>
-              <Btn href="/contact">Connect with Us</Btn>
+              <Btn href="/contact-us">Connect with Us</Btn>
               <Btn v="o" href="/services">
                 Explore our Services
               </Btn>
@@ -258,7 +258,7 @@ export default function Home() {
               Why Businesses Choose Comtech as Their Enterprise IT Solutions
               Provider
             </Reveal>
-            <Btn v="p" href="/contact">
+            <Btn v="p" href="/contact-us">
               Get in touch
             </Btn>
           </>
@@ -270,7 +270,7 @@ export default function Home() {
                 {t}
               </h3>
               <p className="text-[18px] leading-[31px] tracking-tighter">{p}</p>
-              <Btn href="/contact">Connect with Us</Btn>
+              <Btn href="/contact-us">Connect with Us</Btn>
             </div>
           </div>
         ))}

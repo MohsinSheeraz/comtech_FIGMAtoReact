@@ -168,7 +168,7 @@ export default function Education() {
               always-busy environment.
             </p>
             <div className="mt-auto">
-              <Btn v="o" href="/contact">
+              <Btn v="o" href="/contact-us">
                 Connect With Us
               </Btn>
             </div>

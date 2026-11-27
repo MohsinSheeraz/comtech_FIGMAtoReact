@@ -417,7 +417,7 @@ export default function Cisco() {
                     capability
                   </p>
                   <Link
-                    href="/contact"
+                    href="/contact-us"
                     className="mt-8 inline-flex min-h-[52px] w-full items-center justify-center rounded-[8px] bg-white px-3 py-2 text-center text-[15px] font-medium leading-5 text-black! transition-colors hover:bg-[#9747FF] hover:text-white! focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#9747FF] lg:mt-auto"
                   >
                     Talk to an IT Consultant

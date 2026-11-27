@@ -16,7 +16,7 @@ export const SecHead = ({
     <h2 className="h2">{title}</h2>
     {sub && <p className="body">{sub}</p>}
     {cta && (
-      <Btn v="p" href="/contact">
+      <Btn v="p" href="/contact-us">
         Get in touch
       </Btn>
     )}

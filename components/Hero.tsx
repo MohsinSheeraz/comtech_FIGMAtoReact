@@ -54,7 +54,7 @@ export const Hero = ({
       </p>
     )}
     <div className="row" style={{ marginTop: globe ? 24 : 0 }}>
-      <Btn href="/contact">{primary}</Btn>
+      <Btn href="/contact-us">{primary}</Btn>
       {secondary && (
         <Btn v="o" href="/services">
           {secondary}

@@ -21,17 +21,34 @@ const ql: L[] = [
   ["About Us", "/about"],
   ["Leadership", "/leadership"],
   ["Events", "/events"],
-  ["Contact Us", "/contact"],
+  ["Contact Us", "/contact-us"],
 ];
 const socials = [
-  { label: "Facebook", Icon: FaFacebookF },
-  { label: "Instagram", Icon: FaInstagram },
-  { label: "LinkedIn", Icon: FaLinkedinIn },
-  { label: "Twitter", Icon: FaTwitter },
+  {
+    label: "Facebook",
+    Icon: FaFacebookF,
+    href: "https://www.facebook.com/Comtech.Associates",
+  },
+  {
+    label: "Instagram",
+    Icon: FaInstagram,
+    href: "https://www.instagram.com/comtech_associate",
+  },
+  {
+    label: "LinkedIn",
+    Icon: FaLinkedinIn,
+    href: "https://www.linkedin.com/company/comtechassociates/",
+  },
+  // {
+  //   label: "Twitter",
+  //   Icon: FaTwitter,
+  //   href: "https://twitter.com/Comtech.Associates",
+  // },
 ];
 
 const Col = ({ t, items }: { t: string; items: L[] }) => (
-  <div className={t === "Services" ? "lg:-ml-12" : undefined}>
+<>
+  <div className={t === "Services" ? "lg:-ml-16" : undefined}>
     <h4 className="fh">
       {t}
       <i className="mt-2! mb-2!" />
@@ -42,7 +59,9 @@ const Col = ({ t, items }: { t: string; items: L[] }) => (
       </Link>
     ))}
   </div>
+</>
 );
+
 
 export function Footer() {
   return (
@@ -65,15 +84,17 @@ export function Footer() {
               the infrastructure businesses depend on to run.
             </p>
             <div className="mt-6 flex gap-[9px]">
-              {socials.map(({ label, Icon }) => (
-                <span
+              {socials.map(({ label, Icon, href }) => (
+                <Link
                   key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   aria-label={label}
-                  role="img"
-                  className="p-2 rounded-full bg-[#6739DD] text-black"
+                  className="p-2 rounded-full bg-[#6739DD] text-black hover:bg-[#5528C7] hover:text-white transition-colors"
                 >
-                  <Icon size={10} aria-hidden />
-                </span>
+                  <Icon size={15} aria-hidden="true" />
+                </Link>
               ))}
             </div>
           </div>

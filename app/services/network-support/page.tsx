@@ -269,7 +269,7 @@ export default function Networking() {
                 the ground.
               </p>
               <div className="mt-8">
-                <Btn href="/contact">Connect With Us</Btn>
+                <Btn href="/contact-us">Connect With Us</Btn>
               </div>
             </div>
           </div>
@@ -370,7 +370,7 @@ export default function Networking() {
               connectivity backed by ongoing after-sales support.
             </p>
             <div className="mt-6">
-              <Btn href="/contact">Get in Touch Today</Btn>
+              <Btn href="/contact-us">Get in Touch Today</Btn>
             </div>
           </Feature>
         </section>

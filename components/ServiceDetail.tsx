@@ -633,7 +633,7 @@ export function ServiceDetail({ service }: { service: ServicePageData }) {
 
       {service.midCtaLabel && (
         <div className="wrap sec flex justify-center">
-          <Btn href="/contact">{service.midCtaLabel}</Btn>
+          <Btn href="/contact-us">{service.midCtaLabel}</Btn>
         </div>
       )}
 
@@ -704,7 +704,7 @@ export function ServiceDetail({ service }: { service: ServicePageData }) {
                 Straight answers about {service.keyword} and how Comtech can
                 help.
               </p>
-              <Btn href="/contact">Talk to an IT Consultant</Btn>
+              <Btn href="/contact-us">Talk to an IT Consultant</Btn>
             </>
           }
         />

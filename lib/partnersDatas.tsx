@@ -8,7 +8,7 @@ export const hero = {
     </>
   ),
   text: "15 certified technology partnerships, one accountable team designing, deploying and supporting all of it.",
-  primaryCta: { label: "Talk to an IT Consultant", href: "/contact" },
+  primaryCta: { label: "Talk to an IT Consultant", href: "/contact-us" },
   secondaryCta: { label: "Explore our Services", href: "/services" },
 };
 
@@ -94,5 +94,5 @@ export const faq = {
 export const cta = {
   title: "Ready to Solve Your IT Challenge?",
   text: "Whether it’s one service or all four, a conversation with Comtech’s team is the place to start. Tell us what you’re dealing with, a security gap, an unreliable network, a data center migration, or a staffing shortfall, and we’ll walk you through how Comtech would approach it, with no obligation to move forward. Most conversations start with a short assessment of your current environment before anything gets proposed.",
-  button: { label: "Request an IT Assessment", href: "/contact" },
+  button: { label: "Request an IT Assessment", href: "/contact-us" },
 };
